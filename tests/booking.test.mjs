@@ -104,3 +104,24 @@ test('Google event and email carry the topic alongside the full description',asy
  await provider.message(env,{id:'mock-message',answers:brief});const mail=Buffer.from(sent[1].body.raw,'base64url').toString('utf8');const subject=mail.match(/Subject: =\?UTF-8\?B\?(.+)\?=/)[1];assert.equal(Buffer.from(subject,'base64').toString(),'Project inquiry — App');
  const body=Buffer.from(mail.split('\r\n\r\n')[1],'base64').toString('utf8');assert.ok(body.includes('Topic: App'));assert.ok(body.includes(brief.message));
 });
+
+test('Meeting confirmation email reaches the guest and owner with time, topic and safe Meet link',async()=>{
+ let mail;const provider=createGoogleProvider({fetcher:async(url,options)=>{
+  if(url.includes('oauth2'))return Response.json({access_token:'mock'});
+  mail=Buffer.from(JSON.parse(options.body).raw,'base64url').toString('utf8');return Response.json({id:'confirmation'});
+ }});
+ const data={id:'event',event:{id:'event',status:'confirmed',hangoutLink:'https://meet.google.com/abc-defg-hij'},answers,startTime:input().startTime,endTime:'2026-11-20T08:30:00Z',timeZone:'Europe/Chisinau'};
+ assert.equal(await provider.meetingConfirmation(env,data),'accepted');assert.match(mail,/To: alex@example.com\r\nCc: owner@example.com\r\nReply-To: owner@example.com/);
+ const text=Buffer.from(mail.split('\r\n\r\n')[1],'base64').toString('utf8');assert.match(text,/10:00/);assert.match(text,/Europe\/Chisinau/);assert.match(text,/Topic: App/);assert.match(text,/https:\/\/meet.google.com\/abc-defg-hij/);
+ await provider.meetingConfirmation(env,{...data,answers:{...answers,email:env.BOOKING_HOST_EMAIL}});assert.ok(!mail.includes('Cc:'));
+});
+
+test('Confirmation email is attempted once and failure never cancels or duplicates the meeting',async()=>{
+ for(const fail of [false,true]){
+  let attempts=0;const s=setup({provider:{meetingConfirmation:async()=>{attempts++;if(fail)throw Error('mail unavailable');return 'accepted';}}});
+  try{
+   const first=await s.api.submit(s.env,request(input()));assert.equal(first.status,201);const receipt=await first.json();assert.equal(receipt.status,'confirmed');assert.equal(receipt.emailStatus,fail?'unconfirmed':'accepted');
+   const again=await s.api.submit(s.env,request(input()));assert.equal(again.status,200);assert.equal(attempts,1);assert.equal(s.calls.create,1);
+  }finally{s.db.close();}
+ }
+});
