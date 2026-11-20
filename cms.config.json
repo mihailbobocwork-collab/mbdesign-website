@@ -532,7 +532,8 @@
                           "options": [
                             "",
                             "mobile",
-                            "desktop"
+                            "desktop",
+                            "laptop"
                           ],
                           "required": false
                         },
