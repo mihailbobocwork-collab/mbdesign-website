@@ -29,3 +29,13 @@
 /* An edge-attached bottom drawer, rather than a floating strip. */
 .case-process[data-floating=true]{left:0;right:0;bottom:0;width:100%;border-radius:20px 20px 0 0;background:#f7f8f7;padding:20px max(32px,calc((100vw - 1296px)/2)) max(16px,env(safe-area-inset-bottom));box-shadow:0 -8px 32px #252d3309;backdrop-filter:none;-webkit-backdrop-filter:none}.case-process[data-floating=true] ol{max-width:1296px;margin-inline:auto}
 @media(max-width:760px){.case-process[data-floating=true]{left:0;right:0;bottom:0;width:100%;border-radius:16px 16px 0 0;padding:16px 16px max(14px,env(safe-area-inset-bottom))}}
+
+/* Laptop hardware keeps desktop screenshots in a landscape screen. Full artwork opens on selection. */
+.case-device-laptop{width:100%;max-width:1000px;margin-inline:auto;container-type:inline-size}
+.case-device-laptop>a{display:block;padding-bottom:1.5cqw;outline-offset:6px}
+.laptop-display{position:relative;display:block;width:92%;margin-inline:auto;padding:2.4cqw 1.2cqw 1.2cqw;border:1px solid #737a80;border-radius:2cqw 2cqw .6cqw .6cqw;background:linear-gradient(120deg,#40464c,#13171b 30%,#272d32);box-shadow:0 12px 28px #17212a14}
+.laptop-camera{position:absolute;top:.8cqw;left:calc(50% - .25cqw);width:.5cqw;height:.5cqw;border-radius:50%;background:#59636f}
+.laptop-screen{display:block;aspect-ratio:16/10;overflow:hidden;background:#fff;border-radius:.35cqw}
+.case-device-laptop .laptop-screen>img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;border:0;border-radius:0;box-shadow:none}
+.laptop-base{position:relative;display:block;height:1.8cqw;border-radius:.25cqw .25cqw 50% 50% / .25cqw .25cqw 100% 100%;background:linear-gradient(#cbd0d5,#9199a1 50%,#535c65);box-shadow:0 6px 10px #17212a12}
+.laptop-base>span{display:block;width:15%;height:.6cqw;margin-inline:auto;border-radius:0 0 .5cqw .5cqw;background:#757f89}
