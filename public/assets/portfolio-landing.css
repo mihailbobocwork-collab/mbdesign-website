@@ -1,3 +1,8 @@
+.portfolio-landing {
+  --landing-max-width: 1440px;
+  --landing-header-gutter: 95px;
+}
+
 .portfolio-landing:not([data-inquiry-active=true]) {
   display: flex;
   flex-direction: column;
@@ -7,10 +12,12 @@
 
 .portfolio-landing .site-header {
   width: 100%;
+  max-width: var(--landing-max-width);
   height: auto;
   min-height: 54px;
   margin-block: clamp(20px, 3.264vw, 47px) 0;
   padding-block: 0;
+  padding-inline: var(--landing-header-gutter);
   gap: 12px;
   flex-wrap: nowrap;
 }
@@ -88,14 +95,25 @@
 }
 
 .portfolio-landing .hero-client-strip {
-  margin: 0;
+  width: calc(min(100%, var(--landing-max-width)) - 2 * var(--landing-header-gutter));
+  margin: 0 auto;
 }
 
 .portfolio-landing[data-keyboard-open=true] .figma-hero {
   align-self: start;
 }
 
+@media (max-width: 1250px) {
+  .portfolio-landing {
+    --landing-header-gutter: 6.6vw;
+  }
+}
+
 @media (max-width: 820px) {
+  .portfolio-landing {
+    --landing-header-gutter: 32px;
+  }
+
   .portfolio-landing .site-header {
     min-height: 44px;
   }
@@ -112,6 +130,10 @@
 }
 
 @media (max-width: 600px) {
+  .portfolio-landing {
+    --landing-header-gutter: 22px;
+  }
+
   .portfolio-landing:not([data-inquiry-active=true]) .figma-hero {
     padding-inline: 22px;
   }
