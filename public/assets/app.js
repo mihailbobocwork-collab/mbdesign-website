@@ -54,7 +54,7 @@ if(form){
   for(const child of form.children)if(child!==result)child.hidden=true;
   result.querySelector('h2').textContent=receipt.preview?'Preview complete.':receipt.kind==='message'?'Thanks for reaching out.':'You’re booked.';
   result.querySelector('.eyebrow').textContent=receipt.preview?'Interaction preview':receipt.kind==='message'?'Message received':'Meeting confirmed';
-  document.querySelector('#delivery-note').textContent=receipt.preview?'No message, event or invitation was created.':receipt.kind==='message'?'Your message has been delivered. I look forward to continuing the conversation.':'Google has sent your calendar invitation. I look forward to our conversation.';
+  document.querySelector('#delivery-note').textContent=receipt.preview?'No message, event or invitation was created.':receipt.kind==='message'?'Your message has been delivered. I look forward to continuing the conversation.':receipt.emailStatus==='accepted'?'Your meeting is saved. A separate confirmation email is on its way.':'Your meeting is saved. Email delivery hasn’t been confirmed; keep your meeting details below.';
   document.querySelector('#inquiry-preview').hidden=true;document.querySelector('#contact-verification').replaceChildren();sendStatus.textContent='';
   const actions=result.querySelector('.result-actions');actions.replaceChildren();
   if(receipt.meetUrl){const link=document.createElement('a');link.href=receipt.meetUrl;link.target='_blank';link.rel='noopener';link.className='button';link.textContent='Your Google Meet link';actions.append(link);}
