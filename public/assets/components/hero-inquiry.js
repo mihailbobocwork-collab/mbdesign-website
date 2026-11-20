@@ -241,7 +241,7 @@ export class HeroInquiry {
     if(this.preview&&this.step===6){const note=document.createElement('p');note.className='meeting-preview-note';note.textContent='Interaction preview · Nothing is sent or booked.';this.content.prepend(note);}
     const privacy=this.panel.querySelector('.hero-flow-privacy');
     privacy.replaceChildren(document.createTextNode(this.step===7?'Your details are used only for this conversation. ':'Nothing is sent or booked until you confirm. Your answers stay in this browser tab while you edit. '));
-    const privacyLink=document.createElement('a');privacyLink.href='/privacy/';privacyLink.textContent='Privacy details';privacy.append(privacyLink,document.createTextNode('.'));
+
   }
   mountBooking(){
     if(!this.active||this.step!==5||!this.bookingSlot?.isConnected)return;

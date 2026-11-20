@@ -11,3 +11,6 @@
 
 /about /#about 302
 /about/ /#about 302
+
+/privacy / 302
+/privacy/ / 302

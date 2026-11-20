@@ -56,10 +56,10 @@ if(typeof document!=='undefined'&&['mihaiboboc.com','www.mihaiboboc.com'].includ
  tracker=createAnalytics({win:window,doc:document,storage});
  const panel=document.createElement('section');panel.className='analytics-choice';panel.setAttribute('aria-label','Analytics preferences');panel.hidden=true;
  const text=document.createElement('p');text.textContent='May I use Google Analytics to understand visits and improve this website? Your inquiry text and contact details aren’t included.';
- const actions=document.createElement('div');const reject=document.createElement('button'),accept=document.createElement('button'),privacy=document.createElement('a');
- reject.type=accept.type='button';reject.textContent='No thanks';accept.textContent='Allow analytics';privacy.href='/privacy/';privacy.textContent='Privacy details';
+ const actions=document.createElement('div');const reject=document.createElement('button'),accept=document.createElement('button');
+ reject.type=accept.type='button';reject.textContent='No thanks';accept.textContent='Allow analytics';
  reject.addEventListener('click',()=>{tracker.choose('denied');panel.hidden=true;});accept.addEventListener('click',()=>{tracker.choose('granted');panel.hidden=true;});
- actions.append(reject,accept,privacy);panel.append(text,actions);document.body.append(panel);
+ actions.append(reject,accept);panel.append(text,actions);document.body.append(panel);
  if(!tracker.restore())panel.hidden=false;
  document.querySelectorAll('[data-analytics-preferences]').forEach(button=>{button.hidden=false;button.addEventListener('click',()=>{panel.hidden=false;reject.focus();});});
 }
