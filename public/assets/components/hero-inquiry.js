@@ -1,3 +1,4 @@
+import {track} from '../analytics.js';
 import {saveDraft,hasMessage} from './hero-typewriter.js';
 import {MessageEditor, MESSAGE_LIMIT, messageLimitError} from './message-editor.js';
 import {TransitionMotion} from './transition-motion.js';
@@ -159,6 +160,7 @@ export class HeroInquiry {
     if(this.step===5)this.mountBooking();
   }
   render(){
+    if(!this.preview)track('inquiry_step',{step:({0:'topic',1:'name',2:'email',3:'company',4:'meeting_preference',8:'message',5:'calendar',6:'review',7:'complete'})[this.step]});
     this.messageEditor?.destroy();this.messageEditor=null;
     this.booking?.destroy();this.booking=null;this.messageAction?.destroy();this.messageAction=null;delete this.container.dataset.booking;this.back.disabled=false;
     const questions=questionsForSubject(this.answers.subject),hiring=this.answers.subject==='hiring';
