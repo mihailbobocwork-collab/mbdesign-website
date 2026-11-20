@@ -65,3 +65,12 @@ test('Manual CMS launch supplies one complete configuration without reloading co
  await runInNewContext(await readFile(path.join(root,'public/admin/setup.js'),'utf8'),{window,document,fetch:async()=>{fetches++;return {json:async()=>({...config,backend:{...config.backend,repo:'owner/site',base_url:'https://example.com'}})};}});
  click();assert.equal(fetches,1);assert.equal(received.load_config_file,false);assert.equal(received.collections.length,config.collections.length);assert.equal(new Set(received.collections.map(c=>c.name)).size,received.collections.length);
 });
+
+test('About portrait preserves its ratio without cached CSS and stylesheet URLs match current contents',async()=>{
+ const {createHash}=await import('node:crypto');
+ const html=await readFile(path.join(root,'dist/about/index.html'),'utf8');
+ assert.match(html,/<img[^>]+src="\/assets\/about\/mihail-boboc.jpg"[^>]+style="[^"]*height:auto;aspect-ratio:1 \/ 1;object-fit:contain/);
+ const hash=createHash('sha256').update(await readFile(path.join(root,'public/assets/site-chrome.css'))).digest('hex').slice(0,12);
+ assert.ok(html.includes('/assets/site-chrome.css?v='+hash));
+ assert.ok(!html.includes('?v=undefined'));
+});
