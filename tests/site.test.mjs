@@ -30,7 +30,7 @@ test('Work navigation targets the homepage section while page destinations stay 
   assert.ok(!html.includes('href="/services/'),file);
   const isHome=file===path.join(root,'dist/index.html');
   assert.ok(navigation.includes(`href="${isHome?'#work':'/#work'}"`),file);
-  for(const destination of ['about','contact'])assert.ok(navigation.includes(`href="/${destination}/"`),file);
+  for(const destination of ['contact'])assert.ok(navigation.includes(`href="/${destination}/"`),file);
  }
 });
 
@@ -69,7 +69,7 @@ test('Manual CMS launch supplies one complete configuration without reloading co
 
 test('About portrait preserves its ratio without cached CSS and stylesheet URLs match current contents',async()=>{
  const {createHash}=await import('node:crypto');
- const html=await readFile(path.join(root,'dist/about/index.html'),'utf8');
+ const html=await readFile(path.join(root,'dist/index.html'),'utf8');
  assert.match(html,/<img[^>]+src="\/assets\/about\/mihail-boboc.jpg"[^>]+style="[^"]*height:auto;aspect-ratio:1 \/ 1;object-fit:contain/);
  const hash=createHash('sha256').update(await readFile(path.join(root,'public/assets/site-chrome.css'))).digest('hex').slice(0,12);
  assert.ok(html.includes('/assets/site-chrome.css?v='+hash));

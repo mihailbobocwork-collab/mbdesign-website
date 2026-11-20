@@ -8,3 +8,6 @@
 
 /services / 302
 /services/* / 302
+
+/about /#about 302
+/about/ /#about 302
