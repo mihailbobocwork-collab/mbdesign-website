@@ -32,11 +32,14 @@ Current intended contact and Google owner: **mihailboboc.work@gmail.com**. This 
 
 ## Remaining access and verification
 
-No .dev.vars Google credentials file or production wrangler.toml database configuration was present during this update. GitHub/Cloudflare accounts and the final deployment target have not been connected here. Browser-control tools were unavailable for this change, so the updated flow has automated checks but has not received a new interactive browser test or real email/calendar delivery test.
+No .dev.vars Google credentials file or production wrangler.toml database configuration was present during this update. GitHub is connected as mihailbobocwork-collab. Cloudflare and the final deployment target have not been connected here. Browser-control tools were unavailable for this change, so the updated flow has automated checks but has not received a new interactive browser test or real email/calendar delivery test.
 
 Sources: [Google refresh-token expiration](https://developers.google.com/identity/protocols/oauth2), [Google production OAuth requirements](https://developers.google.com/identity/protocols/oauth2/production-readiness/policy-compliance), [Cloudflare Pages bindings and secrets](https://developers.cloudflare.com/pages/functions/bindings/).
 
 
 ## GitHub target
 
-Owner supplied: mihailbobocwork-collab. Prepared repository target: mihailbobocwork-collab/mbdesign-website, branch main. The owner-created repository exists. Initial source transfer is being prepared; Cloudflare deployment remains separate. Configure GITHUB_ALLOWED_USERS to mihailbobocwork-collab and GITHUB_REPO to the same owner/repository when connecting CMS authentication.
+Owner supplied: mihailbobocwork-collab. Prepared repository target: mihailbobocwork-collab/mbdesign-website, branch main. The owner-created repository exists. Website source is uploaded on main; Cloudflare deployment remains separate. Configure GITHUB_ALLOWED_USERS to mihailbobocwork-collab and GITHUB_REPO to the same owner/repository when connecting CMS authentication.
+
+
+Verified initial source commit: e065e9ebbdc749c5ac107f658b44f4a25dd710a9. The source tree exactly matched the prepared local upload, with credentials, local booking data, generated builds and preview captures excluded.
