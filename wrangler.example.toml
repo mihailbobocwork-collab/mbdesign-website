@@ -1,0 +1,9 @@
+name = "mihail-boboc-portfolio"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-11-19"
+
+[[d1_databases]]
+binding = "BOOKING_DB"
+database_name = "mihail-bookings"
+database_id = "REPLACE_WITH_YOUR_DATABASE_ID"
+migrations_dir = "migrations"

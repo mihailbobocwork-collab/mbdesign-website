@@ -1,0 +1,69 @@
+{
+  "covers": [
+    {
+      "id": "lendit-product",
+      "project": "lendit",
+      "name": "Lendit",
+      "category": "Product design · Marketplace",
+      "image": "/assets/work/covers/lendit-product.png",
+      "imageAlt": "Lendit rental marketplace shown on a MacBook and iPhone",
+      "width": 912,
+      "height": 622,
+      "kind": "product",
+      "figmaNode": "46:4888",
+      "composition": ""
+    },
+    {
+      "id": "7code-identity",
+      "project": "7code",
+      "name": "7code",
+      "category": "Web & brand · Identity",
+      "image": "/assets/work/covers/7code-identity.svg",
+      "imageAlt": "7code identity with a turquoise seven and dark blue wordmark",
+      "width": 621.209,
+      "height": 224.032,
+      "kind": "identity",
+      "figmaNode": "46:4736",
+      "composition": ""
+    },
+    {
+      "id": "lendit-identity",
+      "project": "lendit-branding",
+      "name": "Lendit",
+      "category": "Brand identity",
+      "image": "/assets/work/covers/lendit-identity.svg",
+      "imageAlt": "Lendit identity with its pink and orange symbol and black wordmark",
+      "width": 647.761,
+      "height": 114.44,
+      "kind": "identity",
+      "figmaNode": "46:4886",
+      "composition": ""
+    },
+    {
+      "id": "wholesum-product",
+      "project": "wholesum",
+      "name": "WholeSum",
+      "category": "Product design · Research SaaS",
+      "image": "/assets/work/covers/wholesum-product.png",
+      "imageAlt": "WholeSum research platform landing page shown on a MacBook",
+      "width": 890,
+      "height": 576,
+      "kind": "product",
+      "figmaNode": "46:4739",
+      "composition": "wholesum"
+    },
+    {
+      "id": "angen-ai-product",
+      "project": "angen-ai",
+      "name": "Angen AI",
+      "category": "Product design · Developer tools",
+      "image": "/assets/work/covers/angen-ai-product.png",
+      "imageAlt": "Angen AI development workspace shown on a MacBook",
+      "width": 890,
+      "height": 576,
+      "kind": "product",
+      "figmaNode": "46:4813",
+      "composition": "angen-ai"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+/* Assets retain their Figma dimensions. Only their presentation wrappers scale. */
+.hero-client-strip{--brand-scale:.72;--brand-gap:calc(106px * var(--brand-scale));display:block;mix-blend-mode:normal;pointer-events:auto;aspect-ratio:auto;width:100%;margin-left:0}
+.hero-client-window{width:100%;overflow:hidden;padding:36px 0}
+.hero-client-track{display:flex;width:100%;align-items:center}
+.hero-client-group{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:30px var(--brand-gap);list-style:none;padding:0 22px;margin:0;width:100%}
+.hero-client-group[aria-hidden=true]{display:none}
+.hero-client-group li{position:relative;flex:none;width:calc(var(--brand-width) * var(--brand-scale));height:calc(64.024px * var(--brand-scale))}
+.hero-client-art{position:absolute;top:50%;left:0;width:var(--brand-width);height:var(--brand-height);transform:translateY(-50%) scale(var(--brand-scale));transform-origin:left center}
+.hero-client-art img{position:static;display:block;max-width:none;width:auto;height:auto;object-fit:contain;filter:grayscale(1)}
+.hero-client-art img[data-raster]{width:var(--brand-width);height:var(--brand-height);object-fit:cover}
+.hero-client-strip[data-marquee-ready=true] .hero-client-window{height:clamp(128px,15.075vw,217.23px);display:flex;align-items:center;padding:0;-webkit-mask-image:linear-gradient(to right,transparent,#000 clamp(24px,6vw,90px),#000 calc(100% - clamp(24px,6vw,90px)),transparent);mask-image:linear-gradient(to right,transparent,#000 clamp(24px,6vw,90px),#000 calc(100% - clamp(24px,6vw,90px)),transparent)}
+.hero-client-strip[data-marquee-ready=true] .hero-client-track{width:max-content;animation:featured-drift 110s linear infinite;animation-play-state:paused}
+.hero-client-strip[data-marquee-ready=true] .hero-client-group{display:flex;flex:none;width:auto;flex-wrap:nowrap;justify-content:flex-start;gap:var(--brand-gap);padding:0 var(--brand-gap) 0 0}
+.hero-client-strip[data-playing=true] .hero-client-track{animation-play-state:running}
+.hero-client-pause{position:absolute;right:0;bottom:5px;display:grid;place-items:center;min-height:32px;width:32px;padding:6px;border:0;border-radius:50%;background:transparent;color:#74787b;opacity:0;transition:opacity 200ms ease}
+.hero-client-strip:hover .hero-client-pause,.hero-client-strip:focus-within .hero-client-pause{opacity:.8}
+.hero-client-pause svg{width:16px;height:16px;grid-area:1/1}
+.hero-client-pause .marquee-play,.hero-client-pause[aria-pressed=true] .marquee-pause{display:none}
+.hero-client-pause[aria-pressed=true] .marquee-play{display:block}
+.hero-client-pause:focus-visible{opacity:1;outline:1px solid currentColor;outline-offset:3px}
+@keyframes featured-drift{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:820px){.hero-client-strip{--brand-scale:.62}}
+@media(hover:none){.hero-client-pause{opacity:.8}}
+@media(prefers-reduced-motion:reduce){
+  .hero-client-strip[data-marquee-ready=true] .hero-client-window{height:auto;min-height:128px;padding:36px 0;mask-image:none;-webkit-mask-image:none}
+  .hero-client-strip[data-marquee-ready=true] .hero-client-track{animation:none;transform:none;width:100%}
+  .hero-client-strip[data-marquee-ready=true] .hero-client-group{width:100%;flex-wrap:wrap;justify-content:center;padding:0 22px;gap:30px var(--brand-gap)}
+  .hero-client-strip[data-marquee-ready=true] .hero-client-group[aria-hidden=true]{display:none}
+  .hero-client-pause{display:none}
+}

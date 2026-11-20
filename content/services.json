@@ -1,0 +1,22 @@
+{
+  "services": [
+    {
+      "name": "Product Design",
+      "description": "Thoughtful digital products, from the first user flow to the details that make an interface work.",
+      "details": "UI/UX\nDesign Engineering",
+      "offer": "project"
+    },
+    {
+      "name": "Graphic Design",
+      "description": "Clear, considered visuals for campaigns, print, and the places your audience meets you.",
+      "details": "Creative Design\nPrint Design\nSocial Media",
+      "offer": "project"
+    },
+    {
+      "name": "Brand Design",
+      "description": "A distinctive identity with the marks, icons, and motion that make it feel like yours.",
+      "details": "Logo Design\nIcon Design\nLogo Reveal Design",
+      "offer": "project"
+    }
+  ]
+}

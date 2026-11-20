@@ -1,0 +1,275 @@
+{
+  "slug": "lendit-branding",
+  "name": "Lendit · Brand Identity",
+  "title": "Brand Guidelines, Logo Design - Lendit",
+  "summary": "A complete visual identity system for Lendit",
+  "category": "Logo Design · Brand Guidelines",
+  "kind": "brand",
+  "order": 5,
+  "image": "/assets/projects/lendit-branding/9aef48dc4664eb.jpeg",
+  "imageAlt": "Lendit · Brand Identity — project overview · 1",
+  "status": "Published project",
+  "source": "https://mihailboboc.com/p/branding-kit-lendit",
+  "importedAt": "2026-11-20",
+  "sections": [
+    {
+      "id": "section-6a305a5ed44e0305cafa456c",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-branding/9aef48dc4664eb.jpeg",
+              "alt": "Lendit · Brand Identity — project overview · 1",
+              "width": 4096,
+              "height": 2302,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-branding/9aef48dc4664eb-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/9aef48dc4664eb-1280.webp",
+                  "width": 1280,
+                  "height": 719
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/9aef48dc4664eb-1920.webp",
+                  "width": 1920,
+                  "height": 1079
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a303cbbd44e0305caea88be",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-branding/7d4227840b5e63.png",
+              "alt": "Lendit · Brand Identity — project overview · 2",
+              "width": 1920,
+              "height": 4500,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-branding/7d4227840b5e63-640.webp",
+                  "width": 640,
+                  "height": 1500
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/7d4227840b5e63-1280.webp",
+                  "width": 1280,
+                  "height": 3000
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/7d4227840b5e63-1920.webp",
+                  "width": 1920,
+                  "height": 4500
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a30432ed44e0305caee5976",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-branding/f302e4f5bd0919.png",
+              "alt": "Lendit · Brand Identity — project overview · 3",
+              "width": 1920,
+              "height": 8640,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-branding/f302e4f5bd0919-640.webp",
+                  "width": 640,
+                  "height": 2880
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/f302e4f5bd0919-1280.webp",
+                  "width": 1280,
+                  "height": 5760
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/f302e4f5bd0919-1920.webp",
+                  "width": 1920,
+                  "height": 8640
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a30436cd44e0305caee7f9a",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-branding/60454e198532a4.png",
+              "alt": "Lendit · Brand Identity — project overview · 4",
+              "width": 1920,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-branding/60454e198532a4-640.webp",
+                  "width": 640,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/60454e198532a4-1280.webp",
+                  "width": 1280,
+                  "height": 1440
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/60454e198532a4-1920.webp",
+                  "width": 1920,
+                  "height": 2160
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a30439ed44e0305caee8a16",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-branding/503542665f4087.png",
+              "alt": "Lendit · Brand Identity — project overview · 5",
+              "width": 1920,
+              "height": 3240,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-branding/503542665f4087-640.webp",
+                  "width": 640,
+                  "height": 1080
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/503542665f4087-1280.webp",
+                  "width": 1280,
+                  "height": 2160
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/503542665f4087-1920.webp",
+                  "width": 1920,
+                  "height": 3240
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3043cbd44e0305caee9b38",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-branding/54051d186c5927.png",
+              "alt": "Lendit · Brand Identity — project overview · 6",
+              "width": 1920,
+              "height": 4320,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-branding/54051d186c5927-640.webp",
+                  "width": 640,
+                  "height": 1440
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/54051d186c5927-1280.webp",
+                  "width": 1280,
+                  "height": 2880
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/54051d186c5927-1920.webp",
+                  "width": 1920,
+                  "height": 4320
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3043e9d44e0305caeeb662",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-branding/981306895d22d3.png",
+              "alt": "Lendit · Brand Identity — project overview · 7",
+              "width": 1920,
+              "height": 4320,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-branding/981306895d22d3-640.webp",
+                  "width": 640,
+                  "height": 1440
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/981306895d22d3-1280.webp",
+                  "width": 1280,
+                  "height": 2880
+                },
+                {
+                  "image": "/assets/projects/lendit-branding/981306895d22d3-1920.webp",
+                  "width": 1920,
+                  "height": 4320
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"version":1,"include":["/auth","/callback","/api/calendar","/api/bookings"],"exclude":[]}

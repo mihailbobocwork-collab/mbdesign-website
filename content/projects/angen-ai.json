@@ -1,0 +1,1453 @@
+{
+  "slug": "angen-ai",
+  "name": "Angen AI",
+  "title": "Angen AI",
+  "summary": "Developer-centered AI for real productivity",
+  "category": "UI/UX · Design Systems",
+  "kind": "product",
+  "order": 2,
+  "image": "/assets/projects/angen-ai/4b89d521bae932.png",
+  "imageAlt": "Angen AI — project overview · 1",
+  "status": "Published project",
+  "source": "https://mihailboboc.com/p/angenai",
+  "importedAt": "2026-11-20",
+  "sections": [
+    {
+      "id": "section-692b28b8e4b11a787ea38d06",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/4b89d521bae932.png",
+              "alt": "Angen AI — project overview · 1",
+              "width": 2880,
+              "height": 1808,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/4b89d521bae932-640.webp",
+                  "width": 640,
+                  "height": 402
+                },
+                {
+                  "image": "/assets/projects/angen-ai/4b89d521bae932-1280.webp",
+                  "width": 1280,
+                  "height": 804
+                },
+                {
+                  "image": "/assets/projects/angen-ai/4b89d521bae932-1920.webp",
+                  "width": 1920,
+                  "height": 1205
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6936118b128d96664065f2f6",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Context</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693614ed128d96664067e110",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 11,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Overview</h2><p>Angen AI helps developers turn natural-language tasks into production-ready code.</p><p>My role was to refine and redesign the <strong>UI layout</strong>, <strong>sidebar</strong>, <strong>workbench structure</strong>, <strong>chat flow</strong>, <strong>context panel</strong>, and overall <strong>visual clarity</strong> of the product.</p><p>The focus of my contribution was to take a functional but visually inconsistent prototype and turn it into a <strong>mature, professional, developer-friendly interface</strong>.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693485d5167ca32000a48780",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>Before</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69348485167ca32000a43229",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/44198db8b383ea.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 5106,
+              "height": 3290,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/44198db8b383ea-640.webp",
+                  "width": 640,
+                  "height": 412
+                },
+                {
+                  "image": "/assets/projects/angen-ai/44198db8b383ea-1280.webp",
+                  "width": 1280,
+                  "height": 825
+                },
+                {
+                  "image": "/assets/projects/angen-ai/44198db8b383ea-1920.webp",
+                  "width": 1920,
+                  "height": 1237
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/6aba07329adbe9.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 5106,
+              "height": 3290,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/6aba07329adbe9-640.webp",
+                  "width": 640,
+                  "height": 412
+                },
+                {
+                  "image": "/assets/projects/angen-ai/6aba07329adbe9-1280.webp",
+                  "width": 1280,
+                  "height": 825
+                },
+                {
+                  "image": "/assets/projects/angen-ai/6aba07329adbe9-1920.webp",
+                  "width": 1920,
+                  "height": 1237
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-68f6a7b423f200144f714b02",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Problem</h2><p>Before the redesign, Angen AI was functional but lacked a cohesive and intuitive user experience. Several issues affected usability,<br><strong>clarity, and developer workflow:</strong></p><ul><li><p>The overall layout felt disconnected and didn’t support how developers naturally work across tasks, code, and context.</p></li><li><p>The sidebar mixed tools, resources, and settings without a clear visual hierarchy, making navigation harder than necessary.</p></li><li><p>The chat/workbench interface looked like a generic messaging UI rather than a structured space for writing technical tasks and reviewing AI output.</p></li><li><p>Context sources such as project files, knowledge base items, and personalities were accessible, but their presentation and placement didn’t match the mental models of developers.</p></li><li><p>Visual hierarchy, spacing, and structure were inconsistent, resulting in UI noise and reduced focus.</p></li><li><p>Interaction patterns lacked standardization, leading to friction when switching between tasks or navigating the workspace.</p></li><li><p>Overall, the product worked — but it didn’t <em>feel</em> like a refined, developer-grade environment.</p></li></ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69347933167ca320009fd6f6",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "prototype",
+              "url": "https://embed.figma.com/proto/ptpR9qII2hjs7RvoAztwHf/MB-Designs?page-id=1%3A2&node-id=2-8519&viewport=343%2C374%2C0.14&scaling=contain&content-scaling=fixed&starting-point-node-id=2%3A8519&embed-host=share",
+              "title": "Angen AI · Problem"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693615e9128d96664069fd69",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Discovery</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69374b0a9ec7bc0aa3109672",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 11,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Competitive Landscape</h2><p>To better understand how developers interact with AI-assisted coding tools, I reviewed several products in the space, including GitHub Copilot, Cursor AI, Replit Ghostwriter, Amazon CodeWhisperer, and Codeium. These tools set strong expectations around instant feedback, contextual awareness, and minimal friction.</p><p>However, most competitors operate inside IDEs or rely heavily on chat-style interaction. None provide a dedicated, structured workspace designed for managing tasks, selecting context, or reviewing changes across multiple work items. This revealed an opportunity for Angen AI to differentiate through layout clarity, multi-task workflows, and a more organized UI centered around developer flow.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693de5f464b5252f322530cd",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/8971a45334dc32.png",
+              "alt": "Angen AI — Competitive Landscape · 4",
+              "width": 1689,
+              "height": 1680,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/8971a45334dc32-640.webp",
+                  "width": 640,
+                  "height": 637
+                },
+                {
+                  "image": "/assets/projects/angen-ai/8971a45334dc32-1280.webp",
+                  "width": 1280,
+                  "height": 1273
+                },
+                {
+                  "image": "/assets/projects/angen-ai/8971a45334dc32-1689.webp",
+                  "width": 1689,
+                  "height": 1680
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934c399167ca32000b62236",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 7,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Interviews - Developer Feedback</h2><p>Early conversations and internal testing revealed that the previous UI didn’t fully support how developers think and work. Their feedback highlighted several recurring themes:</p><ul><li><p>The layout felt more like a generic chat than a structured technical workspace.</p></li><li><p>Navigation was unclear, with tools, resources, and settings blended together.</p></li><li><p>Switching between tasks was slow and disruptive, breaking focus.</p></li><li><p>Context tools (files, knowledge, personalities) were powerful but not visually integrated into the workflow.</p></li><li><p>Visual hierarchy and spacing made the interface harder to scan quickly.</p></li><li><p>Developers weren’t blocked from completing tasks, but they repeatedly expressed that the UI didn’t feel developer-grade, efficient, or familiar.</p></li></ul><p>This feedback shaped the direction of the redesign.</p>"
+            }
+          ]
+        },
+        {
+          "start": 9,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/5a48c7937feaf4.png",
+              "alt": "Angen AI — Interviews - Developer Feedback · 5",
+              "width": 1600,
+              "height": 775,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/5a48c7937feaf4-640.webp",
+                  "width": 640,
+                  "height": 310
+                },
+                {
+                  "image": "/assets/projects/angen-ai/5a48c7937feaf4-1280.webp",
+                  "width": 1280,
+                  "height": 620
+                },
+                {
+                  "image": "/assets/projects/angen-ai/5a48c7937feaf4-1600.webp",
+                  "width": 1600,
+                  "height": 775
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934c399167ca32000b62237",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>FINDING 1</p><p><strong>I can’t quickly switch between tasks. I lose my flow.</strong></p><p>Without tabs or persistent states, developers had to constantly reopen tasks, breaking concentration and slowing down their process.</p>"
+            }
+          ]
+        },
+        {
+          "start": 5,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>FINDING 2</p><p><strong>It works, but it doesn’t feel like a tool built for developers.</strong></p><p>Developers expected something closer to an IDE or technical workspace.</p><p>The old UI felt like a generic chat app, not a structured environment for writing tasks or reviewing code.</p>"
+            }
+          ]
+        },
+        {
+          "start": 9,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>FINDING 3</p><p><strong>The output is good, but the UI doesn’t guide the workflow.</strong></p><p>They wanted the interface to guide them through the natural development cycle:</p><p>write → provide context → run → review → apply.</p><p>The old design didn’t visually support that flow.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69360ada128d966640638e85",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Ideation</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6936141e128d966640676a94",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Wireframes</h2><p>To explore how Angen AI could better support real developer workflows, I sketched a series of low-fidelity wireframes focused on layout, navigation, and the structure of the workbench. The goal was to test multiple approaches quickly, understand how information should flow across the interface, and evaluate how developers would move through tasks, context, and code review.</p><p>These explorations helped define the foundation of the new UI before moving into high-fidelity design.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/d631842a7736b2.png",
+              "alt": "Angen AI — Wireframes · 6",
+              "width": 3840,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/d631842a7736b2-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/angen-ai/d631842a7736b2-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/angen-ai/d631842a7736b2-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69360aa3128d96664063897d",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/06500d084b0c87.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3840,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/06500d084b0c87-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/angen-ai/06500d084b0c87-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/angen-ai/06500d084b0c87-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/50dfc9bf70e323.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3840,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/50dfc9bf70e323-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/angen-ai/50dfc9bf70e323-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/angen-ai/50dfc9bf70e323-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69360d5c128d966640640a6c",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/c3d9ea33dce683.png",
+              "alt": "Angen AI — Wireframes · 9",
+              "width": 1920,
+              "height": 1080,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/c3d9ea33dce683-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/angen-ai/c3d9ea33dce683-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/angen-ai/c3d9ea33dce683-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 8,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Outcome of Ideation</h2><p>These explorations clarified the core structure of the new UI and helped define the final two-panel layout, navigation hierarchy, and multitasking behavior that shaped the final product.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934c7ed167ca32000b6eebc",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Solution</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6931bfa3edc14c6813c15082",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 7,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Purpose</h2><p>The goal of the redesign was not to change how Angen AI works under the hood, but to dramatically improve <strong>how developers experience the product</strong>. My focus was on creating a cleaner, more structured, and more intuitive interface that matches the way engineers think, navigate, and write code.</p><p>This meant reorganizing the workspace into a clear, three-panel layout, redesigning the sidebar for faster navigation, transforming the chat into a task-focused workbench, refining the internal tab interactions, and bringing clarity to contextual elements like files, knowledge, and personalities.</p><p>The solution centered on making Angen AI feel like a <strong>professional development tool</strong> rather than an experimental AI interface — improving clarity, reducing friction, and elevating the overall usability and visual quality of the product.</p>"
+            }
+          ]
+        },
+        {
+          "start": 9,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/5171e80f98ec0c.png",
+              "alt": "Angen AI — Purpose · 10",
+              "width": 1977,
+              "height": 1549,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/5171e80f98ec0c-640.webp",
+                  "width": 640,
+                  "height": 501
+                },
+                {
+                  "image": "/assets/projects/angen-ai/5171e80f98ec0c-1280.webp",
+                  "width": 1280,
+                  "height": 1003
+                },
+                {
+                  "image": "/assets/projects/angen-ai/5171e80f98ec0c-1920.webp",
+                  "width": 1920,
+                  "height": 1504
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6931f374edc14c6813daa9fd",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4><strong>1. Redesigned the Layout Structure</strong></h4><p>I created a balanced three-panel layout:</p><ul><li><p>A left navigation column</p></li><li><p>A central workbench (task input, chat, code output)</p></li><li><p>A right context panel</p></li></ul><p>This layout mirrors modern IDEs and dramatically improves scanning, focus, and usability.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/ac7cc0d96b3ff9.png",
+              "alt": "Angen AI — 1. Redesigned the Layout Structure · 11",
+              "width": 3800,
+              "height": 1720,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/ac7cc0d96b3ff9-640.webp",
+                  "width": 640,
+                  "height": 290
+                },
+                {
+                  "image": "/assets/projects/angen-ai/ac7cc0d96b3ff9-1280.webp",
+                  "width": 1280,
+                  "height": 579
+                },
+                {
+                  "image": "/assets/projects/angen-ai/ac7cc0d96b3ff9-1920.webp",
+                  "width": 1920,
+                  "height": 869
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69347a43167ca32000a03872",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/e65266200ac4ff.png",
+              "alt": "Angen AI — 1. Redesigned the Layout Structure · 12",
+              "width": 2984,
+              "height": 1998,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/e65266200ac4ff-640.webp",
+                  "width": 640,
+                  "height": 429
+                },
+                {
+                  "image": "/assets/projects/angen-ai/e65266200ac4ff-1280.webp",
+                  "width": 1280,
+                  "height": 857
+                },
+                {
+                  "image": "/assets/projects/angen-ai/e65266200ac4ff-1920.webp",
+                  "width": 1920,
+                  "height": 1286
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 8,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>2. Rebuilt the Sidebar Navigation</h4><p>I reorganized the sidebar into clearly separated sections, improved icon consistency, added visual spacing, and placed settings elements at the bottom (a common, learned convention).</p><p>The new sidebar gives developers predictable access to the tools they use most:</p><p>Work Items, Knowledge Base, Personalities, and Media.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69347db3167ca32000a118fc",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>3. Redesigned the Workbench &amp; Chat Experience</h4><p>The old interaction felt like a basic chat.</p><p>I redesigned it as a <strong>task-first workbench</strong>, where:</p><ul><li><p>The input area is larger, structured, and intentionally placed</p></li><li><p>“Plan” and “Code” modes are clearly separated</p></li><li><p>The empty state guides the user (“How can I help you?”)</p></li><li><p>Task descriptions feel like proper instructions, not chat messages</p></li></ul><p>This helps developers think clearly and articulate work in a structured way.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/33781123192059.png",
+              "alt": "Angen AI — 3. Redesigned the Workbench & Chat Experience · 13",
+              "width": 2984,
+              "height": 1912,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/33781123192059-640.webp",
+                  "width": 640,
+                  "height": 410
+                },
+                {
+                  "image": "/assets/projects/angen-ai/33781123192059-1280.webp",
+                  "width": 1280,
+                  "height": 820
+                },
+                {
+                  "image": "/assets/projects/angen-ai/33781123192059-1920.webp",
+                  "width": 1920,
+                  "height": 1230
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934816c167ca32000a1a51d",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/19a381fcfb8c4d.png",
+              "alt": "Angen AI — 3. Redesigned the Workbench & Chat Experience · 14",
+              "width": 2984,
+              "height": 1912,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/19a381fcfb8c4d-640.webp",
+                  "width": 640,
+                  "height": 410
+                },
+                {
+                  "image": "/assets/projects/angen-ai/19a381fcfb8c4d-1280.webp",
+                  "width": 1280,
+                  "height": 820
+                },
+                {
+                  "image": "/assets/projects/angen-ai/19a381fcfb8c4d-1920.webp",
+                  "width": 1920,
+                  "height": 1230
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 8,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>4. Introduced Multi-Task Tabs for Faster Switching</h4><p>Before the redesign, Angen AI offered only a single-task view — developers had to open tasks one at a time, losing context every time they switched work. This created friction and slowed down productivity, especially when referencing multiple tasks or comparing outputs.</p><p>I introduced a tabbed workbench that lets developers keep several tasks open simultaneously.</p><p>This addition mirrors the behavior of tools like VS Code or JetBrains, giving users a familiar and efficient way to navigate their work.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934b909167ca32000b2dce6",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p><strong>What I designed:</strong></p><ul><li><p>A horizontal tab bar at the top of the workbench</p></li><li><p>Clear active/inactive states</p></li><li><p>Smooth switching between open tasks</p></li><li><p>Close actions that don’t disrupt the workspace</p></li><li><p>Persistent content when switching tabs</p></li></ul>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p><strong>Why it matters:</strong></p><p>Developers often juggle many tasks — refinements, follow-ups, multiple components, and file comparisons.</p><p>By adding tabs, I helped Angen AI support true multi-task workflows, reducing navigation time and improving focus across tasks.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934bd22167ca32000b3f655",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>5. Additional UI &amp; Usability Enhancements</h4><p>Beyond the major structural changes, I introduced a series of refinements that collectively improved clarity, consistency, and user experience across the product.</p><p><strong>These included:</strong></p><ul><li><p>Enhancing the context panel, making file trees cleaner, selections clearer, and grouping more intuitive.</p></li><li><p>Improving the Knowledge Base and Personalities interfaces, with better spacing, readable editor layouts, and clearer organization between organization-level and project-level items.</p></li><li><p>Refining visual hierarchy throughout the product, including typography, spacing, padding, and component alignment.</p></li><li><p>Strengthening interaction patterns, such as hover states, empty states, selection behaviors, and modal presentations.</p></li><li><p>Polishing iconography, colors, and layout rhythm to create a more professional and consistent feel.</p></li><li><p>Clarifying Work Items list presentation, improving scannability and readability of task metadata.</p></li></ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693de92964b5252f3225c20f",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Design System</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693dfc1a64b5252f32298898",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Colors &amp; Tokens</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693dfe5464b5252f322ac19b",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/666d96fbe5f930.png",
+              "alt": "Angen AI — Colors & Tokens · 15",
+              "width": 2349,
+              "height": 1296,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/666d96fbe5f930-640.webp",
+                  "width": 640,
+                  "height": 353
+                },
+                {
+                  "image": "/assets/projects/angen-ai/666d96fbe5f930-1280.webp",
+                  "width": 1280,
+                  "height": 706
+                },
+                {
+                  "image": "/assets/projects/angen-ai/666d96fbe5f930-1920.webp",
+                  "width": 1920,
+                  "height": 1059
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693ed4197135b2684f22fd34",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Typography</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693ed4277135b2684f22ff8f",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/3ab00e0bbd41d1.png",
+              "alt": "Angen AI — Typography · 16",
+              "width": 2980,
+              "height": 1160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/3ab00e0bbd41d1-640.webp",
+                  "width": 640,
+                  "height": 249
+                },
+                {
+                  "image": "/assets/projects/angen-ai/3ab00e0bbd41d1-1280.webp",
+                  "width": 1280,
+                  "height": 498
+                },
+                {
+                  "image": "/assets/projects/angen-ai/3ab00e0bbd41d1-1920.webp",
+                  "width": 1920,
+                  "height": 747
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693df58764b5252f32276ece",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Components &amp; States</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693e061264b5252f322c6e6f",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/8bf352e565baf6.png",
+              "alt": "Angen AI — Components & States · 17",
+              "width": 3872,
+              "height": 1914,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/8bf352e565baf6-640.webp",
+                  "width": 640,
+                  "height": 316
+                },
+                {
+                  "image": "/assets/projects/angen-ai/8bf352e565baf6-1280.webp",
+                  "width": 1280,
+                  "height": 633
+                },
+                {
+                  "image": "/assets/projects/angen-ai/8bf352e565baf6-1920.webp",
+                  "width": 1920,
+                  "height": 949
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693df2e464b5252f322713f1",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Theme Modes</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693def8b64b5252f3226ae72",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "prototype",
+              "url": "https://embed.figma.com/proto/ptpR9qII2hjs7RvoAztwHf/MB-Designs?page-id=1%3A2&node-id=172-9531&viewport=244%2C572%2C0.16&scaling=contain&content-scaling=fixed&starting-point-node-id=172%3A9531&embed-host=share",
+              "title": "Angen AI · Theme Modes"
+            },
+            {
+              "type": "text",
+              "html": "<p>Light and dark themes were designed to adapt to different lighting conditions and personal preferences, improving visual comfort without disrupting the core workflow.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934c999167ca32000b7737f",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Outcome &amp; Impact</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6934c9c1167ca32000b7a4f4",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>The redesign transformed Angen AI from a functional prototype into a coherent, developer-centered product. The updated layout, navigation, and workbench experience now support the way engineers naturally operate—reducing friction, improving clarity, and enabling faster execution of tasks.</p><p>Developers can switch between tasks effortlessly, understand where tools and context sources live, and work within a UI that aligns with modern development environments. The new layout brings structure; the sidebar brings logic; the redesigned workbench brings focus; and the improved context panel brings predictability.</p><p>By elevating hierarchy, spacing, and interactions across the product, the redesign makes Angen AI feel more professional, trustworthy, and ready for real engineering workflows. The result is not only a better-looking interface, but a more intuitive and efficient one—helping developers think clearly, stay in flow, and get more done with less effort.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-68f6a7b423f200144f714b1c",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Learnings<br></h4><ul><li><p><strong>Developers value structure over novelty.</strong> The UI must support their workflow patterns (clarity, hierarchy, fast navigation) rather than introduce unfamiliar interaction models.</p></li><li><p><strong>Small visual refinements have large impact.</strong> Consistent spacing, alignment, and component rhythm dramatically improved the feeling of quality and trust.</p></li><li><p><strong>Context must feel integrated.</strong> Files, knowledge, and personalities need to appear where developers naturally use them—not hidden or separated from the task flow.</p></li></ul>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Next Steps<br></h4><ul><li><p><strong>Developers value structure over novelty.</strong> The UI must support their workflow patterns (clarity, hierarchy, fast navigation) rather than introduce unfamiliar interaction models.</p></li><li><p><strong>Small visual refinements have large impact.</strong> Consistent spacing, alignment, and component rhythm dramatically improved the feeling of quality and trust.</p></li><li><p><strong>Context must feel integrated.</strong> Files, knowledge, and personalities need to appear where developers naturally use them—not hidden or separated from the task flow.</p></li></ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693616a0128d9666406a1844",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/477e5002b96468.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/477e5002b96468-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/477e5002b96468-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/477e5002b96468-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/8b13e0dbf004e5.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/8b13e0dbf004e5-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/8b13e0dbf004e5-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/8b13e0dbf004e5-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/9620ab7e38492e.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/9620ab7e38492e-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/9620ab7e38492e-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/9620ab7e38492e-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/38e825c1c616e2.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/38e825c1c616e2-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/38e825c1c616e2-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/38e825c1c616e2-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/f074fccd3e6168.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/f074fccd3e6168-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/f074fccd3e6168-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/f074fccd3e6168-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/fb888d6f3ba5d8.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69487783a7b6532f4ab9f38c",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/fc71caf7a8df9c.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/fc71caf7a8df9c-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/fc71caf7a8df9c-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/fc71caf7a8df9c-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/626ca5b7ce5e78.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/626ca5b7ce5e78-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/626ca5b7ce5e78-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/626ca5b7ce5e78-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/75f20755d8c10d.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/75f20755d8c10d-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/75f20755d8c10d-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/75f20755d8c10d-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/4de1decde17573.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/4de1decde17573-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/4de1decde17573-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/4de1decde17573-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/f3be143d9edd3e.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/f3be143d9edd3e-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/f3be143d9edd3e-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/f3be143d9edd3e-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/angen-ai/3282c214ea8d57.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 3456,
+              "height": 1808,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/angen-ai/3282c214ea8d57-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/angen-ai/3282c214ea8d57-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/angen-ai/3282c214ea8d57-1920.webp",
+                  "width": 1920,
+                  "height": 1004
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-68f6a7b423f200144f714b03",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Role</h4><p>UI/UX designer</p>"
+            }
+          ]
+        },
+        {
+          "start": 4,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Tools</h4><p>Figma</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Team</h4><p>1 UI/UX designers, 3 developers</p>"
+            }
+          ]
+        },
+        {
+          "start": 10,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Timeline</h4><p>Apr - Jul 2025 (16 weeks)</p>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

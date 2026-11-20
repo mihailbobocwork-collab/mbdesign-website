@@ -1,0 +1,328 @@
+{
+  "slug": "lendit-gazebo",
+  "name": "Lendit · Event Gazebo",
+  "title": "Event Gazebo Branding - Lendit",
+  "summary": "Branded event gazebo for Lendit’s local community street festivals.",
+  "category": "Creative Design · Print Design",
+  "kind": "graphic",
+  "order": 3,
+  "image": "/assets/projects/lendit-gazebo/ae12ececf4825b.webp",
+  "imageAlt": "Lendit · Event Gazebo — Overview · 1",
+  "status": "Published project",
+  "source": "https://mihailboboc.com/p/f7fcb9e5",
+  "importedAt": "2026-11-20",
+  "sections": [
+    {
+      "id": "section-6ad614e15766946ff7fcf0d0",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Overview</h2><p>From the print template to the street. I designed the full 3x3m gazebo for Lendit, the app for borrowing anything from your neighbours. That meant the roof, back wall and half walls, all in their bold pink-to-orange style and built so people get the idea at a glance.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad614aa5766946ff7fcd8d2",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/ae12ececf4825b.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 1",
+              "width": 2304,
+              "height": 1728,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/ae12ececf4825b-640.webp",
+                  "width": 640,
+                  "height": 480
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/ae12ececf4825b-1280.webp",
+                  "width": 1280,
+                  "height": 960
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/ae12ececf4825b-1920.webp",
+                  "width": 1920,
+                  "height": 1440
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad615f95766946ff7fd273b",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/49683e896a1186.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 2",
+              "width": 2160,
+              "height": 2307,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/49683e896a1186-640.webp",
+                  "width": 640,
+                  "height": 684
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/49683e896a1186-1280.webp",
+                  "width": 1280,
+                  "height": 1367
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/49683e896a1186-1920.webp",
+                  "width": 1920,
+                  "height": 2051
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad617015766946ff7fd80f8",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 3",
+              "width": 2304,
+              "height": 2880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-640.webp",
+                  "width": 640,
+                  "height": 800
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-1280.webp",
+                  "width": 1280,
+                  "height": 1600
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-1920.webp",
+                  "width": 1920,
+                  "height": 2400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad617245766946ff7fd9310",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/d997341dae1f62.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 4",
+              "width": 2304,
+              "height": 2880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/d997341dae1f62-640.webp",
+                  "width": 640,
+                  "height": 800
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/d997341dae1f62-1280.webp",
+                  "width": 1280,
+                  "height": 1600
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/d997341dae1f62-1920.webp",
+                  "width": 1920,
+                  "height": 2400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad6175f5766946ff7fda249",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/262c2f4d351838.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 5",
+              "width": 2304,
+              "height": 2880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/262c2f4d351838-640.webp",
+                  "width": 640,
+                  "height": 800
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/262c2f4d351838-1280.webp",
+                  "width": 1280,
+                  "height": 1600
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/262c2f4d351838-1920.webp",
+                  "width": 1920,
+                  "height": 2400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad617885766946ff7fda91f",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 6",
+              "width": 2304,
+              "height": 2880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-640.webp",
+                  "width": 640,
+                  "height": 800
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-1280.webp",
+                  "width": 1280,
+                  "height": 1600
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-1920.webp",
+                  "width": 1920,
+                  "height": 2400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad617ae5766946ff7fdb138",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 7",
+              "width": 2304,
+              "height": 2620,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-640.webp",
+                  "width": 640,
+                  "height": 728
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-1280.webp",
+                  "width": 1280,
+                  "height": 1456
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-1920.webp",
+                  "width": 1920,
+                  "height": 2183
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad617cd5766946ff7fdc1d9",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-gazebo/b1830c29f73021.webp",
+              "alt": "Lendit · Event Gazebo — Overview · 8",
+              "width": 2304,
+              "height": 1879,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-gazebo/b1830c29f73021-640.webp",
+                  "width": 640,
+                  "height": 522
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/b1830c29f73021-1280.webp",
+                  "width": 1280,
+                  "height": 1044
+                },
+                {
+                  "image": "/assets/projects/lendit-gazebo/b1830c29f73021-1920.webp",
+                  "width": 1920,
+                  "height": 1566
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

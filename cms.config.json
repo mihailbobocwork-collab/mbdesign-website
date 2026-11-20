@@ -1,0 +1,711 @@
+{
+  "backend": {
+    "name": "github",
+    "repo": "YOUR_GITHUB_USERNAME/YOUR_REPOSITORY",
+    "branch": "main",
+    "base_url": "https://YOUR_SITE.pages.dev",
+    "auth_endpoint": "auth"
+  },
+  "media_folder": "public/assets/uploads",
+  "public_folder": "/assets/uploads",
+  "publish_mode": "simple",
+  "collections": [
+    {
+      "name": "settings",
+      "label": "Site & page copy",
+      "files": [
+        {
+          "name": "site",
+          "label": "Site settings & pages",
+          "file": "content/site.json",
+          "fields": [
+            {
+              "name": "name",
+              "label": "Name",
+              "widget": "string",
+              "required": true
+            },
+            {
+              "name": "role",
+              "label": "Role",
+              "widget": "string",
+              "required": true
+            },
+            {
+              "name": "intro",
+              "label": "Intro",
+              "widget": "string",
+              "required": true
+            },
+            {
+              "name": "bio",
+              "label": "Bio",
+              "widget": "text",
+              "required": true
+            },
+            {
+              "name": "location",
+              "label": "Location",
+              "widget": "string",
+              "required": true
+            },
+            {
+              "name": "contactEmail",
+              "label": "Contactemail",
+              "widget": "string",
+              "required": false
+            },
+            {
+              "name": "siteUrl",
+              "label": "Siteurl",
+              "widget": "string",
+              "required": false
+            },
+            {
+              "name": "githubRepo",
+              "label": "Githubrepo",
+              "widget": "string",
+              "required": false
+            },
+            {
+              "name": "githubBranch",
+              "label": "Githubbranch",
+              "widget": "string",
+              "required": true
+            },
+            {
+              "name": "draft",
+              "label": "Draft",
+              "widget": "boolean",
+              "required": true
+            },
+            {
+              "name": "aboutTitle",
+              "label": "Abouttitle",
+              "widget": "string",
+              "required": true
+            },
+            {
+              "name": "aboutBody",
+              "label": "Aboutbody",
+              "widget": "text",
+              "required": true
+            },
+            {
+              "name": "aboutNote",
+              "label": "Aboutnote",
+              "widget": "string",
+              "required": true
+            },
+            {
+              "name": "contactIntro",
+              "label": "Contactintro",
+              "widget": "text",
+              "required": true
+            },
+            {
+              "name": "servicesIntro",
+              "label": "Servicesintro",
+              "widget": "text",
+              "required": true
+            },
+            {
+              "name": "pricingIntro",
+              "label": "Pricingintro",
+              "widget": "text",
+              "required": true
+            },
+            {
+              "name": "playgroundIntro",
+              "label": "Playgroundintro",
+              "widget": "text",
+              "required": true
+            },
+            {
+              "name": "heroBio",
+              "label": "Homepage hero biography",
+              "widget": "text"
+            },
+            {
+              "name": "turnstileSiteKey",
+              "label": "Cloudflare verification site key",
+              "widget": "string",
+              "required": false,
+              "hint": "Public site key only. Keep the secret key in runtime settings."
+            }
+          ]
+        },
+        {
+          "name": "booking",
+          "label": "Meeting availability",
+          "file": "content/booking.json",
+          "fields": [
+            {
+              "name": "timeZone",
+              "label": "Your time zone",
+              "widget": "string"
+            },
+            {
+              "name": "durationMinutes",
+              "label": "Meeting length in minutes",
+              "widget": "number",
+              "value_type": "int"
+            },
+            {
+              "name": "bufferMinutes",
+              "label": "Buffer between meetings in minutes",
+              "widget": "number",
+              "value_type": "int"
+            },
+            {
+              "name": "noticeHours",
+              "label": "Minimum notice in hours",
+              "widget": "number",
+              "value_type": "int"
+            },
+            {
+              "name": "horizonDays",
+              "label": "How many days ahead visitors can book",
+              "widget": "number",
+              "value_type": "int"
+            },
+            {
+              "name": "weekdays",
+              "label": "Available weekdays",
+              "widget": "select",
+              "multiple": true,
+              "options": [
+                {
+                  "label": "Monday",
+                  "value": 1
+                },
+                {
+                  "label": "Tuesday",
+                  "value": 2
+                },
+                {
+                  "label": "Wednesday",
+                  "value": 3
+                },
+                {
+                  "label": "Thursday",
+                  "value": 4
+                },
+                {
+                  "label": "Friday",
+                  "value": 5
+                },
+                {
+                  "label": "Saturday",
+                  "value": 6
+                },
+                {
+                  "label": "Sunday",
+                  "value": 7
+                }
+              ]
+            },
+            {
+              "name": "workingHours",
+              "label": "Daily working window",
+              "widget": "string",
+              "hint": "For example 10:00-17:00"
+            },
+            {
+              "name": "stepMinutes",
+              "label": "Time choice spacing in minutes",
+              "widget": "number",
+              "value_type": "int"
+            },
+            {
+              "name": "blockedDates",
+              "label": "Days off",
+              "widget": "list",
+              "required": false,
+              "hint": "Dates in YYYY-MM-DD format."
+            }
+          ]
+        },
+        {
+          "name": "home_work",
+          "label": "Homepage work covers",
+          "file": "content/home-work.json",
+          "fields": [
+            {
+              "name": "covers",
+              "label": "Work covers",
+              "widget": "list",
+              "summary": "{{fields.name}} · {{fields.category}}",
+              "fields": [
+                {
+                  "name": "id",
+                  "label": "Cover identifier",
+                  "widget": "string"
+                },
+                {
+                  "name": "project",
+                  "label": "Linked project slug",
+                  "widget": "string"
+                },
+                {
+                  "name": "name",
+                  "label": "Project name",
+                  "widget": "string"
+                },
+                {
+                  "name": "category",
+                  "label": "Category",
+                  "widget": "string"
+                },
+                {
+                  "name": "image",
+                  "label": "Cover artwork",
+                  "widget": "image"
+                },
+                {
+                  "name": "imageAlt",
+                  "label": "Image description",
+                  "widget": "string"
+                },
+                {
+                  "name": "width",
+                  "label": "Original width",
+                  "widget": "number",
+                  "value_type": "float"
+                },
+                {
+                  "name": "height",
+                  "label": "Original height",
+                  "widget": "number",
+                  "value_type": "float"
+                },
+                {
+                  "name": "kind",
+                  "label": "Artwork type",
+                  "widget": "select",
+                  "options": [
+                    "product",
+                    "identity"
+                  ]
+                },
+                {
+                  "name": "figmaNode",
+                  "label": "Figma source node",
+                  "widget": "string",
+                  "required": false
+                },
+                {
+                  "name": "composition",
+                  "label": "Cover type",
+                  "widget": "select",
+                  "required": false,
+                  "options": [
+                    {
+                      "label": "Uploaded artwork",
+                      "value": ""
+                    },
+                    {
+                      "label": "WholeSum laptop",
+                      "value": "wholesum"
+                    },
+                    {
+                      "label": "Angen AI laptop",
+                      "value": "angen-ai"
+                    }
+                  ],
+                  "hint": "Choose Uploaded artwork when replacing the supplied layered laptop with a new image."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "projects",
+      "label": "Projects",
+      "folder": "content/projects",
+      "extension": "json",
+      "format": "json",
+      "create": true,
+      "slug": "{{slug}}",
+      "identifier_field": "name",
+      "summary": "{{name}} · {{category}}",
+      "fields": [
+        {
+          "name": "slug",
+          "label": "Slug",
+          "widget": "string"
+        },
+        {
+          "name": "name",
+          "label": "Name",
+          "widget": "string"
+        },
+        {
+          "name": "title",
+          "label": "Title",
+          "widget": "string"
+        },
+        {
+          "name": "summary",
+          "label": "Summary",
+          "widget": "text"
+        },
+        {
+          "name": "category",
+          "label": "Category",
+          "widget": "string"
+        },
+        {
+          "name": "kind",
+          "label": "Kind",
+          "widget": "select",
+          "options": [
+            "product",
+            "graphic",
+            "brand"
+          ]
+        },
+        {
+          "name": "order",
+          "label": "Order",
+          "widget": "number",
+          "min": 0,
+          "value_type": "float"
+        },
+        {
+          "name": "image",
+          "label": "Image",
+          "widget": "image"
+        },
+        {
+          "name": "imageAlt",
+          "label": "Imagealt",
+          "widget": "string"
+        },
+        {
+          "name": "status",
+          "label": "Status",
+          "widget": "string"
+        },
+        {
+          "name": "source",
+          "label": "Source",
+          "widget": "string",
+          "required": false,
+          "hint": "Original portfolio page for reference."
+        },
+        {
+          "name": "importedAt",
+          "label": "Importedat",
+          "widget": "string",
+          "required": false
+        },
+        {
+          "name": "access",
+          "label": "Access",
+          "widget": "select",
+          "options": [
+            "public",
+            "request"
+          ],
+          "default": "public",
+          "required": false
+        },
+        {
+          "name": "requestMessage",
+          "label": "Requestmessage",
+          "widget": "text",
+          "required": false,
+          "hint": "Prefilled message when a visitor requests this project."
+        },
+        {
+          "name": "sections",
+          "label": "Sections",
+          "widget": "list",
+          "required": false,
+          "summary": "{{kind}} · {{id}}",
+          "fields": [
+            {
+              "name": "id",
+              "label": "Id",
+              "widget": "string"
+            },
+            {
+              "name": "kind",
+              "label": "Kind",
+              "widget": "select",
+              "options": [
+                "content",
+                "chapter",
+                "gallery",
+                "process"
+              ]
+            },
+            {
+              "name": "steps",
+              "label": "Steps",
+              "widget": "list",
+              "required": false,
+              "field": {
+                "name": "label",
+                "label": "Label",
+                "widget": "string"
+              }
+            },
+            {
+              "name": "columns",
+              "label": "Columns",
+              "widget": "list",
+              "required": false,
+              "fields": [
+                {
+                  "name": "start",
+                  "label": "Start",
+                  "widget": "number",
+                  "value_type": "int",
+                  "min": 1,
+                  "max": 12,
+                  "default": 1
+                },
+                {
+                  "name": "span",
+                  "label": "Span",
+                  "widget": "number",
+                  "value_type": "int",
+                  "min": 1,
+                  "max": 12,
+                  "default": 12
+                },
+                {
+                  "name": "blocks",
+                  "label": "Blocks",
+                  "widget": "list",
+                  "types": [
+                    {
+                      "name": "text",
+                      "label": "Story text",
+                      "widget": "object",
+                      "fields": [
+                        {
+                          "name": "html",
+                          "label": "Html",
+                          "widget": "text",
+                          "hint": "Basic HTML: paragraphs, h2/h4 headings, strong/emphasis, lists and links. Other markup is displayed as text."
+                        }
+                      ]
+                    },
+                    {
+                      "name": "image",
+                      "label": "Project image",
+                      "widget": "object",
+                      "fields": [
+                        {
+                          "name": "image",
+                          "label": "Image",
+                          "widget": "image"
+                        },
+                        {
+                          "name": "alt",
+                          "label": "Alt",
+                          "widget": "string"
+                        },
+                        {
+                          "name": "width",
+                          "label": "Width",
+                          "widget": "number",
+                          "value_type": "int",
+                          "min": 1
+                        },
+                        {
+                          "name": "height",
+                          "label": "Height",
+                          "widget": "number",
+                          "value_type": "int",
+                          "min": 1
+                        },
+                        {
+                          "name": "device",
+                          "label": "Device",
+                          "widget": "select",
+                          "options": [
+                            "",
+                            "mobile",
+                            "desktop"
+                          ],
+                          "required": false
+                        },
+                        {
+                          "name": "caption",
+                          "label": "Caption",
+                          "widget": "string",
+                          "required": false
+                        },
+                        {
+                          "name": "variants",
+                          "label": "Variants",
+                          "widget": "list",
+                          "required": false,
+                          "collapsed": true,
+                          "fields": [
+                            {
+                              "name": "image",
+                              "label": "Image",
+                              "widget": "image"
+                            },
+                            {
+                              "name": "width",
+                              "label": "Width",
+                              "widget": "number",
+                              "value_type": "int"
+                            },
+                            {
+                              "name": "height",
+                              "label": "Height",
+                              "widget": "number",
+                              "value_type": "int"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "prototype",
+                      "label": "Figma prototype",
+                      "widget": "object",
+                      "fields": [
+                        {
+                          "name": "url",
+                          "label": "Url",
+                          "widget": "string",
+                          "hint": "https://embed.figma.com/proto/…"
+                        },
+                        {
+                          "name": "title",
+                          "label": "Title",
+                          "widget": "string"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "offers",
+      "label": "Pricing",
+      "files": [
+        {
+          "name": "pricing",
+          "label": "Engagements",
+          "file": "content/offers.json",
+          "fields": [
+            {
+              "name": "offers",
+              "label": "Offers",
+              "widget": "list",
+              "fields": [
+                {
+                  "name": "id",
+                  "label": "Id",
+                  "widget": "string"
+                },
+                {
+                  "name": "name",
+                  "label": "Name",
+                  "widget": "string"
+                },
+                {
+                  "name": "price",
+                  "label": "Price",
+                  "widget": "string"
+                },
+                {
+                  "name": "cadence",
+                  "label": "Cadence",
+                  "widget": "string"
+                },
+                {
+                  "name": "duration",
+                  "label": "Duration",
+                  "widget": "string"
+                },
+                {
+                  "name": "description",
+                  "label": "Description",
+                  "widget": "text"
+                },
+                {
+                  "name": "scope",
+                  "label": "Scope",
+                  "widget": "list",
+                  "field": {
+                    "name": "item",
+                    "label": "Item",
+                    "widget": "string"
+                  }
+                },
+                {
+                  "name": "note",
+                  "label": "Note",
+                  "widget": "text"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "services",
+      "label": "Services",
+      "files": [
+        {
+          "name": "services",
+          "label": "Service descriptions",
+          "file": "content/services.json",
+          "fields": [
+            {
+              "name": "services",
+              "label": "Services",
+              "widget": "list",
+              "fields": [
+                {
+                  "name": "name",
+                  "label": "Name",
+                  "widget": "string"
+                },
+                {
+                  "name": "description",
+                  "label": "Description",
+                  "widget": "text"
+                },
+                {
+                  "name": "details",
+                  "label": "Details",
+                  "widget": "text"
+                },
+                {
+                  "name": "offer",
+                  "label": "Offer",
+                  "widget": "select",
+                  "options": [
+                    "audit",
+                    "sprint",
+                    "project",
+                    "partner"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,307 @@
+{
+  "slug": "7code",
+  "name": "7code · Brand Identity",
+  "title": "Brand Guidelines, Logo Design - 7code",
+  "summary": "A complete brand identity for 7Code, covering logo design, color system, typography, and overall visual language.",
+  "category": "Logo Design · Brand Guidelines",
+  "kind": "brand",
+  "order": 6,
+  "image": "/assets/projects/7code/d790f1cd74e1ee.jpeg",
+  "imageAlt": "7code · Brand Identity — project overview · 1",
+  "status": "Published project",
+  "source": "https://mihailboboc.com/p/brand-guidelines-7code",
+  "importedAt": "2026-11-20",
+  "sections": [
+    {
+      "id": "section-6a3033a6d44e0305cae3d843",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/d790f1cd74e1ee.jpeg",
+              "alt": "7code · Brand Identity — project overview · 1",
+              "width": 808,
+              "height": 505,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/d790f1cd74e1ee-640.webp",
+                  "width": 640,
+                  "height": 400
+                },
+                {
+                  "image": "/assets/projects/7code/d790f1cd74e1ee-808.webp",
+                  "width": 808,
+                  "height": 505
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a2fdcd9d44e0305cabce7af",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/c1a56d015e583a.png",
+              "alt": "7code · Brand Identity — project overview · 2",
+              "width": 1920,
+              "height": 4320,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/c1a56d015e583a-640.webp",
+                  "width": 640,
+                  "height": 1440
+                },
+                {
+                  "image": "/assets/projects/7code/c1a56d015e583a-1280.webp",
+                  "width": 1280,
+                  "height": 2880
+                },
+                {
+                  "image": "/assets/projects/7code/c1a56d015e583a-1920.webp",
+                  "width": 1920,
+                  "height": 4320
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a2fdf30d44e0305cabdb3d4",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/63b025d4609a41.png",
+              "alt": "7code · Brand Identity — project overview · 3",
+              "width": 1920,
+              "height": 7560,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/63b025d4609a41-640.webp",
+                  "width": 640,
+                  "height": 2520
+                },
+                {
+                  "image": "/assets/projects/7code/63b025d4609a41-1280.webp",
+                  "width": 1280,
+                  "height": 5040
+                },
+                {
+                  "image": "/assets/projects/7code/63b025d4609a41-1920.webp",
+                  "width": 1920,
+                  "height": 7560
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a2fdf62d44e0305cabdcccd",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/4cb31ca5b673bc.png",
+              "alt": "7code · Brand Identity — project overview · 4",
+              "width": 1920,
+              "height": 5400,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/4cb31ca5b673bc-640.webp",
+                  "width": 640,
+                  "height": 1800
+                },
+                {
+                  "image": "/assets/projects/7code/4cb31ca5b673bc-1280.webp",
+                  "width": 1280,
+                  "height": 3600
+                },
+                {
+                  "image": "/assets/projects/7code/4cb31ca5b673bc-1920.webp",
+                  "width": 1920,
+                  "height": 5400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a2fe021d44e0305cabe198d",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/a494e46464b9ad.png",
+              "alt": "7code · Brand Identity — project overview · 5",
+              "width": 1920,
+              "height": 3240,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/a494e46464b9ad-640.webp",
+                  "width": 640,
+                  "height": 1080
+                },
+                {
+                  "image": "/assets/projects/7code/a494e46464b9ad-1280.webp",
+                  "width": 1280,
+                  "height": 2160
+                },
+                {
+                  "image": "/assets/projects/7code/a494e46464b9ad-1920.webp",
+                  "width": 1920,
+                  "height": 3240
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a2fe03ad44e0305cabe1f8b",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/d090d3fa37715b.png",
+              "alt": "7code · Brand Identity — project overview · 6",
+              "width": 1920,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/d090d3fa37715b-640.webp",
+                  "width": 640,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/7code/d090d3fa37715b-1280.webp",
+                  "width": 1280,
+                  "height": 1440
+                },
+                {
+                  "image": "/assets/projects/7code/d090d3fa37715b-1920.webp",
+                  "width": 1920,
+                  "height": 2160
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a2fe04dd44e0305cabe20f5",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/c2431851a9565e.jpeg",
+              "alt": "7code · Brand Identity — project overview · 7",
+              "width": 1920,
+              "height": 11880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/c2431851a9565e-640.webp",
+                  "width": 640,
+                  "height": 3960
+                },
+                {
+                  "image": "/assets/projects/7code/c2431851a9565e-1280.webp",
+                  "width": 1280,
+                  "height": 7920
+                },
+                {
+                  "image": "/assets/projects/7code/c2431851a9565e-1920.webp",
+                  "width": 1920,
+                  "height": 11880
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a2fe0eed44e0305cabe6e9b",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/7code/d1489c73d99c15.png",
+              "alt": "7code · Brand Identity — project overview · 8",
+              "width": 1920,
+              "height": 1080,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/7code/d1489c73d99c15-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/7code/d1489c73d99c15-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/7code/d1489c73d99c15-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

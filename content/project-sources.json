@@ -1,0 +1,2386 @@
+{
+  "importedAt": "2026-11-20",
+  "projects": [
+    {
+      "slug": "lendit",
+      "source": "https://mihailboboc.com/p/lendit-case-study",
+      "sections": 38,
+      "images": 24,
+      "title": "Lendit peer-to-peer marketplace"
+    },
+    {
+      "slug": "lendit-flyers",
+      "source": "https://mihailboboc.com/p/21a999fd",
+      "sections": 5,
+      "images": 4,
+      "title": "A5 Flyers – Lendit"
+    },
+    {
+      "slug": "angen-ai",
+      "source": "https://mihailboboc.com/p/angenai",
+      "sections": 39,
+      "images": 29,
+      "title": "Angen AI"
+    },
+    {
+      "slug": "lendit-gazebo",
+      "source": "https://mihailboboc.com/p/f7fcb9e5",
+      "sections": 9,
+      "images": 8,
+      "title": "Event Gazebo Branding - Lendit"
+    },
+    {
+      "slug": "wholesum",
+      "source": "https://mihailboboc.com/p/wholesum",
+      "sections": 26,
+      "images": 16,
+      "title": "WholeSum AI-powered Analysis"
+    },
+    {
+      "slug": "lendit-branding",
+      "source": "https://mihailboboc.com/p/branding-kit-lendit",
+      "sections": 7,
+      "images": 7,
+      "title": "Brand Guidelines, Logo Design - Lendit"
+    },
+    {
+      "slug": "7code",
+      "source": "https://mihailboboc.com/p/brand-guidelines-7code",
+      "sections": 8,
+      "images": 8,
+      "title": "Brand Guidelines, Logo Design - 7code"
+    }
+  ],
+  "assets": [
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/kuFw3EHM9JRgvb7v.png",
+      "local": "/assets/projects/lendit/baa788837ab677.png",
+      "project": "lendit",
+      "width": 2430,
+      "height": 1657,
+      "bytes": 1969248,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/baa788837ab677-640.webp",
+          "width": 640,
+          "height": 436
+        },
+        {
+          "image": "/assets/projects/lendit/baa788837ab677-1280.webp",
+          "width": 1280,
+          "height": 873
+        },
+        {
+          "image": "/assets/projects/lendit/baa788837ab677-1920.webp",
+          "width": 1920,
+          "height": 1309
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/I8g0K04iUPml7mi9.png",
+      "local": "/assets/projects/lendit/b4b76737bbaed9.png",
+      "project": "lendit",
+      "width": 1120,
+      "height": 442,
+      "bytes": 38972,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/b4b76737bbaed9-640.webp",
+          "width": 640,
+          "height": 253
+        },
+        {
+          "image": "/assets/projects/lendit/b4b76737bbaed9-1120.webp",
+          "width": 1120,
+          "height": 442
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/Oe9qgq3yOSA9MC60.png",
+      "local": "/assets/projects/lendit/6c6859ab50fe13.png",
+      "project": "lendit",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 5346663,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/6c6859ab50fe13-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/lendit/6c6859ab50fe13-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/lendit/6c6859ab50fe13-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/PG6PcrdNRpoB06U1.png",
+      "local": "/assets/projects/lendit/6448691b66491f.png",
+      "project": "lendit",
+      "width": 1008,
+      "height": 1008,
+      "bytes": 51604,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/6448691b66491f-640.webp",
+          "width": 640,
+          "height": 640
+        },
+        {
+          "image": "/assets/projects/lendit/6448691b66491f-1008.webp",
+          "width": 1008,
+          "height": 1008
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/Oq4QoH5UMbXUxbME.png",
+      "local": "/assets/projects/lendit/087dea4f355ab6.png",
+      "project": "lendit",
+      "width": 1980,
+      "height": 1008,
+      "bytes": 80992,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/087dea4f355ab6-640.webp",
+          "width": 640,
+          "height": 326
+        },
+        {
+          "image": "/assets/projects/lendit/087dea4f355ab6-1280.webp",
+          "width": 1280,
+          "height": 652
+        },
+        {
+          "image": "/assets/projects/lendit/087dea4f355ab6-1920.webp",
+          "width": 1920,
+          "height": 977
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/i6711cADehVYP6ZN.png",
+      "local": "/assets/projects/lendit/49944822505444.png",
+      "project": "lendit",
+      "width": 4100,
+      "height": 1460,
+      "bytes": 849507,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/49944822505444-640.webp",
+          "width": 640,
+          "height": 228
+        },
+        {
+          "image": "/assets/projects/lendit/49944822505444-1280.webp",
+          "width": 1280,
+          "height": 456
+        },
+        {
+          "image": "/assets/projects/lendit/49944822505444-1920.webp",
+          "width": 1920,
+          "height": 684
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/ubWtm1rqeE2yc8F0.png",
+      "local": "/assets/projects/lendit/d411b866462afc.png",
+      "project": "lendit",
+      "width": 2880,
+      "height": 2214,
+      "bytes": 519616,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/d411b866462afc-640.webp",
+          "width": 640,
+          "height": 492
+        },
+        {
+          "image": "/assets/projects/lendit/d411b866462afc-1280.webp",
+          "width": 1280,
+          "height": 984
+        },
+        {
+          "image": "/assets/projects/lendit/d411b866462afc-1920.webp",
+          "width": 1920,
+          "height": 1476
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/U1YyG8jQ9AbSXxyp.png",
+      "local": "/assets/projects/lendit/287161e2870e5b.png",
+      "project": "lendit",
+      "width": 3480,
+      "height": 3480,
+      "bytes": 654697,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/287161e2870e5b-640.webp",
+          "width": 640,
+          "height": 640
+        },
+        {
+          "image": "/assets/projects/lendit/287161e2870e5b-1280.webp",
+          "width": 1280,
+          "height": 1280
+        },
+        {
+          "image": "/assets/projects/lendit/287161e2870e5b-1920.webp",
+          "width": 1920,
+          "height": 1920
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/s0Uv5wY43pUNIr4X.png",
+      "local": "/assets/projects/lendit/0dcfb98dd216a3.png",
+      "project": "lendit",
+      "width": 2720,
+      "height": 1760,
+      "bytes": 462526,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/0dcfb98dd216a3-640.webp",
+          "width": 640,
+          "height": 414
+        },
+        {
+          "image": "/assets/projects/lendit/0dcfb98dd216a3-1280.webp",
+          "width": 1280,
+          "height": 828
+        },
+        {
+          "image": "/assets/projects/lendit/0dcfb98dd216a3-1920.webp",
+          "width": 1920,
+          "height": 1242
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/8i3Ib9OaQy4megtD.png",
+      "local": "/assets/projects/lendit/5ffc49d72607ca.png",
+      "project": "lendit",
+      "width": 7724,
+      "height": 9530,
+      "bytes": 1755055,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/5ffc49d72607ca-640.webp",
+          "width": 640,
+          "height": 790
+        },
+        {
+          "image": "/assets/projects/lendit/5ffc49d72607ca-1280.webp",
+          "width": 1280,
+          "height": 1579
+        },
+        {
+          "image": "/assets/projects/lendit/5ffc49d72607ca-1920.webp",
+          "width": 1920,
+          "height": 2369
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/ru03OMVcij0aKCpk.png",
+      "local": "/assets/projects/lendit/32a1078f307173.png",
+      "project": "lendit",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 1763796,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/32a1078f307173-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/lendit/32a1078f307173-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/lendit/32a1078f307173-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/uOB2Q60TulMpakbB.png",
+      "local": "/assets/projects/lendit/3d4128c7ed544b.png",
+      "project": "lendit",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 5838998,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/3d4128c7ed544b-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/lendit/3d4128c7ed544b-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/lendit/3d4128c7ed544b-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/SA2sYiFz9TDAN3ue.webp",
+      "local": "/assets/projects/lendit/d4b167fbeb28ef.webp",
+      "project": "lendit",
+      "width": 786,
+      "height": 1701,
+      "bytes": 118154,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/d4b167fbeb28ef-640.webp",
+          "width": 640,
+          "height": 1385
+        },
+        {
+          "image": "/assets/projects/lendit/d4b167fbeb28ef-786.webp",
+          "width": 786,
+          "height": 1701
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/AvewTNvKQQTXv5QX.png",
+      "local": "/assets/projects/lendit/7644cf0c681d4e.png",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 654989,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/7644cf0c681d4e-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/7644cf0c681d4e-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/YNcrXEz7EzK0trlZ.png",
+      "local": "/assets/projects/lendit/a0e67371d6a6e3.png",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 654212,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/a0e67371d6a6e3-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/a0e67371d6a6e3-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/Rhk8kHpxZof5fL2c.png",
+      "local": "/assets/projects/lendit/d6a104e068f385.png",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 1113436,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/d6a104e068f385-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/d6a104e068f385-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/DIC3jAnKLlKwVguR.png",
+      "local": "/assets/projects/lendit/ab213cc48fae52.png",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 352758,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/ab213cc48fae52-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/ab213cc48fae52-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/68f6a79723f200144f7147f2/section-media/clipboard-image-c0589bea-ac71-4cd9-9d84-e08b1a632693.webp",
+      "local": "/assets/projects/lendit/d56a2f86870e99.webp",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 60708,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/d56a2f86870e99-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/d56a2f86870e99-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/68f6a79723f200144f7147f2/section-media/clipboard-image-5a887ae3-9170-4f3f-adf8-e16a6ef2ed81.webp",
+      "local": "/assets/projects/lendit/51333deff91c73.webp",
+      "project": "lendit",
+      "width": 786,
+      "height": 1746,
+      "bytes": 38152,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/51333deff91c73-640.webp",
+          "width": 640,
+          "height": 1422
+        },
+        {
+          "image": "/assets/projects/lendit/51333deff91c73-786.webp",
+          "width": 786,
+          "height": 1746
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/68f6a79723f200144f7147f2/section-media/clipboard-image-cb141c19-d3c4-49ee-9f50-bdb16fe894ac.webp",
+      "local": "/assets/projects/lendit/c99b6b435cbf7e.webp",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 71744,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/c99b6b435cbf7e-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/c99b6b435cbf7e-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/68f6a79723f200144f7147f2/section-media/clipboard-image-ad23c16f-590f-41c2-a51a-a89008cad50f.webp",
+      "local": "/assets/projects/lendit/7ce8e113284a4b.webp",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 23382,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/7ce8e113284a4b-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/7ce8e113284a4b-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/68f6a79723f200144f7147f2/section-media/clipboard-image-838ca145-b3ec-4fb4-8f70-d27782d2c7e7.webp",
+      "local": "/assets/projects/lendit/1884a31ce4e2d6.webp",
+      "project": "lendit",
+      "width": 786,
+      "height": 1704,
+      "bytes": 47750,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/1884a31ce4e2d6-640.webp",
+          "width": 640,
+          "height": 1387
+        },
+        {
+          "image": "/assets/projects/lendit/1884a31ce4e2d6-786.webp",
+          "width": 786,
+          "height": 1704
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/68f6a79723f200144f7147f2/section-media/clipboard-image-41784113-82c7-4544-a4f3-8224796f6d49.webp",
+      "local": "/assets/projects/lendit/9c8933cbdb72c8.webp",
+      "project": "lendit",
+      "width": 1104,
+      "height": 804,
+      "bytes": 51930,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/9c8933cbdb72c8-640.webp",
+          "width": 640,
+          "height": 466
+        },
+        {
+          "image": "/assets/projects/lendit/9c8933cbdb72c8-1104.webp",
+          "width": 1104,
+          "height": 804
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a79723f200144f7147f2/kQE34Bs0PwS25AiK.webp",
+      "local": "/assets/projects/lendit/bd59da8e84c704.webp",
+      "project": "lendit",
+      "width": 2819,
+      "height": 1353,
+      "bytes": 238712,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit/bd59da8e84c704-640.webp",
+          "width": 640,
+          "height": 307
+        },
+        {
+          "image": "/assets/projects/lendit/bd59da8e84c704-1280.webp",
+          "width": 1280,
+          "height": 614
+        },
+        {
+          "image": "/assets/projects/lendit/bd59da8e84c704-1920.webp",
+          "width": 1920,
+          "height": 922
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6ad3df1394fa5e0921a999fd/Y8XhflhDjGVq8WD4.webp",
+      "local": "/assets/projects/lendit-flyers/fb837121b39635.webp",
+      "project": "lendit-flyers",
+      "width": 2304,
+      "height": 1728,
+      "bytes": 148558,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-flyers/fb837121b39635-640.webp",
+          "width": 640,
+          "height": 480
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/fb837121b39635-1280.webp",
+          "width": 1280,
+          "height": 960
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/fb837121b39635-1920.webp",
+          "width": 1920,
+          "height": 1440
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/6ad3df1394fa5e0921a999fd/section-media/31-6acd64ba-8367-4051-bc7d-b6643208f7d8.webp",
+      "local": "/assets/projects/lendit-flyers/03725b78aca704.webp",
+      "project": "lendit-flyers",
+      "width": 2304,
+      "height": 2880,
+      "bytes": 140266,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-flyers/03725b78aca704-640.webp",
+          "width": 640,
+          "height": 800
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/03725b78aca704-1280.webp",
+          "width": 1280,
+          "height": 1600
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/03725b78aca704-1920.webp",
+          "width": 1920,
+          "height": 2400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/6ad3df1394fa5e0921a999fd/section-media/33-787af907-fbdb-458a-b08e-46433419c52d.webp",
+      "local": "/assets/projects/lendit-flyers/aa1be54e52fc33.webp",
+      "project": "lendit-flyers",
+      "width": 2304,
+      "height": 2880,
+      "bytes": 109000,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-640.webp",
+          "width": 640,
+          "height": 800
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-1280.webp",
+          "width": 1280,
+          "height": 1600
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-1920.webp",
+          "width": 1920,
+          "height": 2400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/6ad3df1394fa5e0921a999fd/section-media/34-81d6c125-8318-4540-81fb-0bfac5ce6b7b.webp",
+      "local": "/assets/projects/lendit-flyers/a5924e8a7714db.webp",
+      "project": "lendit-flyers",
+      "width": 2304,
+      "height": 2880,
+      "bytes": 133334,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-flyers/a5924e8a7714db-640.webp",
+          "width": 640,
+          "height": 800
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/a5924e8a7714db-1280.webp",
+          "width": 1280,
+          "height": 1600
+        },
+        {
+          "image": "/assets/projects/lendit-flyers/a5924e8a7714db-1920.webp",
+          "width": 1920,
+          "height": 2400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/Hg0RvIcIz27SIBs0.png",
+      "local": "/assets/projects/angen-ai/4b89d521bae932.png",
+      "project": "angen-ai",
+      "width": 2880,
+      "height": 1808,
+      "bytes": 461738,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/4b89d521bae932-640.webp",
+          "width": 640,
+          "height": 402
+        },
+        {
+          "image": "/assets/projects/angen-ai/4b89d521bae932-1280.webp",
+          "width": 1280,
+          "height": 804
+        },
+        {
+          "image": "/assets/projects/angen-ai/4b89d521bae932-1920.webp",
+          "width": 1920,
+          "height": 1205
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/8wudIWCFjbjHiNIV.png",
+      "local": "/assets/projects/angen-ai/44198db8b383ea.png",
+      "project": "angen-ai",
+      "width": 5106,
+      "height": 3290,
+      "bytes": 1194789,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/44198db8b383ea-640.webp",
+          "width": 640,
+          "height": 412
+        },
+        {
+          "image": "/assets/projects/angen-ai/44198db8b383ea-1280.webp",
+          "width": 1280,
+          "height": 825
+        },
+        {
+          "image": "/assets/projects/angen-ai/44198db8b383ea-1920.webp",
+          "width": 1920,
+          "height": 1237
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/U6kYzGSfNJAHLX1a.png",
+      "local": "/assets/projects/angen-ai/6aba07329adbe9.png",
+      "project": "angen-ai",
+      "width": 5106,
+      "height": 3290,
+      "bytes": 656421,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/6aba07329adbe9-640.webp",
+          "width": 640,
+          "height": 412
+        },
+        {
+          "image": "/assets/projects/angen-ai/6aba07329adbe9-1280.webp",
+          "width": 1280,
+          "height": 825
+        },
+        {
+          "image": "/assets/projects/angen-ai/6aba07329adbe9-1920.webp",
+          "width": 1920,
+          "height": 1237
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/gfXkdQsPUkXJfCJF.png",
+      "local": "/assets/projects/angen-ai/8971a45334dc32.png",
+      "project": "angen-ai",
+      "width": 1689,
+      "height": 1680,
+      "bytes": 63596,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/8971a45334dc32-640.webp",
+          "width": 640,
+          "height": 637
+        },
+        {
+          "image": "/assets/projects/angen-ai/8971a45334dc32-1280.webp",
+          "width": 1280,
+          "height": 1273
+        },
+        {
+          "image": "/assets/projects/angen-ai/8971a45334dc32-1689.webp",
+          "width": 1689,
+          "height": 1680
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/38WveGaE8Slw6rOg.png",
+      "local": "/assets/projects/angen-ai/5a48c7937feaf4.png",
+      "project": "angen-ai",
+      "width": 1600,
+      "height": 775,
+      "bytes": 50679,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/5a48c7937feaf4-640.webp",
+          "width": 640,
+          "height": 310
+        },
+        {
+          "image": "/assets/projects/angen-ai/5a48c7937feaf4-1280.webp",
+          "width": 1280,
+          "height": 620
+        },
+        {
+          "image": "/assets/projects/angen-ai/5a48c7937feaf4-1600.webp",
+          "width": 1600,
+          "height": 775
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/gLXLJhM2JugKvkXR.png",
+      "local": "/assets/projects/angen-ai/d631842a7736b2.png",
+      "project": "angen-ai",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 164481,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/d631842a7736b2-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/angen-ai/d631842a7736b2-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/angen-ai/d631842a7736b2-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/slatfFypzrRCh6Qv.png",
+      "local": "/assets/projects/angen-ai/06500d084b0c87.png",
+      "project": "angen-ai",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 162803,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/06500d084b0c87-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/angen-ai/06500d084b0c87-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/angen-ai/06500d084b0c87-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/E9OdeEH5LaQVsUuE.png",
+      "local": "/assets/projects/angen-ai/50dfc9bf70e323.png",
+      "project": "angen-ai",
+      "width": 3840,
+      "height": 2160,
+      "bytes": 162823,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/50dfc9bf70e323-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/angen-ai/50dfc9bf70e323-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/angen-ai/50dfc9bf70e323-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/NDbnbsbsAi9dTeh7.png",
+      "local": "/assets/projects/angen-ai/c3d9ea33dce683.png",
+      "project": "angen-ai",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 90698,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/c3d9ea33dce683-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/angen-ai/c3d9ea33dce683-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/angen-ai/c3d9ea33dce683-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/UVHBn8DJlMwmFS37.png",
+      "local": "/assets/projects/angen-ai/5171e80f98ec0c.png",
+      "project": "angen-ai",
+      "width": 1977,
+      "height": 1549,
+      "bytes": 136854,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/5171e80f98ec0c-640.webp",
+          "width": 640,
+          "height": 501
+        },
+        {
+          "image": "/assets/projects/angen-ai/5171e80f98ec0c-1280.webp",
+          "width": 1280,
+          "height": 1003
+        },
+        {
+          "image": "/assets/projects/angen-ai/5171e80f98ec0c-1920.webp",
+          "width": 1920,
+          "height": 1504
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/CEMBbl6iidUTBvdW.png",
+      "local": "/assets/projects/angen-ai/ac7cc0d96b3ff9.png",
+      "project": "angen-ai",
+      "width": 3800,
+      "height": 1720,
+      "bytes": 506452,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/ac7cc0d96b3ff9-640.webp",
+          "width": 640,
+          "height": 290
+        },
+        {
+          "image": "/assets/projects/angen-ai/ac7cc0d96b3ff9-1280.webp",
+          "width": 1280,
+          "height": 579
+        },
+        {
+          "image": "/assets/projects/angen-ai/ac7cc0d96b3ff9-1920.webp",
+          "width": 1920,
+          "height": 869
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/F384vCczRZHcULZu.png",
+      "local": "/assets/projects/angen-ai/e65266200ac4ff.png",
+      "project": "angen-ai",
+      "width": 2984,
+      "height": 1998,
+      "bytes": 480321,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/e65266200ac4ff-640.webp",
+          "width": 640,
+          "height": 429
+        },
+        {
+          "image": "/assets/projects/angen-ai/e65266200ac4ff-1280.webp",
+          "width": 1280,
+          "height": 857
+        },
+        {
+          "image": "/assets/projects/angen-ai/e65266200ac4ff-1920.webp",
+          "width": 1920,
+          "height": 1286
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/ect864wK2YiQS4LV.png",
+      "local": "/assets/projects/angen-ai/33781123192059.png",
+      "project": "angen-ai",
+      "width": 2984,
+      "height": 1912,
+      "bytes": 240205,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/33781123192059-640.webp",
+          "width": 640,
+          "height": 410
+        },
+        {
+          "image": "/assets/projects/angen-ai/33781123192059-1280.webp",
+          "width": 1280,
+          "height": 820
+        },
+        {
+          "image": "/assets/projects/angen-ai/33781123192059-1920.webp",
+          "width": 1920,
+          "height": 1230
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/L827mcK1s55s6OLF.png",
+      "local": "/assets/projects/angen-ai/19a381fcfb8c4d.png",
+      "project": "angen-ai",
+      "width": 2984,
+      "height": 1912,
+      "bytes": 481780,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/19a381fcfb8c4d-640.webp",
+          "width": 640,
+          "height": 410
+        },
+        {
+          "image": "/assets/projects/angen-ai/19a381fcfb8c4d-1280.webp",
+          "width": 1280,
+          "height": 820
+        },
+        {
+          "image": "/assets/projects/angen-ai/19a381fcfb8c4d-1920.webp",
+          "width": 1920,
+          "height": 1230
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/KeZ5r5XFkJT5uuwA.png",
+      "local": "/assets/projects/angen-ai/666d96fbe5f930.png",
+      "project": "angen-ai",
+      "width": 2349,
+      "height": 1296,
+      "bytes": 402765,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/666d96fbe5f930-640.webp",
+          "width": 640,
+          "height": 353
+        },
+        {
+          "image": "/assets/projects/angen-ai/666d96fbe5f930-1280.webp",
+          "width": 1280,
+          "height": 706
+        },
+        {
+          "image": "/assets/projects/angen-ai/666d96fbe5f930-1920.webp",
+          "width": 1920,
+          "height": 1059
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/8ziqezLQB7QV7YlT.png",
+      "local": "/assets/projects/angen-ai/3ab00e0bbd41d1.png",
+      "project": "angen-ai",
+      "width": 2980,
+      "height": 1160,
+      "bytes": 197910,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/3ab00e0bbd41d1-640.webp",
+          "width": 640,
+          "height": 249
+        },
+        {
+          "image": "/assets/projects/angen-ai/3ab00e0bbd41d1-1280.webp",
+          "width": 1280,
+          "height": 498
+        },
+        {
+          "image": "/assets/projects/angen-ai/3ab00e0bbd41d1-1920.webp",
+          "width": 1920,
+          "height": 747
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/iiBTyPDFAEXqyBg6.png",
+      "local": "/assets/projects/angen-ai/8bf352e565baf6.png",
+      "project": "angen-ai",
+      "width": 3872,
+      "height": 1914,
+      "bytes": 1084423,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/8bf352e565baf6-640.webp",
+          "width": 640,
+          "height": 316
+        },
+        {
+          "image": "/assets/projects/angen-ai/8bf352e565baf6-1280.webp",
+          "width": 1280,
+          "height": 633
+        },
+        {
+          "image": "/assets/projects/angen-ai/8bf352e565baf6-1920.webp",
+          "width": 1920,
+          "height": 949
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/PVd9qfyRveCf8Nfp.png",
+      "local": "/assets/projects/angen-ai/477e5002b96468.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 484092,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/477e5002b96468-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/477e5002b96468-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/477e5002b96468-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/Sj4fiblypQjeXf3m.png",
+      "local": "/assets/projects/angen-ai/8b13e0dbf004e5.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 271524,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/8b13e0dbf004e5-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/8b13e0dbf004e5-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/8b13e0dbf004e5-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/cEdR5gCuwrttvtHX.png",
+      "local": "/assets/projects/angen-ai/9620ab7e38492e.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 473054,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/9620ab7e38492e-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/9620ab7e38492e-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/9620ab7e38492e-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/sJvYSrBuzrKT6gcO.png",
+      "local": "/assets/projects/angen-ai/38e825c1c616e2.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 605068,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/38e825c1c616e2-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/38e825c1c616e2-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/38e825c1c616e2-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/jGMqWb46BDpLDq2x.png",
+      "local": "/assets/projects/angen-ai/f074fccd3e6168.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 430595,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/f074fccd3e6168-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/f074fccd3e6168-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/f074fccd3e6168-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/6AjlEip4gtd8uXnz.png",
+      "local": "/assets/projects/angen-ai/fb888d6f3ba5d8.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 3630531,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/mNbdNhtAOPpUutA6.png",
+      "local": "/assets/projects/angen-ai/fc71caf7a8df9c.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 509314,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/fc71caf7a8df9c-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/fc71caf7a8df9c-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/fc71caf7a8df9c-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/SslojelgMpnjYZxp.png",
+      "local": "/assets/projects/angen-ai/626ca5b7ce5e78.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 2723034,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/626ca5b7ce5e78-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/626ca5b7ce5e78-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/626ca5b7ce5e78-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/COEKi2Rya6yxEw1o.png",
+      "local": "/assets/projects/angen-ai/75f20755d8c10d.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 523550,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/75f20755d8c10d-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/75f20755d8c10d-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/75f20755d8c10d-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/sDiI0zu74MBsz5A6.png",
+      "local": "/assets/projects/angen-ai/4de1decde17573.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 1272989,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/4de1decde17573-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/4de1decde17573-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/4de1decde17573-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/H3hCs0LytMUSFSI3.png",
+      "local": "/assets/projects/angen-ai/f3be143d9edd3e.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 474737,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/f3be143d9edd3e-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/f3be143d9edd3e-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/f3be143d9edd3e-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7b423f200144f714b1d/9NymwVk8MiIiJjLL.png",
+      "local": "/assets/projects/angen-ai/3282c214ea8d57.png",
+      "project": "angen-ai",
+      "width": 3456,
+      "height": 1808,
+      "bytes": 3642625,
+      "variants": [
+        {
+          "image": "/assets/projects/angen-ai/3282c214ea8d57-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/angen-ai/3282c214ea8d57-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/angen-ai/3282c214ea8d57-1920.webp",
+          "width": 1920,
+          "height": 1004
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6ad614735766946ff7fcb9e5/HacxdtRAlsZquFiX.webp",
+      "local": "/assets/projects/lendit-gazebo/ae12ececf4825b.webp",
+      "project": "lendit-gazebo",
+      "width": 2304,
+      "height": 1728,
+      "bytes": 122742,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/ae12ececf4825b-640.webp",
+          "width": 640,
+          "height": 480
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/ae12ececf4825b-1280.webp",
+          "width": 1280,
+          "height": 960
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/ae12ececf4825b-1920.webp",
+          "width": 1920,
+          "height": 1440
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6ad614735766946ff7fcb9e5/3U7dyUcg6lAEWLDE.webp",
+      "local": "/assets/projects/lendit-gazebo/49683e896a1186.webp",
+      "project": "lendit-gazebo",
+      "width": 2160,
+      "height": 2307,
+      "bytes": 501918,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/49683e896a1186-640.webp",
+          "width": 640,
+          "height": 684
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/49683e896a1186-1280.webp",
+          "width": 1280,
+          "height": 1367
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/49683e896a1186-1920.webp",
+          "width": 1920,
+          "height": 2051
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/6ad614735766946ff7fcb9e5/section-media/3-c0a4bccf-7be6-45de-a06b-4b508665513d.webp",
+      "local": "/assets/projects/lendit-gazebo/8ea87c6e1305d0.webp",
+      "project": "lendit-gazebo",
+      "width": 2304,
+      "height": 2880,
+      "bytes": 83146,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-640.webp",
+          "width": 640,
+          "height": 800
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-1280.webp",
+          "width": 1280,
+          "height": 1600
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-1920.webp",
+          "width": 1920,
+          "height": 2400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/6ad614735766946ff7fcb9e5/section-media/4-fd76d825-7bea-47ef-9e3a-9ff7bf198c11.webp",
+      "local": "/assets/projects/lendit-gazebo/d997341dae1f62.webp",
+      "project": "lendit-gazebo",
+      "width": 2304,
+      "height": 2880,
+      "bytes": 179192,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/d997341dae1f62-640.webp",
+          "width": 640,
+          "height": 800
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/d997341dae1f62-1280.webp",
+          "width": 1280,
+          "height": 1600
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/d997341dae1f62-1920.webp",
+          "width": 1920,
+          "height": 2400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/6ad614735766946ff7fcb9e5/section-media/6-77b4c34c-5139-4c58-bf83-b267be309719.webp",
+      "local": "/assets/projects/lendit-gazebo/262c2f4d351838.webp",
+      "project": "lendit-gazebo",
+      "width": 2304,
+      "height": 2880,
+      "bytes": 113160,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/262c2f4d351838-640.webp",
+          "width": 640,
+          "height": 800
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/262c2f4d351838-1280.webp",
+          "width": 1280,
+          "height": 1600
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/262c2f4d351838-1920.webp",
+          "width": 1920,
+          "height": 2400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/uploads/processed/683478eb432df51a85c1e108/project/6ad614735766946ff7fcb9e5/section-media/5-821950e6-e842-4710-8b78-9f57839a9035.webp",
+      "local": "/assets/projects/lendit-gazebo/6e3cff7d207f80.webp",
+      "project": "lendit-gazebo",
+      "width": 2304,
+      "height": 2880,
+      "bytes": 89758,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-640.webp",
+          "width": 640,
+          "height": 800
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-1280.webp",
+          "width": 1280,
+          "height": 1600
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-1920.webp",
+          "width": 1920,
+          "height": 2400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6ad614735766946ff7fcb9e5/aD3nwCHc9llg011f.webp",
+      "local": "/assets/projects/lendit-gazebo/f9d7abb769acbb.webp",
+      "project": "lendit-gazebo",
+      "width": 2304,
+      "height": 2620,
+      "bytes": 66388,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-640.webp",
+          "width": 640,
+          "height": 728
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-1280.webp",
+          "width": 1280,
+          "height": 1456
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-1920.webp",
+          "width": 1920,
+          "height": 2183
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6ad614735766946ff7fcb9e5/RzjnAbNMJVrt1yiz.webp",
+      "local": "/assets/projects/lendit-gazebo/b1830c29f73021.webp",
+      "project": "lendit-gazebo",
+      "width": 2304,
+      "height": 1879,
+      "bytes": 62088,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-gazebo/b1830c29f73021-640.webp",
+          "width": 640,
+          "height": 522
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/b1830c29f73021-1280.webp",
+          "width": 1280,
+          "height": 1044
+        },
+        {
+          "image": "/assets/projects/lendit-gazebo/b1830c29f73021-1920.webp",
+          "width": 1920,
+          "height": 1566
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/pROh2ufRbohQKyRW.png",
+      "local": "/assets/projects/wholesum/e0139ed9b07b01.png",
+      "project": "wholesum",
+      "width": 1440,
+      "height": 5999,
+      "bytes": 1972757,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/e0139ed9b07b01-640.webp",
+          "width": 640,
+          "height": 2666
+        },
+        {
+          "image": "/assets/projects/wholesum/e0139ed9b07b01-1280.webp",
+          "width": 1280,
+          "height": 5332
+        },
+        {
+          "image": "/assets/projects/wholesum/e0139ed9b07b01-1440.webp",
+          "width": 1440,
+          "height": 5999
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/Hw254VwU3oS2JzAl.png",
+      "local": "/assets/projects/wholesum/f80bd81d52136a.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 1140,
+      "bytes": 582101,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/f80bd81d52136a-640.webp",
+          "width": 640,
+          "height": 253
+        },
+        {
+          "image": "/assets/projects/wholesum/f80bd81d52136a-1280.webp",
+          "width": 1280,
+          "height": 507
+        },
+        {
+          "image": "/assets/projects/wholesum/f80bd81d52136a-1920.webp",
+          "width": 1920,
+          "height": 760
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/AJ94TPFbY6plb1fG.png",
+      "local": "/assets/projects/wholesum/b36bf9a4f420d3.png",
+      "project": "wholesum",
+      "width": 2570,
+      "height": 1346,
+      "bytes": 598042,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/b36bf9a4f420d3-640.webp",
+          "width": 640,
+          "height": 335
+        },
+        {
+          "image": "/assets/projects/wholesum/b36bf9a4f420d3-1280.webp",
+          "width": 1280,
+          "height": 670
+        },
+        {
+          "image": "/assets/projects/wholesum/b36bf9a4f420d3-1920.webp",
+          "width": 1920,
+          "height": 1006
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/kC1D9U5q32WjWnBb.png",
+      "local": "/assets/projects/wholesum/85f4b1b7ec4841.png",
+      "project": "wholesum",
+      "width": 2160,
+      "height": 1378,
+      "bytes": 1240995,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/85f4b1b7ec4841-640.webp",
+          "width": 640,
+          "height": 408
+        },
+        {
+          "image": "/assets/projects/wholesum/85f4b1b7ec4841-1280.webp",
+          "width": 1280,
+          "height": 817
+        },
+        {
+          "image": "/assets/projects/wholesum/85f4b1b7ec4841-1920.webp",
+          "width": 1920,
+          "height": 1225
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/wDrZtPKt3eAYGQ3k.png",
+      "local": "/assets/projects/wholesum/217d11055aeac6.png",
+      "project": "wholesum",
+      "width": 2160,
+      "height": 1378,
+      "bytes": 1559056,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/217d11055aeac6-640.webp",
+          "width": 640,
+          "height": 408
+        },
+        {
+          "image": "/assets/projects/wholesum/217d11055aeac6-1280.webp",
+          "width": 1280,
+          "height": 817
+        },
+        {
+          "image": "/assets/projects/wholesum/217d11055aeac6-1920.webp",
+          "width": 1920,
+          "height": 1225
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/ExLGMlX3gXivU6r6.png",
+      "local": "/assets/projects/wholesum/ae848b76cc6b0f.png",
+      "project": "wholesum",
+      "width": 7652,
+      "height": 1668,
+      "bytes": 430624,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/ae848b76cc6b0f-640.webp",
+          "width": 640,
+          "height": 140
+        },
+        {
+          "image": "/assets/projects/wholesum/ae848b76cc6b0f-1280.webp",
+          "width": 1280,
+          "height": 279
+        },
+        {
+          "image": "/assets/projects/wholesum/ae848b76cc6b0f-1920.webp",
+          "width": 1920,
+          "height": 419
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/cS3JjzQVPDDXdGEJ.png",
+      "local": "/assets/projects/wholesum/c6805580fc2a52.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 10300,
+      "bytes": 1336990,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/c6805580fc2a52-640.webp",
+          "width": 640,
+          "height": 2289
+        },
+        {
+          "image": "/assets/projects/wholesum/c6805580fc2a52-1280.webp",
+          "width": 1280,
+          "height": 4578
+        },
+        {
+          "image": "/assets/projects/wholesum/c6805580fc2a52-1920.webp",
+          "width": 1920,
+          "height": 6867
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/5NqP1mEchJKG1wsD.png",
+      "local": "/assets/projects/wholesum/f942b53d897a56.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 3790,
+      "bytes": 600519,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/f942b53d897a56-640.webp",
+          "width": 640,
+          "height": 842
+        },
+        {
+          "image": "/assets/projects/wholesum/f942b53d897a56-1280.webp",
+          "width": 1280,
+          "height": 1684
+        },
+        {
+          "image": "/assets/projects/wholesum/f942b53d897a56-1920.webp",
+          "width": 1920,
+          "height": 2527
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/hlC8c4XFcR868NLT.png",
+      "local": "/assets/projects/wholesum/07f1218430ca3f.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 1974,
+      "bytes": 309933,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/07f1218430ca3f-640.webp",
+          "width": 640,
+          "height": 439
+        },
+        {
+          "image": "/assets/projects/wholesum/07f1218430ca3f-1280.webp",
+          "width": 1280,
+          "height": 877
+        },
+        {
+          "image": "/assets/projects/wholesum/07f1218430ca3f-1920.webp",
+          "width": 1920,
+          "height": 1316
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/OXsnV5MTIy7WlJSg.png",
+      "local": "/assets/projects/wholesum/7400356f252519.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 4764,
+      "bytes": 765332,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/7400356f252519-640.webp",
+          "width": 640,
+          "height": 1059
+        },
+        {
+          "image": "/assets/projects/wholesum/7400356f252519-1280.webp",
+          "width": 1280,
+          "height": 2117
+        },
+        {
+          "image": "/assets/projects/wholesum/7400356f252519-1920.webp",
+          "width": 1920,
+          "height": 3176
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/oW7fKPntEQNL27Xc.png",
+      "local": "/assets/projects/wholesum/cd126d7b8fcb05.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 2194,
+      "bytes": 385665,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/cd126d7b8fcb05-640.webp",
+          "width": 640,
+          "height": 488
+        },
+        {
+          "image": "/assets/projects/wholesum/cd126d7b8fcb05-1280.webp",
+          "width": 1280,
+          "height": 975
+        },
+        {
+          "image": "/assets/projects/wholesum/cd126d7b8fcb05-1920.webp",
+          "width": 1920,
+          "height": 1463
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/4N1G2wPy6sN46V5U.png",
+      "local": "/assets/projects/wholesum/71fc17b0ab9f21.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 2296,
+      "bytes": 620300,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/71fc17b0ab9f21-640.webp",
+          "width": 640,
+          "height": 510
+        },
+        {
+          "image": "/assets/projects/wholesum/71fc17b0ab9f21-1280.webp",
+          "width": 1280,
+          "height": 1020
+        },
+        {
+          "image": "/assets/projects/wholesum/71fc17b0ab9f21-1920.webp",
+          "width": 1920,
+          "height": 1531
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/8zLYVHed5T1VL30n.png",
+      "local": "/assets/projects/wholesum/1244b499601ea0.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 5944,
+      "bytes": 850391,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/1244b499601ea0-640.webp",
+          "width": 640,
+          "height": 1321
+        },
+        {
+          "image": "/assets/projects/wholesum/1244b499601ea0-1280.webp",
+          "width": 1280,
+          "height": 2642
+        },
+        {
+          "image": "/assets/projects/wholesum/1244b499601ea0-1920.webp",
+          "width": 1920,
+          "height": 3963
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/bqP7gL9EUyMhqu2V.png",
+      "local": "/assets/projects/wholesum/1625f535fa093e.png",
+      "project": "wholesum",
+      "width": 4418,
+      "height": 3897,
+      "bytes": 1114411,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/1625f535fa093e-640.webp",
+          "width": 640,
+          "height": 565
+        },
+        {
+          "image": "/assets/projects/wholesum/1625f535fa093e-1280.webp",
+          "width": 1280,
+          "height": 1129
+        },
+        {
+          "image": "/assets/projects/wholesum/1625f535fa093e-1920.webp",
+          "width": 1920,
+          "height": 1694
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/Wg9t0dMHX5XsS08K.png",
+      "local": "/assets/projects/wholesum/6375357ccfa1ce.png",
+      "project": "wholesum",
+      "width": 4320,
+      "height": 3193,
+      "bytes": 880722,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/6375357ccfa1ce-640.webp",
+          "width": 640,
+          "height": 473
+        },
+        {
+          "image": "/assets/projects/wholesum/6375357ccfa1ce-1280.webp",
+          "width": 1280,
+          "height": 946
+        },
+        {
+          "image": "/assets/projects/wholesum/6375357ccfa1ce-1920.webp",
+          "width": 1920,
+          "height": 1419
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/68f6a7c423f200144f715055/hjE55cFPpIr8ZroC.png",
+      "local": "/assets/projects/wholesum/c7ea61d53e727d.png",
+      "project": "wholesum",
+      "width": 2880,
+      "height": 4638,
+      "bytes": 830331,
+      "variants": [
+        {
+          "image": "/assets/projects/wholesum/c7ea61d53e727d-640.webp",
+          "width": 640,
+          "height": 1031
+        },
+        {
+          "image": "/assets/projects/wholesum/c7ea61d53e727d-1280.webp",
+          "width": 1280,
+          "height": 2061
+        },
+        {
+          "image": "/assets/projects/wholesum/c7ea61d53e727d-1920.webp",
+          "width": 1920,
+          "height": 3092
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a30354cd44e0305cae44867/hdfDfOuUw6xv00US.jpeg",
+      "local": "/assets/projects/lendit-branding/9aef48dc4664eb.jpeg",
+      "project": "lendit-branding",
+      "width": 4096,
+      "height": 2302,
+      "bytes": 416217,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-branding/9aef48dc4664eb-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/lendit-branding/9aef48dc4664eb-1280.webp",
+          "width": 1280,
+          "height": 719
+        },
+        {
+          "image": "/assets/projects/lendit-branding/9aef48dc4664eb-1920.webp",
+          "width": 1920,
+          "height": 1079
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a30354cd44e0305cae44867/tY5ShokccUn5opaL.png",
+      "local": "/assets/projects/lendit-branding/7d4227840b5e63.png",
+      "project": "lendit-branding",
+      "width": 1920,
+      "height": 4500,
+      "bytes": 1512481,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-branding/7d4227840b5e63-640.webp",
+          "width": 640,
+          "height": 1500
+        },
+        {
+          "image": "/assets/projects/lendit-branding/7d4227840b5e63-1280.webp",
+          "width": 1280,
+          "height": 3000
+        },
+        {
+          "image": "/assets/projects/lendit-branding/7d4227840b5e63-1920.webp",
+          "width": 1920,
+          "height": 4500
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a30354cd44e0305cae44867/N8ZiPAp1Roaj8afL.png",
+      "local": "/assets/projects/lendit-branding/f302e4f5bd0919.png",
+      "project": "lendit-branding",
+      "width": 1920,
+      "height": 8640,
+      "bytes": 2777288,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-branding/f302e4f5bd0919-640.webp",
+          "width": 640,
+          "height": 2880
+        },
+        {
+          "image": "/assets/projects/lendit-branding/f302e4f5bd0919-1280.webp",
+          "width": 1280,
+          "height": 5760
+        },
+        {
+          "image": "/assets/projects/lendit-branding/f302e4f5bd0919-1920.webp",
+          "width": 1920,
+          "height": 8640
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a30354cd44e0305cae44867/6CoU11HfO95Yk0Ps.png",
+      "local": "/assets/projects/lendit-branding/60454e198532a4.png",
+      "project": "lendit-branding",
+      "width": 1920,
+      "height": 2160,
+      "bytes": 2437485,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-branding/60454e198532a4-640.webp",
+          "width": 640,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/lendit-branding/60454e198532a4-1280.webp",
+          "width": 1280,
+          "height": 1440
+        },
+        {
+          "image": "/assets/projects/lendit-branding/60454e198532a4-1920.webp",
+          "width": 1920,
+          "height": 2160
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a30354cd44e0305cae44867/sHeSKo45TJ0uVT5D.png",
+      "local": "/assets/projects/lendit-branding/503542665f4087.png",
+      "project": "lendit-branding",
+      "width": 1920,
+      "height": 3240,
+      "bytes": 2462304,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-branding/503542665f4087-640.webp",
+          "width": 640,
+          "height": 1080
+        },
+        {
+          "image": "/assets/projects/lendit-branding/503542665f4087-1280.webp",
+          "width": 1280,
+          "height": 2160
+        },
+        {
+          "image": "/assets/projects/lendit-branding/503542665f4087-1920.webp",
+          "width": 1920,
+          "height": 3240
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a30354cd44e0305cae44867/YTqKPyRWzg9Fky2q.png",
+      "local": "/assets/projects/lendit-branding/54051d186c5927.png",
+      "project": "lendit-branding",
+      "width": 1920,
+      "height": 4320,
+      "bytes": 2761494,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-branding/54051d186c5927-640.webp",
+          "width": 640,
+          "height": 1440
+        },
+        {
+          "image": "/assets/projects/lendit-branding/54051d186c5927-1280.webp",
+          "width": 1280,
+          "height": 2880
+        },
+        {
+          "image": "/assets/projects/lendit-branding/54051d186c5927-1920.webp",
+          "width": 1920,
+          "height": 4320
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a30354cd44e0305cae44867/nHCTWeCchkvIelVm.png",
+      "local": "/assets/projects/lendit-branding/981306895d22d3.png",
+      "project": "lendit-branding",
+      "width": 1920,
+      "height": 4320,
+      "bytes": 3259227,
+      "variants": [
+        {
+          "image": "/assets/projects/lendit-branding/981306895d22d3-640.webp",
+          "width": 640,
+          "height": 1440
+        },
+        {
+          "image": "/assets/projects/lendit-branding/981306895d22d3-1280.webp",
+          "width": 1280,
+          "height": 2880
+        },
+        {
+          "image": "/assets/projects/lendit-branding/981306895d22d3-1920.webp",
+          "width": 1920,
+          "height": 4320
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/5PoJGMeqLw2Qr0rR.jpeg",
+      "local": "/assets/projects/7code/d790f1cd74e1ee.jpeg",
+      "project": "7code",
+      "width": 808,
+      "height": 505,
+      "bytes": 335697,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/d790f1cd74e1ee-640.webp",
+          "width": 640,
+          "height": 400
+        },
+        {
+          "image": "/assets/projects/7code/d790f1cd74e1ee-808.webp",
+          "width": 808,
+          "height": 505
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/YsSWmi7rdNrZx8lf.png",
+      "local": "/assets/projects/7code/c1a56d015e583a.png",
+      "project": "7code",
+      "width": 1920,
+      "height": 4320,
+      "bytes": 5120533,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/c1a56d015e583a-640.webp",
+          "width": 640,
+          "height": 1440
+        },
+        {
+          "image": "/assets/projects/7code/c1a56d015e583a-1280.webp",
+          "width": 1280,
+          "height": 2880
+        },
+        {
+          "image": "/assets/projects/7code/c1a56d015e583a-1920.webp",
+          "width": 1920,
+          "height": 4320
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/gJNT0SUOv0Nfy8sl.png",
+      "local": "/assets/projects/7code/63b025d4609a41.png",
+      "project": "7code",
+      "width": 1920,
+      "height": 7560,
+      "bytes": 6548575,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/63b025d4609a41-640.webp",
+          "width": 640,
+          "height": 2520
+        },
+        {
+          "image": "/assets/projects/7code/63b025d4609a41-1280.webp",
+          "width": 1280,
+          "height": 5040
+        },
+        {
+          "image": "/assets/projects/7code/63b025d4609a41-1920.webp",
+          "width": 1920,
+          "height": 7560
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/rvmtSc3zNaK3UbX8.png",
+      "local": "/assets/projects/7code/4cb31ca5b673bc.png",
+      "project": "7code",
+      "width": 1920,
+      "height": 5400,
+      "bytes": 5173416,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/4cb31ca5b673bc-640.webp",
+          "width": 640,
+          "height": 1800
+        },
+        {
+          "image": "/assets/projects/7code/4cb31ca5b673bc-1280.webp",
+          "width": 1280,
+          "height": 3600
+        },
+        {
+          "image": "/assets/projects/7code/4cb31ca5b673bc-1920.webp",
+          "width": 1920,
+          "height": 5400
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/RHtx6b63Kyw3vSrs.png",
+      "local": "/assets/projects/7code/a494e46464b9ad.png",
+      "project": "7code",
+      "width": 1920,
+      "height": 3240,
+      "bytes": 4625314,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/a494e46464b9ad-640.webp",
+          "width": 640,
+          "height": 1080
+        },
+        {
+          "image": "/assets/projects/7code/a494e46464b9ad-1280.webp",
+          "width": 1280,
+          "height": 2160
+        },
+        {
+          "image": "/assets/projects/7code/a494e46464b9ad-1920.webp",
+          "width": 1920,
+          "height": 3240
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/3OqFf3X0Cj1UaaE5.png",
+      "local": "/assets/projects/7code/d090d3fa37715b.png",
+      "project": "7code",
+      "width": 1920,
+      "height": 2160,
+      "bytes": 4600281,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/d090d3fa37715b-640.webp",
+          "width": 640,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/7code/d090d3fa37715b-1280.webp",
+          "width": 1280,
+          "height": 1440
+        },
+        {
+          "image": "/assets/projects/7code/d090d3fa37715b-1920.webp",
+          "width": 1920,
+          "height": 2160
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/9hzobpkJcmd2LOTS.jpeg",
+      "local": "/assets/projects/7code/c2431851a9565e.jpeg",
+      "project": "7code",
+      "width": 1920,
+      "height": 11880,
+      "bytes": 2199004,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/c2431851a9565e-640.webp",
+          "width": 640,
+          "height": 3960
+        },
+        {
+          "image": "/assets/projects/7code/c2431851a9565e-1280.webp",
+          "width": 1280,
+          "height": 7920
+        },
+        {
+          "image": "/assets/projects/7code/c2431851a9565e-1920.webp",
+          "width": 1920,
+          "height": 11880
+        }
+      ]
+    },
+    {
+      "url": "https://uxfolio-prod.s3.us-east-1.amazonaws.com/683478eb432df51a85c1e108/6a2fdcc5d44e0305cabcd76b/fKIhHQqud6UVc2p9.png",
+      "local": "/assets/projects/7code/d1489c73d99c15.png",
+      "project": "7code",
+      "width": 1920,
+      "height": 1080,
+      "bytes": 4597698,
+      "variants": [
+        {
+          "image": "/assets/projects/7code/d1489c73d99c15-640.webp",
+          "width": 640,
+          "height": 360
+        },
+        {
+          "image": "/assets/projects/7code/d1489c73d99c15-1280.webp",
+          "width": 1280,
+          "height": 720
+        },
+        {
+          "image": "/assets/projects/7code/d1489c73d99c15-1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ]
+    }
+  ]
+}

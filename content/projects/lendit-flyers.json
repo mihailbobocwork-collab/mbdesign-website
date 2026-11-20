@@ -1,0 +1,180 @@
+{
+  "slug": "lendit-flyers",
+  "name": "Lendit · A5 Flyers",
+  "title": "A5 Flyers – Lendit",
+  "summary": "A set of A5 leaflets for Lendit, a UK app that helps neighbours borrow and lend everyday things.",
+  "category": "Print Design",
+  "kind": "graphic",
+  "order": 1,
+  "image": "/assets/projects/lendit-flyers/fb837121b39635.webp",
+  "imageAlt": "Lendit · A5 Flyers — project overview · 1",
+  "status": "Published project",
+  "source": "https://mihailboboc.com/p/21a999fd",
+  "importedAt": "2026-11-20",
+  "sections": [
+    {
+      "id": "section-6ad3e36794fa5e0921aa42c8",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-flyers/fb837121b39635.webp",
+              "alt": "Lendit · A5 Flyers — project overview · 1",
+              "width": 2304,
+              "height": 1728,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-flyers/fb837121b39635-640.webp",
+                  "width": 640,
+                  "height": 480
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/fb837121b39635-1280.webp",
+                  "width": 1280,
+                  "height": 960
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/fb837121b39635-1920.webp",
+                  "width": 1920,
+                  "height": 1440
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad3e2ac94fa5e0921aa2dc7",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 9,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Overview</h2><p>Each leaflet has one clear job: get people borrowing, get people lending what’s already in their shed, or show existing lenders why they’d keep more on Lendit. We kept the copy short, used real app screens and photos of real handovers, and added local QR codes so every leaflet feels like it’s from the neighbourhood.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad3df4594fa5e0921a99ed2",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-flyers/03725b78aca704.webp",
+              "alt": "Lendit · A5 Flyers — Overview · 2",
+              "width": 2304,
+              "height": 2880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-flyers/03725b78aca704-640.webp",
+                  "width": 640,
+                  "height": 800
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/03725b78aca704-1280.webp",
+                  "width": 1280,
+                  "height": 1600
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/03725b78aca704-1920.webp",
+                  "width": 1920,
+                  "height": 2400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad3df6d94fa5e0921a9a533",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-flyers/aa1be54e52fc33.webp",
+              "alt": "Lendit · A5 Flyers — Overview · 3",
+              "width": 2304,
+              "height": 2880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-640.webp",
+                  "width": 640,
+                  "height": 800
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-1280.webp",
+                  "width": 1280,
+                  "height": 1600
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-1920.webp",
+                  "width": 1920,
+                  "height": 2400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6ad3df8994fa5e0921a9abc7",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit-flyers/a5924e8a7714db.webp",
+              "alt": "Lendit · A5 Flyers — Overview · 4",
+              "width": 2304,
+              "height": 2880,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit-flyers/a5924e8a7714db-640.webp",
+                  "width": 640,
+                  "height": 800
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/a5924e8a7714db-1280.webp",
+                  "width": 1280,
+                  "height": 1600
+                },
+                {
+                  "image": "/assets/projects/lendit-flyers/a5924e8a7714db-1920.webp",
+                  "width": 1920,
+                  "height": 2400
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,862 @@
+{
+  "slug": "wholesum",
+  "name": "WholeSum",
+  "title": "WholeSum AI-powered Analysis",
+  "summary": "Reimagining how researchers analyze and synthesize qualitative data",
+  "category": "UI/UX · Design Systems",
+  "kind": "product",
+  "order": 4,
+  "image": "/assets/projects/wholesum/e0139ed9b07b01.png",
+  "imageAlt": "WholeSum — project overview · 1",
+  "status": "Published project",
+  "source": "https://mihailboboc.com/p/wholesum",
+  "importedAt": "2026-11-20",
+  "sections": [
+    {
+      "id": "section-6920fd601b987551795796c1",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/e0139ed9b07b01.png",
+              "alt": "WholeSum — project overview · 1",
+              "width": 1440,
+              "height": 5999,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/e0139ed9b07b01-640.webp",
+                  "width": 640,
+                  "height": 2666
+                },
+                {
+                  "image": "/assets/projects/wholesum/e0139ed9b07b01-1280.webp",
+                  "width": 1280,
+                  "height": 5332
+                },
+                {
+                  "image": "/assets/projects/wholesum/e0139ed9b07b01-1440.webp",
+                  "width": 1440,
+                  "height": 5999
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-693871622f6b1c2f9a033b6e",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Context</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6924bd2cc673e178e495efeb",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Overview</strong></h2><p>Wholesum is a qualitative-analysis platform built for researchers, analysts, and product teams who work with large volumes of text and need a faster, more structured way to extract insights. The tool integrates AI with a researcher-friendly workflow, enabling users to transform raw responses into organized themes, matrices, and client-ready reports.<br><br>The qualitative research space is growing rapidly, yet most existing tools fall into two extremes: overly technical enterprise systems or lightweight tools lacking depth. This gap presents a clear opportunity for a platform that combines <strong>speed, clarity, and analytical rigor</strong>—and that’s where Wholesum positions itself.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6924bf3ac673e178e4971b6b",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/f80bd81d52136a.png",
+              "alt": "WholeSum — Overview · 2",
+              "width": 2880,
+              "height": 1140,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/f80bd81d52136a-640.webp",
+                  "width": 640,
+                  "height": 253
+                },
+                {
+                  "image": "/assets/projects/wholesum/f80bd81d52136a-1280.webp",
+                  "width": 1280,
+                  "height": 507
+                },
+                {
+                  "image": "/assets/projects/wholesum/f80bd81d52136a-1920.webp",
+                  "width": 1920,
+                  "height": 760
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-68f6a7c423f200144f715051",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Problem</strong></h2><p>Researchers working with interviews, surveys, and open-ended responses <strong>struggle to organize and synthesize unstructured text</strong>. Existing tools are either too manual, too complex, or produce shallow AI summaries, making it hard to create reliable, client-ready insights and reports.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Solution</strong></h2><p>Wholesum provides an <strong>AI-powered yet researcher-controlled workspace</strong> that transforms raw text into themes, matrices, and executive summaries. The interface focuses on <strong>clarity, transparency, and editability</strong>, enabling analysts to move from data to insight much faster while keeping the depth and rigor of their work.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920e5ca1b987551794cb00f",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Discovery</strong></h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920ebfc1b98755179519c4f",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>In our initial discovery phase, we aligned with the founders to understand the strategic direction for Wholesum and reviewed <strong>user interviews, early prototypes, workflow notes, and product goals</strong>. This helped us clarify expectations, timelines, and success criteria before moving into design.<br><br>During this stage, challenges surfaced around the growing complexity of qualitative research workflows, inconsistencies in current tools, and the difficulty researchers face when working with large datasets. To dig deeper, we conducted follow-up conversations, audited real analysis artifacts, and gathered <strong>critical insights</strong>, including:</p><ul><li><p>Researchers rely heavily on manual coding, highlighting the need for structured yet flexible AI support.</p></li><li><p>Current tools feel overwhelming due to cluttered navigation and fragmented workflows.</p></li><li><p>Teams require transparent insight generation—not black-box summaries.</p></li><li><p>Analysts need exportable, presentation-ready results to support client work.</p></li></ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69231462aeb8c159756464d0",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/b36bf9a4f420d3.png",
+              "alt": "WholeSum — Discovery · 3",
+              "width": 2570,
+              "height": 1346,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/b36bf9a4f420d3-640.webp",
+                  "width": 640,
+                  "height": 335
+                },
+                {
+                  "image": "/assets/projects/wholesum/b36bf9a4f420d3-1280.webp",
+                  "width": 1280,
+                  "height": 670
+                },
+                {
+                  "image": "/assets/projects/wholesum/b36bf9a4f420d3-1920.webp",
+                  "width": 1920,
+                  "height": 1006
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>How it works</h2><p>Here are sample inputs and outputs that demonstrate the data format used throughout the pipeline. <br><br>For segmented plots, users can filter elements in <strong>out_theme_matrix.json</strong> by using columns from <strong>input_responses.json</strong>, such as location. Alternatively, out_theme_matrix.json may include relevant metadata alongside the theme allocations to make filtering and visualization easier.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920ee121b98755179527d03",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Ideation</strong></h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-69230eb6aeb8c1597561a615",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>User Stories</h2><p>Using our discovery insights, I explored multiple directions for simplifying the analysis process. I began with user stories that captured the essential tasks researchers needed to accomplish, from uploading raw data to synthesizing themes and generating reports.</p><ul><li><p>As a researcher, I want to upload raw text data easily so I can begin analysis without friction.</p></li><li><p>As a researcher, I want AI-generated themes I can edit, merge, or reorganize to maintain accuracy.</p></li><li><p>As a researcher, I want a matrix view to compare themes across segments.</p></li><li><p>As a researcher, I want to generate summaries and exports that are client-ready.</p></li></ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-692380dbaeb8c15975935586",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Personas</h2><p>A clear snapshot of a typical user, capturing their motivations, behaviours, and challenges to guide product decisions and ensure every feature aligns with real needs.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-692380dbaeb8c15975935587",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/85f4b1b7ec4841.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 2160,
+              "height": 1378,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/85f4b1b7ec4841-640.webp",
+                  "width": 640,
+                  "height": 408
+                },
+                {
+                  "image": "/assets/projects/wholesum/85f4b1b7ec4841-1280.webp",
+                  "width": 1280,
+                  "height": 817
+                },
+                {
+                  "image": "/assets/projects/wholesum/85f4b1b7ec4841-1920.webp",
+                  "width": 1920,
+                  "height": 1225
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/217d11055aeac6.png",
+              "alt": "Screen design displayed in a mockup",
+              "width": 2160,
+              "height": 1378,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/217d11055aeac6-640.webp",
+                  "width": 640,
+                  "height": 408
+                },
+                {
+                  "image": "/assets/projects/wholesum/217d11055aeac6-1280.webp",
+                  "width": 1280,
+                  "height": 817
+                },
+                {
+                  "image": "/assets/projects/wholesum/217d11055aeac6-1920.webp",
+                  "width": 1920,
+                  "height": 1225
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920f37d1b9875517953d002",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>User Flows</h2><p>We collaborated closely to create <strong>clear, linear user flows</strong> that reduce cognitive load and mirror how analysts naturally work. Our primary goal was to ensure each step felt intuitive: upload → process → explore → refine → export.</p><p>To improve clarity, we annotated complex steps, added decision points, and iterated flows based on early feedback. Throughout the project, we continuously refined the flows as feature requirements evolved.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-692309fcaeb8c15975609ab6",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/ae848b76cc6b0f.png",
+              "alt": "WholeSum — User Flows · 6",
+              "width": 7652,
+              "height": 1668,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/ae848b76cc6b0f-640.webp",
+                  "width": 640,
+                  "height": 140
+                },
+                {
+                  "image": "/assets/projects/wholesum/ae848b76cc6b0f-1280.webp",
+                  "width": 1280,
+                  "height": 279
+                },
+                {
+                  "image": "/assets/projects/wholesum/ae848b76cc6b0f-1920.webp",
+                  "width": 1920,
+                  "height": 419
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-692394dfaeb8c159759b4a3b",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Wireframes</h2><p>After finalizing the user flow, I moved directly into creating high-fidelity wireframes. Working digitally allowed me to quickly try out different layouts, workspace structures, and interaction patterns in detail. This process helped me refine concepts and determine the best approach to support the Wholesum workspace experience from the start.</p>"
+            }
+          ]
+        },
+        {
+          "start": 8,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/c6805580fc2a52.png",
+              "alt": "WholeSum — Wireframes · 7",
+              "width": 2880,
+              "height": 10300,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/c6805580fc2a52-640.webp",
+                  "width": 640,
+                  "height": 2289
+                },
+                {
+                  "image": "/assets/projects/wholesum/c6805580fc2a52-1280.webp",
+                  "width": 1280,
+                  "height": 4578
+                },
+                {
+                  "image": "/assets/projects/wholesum/c6805580fc2a52-1920.webp",
+                  "width": 1920,
+                  "height": 6867
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-692394dfaeb8c159759b4a3c",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/f942b53d897a56.png",
+              "alt": "WholeSum — Wireframes · 8",
+              "width": 2880,
+              "height": 3790,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/f942b53d897a56-640.webp",
+                  "width": 640,
+                  "height": 842
+                },
+                {
+                  "image": "/assets/projects/wholesum/f942b53d897a56-1280.webp",
+                  "width": 1280,
+                  "height": 1684
+                },
+                {
+                  "image": "/assets/projects/wholesum/f942b53d897a56-1920.webp",
+                  "width": 1920,
+                  "height": 2527
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/07f1218430ca3f.png",
+              "alt": "WholeSum — Wireframes · 9",
+              "width": 2880,
+              "height": 1974,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/07f1218430ca3f-640.webp",
+                  "width": 640,
+                  "height": 439
+                },
+                {
+                  "image": "/assets/projects/wholesum/07f1218430ca3f-1280.webp",
+                  "width": 1280,
+                  "height": 877
+                },
+                {
+                  "image": "/assets/projects/wholesum/07f1218430ca3f-1920.webp",
+                  "width": 1920,
+                  "height": 1316
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/7400356f252519.png",
+              "alt": "WholeSum — Wireframes · 10",
+              "width": 2880,
+              "height": 4764,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/7400356f252519-640.webp",
+                  "width": 640,
+                  "height": 1059
+                },
+                {
+                  "image": "/assets/projects/wholesum/7400356f252519-1280.webp",
+                  "width": 1280,
+                  "height": 2117
+                },
+                {
+                  "image": "/assets/projects/wholesum/7400356f252519-1920.webp",
+                  "width": 1920,
+                  "height": 3176
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/cd126d7b8fcb05.png",
+              "alt": "WholeSum — Wireframes · 11",
+              "width": 2880,
+              "height": 2194,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/cd126d7b8fcb05-640.webp",
+                  "width": 640,
+                  "height": 488
+                },
+                {
+                  "image": "/assets/projects/wholesum/cd126d7b8fcb05-1280.webp",
+                  "width": 1280,
+                  "height": 975
+                },
+                {
+                  "image": "/assets/projects/wholesum/cd126d7b8fcb05-1920.webp",
+                  "width": 1920,
+                  "height": 1463
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/71fc17b0ab9f21.png",
+              "alt": "WholeSum — Wireframes · 12",
+              "width": 2880,
+              "height": 2296,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/71fc17b0ab9f21-640.webp",
+                  "width": 640,
+                  "height": 510
+                },
+                {
+                  "image": "/assets/projects/wholesum/71fc17b0ab9f21-1280.webp",
+                  "width": 1280,
+                  "height": 1020
+                },
+                {
+                  "image": "/assets/projects/wholesum/71fc17b0ab9f21-1920.webp",
+                  "width": 1920,
+                  "height": 1531
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/1244b499601ea0.png",
+              "alt": "WholeSum — Wireframes · 13",
+              "width": 2880,
+              "height": 5944,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/1244b499601ea0-640.webp",
+                  "width": 640,
+                  "height": 1321
+                },
+                {
+                  "image": "/assets/projects/wholesum/1244b499601ea0-1280.webp",
+                  "width": 1280,
+                  "height": 2642
+                },
+                {
+                  "image": "/assets/projects/wholesum/1244b499601ea0-1920.webp",
+                  "width": 1920,
+                  "height": 3963
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920f4911b987551795416f0",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Design</strong></h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920f8611b98755179565b9d",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Style guide</h2><p>To ensure a consistent and polished user experience, I created a style guide that covers:</p><ul><li><p>Typography choices to maintain clarity across all screens</p></li><li><p>Accessible color tokens that are simple to use throughout the product</p></li><li><p>Input fields and comprehensive button styles, including clear visual states for normal, hover, active, and disabled interactions</p></li><li><p>A set of icons that support navigation and essential actions</p></li><li><p>A flexible component library featuring cards, tables, and panels</p></li></ul><p>This style guide provides a solid foundation for a cohesive interface and can easily grow as the product develops.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6924b2abc673e178e48fcb4f",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 4,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/1625f535fa093e.png",
+              "alt": "WholeSum — Style guide · 14",
+              "width": 4418,
+              "height": 3897,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/1625f535fa093e-640.webp",
+                  "width": 640,
+                  "height": 565
+                },
+                {
+                  "image": "/assets/projects/wholesum/1625f535fa093e-1280.webp",
+                  "width": 1280,
+                  "height": 1129
+                },
+                {
+                  "image": "/assets/projects/wholesum/1625f535fa093e-1920.webp",
+                  "width": 1920,
+                  "height": 1694
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6924b846c673e178e491ec17",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>High Fidelity</h2><p>The final user interface features a streamlined and organized workspace that prioritizes clarity for researchers. Thoughtfully arranged elements and intuitive navigation help users complete tasks efficiently while capturing the complexities needed for in-depth qualitative analysis.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/6375357ccfa1ce.png",
+              "alt": "WholeSum — High Fidelity · 15",
+              "width": 4320,
+              "height": 3193,
+              "device": "desktop",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/6375357ccfa1ce-640.webp",
+                  "width": 640,
+                  "height": 473
+                },
+                {
+                  "image": "/assets/projects/wholesum/6375357ccfa1ce-1280.webp",
+                  "width": 1280,
+                  "height": 946
+                },
+                {
+                  "image": "/assets/projects/wholesum/6375357ccfa1ce-1920.webp",
+                  "width": 1920,
+                  "height": 1419
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6924b846c673e178e491ec18",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/wholesum/c7ea61d53e727d.png",
+              "alt": "WholeSum — High Fidelity · 16",
+              "width": 2880,
+              "height": 4638,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/wholesum/c7ea61d53e727d-640.webp",
+                  "width": 640,
+                  "height": 1031
+                },
+                {
+                  "image": "/assets/projects/wholesum/c7ea61d53e727d-1280.webp",
+                  "width": 1280,
+                  "height": 2061
+                },
+                {
+                  "image": "/assets/projects/wholesum/c7ea61d53e727d-1920.webp",
+                  "width": 1920,
+                  "height": 3092
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920f5041b98755179542011",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Developer Handoff</strong></h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6921f33af178221721f27bf6",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>For a smooth transition to development, I prepared a detailed handoff package with component specifications, spacing rules, interaction notes, and responsive behaviors. Specific focus areas included:</p><ul><li><p>Theme editing interactions</p></li><li><p>Matrix behavior and hover states</p></li><li><p>Summary builder logic</p></li><li><p>Export formatting and use cases</p></li></ul><p>I collaborated closely with engineering to clarify edge cases and ensure the design intent carried through to implementation. The clarity of the documentation significantly supported development efficiency.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6920f5251b98755179542507",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>Reflection</strong></h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6921f6a2f178221721f37ca4",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 2,
+          "span": 10,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>Working on Wholesum allowed me to rethink how qualitative research tools can better serve analysts. The project reinforced the importance of combining structured workflows with flexible editing and providing transparency throughout AI-generated insights.</p><p>I learned how crucial it is to design interfaces that reduce cognitive load—especially for users dealing with complex, text-heavy datasets. If given more time, I would explore additional collaboration features, further refine the export system, and deepen segmentation and comparison capabilities.<br></p><p>Overall, this project strengthened my approach to designing analytical tools and clarified how thoughtful UX can turn complex research processes into intuitive, efficient workflows.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-68f6a7c423f200144f715054",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Role</h4><p>UI/UX designer</p>"
+            }
+          ]
+        },
+        {
+          "start": 4,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Tools</h4><p>Figma, Slack, Google Meet</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Team</h4><p>1 designer, 2 developers</p>"
+            }
+          ]
+        },
+        {
+          "start": 10,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Timeline</h4><p>Aug - Oct 2025 (10 weeks)</p>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

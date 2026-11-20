@@ -1,0 +1,14 @@
+{
+  "name": "mihail-boboc-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "connect:google": "node scripts/connect-google.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

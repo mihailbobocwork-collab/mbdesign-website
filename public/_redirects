@@ -1,0 +1,7 @@
+/work /#work 302
+/work/ /#work 302
+
+/pricing / 302
+/pricing/ / 302
+/playground / 302
+/playground/* / 302

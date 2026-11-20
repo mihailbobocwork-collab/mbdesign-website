@@ -1,0 +1,74 @@
+.hero-page{background:#f7f9fb}
+.hero-page .site-header{max-width:1440px;padding:0 95px;margin-top:41px;height:54px;min-height:0;gap:30px;font-family:var(--font-sans);color:#000}
+.hero-page .hero-brand{display:block;width:38.81px;height:44px;flex:none}
+.hero-mark{display:block;width:38.81px;height:44px;position:relative}
+.hero-mark img{position:absolute;left:-1.14px;top:-1.11px;max-width:none}
+.hero-page .site-header nav{gap:56px;font-size:16px}
+.hero-page .site-header nav>a:not(.button){padding:12px 0}
+.hero-page .site-header .nav-contact{min-height:54px;margin:0;padding:16px;border-color:#d9d9d9;font-size:16px;border-radius:55px;line-height:20px}
+.figma-hero-shell{display:flow-root;width:min(1440px,100vw);margin-inline:calc((100% - min(1440px,100vw))/2);padding:0 95px}
+.hero-page .figma-hero{display:grid;grid-template-columns:102.084px minmax(0,1fr);gap:23.358px;align-items:start;padding:0;margin:152px 0 0}
+.hero-portrait{position:relative;overflow:hidden;background:white;border-radius:50%;width:102.084px;height:102.084px}
+.hero-portrait img{position:absolute;max-width:none;width:162.637%;height:208.043%;left:-34.873%;top:-20.993%;object-fit:cover}
+.hero-page .hero-introduction{padding:0;max-width:none}
+.hero-page interactive-typewriter.hero-typewriter{max-width:881.558px;margin:0;font-family:var(--font-sans);font-size:76.996px;line-height:86.512px;letter-spacing:0;font-weight:400;color:#000}
+.hero-page .hero-typewriter h1{grid-area:1 / 1;font:inherit;letter-spacing:inherit;line-height:inherit;margin:0;max-width:none}
+.hero-page .hero-reserve,.hero-page .hero-typed,.hero-page .hero-static{white-space:pre-wrap}
+.hero-page .hero-typewriter textarea,.hero-page .hero-input-size{padding-right:44px}
+.hero-page .hero-typewriter textarea::placeholder{color:#a5a9ac}
+.hero-page .hero-placeholder-caret{color:#a5a9ac}
+.hero-page .hero-send{color:#74787b;width:40px;height:40px;bottom:8px}
+.hero-page .hero-send svg{width:25px;height:25px}
+.hero-page .hero-introduction .hero-bio{font-family:var(--font-sans);font-size:20px;line-height:25px;letter-spacing:0;font-weight:400;color:#000;max-width:576px;margin:43.976px 0 0 4.558px}
+.hero-client-strip{position:relative;overflow:hidden;pointer-events:none;mix-blend-mode:darken;width:calc(100% + 191px);margin-left:-96px;margin-top:170px;aspect-ratio:1441 / 217.23}
+.hero-client-strip img{position:absolute;display:block;max-width:none;width:100%;height:105.24%;left:0;top:-5.24%}
+.hero-page .selected-work{margin-top:80px}
+/* Idle portrait, attentive eye contact, and writing share one fixed circular slot. */
+.hero-portrait .hero-portrait-default{opacity:1;transition:opacity 900ms cubic-bezier(.4,0,.2,1) 100ms}
+.hero-portrait img.hero-portrait-listening,.hero-portrait img.hero-portrait-notes{inset:0;max-width:none;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 900ms cubic-bezier(.4,0,.2,1) 100ms}
+.hero-portrait[data-engaged=true][data-camera-ready=true] .hero-portrait-default,.hero-portrait[data-engaged=true][data-writing=true][data-notes-ready=true] .hero-portrait-default{opacity:0;transition-duration:700ms;transition-delay:0ms}
+.hero-portrait[data-engaged=true][data-camera-ready=true] .hero-portrait-listening{opacity:1;transition-duration:700ms;transition-delay:0ms}
+.hero-portrait[data-engaged=true][data-writing=true][data-notes-ready=true] .hero-portrait-listening{opacity:0;transition-duration:700ms;transition-delay:0ms}
+.hero-portrait[data-engaged=true][data-writing=true][data-notes-ready=true] .hero-portrait-notes{opacity:1;transition-duration:700ms;transition-delay:0ms}
+@media(prefers-reduced-motion:reduce){.hero-portrait .hero-portrait-default,.hero-portrait .hero-portrait-listening,.hero-portrait .hero-portrait-notes{transition:none!important}}
+.hero-portrait .hero-portrait-motion{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity 1000ms cubic-bezier(.4,0,.2,1)}
+.hero-portrait[data-motion-ready=true] .hero-portrait-listening,.hero-portrait[data-motion-ready=true] .hero-portrait-notes{opacity:0!important}
+.hero-portrait[data-motion-ready=true] .hero-portrait-motion{opacity:1;transition-duration:350ms}
+.hero-portrait[data-motion-ready=true] .hero-portrait-default{opacity:1!important}
+@media(prefers-reduced-motion:reduce){.hero-portrait .hero-portrait-motion{transition:none!important}}
+@media(max-width:1250px) and (min-width:821px){
+ .hero-page .site-header,.figma-hero-shell{padding-left:6.6vw;padding-right:6.6vw}
+ .hero-page .site-header nav{gap:4vw}
+ .hero-page .figma-hero{grid-template-columns:7.089vw minmax(0,1fr);gap:1.622vw;margin-top:10.556vw}
+ .hero-portrait{width:7.089vw;height:7.089vw}
+ .hero-page interactive-typewriter.hero-typewriter{font-size:5.347vw;line-height:6.008vw;max-width:61.219vw}
+ .hero-page .hero-introduction .hero-bio{font-size:clamp(16px,1.389vw,20px);line-height:1.25;margin-top:3.054vw;max-width:40vw}
+ .hero-client-strip{width:100vw;margin-left:-6.6vw;margin-top:11.806vw}
+}
+@media(max-width:820px){
+ .hero-page .site-header{margin-top:25px;height:44px;min-height:44px;padding:0 32px}
+ .figma-hero-shell{padding:0 32px}
+ .hero-page .site-header nav{gap:8px}
+ .hero-page .site-header nav>a:not(.button){padding:12px 6px;font-size:16px}
+ .hero-page .site-header .nav-contact{margin-top:8px}
+ .hero-page .figma-hero{grid-template-columns:76px minmax(0,1fr);gap:22px;margin-top:105px}
+ .hero-portrait{width:76px;height:76px}
+ .hero-page interactive-typewriter.hero-typewriter{font-size:clamp(34px,5.35vw,44px);line-height:1.15;max-width:none}
+ .hero-page .hero-introduction .hero-bio{font-size:18px;line-height:1.4;margin-top:30px;margin-left:0;max-width:480px}
+ .hero-client-strip{width:calc(100% + 64px);margin-left:-32px;margin-top:100px}
+ .hero-page .selected-work{margin-top:70px}
+}
+@media(max-width:600px){
+ .hero-page .site-header{padding:0 22px;margin-top:23px}
+ .figma-hero-shell{padding:0 22px}
+ .hero-page .figma-hero{display:block;margin-top:76px}
+ .hero-portrait{width:72px;height:72px;margin-bottom:27px}
+ .hero-page .hero-introduction{margin-top:0}
+ .hero-page interactive-typewriter.hero-typewriter{font-size:clamp(25px,7.4vw,42px);line-height:1.2;max-width:none}
+ .hero-page .hero-typewriter textarea,.hero-page .hero-input-size{padding-right:28px}
+ .hero-page .hero-send{width:28px;height:30px;bottom:2px}
+ .hero-page .hero-send svg{width:21px;height:21px}
+ .hero-page .hero-introduction .hero-bio{font-size:17px;line-height:1.45;margin:27px 0 0;max-width:none}
+ .hero-client-strip{width:calc(100% + 44px);margin-left:-22px;margin-top:75px}
+ .hero-page .selected-work{margin-top:58px}
+}

@@ -1,0 +1,64 @@
+{
+  "offers": [
+    {
+      "id": "audit",
+      "name": "Product Audit",
+      "price": "$750",
+      "cadence": "Fixed price",
+      "duration": "5 business days",
+      "description": "Find the friction. Know what to improve first.",
+      "scope": [
+        "One user journey",
+        "Up to 8 screens or states",
+        "Prioritized findings report",
+        "Recorded or live walkthrough"
+      ],
+      "note": "A review of an existing product. Redesign and implementation are scoped separately."
+    },
+    {
+      "id": "sprint",
+      "name": "Design Sprint",
+      "price": "$1,500",
+      "cadence": "Fixed price",
+      "duration": "5 business days",
+      "description": "One focused challenge. A tangible way forward.",
+      "scope": [
+        "One feature or UX challenge",
+        "Up to 4 primary screens or states",
+        "Clickable Figma prototype",
+        "One revision round"
+      ],
+      "note": "A focused design engagement. Recruiting and user testing are scoped separately."
+    },
+    {
+      "id": "project",
+      "name": "Product Project",
+      "price": "$3,000",
+      "cadence": "Starting at",
+      "duration": "Typically 3–4 weeks",
+      "description": "Bring a substantial feature from idea to handoff.",
+      "scope": [
+        "Defined feature or workflow",
+        "UX, UI, and prototype",
+        "Component foundations",
+        "Engineering handoff"
+      ],
+      "note": "A defined feature or workflow. The full scope and schedule are confirmed in a proposal."
+    },
+    {
+      "id": "partner",
+      "name": "Design Partner",
+      "price": "$2,000",
+      "cadence": "Starting at / month",
+      "duration": "24 hours per month",
+      "description": "A consistent design partner as your product evolves.",
+      "scope": [
+        "24 reserved design hours / month",
+        "Weekly reviews within those hours",
+        "Feature and design-system work",
+        "2-month initial term"
+      ],
+      "note": "Meetings count toward capacity. Extra work, rollover, and payment terms are agreed before kickoff."
+    }
+  ]
+}

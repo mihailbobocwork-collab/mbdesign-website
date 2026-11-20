@@ -1,0 +1,9 @@
+.brand-loader{display:none;position:fixed;inset:0;z-index:1000;isolation:isolate;overflow:hidden;cursor:default}
+.brand-loader-backdrop{position:absolute;inset:0;background:#f7f9fb}
+.brand-loader-mark{position:absolute;width:112px;height:123.428px;left:calc(50% - 56px);top:calc(50% - 61.714px);overflow:visible}
+.brand-loader [data-ink-stroke]{stroke-dasharray:100 100;stroke-dashoffset:100}
+.brand-loader-complete{opacity:0}
+html[data-brand-boot=pending] .brand-loader,.brand-loader[data-open=true]{display:block}
+html[data-brand-boot=pending] body>.site-header,html[data-brand-boot=pending] body>main,html[data-brand-boot=pending] body>main+.wrap{opacity:0;animation:none}
+@media(max-width:600px){.brand-loader-mark{width:96px;height:105.795px;left:calc(50% - 48px);top:calc(50% - 52.8975px)}}
+@media(prefers-reduced-motion:reduce){.brand-loader{display:none!important}}

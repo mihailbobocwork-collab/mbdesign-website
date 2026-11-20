@@ -1,0 +1,16 @@
+/* The introduction keeps its type scale. Only visitor text adapts and scrolls. */
+.hero-typewriter,.hero-flow-answer{--message-min-size:32px;--message-height-cap:260px;--message-controls-width:52px}
+.message-measure{position:fixed;left:0;top:0;display:block;visibility:hidden;pointer-events:none;white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;padding:0;border:0;margin:0;z-index:-1}
+.hero-page .hero-typewriter.is-enhanced textarea,.hero-page .hero-typewriter.is-enhanced .hero-input-size{width:calc(100% - var(--message-controls-width));padding-right:12px}
+.hero-page .hero-typewriter.is-enhanced .hero-input-size{max-height:var(--message-height-cap);overflow:hidden;transition:font-size 260ms ease,line-height 260ms ease}
+textarea[data-adaptive-message]{overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:thin;scrollbar-color:#b8c1c9 transparent}
+.hero-idle .hero-typewriter textarea{transition:opacity 1250ms cubic-bezier(.45,0,.2,1),filter 1450ms cubic-bezier(.45,0,.2,1),transform 1450ms cubic-bezier(.45,0,.2,1),font-size 260ms ease,line-height 260ms ease}
+.hero-idle .hero-typewriter[data-editing=true] textarea{transition-duration:700ms,700ms,700ms,260ms,260ms;transition-delay:80ms,80ms,80ms,0ms,0ms}
+.hero-flow-answer[data-adaptive-message=true]{max-height:var(--message-height-cap);transition:border-color 300ms,font-size 260ms ease,line-height 260ms ease}
+.message-count{font:400 14px/20px var(--font-sans);color:#65727d;letter-spacing:0;margin:8px 0 0;font-variant-numeric:tabular-nums}
+.hero-message-count{position:absolute;left:0;bottom:-26px;width:calc(100% - var(--message-controls-width));margin:0;pointer-events:none}
+.message-count[data-limit=near]{color:#806342}
+.message-count[data-limit=over]{color:#925f50}
+.hero-typewriter .hero-send:disabled{opacity:.35;cursor:default}
+@media(max-width:600px){.hero-typewriter,.hero-flow-answer{--message-min-size:22px;--message-height-cap:220px;--message-controls-width:40px}.hero-page .hero-idle:has(.hero-message-count:not([hidden])) .hero-engagement{margin-top:40px}}
+@media(max-height:600px){.hero-typewriter,.hero-flow-answer{--message-height-cap:180px}}

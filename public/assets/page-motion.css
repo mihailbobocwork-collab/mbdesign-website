@@ -1,0 +1,19 @@
+/* First visits and reloads settle in; same-origin links and history use the
+   browser's own snapshots. Navigation and scroll restoration remain native. */
+@view-transition{navigation:auto}
+::view-transition-group(root){animation-duration:560ms;animation-timing-function:cubic-bezier(.4,0,.2,1)}
+::view-transition-old(root){animation:page-away 380ms cubic-bezier(.4,0,.2,1) both;mix-blend-mode:normal}
+::view-transition-new(root){animation:page-arrive 560ms cubic-bezier(.4,0,.2,1) both;mix-blend-mode:normal}
+::view-transition{pointer-events:none}
+html:not([data-page-reveal=transition]):not([data-brand-sequence]) body>.site-header{animation:site-entrance 650ms cubic-bezier(.4,0,.2,1) both}
+html:not([data-page-reveal=transition]):not([data-brand-sequence]) body>main,html:not([data-page-reveal=transition]):not([data-brand-sequence]) body>main+.wrap{animation:site-entrance 720ms cubic-bezier(.4,0,.2,1) 60ms both}
+html[data-page-reveal=return] body>.site-header,html[data-page-reveal=return] body>main,html[data-page-reveal=return] body>main+.wrap{animation-name:site-return;animation-delay:0ms}
+@keyframes site-entrance{from{opacity:0;translate:0 4px}to{opacity:1;translate:0 0}}
+@keyframes site-return{from{opacity:0;translate:0 3px}to{opacity:1;translate:0 0}}
+@keyframes page-away{from{opacity:1}to{opacity:0}}
+@keyframes page-arrive{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){
+  @view-transition{navigation:none}
+  html body>.site-header,html body>main,html body>main+.wrap,::view-transition-group(root),::view-transition-old(root),::view-transition-new(root){animation:none!important}
+  html{scroll-behavior:auto}
+}

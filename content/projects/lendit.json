@@ -1,0 +1,1222 @@
+{
+  "slug": "lendit",
+  "name": "Lendit",
+  "title": "Lendit peer-to-peer marketplace",
+  "summary": "A community-powered way to borrow locally and lend with confidence.",
+  "category": "UI/UX · Design Engineering",
+  "kind": "product",
+  "order": 0,
+  "image": "/assets/projects/lendit/baa788837ab677.png",
+  "imageAlt": "Lendit — project overview · 1",
+  "status": "Published project",
+  "source": "https://mihailboboc.com/p/lendit-case-study",
+  "importedAt": "2026-11-20",
+  "sections": [
+    {
+      "id": "section-6a3937574938951d7e7d328e",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/baa788837ab677.png",
+              "alt": "Lendit — project overview · 1",
+              "width": 2430,
+              "height": 1657,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/baa788837ab677-640.webp",
+                  "width": 640,
+                  "height": 436
+                },
+                {
+                  "image": "/assets/projects/lendit/baa788837ab677-1280.webp",
+                  "width": 1280,
+                  "height": 873
+                },
+                {
+                  "image": "/assets/projects/lendit/baa788837ab677-1920.webp",
+                  "width": 1920,
+                  "height": 1309
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3869264938951d7e3233d4",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>The Project</h2><p>Lendit is a peer-to-peer marketplace built to help people rent and lend everyday items within their local community. The idea was simple: turn the things you rarely use into opportunities for others, and for yourself. From cameras and speakers to power tools and bicycles, Lendit connects neighbors through trust and convenience.</p><p>I was responsible for the full product design process, shaping both the user experience and the visual identity. My work covered UX research, user flows, wireframes, and high-fidelity UI design for web and mobile. I also developed the design system, defined component logic for developers, and established a visual language that communicates warmth, reliability, and belonging.</p><p><strong>Timeline:</strong> Aug–Oct 2025 (Phase 1 — research to high-fidelity) · Oct 2025–present (testing &amp; iteration, support)</p><p><strong>Role:</strong> UI/UX Designer</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3879d94938951d7e381c32",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>The Context</h2><p>Lendit was founded to solve a common problem: people have useful items sitting idle, while others nearby need them for a short time. The platform needed to feel trustworthy, easy to use, and rewarding for both sides.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/b4b76737bbaed9.png",
+              "alt": "Lendit — The Context · 2",
+              "width": 1120,
+              "height": 442,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/b4b76737bbaed9-640.webp",
+                  "width": 640,
+                  "height": 253
+                },
+                {
+                  "image": "/assets/projects/lendit/b4b76737bbaed9-1120.webp",
+                  "width": 1120,
+                  "height": 442
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a46eee31552ee66251b8232",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/6c6859ab50fe13.png",
+              "alt": "Lendit — The Context · 3",
+              "width": 3840,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/6c6859ab50fe13-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/lendit/6c6859ab50fe13-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/lendit/6c6859ab50fe13-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a392dba4938951d7e790e48",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>The Process</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a387b064938951d7e385479",
+      "kind": "process",
+      "columns": [],
+      "steps": [
+        "Empathise",
+        "Define",
+        "Ideate",
+        "Systemise",
+        "Prototype",
+        "Test"
+      ]
+    },
+    {
+      "id": "section-6a387bca4938951d7e3878ca",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Empathise</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a392f524938951d7e79b921",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Undestanding the audience</h2><p>I began this project by understanding how people currently access tools and items in their daily lives.</p><p>Unlike traditional marketplaces, borrowing is often informal — people ask friends, delay projects, or end up buying items they only use once.</p><p>This revealed a key behavior: people don’t actively look for “borrowing platforms” — they just want a quick and reliable way to get what they need.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3938c14938951d7e7e2746",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 3,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Most people don’t need to own things — they just need access to them at the right time.</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a393a144938951d7e7e7cba",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Competitive Analysis</h2><p>I reviewed the platforms Lendit actually competes with — Hygglo (formerly Fat Llama), the local food-sharing app Olio, and informal Facebook lending groups — and pulled UX-pattern references from mature marketplaces like Airbnb and Vinted to set a clear interaction and aesthetic direction.</p><p>Mapping each player on two axes — how deep their trust model runs, and how local they are — surfaced the gap: nobody pairs a full trust stack with a genuinely hyperlocal model. That open territory is where Lendit sits. A capability benchmark against Hygglo and Olio sharpened it further, comparing the trust and transaction features that decide whether strangers will transact — and confirming where Lendit could lead.</p>"
+            }
+          ]
+        },
+        {
+          "start": 8,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/6448691b66491f.png",
+              "alt": "Lendit — Competitive Analysis · 4",
+              "width": 1008,
+              "height": 1008,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/6448691b66491f-640.webp",
+                  "width": 640,
+                  "height": 640
+                },
+                {
+                  "image": "/assets/projects/lendit/6448691b66491f-1008.webp",
+                  "width": 1008,
+                  "height": 1008
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a39afde4938951d7ebf76b4",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/087dea4f355ab6.png",
+              "alt": "Lendit — Competitive Analysis · 5",
+              "width": 1980,
+              "height": 1008,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/087dea4f355ab6-640.webp",
+                  "width": 640,
+                  "height": 326
+                },
+                {
+                  "image": "/assets/projects/lendit/087dea4f355ab6-1280.webp",
+                  "width": 1280,
+                  "height": 652
+                },
+                {
+                  "image": "/assets/projects/lendit/087dea4f355ab6-1920.webp",
+                  "width": 1920,
+                  "height": 977
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a39b6a14938951d7ec1df30",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Secondary research</h2><p>Before I drew a single screen, I grounded the work in what already exists and how people actually behave.</p><p>I reviewed peer to peer marketplaces and everyday borrowing habits to understand what makes these exchanges feel easy and safe.</p><p>I studied how platforms like Vinted and Airbnb reduce friction and build trust between strangers, from clear expectations to lightweight safeguards.</p><p>In parallel, I looked at real life behavior, how people borrow today by asking friends, delaying tasks, or buying items they will barely use again.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3c48f6cb0dae1732c01552",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/49944822505444.png",
+              "alt": "Lendit — Secondary research · 6",
+              "width": 4100,
+              "height": 1460,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/49944822505444-640.webp",
+                  "width": 640,
+                  "height": 228
+                },
+                {
+                  "image": "/assets/projects/lendit/49944822505444-1280.webp",
+                  "width": 1280,
+                  "height": 456
+                },
+                {
+                  "image": "/assets/projects/lendit/49944822505444-1920.webp",
+                  "width": 1920,
+                  "height": 684
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a500fdfd285665c3850dac0",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Primary research</h2><p>I focused on how users build trust, reduce friction, and make quick decisions. In daily life, most people rely on friends, delay tasks, or buy items they only need once.</p><p>A clear pattern emerged: users prefer access over ownership, but hesitate when the process feels uncertain or complicated. When borrowing takes too much effort, they default to buying.</p><p>The key insight is that users are not looking for borrowing platforms, they just want to solve a problem quickly and reliably. The experience needs to feel instant and intuitive, with clear trust signals and as few steps as possible, fitting naturally into existing habits.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3af9bd01760945e8ef5463",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/d411b866462afc.png",
+              "alt": "Lendit — Primary research · 7",
+              "width": 2880,
+              "height": 2214,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/d411b866462afc-640.webp",
+                  "width": 640,
+                  "height": 492
+                },
+                {
+                  "image": "/assets/projects/lendit/d411b866462afc-1280.webp",
+                  "width": 1280,
+                  "height": 984
+                },
+                {
+                  "image": "/assets/projects/lendit/d411b866462afc-1920.webp",
+                  "width": 1920,
+                  "height": 1476
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a41b03afa8b4c01d5509cdc",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Define</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3dba2ca7699052a9dcc2b0",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Empathy Map</h2><p>To align the team on real user needs, I created an empathy map for both borrowers and lenders. It summarizes what each group says, thinks, does, and feels, based on stakeholder input and user observation.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/287161e2870e5b.png",
+              "alt": "Lendit — Empathy Map · 8",
+              "width": 3480,
+              "height": 3480,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/287161e2870e5b-640.webp",
+                  "width": 640,
+                  "height": 640
+                },
+                {
+                  "image": "/assets/projects/lendit/287161e2870e5b-1280.webp",
+                  "width": 1280,
+                  "height": 1280
+                },
+                {
+                  "image": "/assets/projects/lendit/287161e2870e5b-1920.webp",
+                  "width": 1920,
+                  "height": 1920
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a3dba52a7699052a9dcc735",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/0dcfb98dd216a3.png",
+              "alt": "Lendit — Empathy Map · 9",
+              "width": 2720,
+              "height": 1760,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/0dcfb98dd216a3-640.webp",
+                  "width": 640,
+                  "height": 414
+                },
+                {
+                  "image": "/assets/projects/lendit/0dcfb98dd216a3-1280.webp",
+                  "width": 1280,
+                  "height": 828
+                },
+                {
+                  "image": "/assets/projects/lendit/0dcfb98dd216a3-1920.webp",
+                  "width": 1920,
+                  "height": 1242
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 8,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>User Personas</h2><p>Lendit is a two-sided marketplace, so I designed for two-sided demand. Three lender archetypes (supply) and three borrower archetypes (demand) kept every decision anchored to a real motivation — earning safely on one side, accessing affordably on the other.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a41ae0cfa8b4c01d55025b6",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>User Flow</h2><p>The trust lifecycle is two sided, one entry, two roles. I designed both the lender and borrower journeys to converge on a single review moment, because that review powers every trust signal across the product.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/5ffc49d72607ca.png",
+              "alt": "Lendit — User Flow · 10",
+              "width": 7724,
+              "height": 9530,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/5ffc49d72607ca-640.webp",
+                  "width": 640,
+                  "height": 790
+                },
+                {
+                  "image": "/assets/projects/lendit/5ffc49d72607ca-1280.webp",
+                  "width": 1280,
+                  "height": 1579
+                },
+                {
+                  "image": "/assets/projects/lendit/5ffc49d72607ca-1920.webp",
+                  "width": 1920,
+                  "height": 2369
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4297ee8163f948cfca91a7",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Ideate</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a42e63f8163f948cfefe732",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Wireframes</h2>"
+            }
+          ]
+        },
+        {
+          "start": 4,
+          "span": 9,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>Mapped 80+ screens covering both the borrower and lender flows - homepage, results, item view, listing creation, checkout, and messaging. Low-fidelity wireframes validated structure before visual design.</p><ul><li><p>Borrower Flow - 40+ screens</p></li><li><p>Lender Flow - 30+ screens</p></li><li><p>Shared Flows - Messaging, Auth, Onboarding</p></li></ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a42e5d28163f948cfef96f8",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/32a1078f307173.png",
+              "alt": "Lendit — Wireframes · 11",
+              "width": 3840,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/32a1078f307173-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/lendit/32a1078f307173-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/lendit/32a1078f307173-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a46fc611552ee66252017c9",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Systemise</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a42f2398163f948cff42585",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 4,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Visual Consistency</h2>"
+            }
+          ]
+        },
+        {
+          "start": 5,
+          "span": 8,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<p>Lendit was designed as one system, not a pile of screens. Instead of rebuilding the same patterns, I focused on reusable components built from shared primitives. When the UI was nearly identical, I treated it as one component with clear variants, not dozens of near duplicates. Style is defined through tokens, colour, type, spacing, radius, and elevation, set once and inherited everywhere, keeping 100 plus components and 500 plus variables coherent.</p><p>Iconography followed the same approach. I standardized on stroke based icons from Tabler Icons and Lucide, using a shared 24px and 1.5px spec. This created a consistent visual language across the product, with stroke weight, cap style, and colour kept aligned instead of overridden icon by icon.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a446691e431ab6fbc0164a9",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/3d4128c7ed544b.png",
+              "alt": "Lendit — Visual Consistency · 12",
+              "width": 3840,
+              "height": 2160,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/3d4128c7ed544b-640.webp",
+                  "width": 640,
+                  "height": 360
+                },
+                {
+                  "image": "/assets/projects/lendit/3d4128c7ed544b-1280.webp",
+                  "width": 1280,
+                  "height": 720
+                },
+                {
+                  "image": "/assets/projects/lendit/3d4128c7ed544b-1920.webp",
+                  "width": 1920,
+                  "height": 1080
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a46f8231552ee66251f2e2d",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Prototype</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4c2693c75c754a4950a5c0",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/d4b167fbeb28ef.webp",
+              "alt": "Lendit — Prototype · 13",
+              "width": 786,
+              "height": 1701,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/d4b167fbeb28ef-640.webp",
+                  "width": 640,
+                  "height": 1385
+                },
+                {
+                  "image": "/assets/projects/lendit/d4b167fbeb28ef-786.webp",
+                  "width": 786,
+                  "height": 1701
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Experience 1 - Discover locally</h2><p>Borrowing starts with a simple question: <strong>is there one near me?</strong></p><p>I designed the home screen to answer that immediately, categories up top, then two shelves of real items close by. Each card includes the full trust anatomy at a glance: the lender’s face and first name, distance, star rating, and price up front.</p><p>Search follows the way people naturally think, what, where, when, with a calendar for fixed dates and a Flexible toggle when the job can wait. The goal was simple: borrowers should know who they’d be dealing with and how far they’d walk before they ever tap into a listing.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4c29b3c75c754a4951f331",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/7644cf0c681d4e.png",
+              "alt": "Lendit — Experience 1 - Discover locally · 14",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/7644cf0c681d4e-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/7644cf0c681d4e-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/a0e67371d6a6e3.png",
+              "alt": "Lendit — Experience 1 - Discover locally · 15",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/a0e67371d6a6e3-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/a0e67371d6a6e3-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4c2738c75c754a4950ca61",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Experience 2 - Trust &amp; book</h2><p>This is the moment the marketplace exists for: a stranger deciding to trust another stranger. On the card, ratings round to whole stars for browse speed — the item view is where the exact score unlocks: 5.0 across 22 reviews, sitting right beside the price.</p><p>From here, everything the borrower needs to commit is one scroll away — the lender&#x27;s verified identity, real borrower quotes, their location on the map — and the two actions that matter stay pinned: pick dates, send a request. Not &quot;pay now&quot; — a request.</p><p>Nothing is charged until the lender accepts. Trust first, money later; that order is the design.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/d6a104e068f385.png",
+              "alt": "Lendit — Experience 2 - Trust & book · 16",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/d6a104e068f385-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/d6a104e068f385-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4c2738c75c754a4950ca66",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/ab213cc48fae52.png",
+              "alt": "Lendit — Experience 2 - Trust & book · 17",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/ab213cc48fae52-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/ab213cc48fae52-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/d56a2f86870e99.webp",
+              "alt": "Lendit — Experience 2 - Trust & book · 18",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/d56a2f86870e99-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/d56a2f86870e99-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4d6be46aad411f8522f41d",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/51333deff91c73.webp",
+              "alt": "Lendit — Experience 2 - Trust & book · 19",
+              "width": 786,
+              "height": 1746,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/51333deff91c73-640.webp",
+                  "width": 640,
+                  "height": 1422
+                },
+                {
+                  "image": "/assets/projects/lendit/51333deff91c73-786.webp",
+                  "width": 786,
+                  "height": 1746
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Experience 3 — List in 2 minutes</h2><p>Every decision here targets the same enemy, the blank form.</p><p>The entry point is <strong>a choice, not a default</strong>, AI Quick Listing is offered, never forced. Photo guidance asks for specific angles and a brand label because that’s what the model needs to draft accurately.</p><p>The draft then lands in the familiar form, <strong>pre-filled but fully editable</strong>, so it’s a new capability with no new UI to learn. And the beta disclaimer is not small print, it’s the trust contract: AI drafts, the lender approves. Nothing reaches the marketplace until a human signs off.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4d6be46aad411f8522f422",
+      "kind": "gallery",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/c99b6b435cbf7e.webp",
+              "alt": "Lendit — Experience 3 — List in 2 minutes · 20",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/c99b6b435cbf7e-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/c99b6b435cbf7e-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            },
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/7ce8e113284a4b.webp",
+              "alt": "Lendit — Experience 3 — List in 2 minutes · 21",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/7ce8e113284a4b-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/7ce8e113284a4b-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4d7aac6aad411f85295149",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/1884a31ce4e2d6.webp",
+              "alt": "Lendit — Experience 3 — List in 2 minutes · 22",
+              "width": 786,
+              "height": 1704,
+              "device": "mobile",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/1884a31ce4e2d6-640.webp",
+                  "width": 640,
+                  "height": 1387
+                },
+                {
+                  "image": "/assets/projects/lendit/1884a31ce4e2d6-786.webp",
+                  "width": 786,
+                  "height": 1704
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Experience 4 — <strong>Message centre</strong></h2><p>Every exchange is a conversation, so we built the exchange flow around chat. Structured Action Cards keep key decisions, approve, confirm pickup, propose a new time, or mark as returned, right inside the thread. Once it’s done, the conversation closes with a review, feeding the trust signals that support the rest of the product.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4d80e66aad411f852c5d67",
+      "kind": "chapter",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Test</h2>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4ee117ef6caf3ed647ae24",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 5,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2>Test 1 — Item card</h2><p>Ahead of launch, the initial item card was redesigned and two options were taken through an internal review with stakeholders.</p><p><strong>Option B</strong> won: lender identity leading, ratings rounded to whole stars, condition moved one tap deeper — the hierarchy of photo → person → item → trust → price that now anchors every listing surface.</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 6,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/9c8933cbdb72c8.webp",
+              "alt": "Lendit — Test 1 — Item card · 23",
+              "width": 1104,
+              "height": 804,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/9c8933cbdb72c8-640.webp",
+                  "width": 640,
+                  "height": 466
+                },
+                {
+                  "image": "/assets/projects/lendit/9c8933cbdb72c8-1104.webp",
+                  "width": 1104,
+                  "height": 804
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4ed3cbef6caf3ed64335ca",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "image",
+              "image": "/assets/projects/lendit/bd59da8e84c704.webp",
+              "alt": "Lendit — Test 1 — Item card · 24",
+              "width": 2819,
+              "height": 1353,
+              "device": "",
+              "variants": [
+                {
+                  "image": "/assets/projects/lendit/bd59da8e84c704-640.webp",
+                  "width": 640,
+                  "height": 307
+                },
+                {
+                  "image": "/assets/projects/lendit/bd59da8e84c704-1280.webp",
+                  "width": 1280,
+                  "height": 614
+                },
+                {
+                  "image": "/assets/projects/lendit/bd59da8e84c704-1920.webp",
+                  "width": 1920,
+                  "height": 922
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-6a4ee1c5ef6caf3ed647ef6b",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 12,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h2><strong>More testing and iterations coming soon ...</strong></h2><p><strong>Lendit is live</strong> — and this case study grows with it. If it taught me one thing: trust isn&#x27;t a feature you add, it&#x27;s an order you put things in.</p><p>Thanks for reading — get in touch anytime.</p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "section-68f6a79723f200144f7147f1",
+      "kind": "content",
+      "columns": [
+        {
+          "start": 1,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Role</h4><p>UI/UX designer</p>"
+            }
+          ]
+        },
+        {
+          "start": 4,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Tools</h4><p>Figma</p>"
+            }
+          ]
+        },
+        {
+          "start": 7,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Team</h4><p>1 UI/UX designer, 4 developers</p>"
+            }
+          ]
+        },
+        {
+          "start": 10,
+          "span": 3,
+          "blocks": [
+            {
+              "type": "text",
+              "html": "<h4>Timeline</h4><p>2025-present</p>"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

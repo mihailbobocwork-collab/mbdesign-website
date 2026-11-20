@@ -1,0 +1,11 @@
+dist/
+node_modules/
+.wrangler/
+.dev.vars
+.env*
+.DS_Store
+
+.local/
+
+preview/
+experiments/

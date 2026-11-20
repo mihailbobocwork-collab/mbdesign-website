@@ -1,0 +1,10 @@
+# Copy to .dev.vars and enter credentials privately; never commit this file.
+GOOGLE_CLIENT_ID=""
+GOOGLE_CLIENT_SECRET=""
+GOOGLE_REFRESH_TOKEN=""
+BOOKING_HOST_EMAIL="mihailboboc.work@gmail.com"
+GOOGLE_CALENDAR_ID=""
+# Optional comma-separated calendars to check for conflicts too.
+GOOGLE_CHECK_CALENDARS=""
+# Cloudflare Turnstile secret; the public site key goes in Site settings.
+TURNSTILE_SECRET=""
