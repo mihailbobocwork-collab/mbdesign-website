@@ -60,3 +60,10 @@
 .inquiry-preview-notice{font:400 13px/1.5 var(--font-sans);color:#65727d;margin:8px 0 20px 95px;user-select:none}
 @media(max-width:820px){.inquiry-preview-notice{margin-left:32px;margin-right:32px}}
 @media(max-width:600px){.inquiry-preview-notice{margin-left:22px;margin-right:22px}}
+
+/* Confirmation actions keep their own spacing and wrap on narrow screens. */
+.hero-confirmation-actions{gap:20px 28px;align-items:center;max-width:100%;min-width:0}
+.hero-confirmation-actions .text-link{display:inline-flex;align-items:center;min-height:44px;max-width:100%;overflow-wrap:anywhere}
+.hero-confirmation-actions .hero-flow-continue{max-width:100%;white-space:normal}
+.hero-flow-panel .hero-flow-helper{width:100%;max-width:610px;white-space:normal;overflow-wrap:anywhere}
+.hero-step-content{min-width:0;max-width:100%}
