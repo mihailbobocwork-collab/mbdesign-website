@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const read=async p=>JSON.parse(await readFile(path.join(root,'content',p),'utf8'));
+// Emit plain JavaScript for compatibility with the Pages Functions bundler.
+await mkdir(path.join(root,'lib'),{recursive:true});
+await writeFile(path.join(root,'lib/booking-settings.js'),'// Generated from content/booking.json by npm run build.\nexport default '+JSON.stringify(await read('booking.json'),null,2)+';\n');
 const {brands}=await read('featured.json');
 const {covers:homeCovers}=await read('home-work.json');
 const coverCompositions=Object.fromEntries(await Promise.all(['wholesum','angen-ai'].map(async name=>[name,await readFile(path.join(root,'scripts/templates/covers',name+'.html'),'utf8')])));
