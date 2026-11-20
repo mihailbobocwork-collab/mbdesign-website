@@ -5,3 +5,6 @@
 /pricing/ / 302
 /playground / 302
 /playground/* / 302
+
+/services / 302
+/services/* / 302

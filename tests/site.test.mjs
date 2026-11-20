@@ -27,9 +27,10 @@ test('Work navigation targets the homepage section while page destinations stay 
  assert.equal((home.match(/class="home-work-card(?: |")/g)||[]).length,6);
  for(const file of htmlFiles.filter(f=>!f.includes('/admin/'))){
   const html=await readFile(file,'utf8'),navigation=html.match(/<nav id="navigation"[^>]*>(.*?)<\/nav>/s)[1];
+  assert.ok(!html.includes('href="/services/'),file);
   const isHome=file===path.join(root,'dist/index.html');
   assert.ok(navigation.includes(`href="${isHome?'#work':'/#work'}"`),file);
-  for(const destination of ['services','about','contact'])assert.ok(navigation.includes(`href="/${destination}/"`),file);
+  for(const destination of ['about','contact'])assert.ok(navigation.includes(`href="/${destination}/"`),file);
  }
 });
 
