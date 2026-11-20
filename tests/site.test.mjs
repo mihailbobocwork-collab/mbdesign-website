@@ -54,3 +54,14 @@ test('The collection is removed, homepage work remains the destination and top s
  for(const p of ['lendit-flyers','lendit-gazebo','7code-tech'])assert.ok(home.includes(`href="/work/${p}/"`));
  const lendit=await readFile(path.join(root,'dist/work/lendit/index.html'),'utf8');assert.match(lendit,/<article class="case-study"/);assert.ok(!lendit.includes('chapter-story'));assert.match(lendit,/Lendit peer-to-peer marketplace/);assert.equal((lendit.match(/<figure class="case-art/g)||[]).length,24);
 });
+
+
+test('Manual CMS launch supplies one complete configuration without reloading collections',async()=>{
+ const {runInNewContext}=await import('node:vm');
+ const config=JSON.parse(await readFile(path.join(root,'dist/admin/config.yml'),'utf8'));
+ let click,received,fetches=0;const status={textContent:''},launch={hidden:true,addEventListener(_event,fn){click=fn;}},setup={remove(){}};
+ const window={CMS:{init(options){received=options.config;}}};
+ const document={querySelector:selector=>({'#status':status,'#launch':launch,'#setup':setup}[selector]),createElement:()=>({}),body:{append(script){assert.equal(window.CMS_MANUAL_INIT,true);script.onload();}}};
+ await runInNewContext(await readFile(path.join(root,'public/admin/setup.js'),'utf8'),{window,document,fetch:async()=>{fetches++;return {json:async()=>({...config,backend:{...config.backend,repo:'owner/site',base_url:'https://example.com'}})};}});
+ click();assert.equal(fetches,1);assert.equal(received.load_config_file,false);assert.equal(received.collections.length,config.collections.length);assert.equal(new Set(received.collections.map(c=>c.name)).size,received.collections.length);
+});
