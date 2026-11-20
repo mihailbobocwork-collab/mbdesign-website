@@ -1,3 +1,4 @@
+import {track} from '../analytics.js';
 let challengeScript;
 const utf8=value=>new TextEncoder().encode(value);
 async function keyFor(body){const hash=[...new Uint8Array(await crypto.subtle.digest('SHA-256',utf8(JSON.stringify(body))))].map(b=>b.toString(16).padStart(2,'0')).join(''),key='mihail:submission:'+hash;let id;try{id=sessionStorage.getItem(key);if(!id){id=crypto.randomUUID();sessionStorage.setItem(key,id);}}catch{id=crypto.randomUUID();}return {id,key};}
@@ -22,6 +23,7 @@ export class BookingAction{
    const result=await response.json();
    if(this.disposed)return;
    if(response.ok&&result.status==='confirmed'){
+    track('generate_lead',{lead_type:this.body.kind},'lead:'+this.keyInfo.id);
     try{sessionStorage.setItem('mihail:last-confirmation',JSON.stringify(result));}catch{}
     this.button.dispatchEvent(new CustomEvent('meeting-busy',{bubbles:true,detail:false}));
     this.onSuccess(result);
