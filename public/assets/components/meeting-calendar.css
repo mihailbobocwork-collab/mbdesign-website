@@ -34,3 +34,6 @@ select.meeting-zone{font:400 14px/1.4 var(--font-sans);color:#39434b;border:0;bo
 
 /* SVG chevrons are centred by geometry, independent of the font baseline. */
 .meeting-month-button{padding:0;line-height:0;flex-shrink:0;display:grid;place-items:center}.meeting-month-button svg{display:block;width:20px;height:20px;pointer-events:none}
+
+/* Selection remains legible while the pointer is still over the chosen date. */
+.meeting-day[aria-pressed=true]:not(:disabled),.meeting-day[aria-pressed=true]:not(:disabled):hover,.meeting-day[aria-pressed=true]:focus-visible,.meeting-time[aria-pressed=true],.meeting-time[aria-pressed=true]:hover,.meeting-time[aria-pressed=true]:focus-visible{background:#252d33;color:#f7f9fb;border-color:#252d33}
