@@ -69,3 +69,8 @@
 .floating-top{position:fixed;right:28px;bottom:28px;z-index:45;width:52px;height:52px;padding:0;border:1px solid #d6dcdf;border-radius:50%;display:grid;place-items:center;background:rgba(247,249,251,.94);color:#252d33;box-shadow:0 4px 18px #252d3308;backdrop-filter:blur(12px);opacity:0;visibility:hidden;pointer-events:none;transition:opacity 250ms ease,visibility 250ms ease,background 250ms ease}.floating-top svg{width:20px;height:20px}.floating-top[data-visible=true]{opacity:1;visibility:visible;pointer-events:auto}.floating-top:hover{background:#fff}.floating-top[hidden],body[data-inquiry-active=true] .floating-top{display:none}.floating-top:focus-visible{outline:2px solid #252d33;outline-offset:4px}.home-work-more{margin-top:36px;border-top:1px solid #dfe3e5}.home-work-more>a{display:flex;justify-content:space-between;gap:24px;padding:22px 4px;border-bottom:1px solid #dfe3e5;font-size:.9375rem;line-height:1.6}.home-work-more>a>span:last-child{color:#737d84;font-size:.8125rem;text-align:right}.home-work-more>a:hover>span:first-child{text-decoration:underline;text-underline-offset:5px}
 @media(max-width:600px){.floating-top{width:46px;height:46px;right:18px;bottom:max(18px,env(safe-area-inset-bottom))}.home-work-more>a{flex-direction:column;gap:6px;padding:20px 0}.home-work-more>a>span:last-child{text-align:left}}
 @media(prefers-reduced-motion:reduce){.floating-top{transition:none}}
+
+/* Original About portrait, kept at its natural square proportions. */
+.about-portrait{margin:0;min-width:0;overflow:hidden;border-radius:28px;align-self:start}
+.about-portrait img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain}
+.about-copy{min-width:0}
