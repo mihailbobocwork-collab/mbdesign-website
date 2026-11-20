@@ -74,3 +74,16 @@
 .about-portrait{margin:0;min-width:0;overflow:hidden;border-radius:28px;align-self:start}
 .about-portrait img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain}
 .about-copy{min-width:0}
+
+/* Keep native controls usable without iOS focus zoom and respect device edges. */
+@media(max-width:820px){
+ .contact-layout input,.contact-layout textarea,.contact-layout select{font-size:16px}
+ .hero-page[data-keyboard-open=true] .site-header{position:relative;top:auto;transform:none}
+ body[data-keyboard-open=true] .floating-top,body[data-keyboard-open=true] .analytics-choice{display:none}
+ .about-copy a[href^="mailto:"],.contact-layout a[href^="mailto:"]{overflow-wrap:anywhere}
+ .hero-flow-edit{min-height:44px;display:inline-flex;align-items:center}
+}
+
+::selection{background:#dce5ec;color:#252d33}
+:focus-visible{outline-color:#74828e}
+.hero-page[data-keyboard-open=true] .hero-typewriter,.hero-page[data-keyboard-open=true] .hero-flow-answer{--message-height-cap:150px}

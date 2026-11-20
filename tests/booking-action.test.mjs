@@ -15,3 +15,15 @@ test('Unavailable delivery leaves the message editable and never shows a false t
  const previous=globalThis.fetch;globalThis.fetch=async()=>Response.json({error:'not_connected',message:'Not connected yet.'},{status:503});let success=false;const button=new Button(),status={textContent:''};
  try{const action=new BookingAction({button,status,body,onSuccess:()=>success=true});await action.send();assert.equal(success,false);assert.equal(status.textContent,'Not connected yet.');assert.equal(button.disabled,false);assert.equal(button.textContent,'Send message');action.destroy();}finally{globalThis.fetch=previous;}
 });
+
+test('A verification API error leaves the button usable and explains how to recover',async()=>{
+ const previous=globalThis.turnstile,previousFetch=globalThis.fetch;let calls=0;
+ globalThis.turnstile={render:()=> 'widget',getResponse(){throw Error('widget not ready');},remove(){}};globalThis.fetch=async()=>{calls++;throw Error('must not send');};
+ const button=new Button(),status={textContent:''};
+ try{const action=new BookingAction({button,status,challenge:{},siteKey:'public-key',body,onSuccess(){}});await new Promise(resolve=>setImmediate(resolve));await action.send();assert.match(status.textContent,/Verification isn’t ready/);assert.equal(button.disabled,false);assert.equal(calls,0);action.destroy();}finally{globalThis.turnstile=previous;globalThis.fetch=previousFetch;}
+});
+test('Missing verification reveals the challenge and never sends a request',async()=>{
+ const previous=globalThis.turnstile;let scrolled=false;globalThis.turnstile={render:()=> 'widget',getResponse:()=>'',remove(){}};
+ const button=new Button(),status={textContent:''};
+ try{const action=new BookingAction({button,status,challenge:{scrollIntoView(){scrolled=true;}},siteKey:'public-key',body,onSuccess(){}});await new Promise(resolve=>setImmediate(resolve));await action.send();assert.equal(scrolled,true);assert.match(status.textContent,/verification below/);assert.equal(button.disabled,false);action.destroy();}finally{globalThis.turnstile=previous;}
+});

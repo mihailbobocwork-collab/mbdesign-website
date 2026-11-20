@@ -31,6 +31,7 @@ export class MessageEditor {
       if (Math.abs(width - this.previousWidth) > 1) { this.previousWidth = width; this.update(true); }
     });
     this.observer.observe(input);
+    this.viewport=globalThis.window?.visualViewport;this.viewportResize=()=>{if(!this.destroyed)this.update(true);};this.viewport?.addEventListener('resize',this.viewportResize);
     document.fonts?.ready.then(() => { if (!this.destroyed) this.update(true); });
   }
   readBaseStyle() {
@@ -89,5 +90,5 @@ export class MessageEditor {
     if (this.status) this.status.textContent = error;
     return error;
   }
-  destroy() { this.destroyed = true; this.observer.disconnect(); this.measurement.remove(); }
+  destroy() { this.destroyed = true; this.observer.disconnect(); this.viewport?.removeEventListener('resize',this.viewportResize); this.measurement.remove(); }
 }

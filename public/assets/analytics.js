@@ -44,7 +44,7 @@ export function createAnalytics({win,doc,storage,id=ANALYTICS_ID}){
  return {track,choose,restore};
 }
 let tracker;
-export function track(name,params,key){tracker?.track(name,params,key);}
+export function track(name,params,key){try{tracker?.track(name,params,key);}catch{/* Measurement must never interrupt an inquiry. */}}
 if(typeof document!=='undefined'&&['mihaiboboc.com','www.mihaiboboc.com'].includes(window.location.hostname)&&!location.pathname.startsWith('/admin')){
  let storage;try{storage=localStorage;}catch{}
  tracker=createAnalytics({win:window,doc:document,storage});
