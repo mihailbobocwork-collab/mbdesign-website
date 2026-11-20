@@ -82,6 +82,11 @@
   line-height: 1.55;
 }
 
+/* Only the visible biography contributes to the resting hero's height. */
+.portfolio-landing .hero-idle[data-engaged=false] .hero-suggestions {
+  contain: size;
+}
+
 .portfolio-landing .hero-client-strip {
   margin: 0;
 }
@@ -130,6 +135,7 @@
 
 @media (max-height: 700px) {
   .portfolio-landing .site-header {
+    top: 16px;
     margin-top: 16px;
   }
 
