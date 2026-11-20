@@ -62,6 +62,8 @@ for(const [route,html] of pages){const target=path.join(dist,route.endsWith('.ht
 await writeFile(path.join(dist,'assets/offers.json'),JSON.stringify([]));
 // GitHub settings are public; secrets are configured only in Cloudflare runtime settings.
 const cms=JSON.parse(await readFile(path.join(root,'cms.config.json'),'utf8'));
+const collectionNames=cms.collections.map(collection=>collection.name);
+if(collectionNames.some(name=>!name)||new Set(collectionNames).size!==collectionNames.length)throw Error('CMS collection names must be present and unique');
 cms.backend.repo=site.githubRepo||'YOUR_GITHUB_USERNAME/YOUR_REPOSITORY';cms.backend.branch=site.githubBranch||'main';cms.backend.base_url=site.siteUrl||'https://YOUR_SITE.pages.dev';
 await writeFile(path.join(dist,'admin/config.yml'),JSON.stringify(cms,null,2));
 if(site.siteUrl){const base=new URL(site.siteUrl);if(base.protocol!=='https:')throw Error('siteUrl must use HTTPS');await writeFile(path.join(dist,'sitemap.xml'),`<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${[...pages.keys()].filter(p=>p!='/404.html'&&p!='/playground/inquiry/').map(p=>`<url><loc>${e(new URL(p,base).href)}</loc></url>`).join('')}</urlset>`);}
