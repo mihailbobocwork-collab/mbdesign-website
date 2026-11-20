@@ -1,3 +1,4 @@
+import {FOOTER_HANDOFF} from './footer-inquiry.js';
 import {track} from '../analytics.js';
 import {saveDraft,hasMessage} from './hero-typewriter.js';
 import {MessageEditor, MESSAGE_LIMIT, messageLimitError} from './message-editor.js';
@@ -71,6 +72,8 @@ export class HeroInquiry {
     window.addEventListener('pagehide',event=>{if(!event.persisted)this.booking?.destroy();if(this.downloadURL)URL.revokeObjectURL(this.downloadURL);});
     this.panel.addEventListener('meeting-busy',event=>{this.bookingBusy=event.detail;this.back.disabled=event.detail;for(const control of this.panel.querySelectorAll('[data-edit-step],[data-download],[data-finish]'))control.disabled=event.detail;});
     this.updateSubjectUI();
+    document.addEventListener('portfolio-inquiry',event=>{event.preventDefault();this.start(event.detail.message);});
+    try{const pending=this.storage?.getItem(FOOTER_HANDOFF);if(pending&&hasMessage(pending)&&!messageLimitError(pending)){requestAnimationFrame(async()=>{await brandEntrance?.promise;await this.start(pending);if(this.active)this.storage?.removeItem(FOOTER_HANDOFF);});}}catch{}
   }
   persist(){try{this.storage?.setItem(FLOW_KEY,JSON.stringify(this.answers));}catch{}saveDraft(this.storage,this.answers.topic||this.answers.message);}
   updateSubjectUI(){
@@ -290,5 +293,5 @@ export class HeroInquiry {
     const link=document.createElement('a');link.href=this.downloadURL;link.download=this.answers.subject==='hiring'?'hiring-inquiry.txt':'project-inquiry.txt';link.click();
   }
 }
-const shell=globalThis.document?.querySelector('[data-hero-flow]');
-if(shell)new HeroInquiry(shell);
+function initializeHeroInquiry(){const shell=document.querySelector('[data-hero-flow]');if(shell)new HeroInquiry(shell);}
+if(globalThis.document){if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initializeHeroInquiry,{once:true});else initializeHeroInquiry();}

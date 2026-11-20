@@ -1,5 +1,8 @@
 // Basic consent mode: no Google tag or queued events before permission.
 export const ANALYTICS_ID='G-MJ6TYXCYLQ';
+export const TAG_MANAGER_ID='GTM-PM9CSLRQ';
+// Activate after automatic form and user-provided-data collection are disabled in Google.
+export const TAG_MANAGER_READY=false;
 const choiceKey='mb:analytics-consent:v1';
 const steps=new Set(['topic','name','email','company','meeting_preference','message','calendar','review','complete']);
 const projects=new Set(['lendit','7code','lendit-branding','wholesum','angen-ai','lendit-flyers','lendit-gazebo','7code-tech']);
@@ -9,7 +12,7 @@ export function safeEvent(name,params={}){
  if(name==='view_case_study'&&projects.has(params.project))return {name,params:{project:params.project}};
  return null;
 }
-export function createAnalytics({win,doc,storage,id=ANALYTICS_ID}){
+export function createAnalytics({win,doc,storage,id=ANALYTICS_ID,tagManager=TAG_MANAGER_READY}){
  let allowed=false,loaded=false;const seen=new Set();
  function command(){win.dataLayer.push(arguments);}
  const location=()=>win.location.origin+win.location.pathname;
@@ -20,7 +23,10 @@ export function createAnalytics({win,doc,storage,id=ANALYTICS_ID}){
   command('js',new Date());
   let referrer='';try{referrer=new URL(doc.referrer).origin;}catch{}
   command('config',id,{send_page_view:false,page_location:location(),page_referrer:referrer,page_title:doc.title,allow_google_signals:false,allow_ad_personalization_signals:false,cookie_expires:7776000});
-  const script=doc.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+id;doc.head.append(script);
+  const script=doc.createElement('script');script.async=true;
+  if(tagManager){win.dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});script.src='https://www.googletagmanager.com/gtm.js?id='+TAG_MANAGER_ID;}
+  else script.src='https://www.googletagmanager.com/gtag/js?id='+id;
+  doc.head.append(script);
   command('event','page_view',{page_location:location(),page_referrer:referrer,page_title:doc.title});
   const match=win.location.pathname.match(/^\/work\/([^/]+)\/$/);if(match)track('view_case_study',{project:match[1]});
  }

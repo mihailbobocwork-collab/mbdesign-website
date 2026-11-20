@@ -32,3 +32,15 @@ test('Enter on an oversized hero draft keeps it intact and cannot start the form
   el.submit();
   assert.equal(el.input.value,value);assert.equal(focused,true);assert.equal(announced,true);assert.equal(started,false);
 });
+
+test('An empty message field measures its wrapped placeholder instead of clipping to one line',async()=>{
+ const {MessageEditor}=await import('../public/assets/components/message-editor.js');
+ const editor=Object.create(MessageEditor.prototype);
+ editor.input={value:'',placeholder:'What would you like me to know?',clientWidth:170,style:{},setAttribute(){},removeAttribute(){}};
+ editor.baseStyle={base:26,baseLine:36,minimum:22,cap:220,padding:20,inset:0,fontFamily:'sans-serif',fontWeight:'400',fontStyle:'normal',letterSpacing:'0px'};
+ editor.measurement={style:{},textContent:'',getBoundingClientRect(){return {height:Math.ceil(this.textContent.length*13/170)*36};}};
+ editor.previousValue='';editor.notice='';editor.update();
+ assert.match(editor.measurement.textContent,/What would you like me to know/);assert.ok(Number.parseFloat(editor.input.style.height)>65);
+ editor.input.value='Hello';editor.update();assert.equal(editor.input.style.height,'65px');
+ editor.input.value='';editor.update();assert.ok(Number.parseFloat(editor.input.style.height)>65);
+});

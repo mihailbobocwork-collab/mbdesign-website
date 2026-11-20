@@ -62,7 +62,7 @@ export class MessageEditor {
       fontFamily: settings.fontFamily, fontWeight: settings.fontWeight,
       fontStyle: settings.fontStyle, letterSpacing: settings.letterSpacing
     });
-    this.measurement.textContent = value + '\u200b';
+    this.measurement.textContent = (value || this.input.placeholder || '') + '\u200b';
     const measure = size => {
       this.measurement.style.fontSize = size + 'px';
       this.measurement.style.lineHeight = line(size) + 'px';
