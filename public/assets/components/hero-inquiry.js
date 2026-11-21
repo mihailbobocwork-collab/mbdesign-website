@@ -6,10 +6,10 @@ import {TransitionMotion} from './transition-motion.js';
 import {brandEntrance} from './brand-loader.js';
 import {MeetingCalendar} from './meeting-calendar.js';
 import {BookingAction} from './booking-action.js';
-import {SUBJECTS,ENGAGEMENTS,emailError,topicFromMessage,formatMeeting} from './inquiry-details.js';
+import {SUBJECTS,ENGAGEMENTS,BUDGET_RANGES,budgetLabel,emailError,topicFromMessage,formatMeeting} from './inquiry-details.js';
 
 export const FLOW_KEY = 'mihail:hero-flow:v1';
-export const STEP = Object.freeze({answer:0,engagement:1,preference:2,calendar:3,email:4,review:5,complete:6});
+export const STEP = Object.freeze({answer:0,engagement:1,budget:2,preference:3,calendar:4,email:5,review:6,complete:7});
 
 export function readFlow(storage) {
   let saved;
@@ -19,6 +19,7 @@ export function readFlow(storage) {
     message:text('message',Infinity)||text('topic',200),
     subject:SUBJECTS.some(s=>s.id===saved?.subject)?saved.subject:'',
     engagement:ENGAGEMENTS.some(e=>e.id===saved?.engagement)?saved.engagement:'',
+    budget:BUDGET_RANGES.some(range=>range.id===saved?.budget)?saved.budget:'',
     meeting:['yes','no'].includes(saved?.meeting)?saved.meeting:'',
     email:text('email',254)
   };
@@ -37,6 +38,7 @@ export function inquiryPayload(answers) {
   const service=SUBJECTS.find(s=>s.id===answers.subject);
   return {
     name:'',company:'',email:answers.email.trim(),subject:answers.subject,engagement:answers.engagement,
+    ...(answers.budget?{budget:answers.budget}:{}),
     topic:service?.label||topicFromMessage(answers.message)||'Design inquiry',
     message:answers.message.trim()||service?.prompt||''
   };
@@ -44,7 +46,7 @@ export function inquiryPayload(answers) {
 
 export function formatInquiry(answers) {
   const a=inquiryPayload(answers),engagement=ENGAGEMENTS.find(e=>e.id===a.engagement)?.label;
-  return [a.topic,engagement,a.email,a.message].filter(Boolean).join('\n\n');
+  return [a.topic,engagement,budgetLabel(a),a.email,a.message].filter(Boolean).join('\n\n');
 }
 
 function element(tag,className,text) {
@@ -96,7 +98,7 @@ export class HeroInquiry {
     this.editor.syncInput();
   }
   resetDraft(){
-    this.answers.message='';this.answers.subject='';this.answers.engagement='';this.answers.meeting='';
+    this.answers.message='';this.answers.subject='';this.answers.engagement='';this.answers.budget='';this.answers.meeting='';
     this.meetingSelection=null;this.persist();this.updateSubjectUI();
   }
   chooseSubject(id){
@@ -143,7 +145,8 @@ export class HeroInquiry {
   next(){
     if(!this.active||this.busy)return;
     const field=this.form.querySelector('[data-answer]');
-    if(this.step===STEP.engagement&&this.answers.engagement){this.changeStep(STEP.preference);return;}
+    if(this.step===STEP.engagement&&this.answers.engagement){this.changeStep(STEP.budget);return;}
+    if(this.step===STEP.budget&&this.answers.budget){this.changeStep(STEP.preference);return;}
     if(!field)return;
     this.capture();
     const error=this.step===STEP.answer?answerError(field.value,this.answers.subject):emailError(field.value);
@@ -172,17 +175,18 @@ export class HeroInquiry {
     if(this.step===STEP.calendar)this.mountBooking();
   }
   render(){
-    const {answer,engagement,preference,calendar,email,review,complete}=STEP;
+    const {answer,engagement,budget,preference,calendar,email,review,complete}=STEP;
     const step=this.step;
-    if(!this.preview)track('inquiry_step',{step:['message','engagement','meeting_preference','calendar','email','review','complete'][step]});
+    if(!this.preview)track('inquiry_step',{step:['message','engagement','budget','meeting_preference','calendar','email','review','complete'][step]});
     this.messageEditor?.destroy();this.messageEditor=null;
     this.booking?.destroy();this.booking=null;this.messageAction?.destroy();this.messageAction=null;
     delete this.container.dataset.booking;this.back.disabled=false;
     this.back.textContent=step===answer||step===complete?'Back to website':'Back';
-    this.progress.textContent=step<=preference?`Question ${step+1} of 3`:step===calendar?'Choose a time':step===email?'Contact details':step===review?'A final look':this.receipt?.preview?'Preview complete':this.receipt?.kind==='message'?'Message received':'Meeting confirmed';
+    this.progress.textContent=step<=preference?`Question ${step+1} of ${preference+1}`:step===calendar?'Choose a time':step===email?'Contact details':step===review?'A final look':this.receipt?.preview?'Preview complete':this.receipt?.kind==='message'?'Message received':'Meeting confirmed';
     this.content.replaceChildren();
     if(step===answer||step===email)this.renderField(step===email);
     else if(step===engagement)this.renderEngagement();
+    else if(step===budget)this.renderBudget();
     else if(step===preference)this.renderPreference();
     else if(step===calendar)this.renderCalendar();
     else if(step===review)this.renderReview();
@@ -225,13 +229,26 @@ export class HeroInquiry {
 
   renderEngagement(){
     this.heading('How would you like to work together?','Choose the option that best fits what you have in mind.');
-    const group=element('fieldset','hero-engagement-options');
-    group.append(element('legend','sr-only','Type of collaboration'));
-    const next=control('Continue','hero-flow-continue','submit');next.disabled=!this.answers.engagement;
-    for(const {id,label} of ENGAGEMENTS){
-      const option=element('label','hero-engagement-option');
-      const radio=element('input');radio.type='radio';radio.name='engagement';radio.value=id;radio.checked=this.answers.engagement===id;
-      radio.addEventListener('change',()=>{this.answers.engagement=id;this.persist();next.disabled=false;});
+    this.renderChoices('engagement','Type of collaboration',ENGAGEMENTS);
+  }
+
+  renderBudget(){
+    this.heading('Budget range (EUR)',this.answers.engagement==='partnership'
+      ?'What monthly budget do you have in mind?':'What’s your estimated budget for the whole project?');
+    this.renderChoices('budget','Budget range (EUR)',BUDGET_RANGES);
+  }
+
+  renderChoices(name,legend,options){
+    const group=element('fieldset',`hero-choice-options hero-${name}-options`);
+    group.append(element('legend','sr-only',legend));
+    const next=control('Continue','hero-flow-continue','submit');next.disabled=!this.answers[name];
+    for(const {id,label} of options){
+      const option=element('label','hero-choice-option');
+      const radio=element('input');radio.type='radio';radio.name=name;radio.value=id;radio.checked=this.answers[name]===id;
+      radio.addEventListener('change',()=>{
+        if(name==='engagement'&&this.answers.engagement!==id)this.answers.budget='';
+        this.answers[name]=id;this.persist();next.disabled=false;
+      });
       option.append(radio,element('span','',label));group.append(option);
     }
     const actions=element('div','hero-flow-actions');actions.append(next);
@@ -268,6 +285,7 @@ export class HeroInquiry {
     if(payload.subject)this.reviewRow(review,'Service',payload.topic,STEP.answer);
     this.reviewRow(review,'Your project',payload.message,STEP.answer);
     this.reviewRow(review,'Collaboration',ENGAGEMENTS.find(e=>e.id===payload.engagement)?.label,STEP.engagement);
+    this.reviewRow(review,'Budget (EUR)',budgetLabel(payload),STEP.budget);
     this.reviewRow(review,'Next step',meeting?'Discovery call':'Send a message',STEP.preference);
     if(meeting&&this.meetingSelection)this.reviewRow(review,'When',formatMeeting(this.meetingSelection),STEP.calendar);
     this.reviewRow(review,'Email',payload.email,STEP.email);

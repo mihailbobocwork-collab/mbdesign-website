@@ -4,12 +4,12 @@ import {FLOW_KEY, STEP, HeroInquiry, readFlow, answerError, inquiryPayload, prev
 import {SUBJECTS, ENGAGEMENTS, emailError} from '../public/assets/components/inquiry-details.js';
 
 test('Saved and legacy answers survive reload without requiring name or company', () => {
-  const saved = {message:'First line\nSecond line',subject:'graphic',engagement:'project',meeting:'no',email:'alex@example.com'};
+  const saved = {message:'First line\nSecond line',subject:'graphic',engagement:'project',budget:'1000-2999',meeting:'no',email:'alex@example.com'};
   assert.deepEqual(readFlow({getItem:key => key === FLOW_KEY ? JSON.stringify(saved) : null}), saved);
   assert.deepEqual(readFlow({getItem:() => JSON.stringify({topic:'Previous topic',name:'Alex',subject:'hiring',meeting:'yes'})}),
-    {message:'Previous topic',subject:'',engagement:'',meeting:'yes',email:''});
+    {message:'Previous topic',subject:'',engagement:'',budget:'',meeting:'yes',email:''});
   for (const raw of ['null','{broken','{"message":42,"email":{}}']) {
-    assert.deepEqual(readFlow({getItem:() => raw}), {message:'',subject:'',engagement:'',meeting:'',email:''});
+    assert.deepEqual(readFlow({getItem:() => raw}), {message:'',subject:'',engagement:'',budget:'',meeting:'',email:''});
   }
   assert.equal(readFlow({getItem:() => JSON.stringify({message:'x'.repeat(6000)})}).message.length, 6000);
 });
@@ -30,25 +30,32 @@ test('The first answer accepts a short note or a service and preserves multiline
   assert.equal(answerError('App',''), '');
   assert.equal(answerError('', 'graphic'), '');
   assert.ok(answerError('x'.repeat(3001), 'graphic'));
-  const first = {subject:'graphic',engagement:'partnership',email:' alex@example.com ',message:'First line\nSecond line'};
+  const first = {subject:'graphic',engagement:'partnership',budget:'3000-4999',email:' alex@example.com ',message:'First line\nSecond line'};
   assert.deepEqual(inquiryPayload(first), {
-    name:'',company:'',subject:'graphic',engagement:'partnership',email:'alex@example.com',
+    name:'',company:'',subject:'graphic',engagement:'partnership',budget:'3000-4999',email:'alex@example.com',
     topic:'Graphic Design',message:first.message
   });
   assert.equal(inquiryPayload({...first,message:''}).message,SUBJECTS[1].prompt);
 });
 
-test('Collaboration is required and email comes after intent and any meeting slot', () => {
+test('Collaboration and budget are required and email comes after intent and any meeting slot', () => {
   assert.deepEqual(ENGAGEMENTS.map(option => option.label), ['Long-term partnership','Project-based']);
   const flow = Object.create(HeroInquiry.prototype);
-  Object.assign(flow, {active:true,busy:false,step:STEP.engagement,answers:{engagement:''},form:{querySelector:() => null}});
+  Object.assign(flow, {active:true,busy:false,step:STEP.engagement,answers:{engagement:'',budget:''},form:{querySelector:() => null}});
   const destinations = [];
   flow.changeStep = step => destinations.push(step);
   flow.next();
   assert.deepEqual(destinations, []);
   flow.answers.engagement = 'project';
   flow.next();
-  assert.deepEqual(destinations, [STEP.preference]);
+  assert.deepEqual(destinations, [STEP.budget]);
+  flow.step = STEP.budget;
+  flow.next();
+  assert.deepEqual(destinations, [STEP.budget]);
+  flow.answers.budget = 'unsure';
+  flow.next();
+  assert.deepEqual(destinations, [STEP.budget, STEP.preference]);
+  assert.equal(previousInquiryStep(STEP.preference,'no'), STEP.budget);
   assert.equal(previousInquiryStep(STEP.email,'yes'), STEP.calendar);
   assert.equal(previousInquiryStep(STEP.email,'no'), STEP.preference);
   assert.equal(previousInquiryStep(STEP.calendar,'yes'), STEP.preference);

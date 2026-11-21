@@ -97,9 +97,12 @@ test('Topic and description are separately validated and cannot inject headers',
  assert.equal(validateSubmission({...good,answers:{...good.answers,message:'app'}}),null);
 });
 test('Nameless inquiries accept the hero collaboration choice and standalone bookings can omit project context',()=>{
- const response={...answers,name:'',company:'',topic:'Graphic Design',subject:'graphic',engagement:'partnership',message:'App'};
+ const response={...answers,name:'',company:'',topic:'Graphic Design',subject:'graphic',engagement:'partnership',budget:'3000-4999',message:'App'};
  const message=input(undefined,{kind:'message',answers:response});
  assert.equal(validateSubmission(message).answers.engagement,'partnership');
+ assert.equal(validateSubmission(message).answers.budget,'3000-4999');
+ assert.equal(validateSubmission({...message,answers:{...response,budget:'invalid'}}),null);
+ assert.equal(validateSubmission({...message,answers:{...response,engagement:undefined}}),null);
  assert.equal(validateSubmission({...message,answers:{...response,engagement:'other'}}),null);
  assert.equal(validateSubmission({...message,answers:{...response,message:''}}),null);
  const booking=input(undefined,{answers:{...answers,name:'',company:'',subject:'',message:''}});
@@ -108,11 +111,11 @@ test('Nameless inquiries accept the hero collaboration choice and standalone boo
 
 test('Google event and email carry the topic alongside the full description',async()=>{
  const sent=[];const provider=createGoogleProvider({fetcher:async(url,options)=>{if(url.includes('oauth2'))return Response.json({access_token:'mock-token',expires_in:3600});sent.push({url,body:JSON.parse(options.body)});return Response.json({id:'mock-id',status:'confirmed'});}});
- const brief={...answers,topic:'App',message:'A detailed app brief with useful context.\nSecond line.'};
+ const brief={...answers,topic:'App',engagement:'partnership',budget:'3000-4999',message:'A detailed app brief with useful context.\nSecond line.'};
  await provider.create(env,{id:'mock-event',startTime:'2026-11-20T08:00:00Z',endTime:'2026-11-20T08:30:00Z',answers:brief,timeZone:'UTC'});
- assert.equal(sent[0].body.summary,'App — Alex');assert.ok(sent[0].body.description.includes('Topic: App'));assert.ok(sent[0].body.description.includes(brief.message));
+ assert.equal(sent[0].body.summary,'App — Alex');assert.ok(sent[0].body.description.includes('Topic: App'));assert.ok(sent[0].body.description.includes(brief.message));assert.match(sent[0].body.description,/Budget \(EUR\): €3,000–€4,999 per month/);
  await provider.message(env,{id:'mock-message',answers:brief});const mail=Buffer.from(sent[1].body.raw,'base64url').toString('utf8');const subject=mail.match(/Subject: =\?UTF-8\?B\?(.+)\?=/)[1];assert.equal(Buffer.from(subject,'base64').toString(),'Project inquiry — App');
- const body=Buffer.from(mail.split('\r\n\r\n')[1],'base64').toString('utf8');assert.ok(body.includes('Topic: App'));assert.ok(body.includes(brief.message));
+ const body=Buffer.from(mail.split('\r\n\r\n')[1],'base64').toString('utf8');assert.ok(body.includes('Topic: App'));assert.ok(body.includes(brief.message));assert.match(body,/Budget \(EUR\): €3,000–€4,999 per month/);
 });
 
 test('Meeting confirmation email reaches the guest and owner with time, topic and safe Meet link',async()=>{
