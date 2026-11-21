@@ -67,8 +67,12 @@ pages.set('/pricing/',layout('Pricing',intro('Pricing','A clear place to start.'
 pages.set('/playground/',layout('Playground',intro('Playground','Room to play.',site.playgroundIntro)+`<p class="draft-note">Interactive demo experiments · Created for this website draft.</p><p class="calendar-study-link"><a class="text-link" href="/playground/calendar/">Explore the calendar study</a></p><div class="play-grid"><article class="experiment"><div class="experiment-stage magnet-stage"><div class="magnet-ring" aria-hidden="true"></div><button class="button dark" data-magnetic id="magnet-demo">A little closer</button></div><h2>A gentle pull</h2><p>Move your pointer near the button. A small response, with your native cursor kept intact. Keyboard and touch still work normally.</p><p class="experiment-status" id="magnet-status" aria-live="polite">Try the button.</p></article><article class="experiment"><div class="experiment-stage palette-stage" id="palette-stage"><div class="palette-art" aria-hidden="true"><div></div><div></div><div></div></div></div><h2>Same form, different feeling</h2><p>A tiny study in color relationships. Choose a palette and see how the composition changes.</p><div class="palette-options" role="group" aria-label="Color palette"><button data-palette="moss" aria-pressed="true">Moss</button><button data-palette="lilac" aria-pressed="false">Lilac</button><button data-palette="ink" aria-pressed="false">Ink</button></div></article><article class="experiment wide"><div class="experiment-stage type-stage"><p id="type-sample">Less, but considered.</p></div><div class="type-controls"><div><h2>Space to breathe</h2><p>A small exploration of type and the space around it.</p></div><label>Letter spacing <input id="tracking" type="range" min="-6" max="12" value="-3"><output id="tracking-value">−0.03em</output></label></div></article></div>`,'/playground/'));
 pages.set('/playground/calendar/',layout('Calendar study',intro('Playground','A little time to talk.','A calendar that shares the website’s type, colours, and quiet pace. This study uses clearly labelled sample times. The real booking flow connects directly to Google Calendar and creates a Google Meet invitation after confirmation.')+`<section class="calendar-study" aria-label="Calendar design preview"><div data-calendar-preview></div></section><a class="text-link" href="/playground/">Back to Playground</a><script type="module" src="/assets/components/meeting-calendar.js"></script>`,'/playground/calendar/'));
 
-const contactBody=`<section class="contact-intro"><h1>A good conversation<br> is a good start.</h1>${site.contactIntro?`<p>${e(site.contactIntro)}</p>`:''}</section>
-<div class="contact-layout">
+const contactBody=`<div class="contact-layout">
+<section class="contact-intro">
+  <h1>A good conversation is a good start.</h1>
+  ${site.contactIntro?`<p class="contact-lead">${e(site.contactIntro)}</p>`:''}
+</section>
+<div class="contact-workflow">
   <div class="contact-modes" role="group" aria-label="How to get in touch">
     <button type="button" data-contact-mode="message" aria-pressed="true">Send a message</button>
     <button type="button" data-contact-mode="meeting" aria-pressed="false">Book a discovery call</button>
@@ -83,7 +87,6 @@ const contactBody=`<section class="contact-intro"><h1>A good conversation<br> is
     </section>
     <section data-contact-panel="calendar" hidden>
       <h2 tabindex="-1">Choose a time</h2>
-      <p>A short discovery call on Google Meet.</p>
       <div id="contact-booking" role="region" aria-label="Meeting scheduler"></div>
     </section>
     <section data-contact-panel="email" hidden>
@@ -118,7 +121,8 @@ const contactBody=`<section class="contact-intro"><h1>A good conversation<br> is
       </div>
     </section>
   </form>
-  ${site.contactEmail?`<p class="contact-direct">Or email <a class="text-link" href="mailto:${e(site.contactEmail)}">${e(site.contactEmail)}</a></p>`:''}
+</div>
+${site.contactEmail?`<p class="contact-direct"><span>Email me directly</span><a class="text-link" href="mailto:${e(site.contactEmail)}">${e(site.contactEmail)}</a></p>`:''}
 </div>
 ${featured}`;
 pages.set('/contact/',layout('Get in touch',contactBody,'/contact/'));
