@@ -1,10 +1,21 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {DRAFT_KEY,typingDelay,hasMessage,saveDraft,readDraft,inquiryURL,messageFromFragment,restoreInquiry,InteractiveTypewriter} from '../public/assets/components/hero-typewriter.js';
+import {DRAFT_KEY,typingDelay,hasMessage,saveDraft,readDraft,inquiryURL,messageFromFragment,readContactEntry,InteractiveTypewriter} from '../public/assets/components/hero-typewriter.js';
 const storage=()=>{const values=new Map();return {getItem:k=>values.get(k)||null,setItem:(k,v)=>values.set(k,v),removeItem:k=>values.delete(k)};};
 test('Message handoff round-trips multiline, symbols, emoji and markup as text',()=>{const message='A product idea & a question? #UX\nSecond line: café ✨ <script>plain text</script>';const url=inquiryURL(message);assert.equal(messageFromFragment(url.slice(url.indexOf('#'))),message);assert.equal(messageFromFragment('#other'),null);assert.equal(messageFromFragment('#message=%invalid'),null);assert.equal(hasMessage(' \n '),false);assert.equal(hasMessage(message),true);});
 test('Draft persistence can be cleared and gracefully tolerates blocked storage',()=>{const s=storage();saveDraft(s,'Our product idea');assert.equal(s.getItem(DRAFT_KEY),'Our product idea');assert.equal(readDraft(s),'Our product idea');saveDraft(s,'');assert.equal(readDraft(s),'');const blocked={getItem(){throw Error('denied');},setItem(){throw Error('denied');},removeItem(){throw Error('denied');}};assert.doesNotThrow(()=>saveDraft(blocked,'still editable'));assert.equal(readDraft(blocked),'');});
-test('Contact prefill keeps message intact, preserves newer edits and removes fragment',()=>{const s=storage(),listeners={};const field={value:'',addEventListener:(event,fn)=>listeners[event]=fn};const form={elements:{message:field}};let cleaned='';const history={state:null,replaceState:(_,__,url)=>cleaned=url};restoreInquiry(form,s,{hash:'#message='+encodeURIComponent('First line\nSecond line & details'),pathname:'/contact/',search:'?offer=project'},history);assert.equal(field.value,'First line\nSecond line & details');assert.equal(cleaned,'/contact/?offer=project');field.value+='\nEdited on contact';listeners.input();restoreInquiry(form,s,{hash:'#message=old',pathname:'/contact/',search:''},history);assert.equal(field.value,'First line\nSecond line & details\nEdited on contact');});
+test('Contact entry preserves multiline drafts and removes the fragment',()=>{
+  const s=storage(), pathname='/contact/';
+  let cleaned='';
+  const history={state:null,replaceState:(_,__,url)=>cleaned=url};
+  const hash='#message='+encodeURIComponent('First line\nSecond line & details');
+  const initial=readContactEntry(s,{hash,pathname,search:''},history);
+  assert.equal(initial.message,'First line\nSecond line & details');
+  assert.equal(cleaned,pathname);
+  saveDraft(s,initial.message+'\nEdited on contact',initial.draftKey);
+  assert.match(readContactEntry(s,{hash,pathname,search:''},history).message,/Edited on contact$/);
+
+});
 test('Ordinary typing takes 50–80ms with longer punctuation pauses',()=>{assert.equal(typingDelay('a',()=>0),50);assert.equal(typingDelay('a',()=>1),80);assert.ok(typingDelay(',',()=>0)>typingDelay('a',()=>1));assert.ok(typingDelay('.',()=>0)>typingDelay(',',()=>1));});
 test('An empty hover exit restores the finished introduction without replay',()=>{const el=Object.create(InteractiveTypewriter.prototype);Object.assign(el,{input:{value:''},characters:Array.from('Hello.'),fullText:'Hello.',intro:{textContent:'He'},dataset:{typing:'true',editing:'true'},hovered:false,contains:()=>false});const previous=globalThis.document;globalThis.document={activeElement:null};try{el.restore();assert.equal(el.intro.textContent,'Hello.');assert.equal(el.dataset.typing,'false');assert.equal(el.dataset.editing,'false');assert.equal(el.index,6);}finally{globalThis.document=previous;}});
 test('Pointer exit never resets typed text or an actively focused editor',()=>{const el=Object.create(InteractiveTypewriter.prototype);Object.assign(el,{input:{value:'Keep this draft'},dataset:{editing:'true'},hovered:false,contains:()=>false});const previous=globalThis.document;globalThis.document={activeElement:null};try{el.restore();assert.equal(el.input.value,'Keep this draft');assert.equal(el.dataset.editing,'true');el.input.value='';el.contains=()=>true;el.restore();assert.equal(el.dataset.editing,'true');}finally{globalThis.document=previous;}});
@@ -90,8 +101,14 @@ test('A completed inquiry returns to the introduction, clears the draft, and per
 });
 
 test('A case-study request has its own draft and keeps the visitor’s general inquiry intact',()=>{
- const s=storage();saveDraft(s,'My existing project idea');const listeners={};const field={value:'',addEventListener:(event,fn)=>listeners[event]=fn};const form={elements:{message:field}};const history={state:null,replaceState(){}};
- const location={pathname:'/contact/',search:'?case-study=7code-tech',hash:'#message='+encodeURIComponent('Please share 7code Tech.')};
- restoreInquiry(form,s,location,history);assert.equal(field.value,'Please share 7code Tech.');assert.equal(readDraft(s),'My existing project idea');
- field.value+=' I’m recruiting.';listeners.input();restoreInquiry(form,s,{...location,hash:''},history);assert.equal(field.value,'Please share 7code Tech. I’m recruiting.');assert.equal(readDraft(s),'My existing project idea');
+  const s=storage();
+  saveDraft(s,'My existing project idea');
+  const history={state:null,replaceState(){}};
+  const location={pathname:'/contact/',search:'?case-study=7code-tech&project=7code%20Tech',hash:'#message='+encodeURIComponent('Please share 7code Tech.')};
+  const entry=readContactEntry(s,location,history);
+  assert.equal(entry.message,'Please share 7code Tech.');
+  assert.equal(entry.topic,'7code Tech case study request');
+  saveDraft(s,entry.message+' I’m recruiting.',entry.draftKey);
+  assert.equal(readContactEntry(s,{...location,hash:''},history).message,'Please share 7code Tech. I’m recruiting.');
+  assert.equal(readDraft(s),'My existing project idea');
 });

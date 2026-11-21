@@ -1,6 +1,7 @@
 /** A native, progressively enhanced textarea inside the existing hero type scale. */
 import {MessageEditor, messageLimitError} from './message-editor.js';
 import {PortraitMotion} from './portrait-motion.js';
+import {topicFromMessage} from './inquiry-details.js';
 export const DRAFT_KEY = 'mihail:hero-inquiry:v1';
 export const hasMessage = value => value.trim().length > 0;
 export function typingDelay(character, random = Math.random) {
@@ -23,17 +24,20 @@ export function messageFromFragment(hash) {
   if (!hash.startsWith('#message=')) return null;
   try { return decodeURIComponent(hash.slice(9)).slice(0, 5000); } catch { return null; }
 }
-export function restoreInquiry(form, storage, location, history) {
-  const message = messageFromFragment(location.hash);
-  const request = new URLSearchParams(location.search).get('case-study');
-  const key = /^[a-z0-9-]{1,80}$/.test(request || '') ? DRAFT_KEY + ':case:' + request : DRAFT_KEY;
-  const saved = readDraft(storage, key);
-  const field = form.elements.message;
-  // Prefer later contact-page edits when returning through browser history.
-  field.value = saved || message || '';
-  saveDraft(storage, field.value, key);
-  field.addEventListener('input', () => saveDraft(storage, field.value, key));
-  try { if (message !== null) history.replaceState(history.state, '', location.pathname + location.search); } catch { /* Keep the fragment if history is unavailable. */ }
+export function readContactEntry(storage, location, history) {
+  const fragment = messageFromFragment(location.hash);
+  const params = new URLSearchParams(location.search);
+  const request = params.get('case-study');
+  const caseSlug = /^[a-z0-9-]{1,80}$/.test(request || '') ? request : '';
+  const draftKey = caseSlug ? DRAFT_KEY + ':case:' + caseSlug : DRAFT_KEY;
+  const saved = readDraft(storage, draftKey);
+  const project = caseSlug && topicFromMessage(params.get('project') || caseSlug.replaceAll('-', ' ')).slice(0,100);
+  const topic = project ? project + ' case study request' : topicFromMessage(params.get('topic') || '');
+  const message = saved || fragment || topic;
+  if (fragment !== null) {
+    try { history.replaceState(history.state, '', location.pathname + location.search); } catch { /* The fragment stays local to the browser. */ }
+  }
+  return {caseSlug,draftKey,message,topic};
 }
 
 const BaseElement = globalThis.HTMLElement || class {};
@@ -187,8 +191,8 @@ export class InteractiveTypewriter extends BaseElement {
   focusFromHover() {
     const active = document.activeElement;
     if (active === this.input) return;
-    // Keep another form's editing session intact when the pointer merely passes by.
-    if (active?.matches?.('input, textarea, select, [contenteditable="true"]')) return;
+    // Keep focus on a control the visitor is already using.
+    if (active?.matches?.('input, textarea, select, button, a[href], [contenteditable="true"]')) return;
     this.hoverFocus = true;
     this.input.focus({preventScroll: true});
   }
@@ -281,9 +285,4 @@ export class InteractiveTypewriter extends BaseElement {
 }
 if (globalThis.customElements && !customElements.get('interactive-typewriter')) {
   customElements.define('interactive-typewriter', InteractiveTypewriter);
-}
-const inquiryForm = globalThis.document?.querySelector('#inquiry-form');
-if (inquiryForm) {
-  let storage; try { storage = sessionStorage; } catch { /* Optional. */ }
-  restoreInquiry(inquiryForm, storage, location, history);
 }

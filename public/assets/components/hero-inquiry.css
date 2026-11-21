@@ -1,5 +1,7 @@
-/* The inquiry grows out of the same hero column, never a modal or a new route. */
+/* Both inquiry entry points use the same hero column. */
 .hero-page .hero-introduction{display:grid;grid-column:2;align-items:start;min-width:0}
+.hero-page[data-inquiry-opening] :is(.figma-hero,.hero-client-strip,.site-header nav,.menu-toggle){display:none}
+.hero-inquiry-fallback{margin:48px auto;padding:0 22px}
 .hero-idle,.hero-flow-panel{grid-area:1 / 1;align-self:start;min-width:0}
 .hero-introduction[data-transitioning=true]{overflow:clip;overflow-anchor:none}
 /* Shared slots keep the biography and chips from changing the hero height. */

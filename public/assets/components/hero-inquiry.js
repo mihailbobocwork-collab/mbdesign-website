@@ -1,6 +1,6 @@
 import {FOOTER_HANDOFF} from './footer-inquiry.js';
 import {track} from '../analytics.js';
-import {saveDraft,hasMessage} from './hero-typewriter.js';
+import {saveDraft,hasMessage,readContactEntry} from './hero-typewriter.js';
 import {MessageEditor, messageLimitError} from './message-editor.js';
 import {TransitionMotion} from './transition-motion.js';
 import {brandEntrance} from './brand-loader.js';
@@ -11,9 +11,9 @@ import {SUBJECTS,ENGAGEMENTS,BUDGET_RANGES,budgetLabel,emailError,topicFromMessa
 export const FLOW_KEY = 'mihail:hero-flow:v1';
 export const STEP = Object.freeze({answer:0,engagement:1,budget:2,preference:3,calendar:4,email:5,review:6,complete:7});
 
-export function readFlow(storage) {
+export function readFlow(storage,key=FLOW_KEY) {
   let saved;
-  try { saved=JSON.parse(storage.getItem(FLOW_KEY)||'{}'); } catch { /* Storage is optional. */ }
+  try { saved=JSON.parse(storage.getItem(key)||'{}'); } catch { /* Storage is optional. */ }
   const text=(key,max)=>typeof saved?.[key]==='string'?saved[key].slice(0,max):'';
   return {
     message:text('message',Infinity)||text('topic',200),
@@ -26,7 +26,7 @@ export function readFlow(storage) {
 }
 
 export function answerError(message,subject) {
-  return messageLimitError(message) || (!hasMessage(message)&&!subject?'Choose a design service or leave a short note.':'');
+  return messageLimitError(message) || (!hasMessage(message)&&!subject?'Tell me a little about what you’re working on.':'');
 }
 
 export function previousInquiryStep(step,meeting) {
@@ -34,18 +34,18 @@ export function previousInquiryStep(step,meeting) {
   return step-1;
 }
 
-export function inquiryPayload(answers) {
+export function inquiryPayload(answers,entryTopic='') {
   const service=SUBJECTS.find(s=>s.id===answers.subject);
   return {
     name:'',company:'',email:answers.email.trim(),subject:answers.subject,engagement:answers.engagement,
     ...(answers.budget?{budget:answers.budget}:{}),
-    topic:service?.label||topicFromMessage(answers.message)||'Design inquiry',
+    topic:entryTopic||service?.label||topicFromMessage(answers.message)||'Design inquiry',
     message:answers.message.trim()||service?.prompt||''
   };
 }
 
-export function formatInquiry(answers) {
-  const a=inquiryPayload(answers),engagement=ENGAGEMENTS.find(e=>e.id===a.engagement)?.label;
+export function formatInquiry(answers,entryTopic) {
+  const a=inquiryPayload(answers,entryTopic),engagement=ENGAGEMENTS.find(e=>e.id===a.engagement)?.label;
   return [a.topic,engagement,budgetLabel(a),a.email,a.message].filter(Boolean).join('\n\n');
 }
 
@@ -71,7 +71,12 @@ export class HeroInquiry {
     this.form=this.panel.querySelector('form');this.motion=matchMedia('(prefers-reduced-motion: reduce)');
     this.transition=new TransitionMotion(this.motion);
     try{this.storage=sessionStorage;}catch{}
-    this.answers=readFlow(this.storage);this.active=false;this.busy=false;this.step=STEP.answer;this.version=0;
+    this.direct=shell.hasAttribute('data-inquiry-entry');
+    const entry=this.direct?readContactEntry(this.storage,location,history):null;
+    this.flowKey=entry?.caseSlug?FLOW_KEY+':case:'+entry.caseSlug:FLOW_KEY;
+    this.draftKey=entry?.draftKey;
+    this.entryTopic=entry?.topic;
+    this.answers=readFlow(this.storage,this.flowKey);this.active=false;this.busy=false;this.step=STEP.answer;this.version=0;
     this.surroundings=[document.querySelector('#navigation'),document.querySelector('.menu-toggle'),this.hero.querySelector('.hero-portrait'),shell.querySelector('.hero-client-strip'),...document.querySelectorAll('main > :not(.figma-hero-shell)'),document.querySelector('main + .wrap')].filter(Boolean);
     this.originalStates=new Map();this.downloadURL='';this.siteKey=shell.dataset.turnstileSiteKey||'';this.preview=shell.dataset.inquiryPreview==='true'||document.body.dataset.localBookingPreview==='true';this.booking=null;this.bookingBusy=false;this.meetingSelection=null;
     this.editor.addEventListener('hero-inquiry-start',event=>{event.preventDefault();this.start(event.detail.message);});
@@ -84,14 +89,27 @@ export class HeroInquiry {
     this.idle.querySelectorAll('button[data-subject]').forEach(button=>button.addEventListener('click',()=>this.chooseSubject(button.dataset.subject)));
     document.querySelector('.hero-brand')?.addEventListener('click',event=>{if(this.active){event.preventDefault();if(!this.bookingBusy)this.exit();}});
     document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!event.defaultPrevented&&this.active&&!this.bookingBusy){event.preventDefault();this.exit();}});
-    window.addEventListener('popstate',()=>{if(this.active&&!this.bookingBusy)this.exit(false);});
+    const contactButton=document.querySelector('.nav-contact');
+    contactButton?.addEventListener('click',event=>{
+      if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      event.preventDefault();
+      this.start(this.editor.input.value,{trigger:contactButton});
+    });
+    window.addEventListener('popstate',event=>{
+      if(this.direct)return;
+      if(event.state?.heroInquiry){
+        if(!this.active)this.start(this.editor.input.value,{trigger:event.state.viaContact?contactButton:null,fromHistory:true});
+      }else if(this.active&&!this.bookingBusy)this.exit(false);
+    });
     window.addEventListener('pagehide',event=>{if(!event.persisted)this.booking?.destroy();if(this.downloadURL)URL.revokeObjectURL(this.downloadURL);});
     this.panel.addEventListener('meeting-busy',event=>{this.bookingBusy=event.detail;this.back.disabled=event.detail;for(const control of this.panel.querySelectorAll('[data-edit-step],[data-download],[data-finish]'))control.disabled=event.detail;});
     this.updateSubjectUI();
+    if(entry){this.start(entry.message);return;}
+    if(history.state?.viaContact)this.start(this.editor.input.value,{trigger:contactButton,fromHistory:true});
     document.addEventListener('portfolio-inquiry',event=>{event.preventDefault();this.start(event.detail.message);});
     try{const pending=this.storage?.getItem(FOOTER_HANDOFF);if(pending&&hasMessage(pending)&&!messageLimitError(pending)){requestAnimationFrame(async()=>{await brandEntrance?.promise;await this.start(pending);if(this.active)this.storage?.removeItem(FOOTER_HANDOFF);});}}catch{}
   }
-  persist(){try{this.storage?.setItem(FLOW_KEY,JSON.stringify(this.answers));}catch{}saveDraft(this.storage,this.answers.message);}
+  persist(){try{this.storage?.setItem(this.flowKey||FLOW_KEY,JSON.stringify(this.answers));}catch{}saveDraft(this.storage,this.answers.message,this.draftKey);}
   updateSubjectUI(){
     this.editor.dataset.subject=this.answers.subject;
     this.idle.querySelectorAll('button[data-subject]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.subject===this.answers.subject)));
@@ -106,26 +124,24 @@ export class HeroInquiry {
     this.answers.subject=id;
     this.start(this.editor.input.value);
   }
-  async start(message){
-    if(this.active||this.busy||(!this.answers.subject&&!hasMessage(message)))return;
+  async start(message,{trigger=null,fromHistory=false}={}){
+    if(this.active||this.busy||(!this.direct&&!trigger&&!fromHistory&&!this.answers.subject&&!hasMessage(message)))return;
+    this.entryTrigger=trigger;
     this.answers.message=message;this.persist();this.step=STEP.answer;
     this.active=true;this.busy=true;const version=++this.version;
     this.originalStates.clear();for(const el of this.surroundings){this.originalStates.set(el,{inert:el.inert,hidden:el.hidden});el.inert=true;}
-    const oldHeight=this.idle.getBoundingClientRect().height;
-    this.container.style.height=oldHeight+'px';this.container.dataset.transitioning='true';
-    this.idle.inert=true;this.panel.style.opacity='0';this.panel.hidden=false;this.panel.inert=true;this.render();
+    this.idle.inert=true;this.panel.hidden=false;this.panel.inert=true;this.render();
     this.content.style.removeProperty('opacity');this.content.style.removeProperty('transform');
     this.progress.style.removeProperty('opacity');
-    try{history.pushState({...history.state,heroInquiry:true},'',location.href);this.ownsHistory=true;}catch{}
-    const newHeight=this.panel.getBoundingClientRect().height;
-    document.body.dataset.inquiryActive='true';this.container.dataset.flow='true';this.hero.setAttribute('aria-label','Get in touch');
-    // Long project drafts may have scrolled the logo offscreen before Continue.
-    window.scrollTo({top:0,behavior:this.motion.matches?'instant':'smooth'});
-    await Promise.all([
-      this.animate(this.idle,[{},{opacity:0,transform:'translateY(-4px)'}],{duration:420}),
-      this.animate(this.panel,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:620,delay:150}),
-      this.animate(this.container,[{height:oldHeight+'px'},{height:newHeight+'px'}],{duration:770})
-    ]);
+    if(!this.direct){
+      try{
+        if(!fromHistory)history.pushState({...history.state,heroInquiry:true,viaContact:Boolean(trigger)},'',location.href);
+        this.ownsHistory=true;
+      }catch{}
+      await this.openFromHero();
+    }else{
+      this.showFlow();
+    }
     if(version!==this.version)return;
     this.idle.hidden=true;this.panel.inert=false;this.busy=false;
     // Keep the portrait’s slot so the form remains anchored to the introduction.
@@ -133,6 +149,21 @@ export class HeroInquiry {
     document.body.dataset.inquiryReady='true';
     this.releaseLayout();
     this.focusField();
+  }
+  showFlow(){
+    document.body.dataset.inquiryActive='true';this.container.dataset.flow='true';this.hero.setAttribute('aria-label','Get in touch');
+    document.body.removeAttribute('data-inquiry-opening');
+  }
+  openFromHero(){
+    const oldHeight=this.idle.getBoundingClientRect().height,newHeight=this.panel.getBoundingClientRect().height;
+    this.container.style.height=oldHeight+'px';this.container.dataset.transitioning='true';this.panel.style.opacity='0';
+    this.showFlow();
+    window.scrollTo({top:0,behavior:this.motion.matches?'instant':'smooth'});
+    return Promise.all([
+      this.animate(this.idle,[{},{opacity:0,transform:'translateY(-4px)'}],{duration:420}),
+      this.animate(this.panel,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:620,delay:150}),
+      this.animate(this.container,[{height:oldHeight+'px'},{height:newHeight+'px'}],{duration:770})
+    ]);
   }
   animate(el,keyframes,options={}){
     return this.transition.run(el,keyframes,options);
@@ -279,10 +310,11 @@ export class HeroInquiry {
 
   renderReview(){
     const meeting=this.answers.meeting==='yes';
-    const payload=inquiryPayload(this.answers);
+    const payload=inquiryPayload(this.answers,this.entryTopic);
     this.heading('Does this feel right?',meeting?'Review your details before confirming the call.':'Review your details before sending your message.');
     const review=element('dl','hero-flow-review');
-    if(payload.subject)this.reviewRow(review,'Service',payload.topic,STEP.answer);
+    if(payload.subject)this.reviewRow(review,'Service',SUBJECTS.find(service=>service.id===payload.subject)?.label,STEP.answer);
+    if(this.entryTopic)this.reviewRow(review,'Topic',this.entryTopic,STEP.answer);
     this.reviewRow(review,'Your project',payload.message,STEP.answer);
     this.reviewRow(review,'Collaboration',ENGAGEMENTS.find(e=>e.id===payload.engagement)?.label,STEP.engagement);
     this.reviewRow(review,'Budget (EUR)',budgetLabel(payload),STEP.budget);
@@ -347,6 +379,11 @@ export class HeroInquiry {
     if(!this.active||this.bookingBusy)return;
     this.messageAction?.destroy();
     this.capture();this.booking?.destroy();this.booking=null;this.active=false;this.busy=true;const version=++this.version;
+    if(this.direct){
+      if(completed)this.resetDraft();
+      window.location.replace('/');
+      return;
+    }
     this.transition.cancel();
     const oldHeight=this.container.getBoundingClientRect().height;
     this.container.style.height=oldHeight+'px';this.container.dataset.transitioning='true';
@@ -368,11 +405,12 @@ export class HeroInquiry {
     if(version!==this.version)return;
     this.panel.hidden=true;this.idle.inert=false;this.busy=false;this.releaseLayout();
     if(completed)document.querySelector('.hero-brand')?.focus({preventScroll:true});
+    else if(this.entryTrigger)this.entryTrigger.focus({preventScroll:true});
     else{this.editor.reveal();this.editor.input.focus({preventScroll:true});}
   }
   download(){
     if(this.downloadURL)URL.revokeObjectURL(this.downloadURL);
-    this.downloadURL=URL.createObjectURL(new Blob([formatInquiry(this.answers)],{type:'text/plain;charset=utf-8'}));
+    this.downloadURL=URL.createObjectURL(new Blob([formatInquiry(this.answers,this.entryTopic)],{type:'text/plain;charset=utf-8'}));
     const link=document.createElement('a');link.href=this.downloadURL;link.download='project-inquiry.txt';link.click();
   }
 }
