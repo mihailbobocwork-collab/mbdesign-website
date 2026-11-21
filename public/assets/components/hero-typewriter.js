@@ -28,7 +28,6 @@ export function restoreInquiry(form, storage, location, history) {
   const request = new URLSearchParams(location.search).get('case-study');
   const key = /^[a-z0-9-]{1,80}$/.test(request || '') ? DRAFT_KEY + ':case:' + request : DRAFT_KEY;
   const saved = readDraft(storage, key);
-  if (message === null && !saved) return;
   const field = form.elements.message;
   // Prefer later contact-page edits when returning through browser history.
   field.value = saved || message || '';
@@ -89,6 +88,38 @@ export class InteractiveTypewriter extends BaseElement {
       on(this.engagement, 'pointerleave', () => { this.engagementHovered = false; this.scheduleRestore(); });
       on(this.engagement, 'focusout', () => this.scheduleRestore());
     }
+    // The temporary homepage can fit in one viewport, so a downward gesture
+    // also counts when there is no remaining page to scroll. Keep it passive.
+    let wheelDistance = 0, wheelAt = 0, touch = null, lastY = window.scrollY;
+    const overHomepage = target => target instanceof Element && !target.closest('input, textarea, button, a, select, .hero-flow-panel') &&
+      this.closest('main')?.getBoundingClientRect().bottom > 0;
+    window.addEventListener('wheel', event => {
+      if (event.ctrlKey || !overHomepage(event.target) || event.deltaY <= Math.abs(event.deltaX)) { wheelDistance = 0; return; }
+      if (event.timeStamp - wheelAt > 200) wheelDistance = 0;
+      wheelAt = event.timeStamp;
+      wheelDistance += event.deltaY * (event.deltaMode === 0 ? 1 : 16);
+      if (wheelDistance >= 24) this.listenOnScroll();
+    }, {passive:true,signal:this.events.signal});
+    window.addEventListener('touchstart', event => {
+      touch = event.touches.length === 1 && overHomepage(event.target) ? event.touches[0] : null;
+    }, {passive:true,signal:this.events.signal});
+    window.addEventListener('touchmove', event => {
+      if (!touch || event.touches.length !== 1) { touch = null; return; }
+      const finger = event.touches[0];
+      if (touch.clientY-finger.clientY > Math.max(32,Math.abs(touch.clientX-finger.clientX))) {
+        touch = null;this.listenOnScroll();
+      }
+    }, {passive:true,signal:this.events.signal});
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > lastY && document.activeElement?.tagName !== 'TEXTAREA' &&
+          this.closest('.figma-hero')?.getBoundingClientRect().bottom > 0) this.listenOnScroll();
+      lastY = y;
+    }, {passive:true,signal:this.events.signal});
+    on(document,'keydown',event=>{
+      if(!event.defaultPrevented&&['ArrowDown','PageDown',' '].includes(event.key)&&
+        overHomepage(event.target)) this.listenOnScroll();
+    });
     on(this.input, 'pointerdown', () => { this.hoverFocus = false; this.reveal(); });
     on(this.input, 'focus', () => { this.reveal(); this.dataset.focused = 'true'; });
     on(this, 'focusout', () => queueMicrotask(() => {
@@ -161,6 +192,13 @@ export class InteractiveTypewriter extends BaseElement {
     this.hoverFocus = true;
     this.input.focus({preventScroll: true});
   }
+  listenOnScroll() {
+    if (this.scrolledToListen || hasMessage(this.input.value) ||
+        document.body.dataset.inquiryActive === 'true' || this.closest('[inert]') ||
+        !this.closest('[data-hero-flow]')) return;
+    this.scrolledToListen = true;
+    this.reveal();
+  }
   updateEngagement() {
     if (this.idle) this.idle.dataset.engaged = this.dataset.editing;
     if (this.portrait) {
@@ -184,7 +222,7 @@ export class InteractiveTypewriter extends BaseElement {
     }
     const active = document.activeElement;
     const editingFocus = this.contains(active) && active !== this.visual;
-    if (this.hovered || this.engagementHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
+    if (this.scrolledToListen || this.hovered || this.engagementHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
     clearTimeout(this.finishTimer);
     this.finishTyping();
     this.dataset.editing = 'false';
@@ -217,6 +255,7 @@ export class InteractiveTypewriter extends BaseElement {
     this.dataset.focused = 'true';
   }
   returnToIntroduction() {
+    this.scrolledToListen=false;
     clearTimeout(this.restoreTimer);clearTimeout(this.finishTimer);
     this.finishTyping();this.composing=false;this.hovered=false;this.engagementHovered=false;this.hoverFocus=false;
     if(document.activeElement===this.input)this.input.blur();

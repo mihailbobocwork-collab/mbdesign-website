@@ -35,62 +35,6 @@ const palettes={moss:['#dfe9d6','#546643','#b9c79e','#f1f3d9'],lilac:['#e6deed',
 for(const b of document.querySelectorAll('[data-palette]'))b.addEventListener('click',()=>{const colors=palettes[b.dataset.palette],stage=document.querySelector('#palette-stage');['--pbg','--p1','--p2','--p3'].forEach((p,i)=>stage.style.setProperty(p,colors[i]));document.querySelectorAll('[data-palette]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));});
 document.querySelector('#tracking')?.addEventListener('input',event=>{const value=(Number(event.target.value)/100).toFixed(2)+'em';document.querySelector('#type-sample').style.letterSpacing=value;document.querySelector('#tracking-value').textContent=value;});
 document.querySelector('#magnet-demo')?.addEventListener('click',()=>{document.querySelector('#magnet-status').textContent='A small movement. The cursor stays yours.';});
-const form=document.querySelector('#inquiry-form');
-if(form){
- const bookingPreview=document.body.dataset.localBookingPreview==='true';
- let offers=[],prepared='',downloadUrl='',contactBooking=null,messageAction=null;
- const select=form.elements.offer,result=document.querySelector('#inquiry-result'),calendarSlot=document.querySelector('#contact-booking'),calendarButton=document.querySelector('#inquiry-book'),sendButton=document.querySelector('#inquiry-send'),sendStatus=document.querySelector('#contact-send-status');
- const query=new URLSearchParams(location.search).get('offer');if([...select.options].some(o=>o.value===query))select.value=query;
- const context=document.querySelector('#offer-context'),updateContext=()=>{const o=offers.find(x=>x.id===select.value);context.textContent=o?`${o.name} · ${o.price} · ${o.duration}${o.id==='partner'?' · 2-month initial term':''}`:'We’ll find the right scope together.';};
- fetch('/assets/offers.json').then(r=>r.json()).then(data=>{offers=data;updateContext();}).catch(()=>{});select.addEventListener('change',updateContext);
- const requestedTopic=new URLSearchParams(location.search).get('topic');if(requestedTopic)form.elements.topic.value=requestedTopic.slice(0,200);
- const caseParams=new URLSearchParams(location.search),caseSlug=caseParams.get('case-study'),caseRequest=/^[a-z0-9-]{1,80}$/.test(caseSlug||''),caseName=(caseParams.get('project')||(caseSlug==='7code-tech'?'7code Tech':caseSlug?.replaceAll('-',' '))||'').slice(0,100);
- if(caseRequest){form.elements.topic.value=caseName+' case study request';const note=form.querySelector('.case-request-context');note.hidden=false;note.textContent=`You’re asking about the ${caseName} case study. Add a little context below and I’ll share it with you.`;}
- const topicDraftKey='mihail:contact-topic:'+(caseRequest?caseSlug:'general');
- try{const saved=sessionStorage.getItem(topicDraftKey);if(saved&&!requestedTopic)form.elements.topic.value=saved;form.elements.topic.addEventListener('input',()=>sessionStorage.setItem(topicDraftKey,form.elements.topic.value));}catch{}
- const answers=()=>({name:form.elements.name.value,email:form.elements.email.value,company:form.elements.company.value,subject:'',topic:form.elements.topic.value,offer:select.selectedOptions[0].textContent,message:form.elements.message.value});
- function confirmed(receipt){
-  contactBooking?.destroy();messageAction?.destroy();calendarSlot.hidden=true;
-  for(const child of form.children)if(child!==result)child.hidden=true;
-  result.querySelector('h2').textContent=receipt.preview?'Preview complete.':receipt.kind==='message'?'Thanks for reaching out.':'You’re booked.';
-  result.querySelector('.eyebrow').textContent=receipt.preview?'Interaction preview':receipt.kind==='message'?'Message received':'Meeting confirmed';
-  document.querySelector('#delivery-note').textContent=receipt.preview?'No message, event or invitation was created.':receipt.kind==='message'?'Your message has been delivered. I look forward to continuing the conversation.':receipt.emailStatus==='accepted'?'Your meeting is saved. A separate confirmation email is on its way.':'Your meeting is saved. Email delivery hasn’t been confirmed; keep your meeting details below.';
-  document.querySelector('#inquiry-preview').hidden=true;document.querySelector('#contact-verification').replaceChildren();sendStatus.textContent='';
-  const actions=result.querySelector('.result-actions');actions.replaceChildren();
-  if(receipt.meetUrl){const link=document.createElement('a');link.href=receipt.meetUrl;link.target='_blank';link.rel='noopener';link.className='button';link.textContent='Your Google Meet link';actions.append(link);}
-  const home=document.createElement('a');home.href='/';home.className='button dark';home.textContent='Back to website';actions.append(home);result.focus({preventScroll:true});result.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});
- }
- form.addEventListener('input',event=>{if(event.target.closest('#inquiry-result'))return;contactBooking?.destroy();messageAction?.destroy();calendarSlot.hidden=true;calendarButton.disabled=false;result.hidden=true;prepared='';});
- let selectedMeeting=null;
- function prepareText(a){return `${caseRequest?caseName+' case study request':form.elements.meeting.value==='yes'?'Meeting request':'Project inquiry'}\n\nName: ${a.name}\nEmail: ${a.email}\nCompany: ${a.company||'Not specified'}\nTopic: ${a.topic}\n\n${a.message}`;}
- function showResult(){document.querySelector('#inquiry-email').hidden=true;result.hidden=false;result.focus({preventScroll:true});result.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'nearest'});}
- async function finalReview(){
-  const a=answers(),meeting=form.elements.meeting.value==='yes';
-  if(meeting&&!selectedMeeting)return;
-  contactBooking?.destroy();calendarSlot.hidden=true;messageAction?.destroy();sendStatus.textContent='';
-  prepared=prepareText(a);
-  if(meeting)prepared+='\n\nMeeting: '+new Intl.DateTimeFormat('en-GB',{dateStyle:'full',timeStyle:'short',timeZone:selectedMeeting.timeZone}).format(new Date(selectedMeeting.startTime))+' · '+selectedMeeting.timeZone+' · Google Meet';
-  result.querySelector('.eyebrow').textContent='A final look';result.querySelector('h2').textContent='Does this feel right?';
-  const preview=document.querySelector('#inquiry-preview');preview.hidden=false;preview.textContent=prepared;
-  document.querySelector('#delivery-note').textContent=bookingPreview?'Interaction preview · Review your details. Nothing will be sent or booked.':meeting?'Review your details and chosen time before confirming.':'Review your message before sending.';
-  calendarButton.textContent='Change time';calendarButton.hidden=!meeting;calendarButton.disabled=false;sendButton.hidden=false;sendButton.textContent=bookingPreview?'Confirm preview':meeting?'Confirm meeting':'Send message';showResult();
-  const {BookingAction}=await import('./components/booking-action.js');messageAction=new BookingAction({button:sendButton,status:sendStatus,challenge:document.querySelector('#contact-verification'),siteKey:form.dataset.turnstileSiteKey,preview:bookingPreview,body:{kind:meeting?'meeting':'message',answers:a,timeZone:meeting?selectedMeeting.timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,...(meeting?{startTime:selectedMeeting.startTime}:{})},onSuccess:confirmed});
- }
- async function chooseMeetingTime(){
-  messageAction?.destroy();sendStatus.textContent='';document.querySelector('#contact-verification').replaceChildren();calendarButton.hidden=sendButton.hidden=true;
-  result.querySelector('.eyebrow').textContent='Choose a time';result.querySelector('h2').textContent='Let’s find a time.';document.querySelector('#inquiry-preview').hidden=true;document.querySelector('#delivery-note').textContent='Choose a day and time, then we’ll review everything together.';
-  showResult();
-  try{const {MeetingCalendar}=await import('./components/meeting-calendar.js');calendarSlot.hidden=false;contactBooking?.destroy();contactBooking=new MeetingCalendar({element:calendarSlot,answers:answers(),selection:selectedMeeting,siteKey:form.dataset.turnstileSiteKey,preview:bookingPreview,onSelect:selection=>{selectedMeeting=selection;finalReview();}});await contactBooking.mount();calendarSlot.scrollIntoView({behavior:reduced.matches?'instant':'smooth',block:'start'});}
-  catch{sendStatus.textContent='The calendar could not load. Your answers are safe here.';}
- }
- form.addEventListener('submit',event=>{event.preventDefault();if(!form.reportValidity())return;prepared=prepareText(answers());if(form.elements.meeting.value==='yes')chooseMeetingTime();else{selectedMeeting=null;finalReview();}});
- calendarButton.addEventListener('click',chooseMeetingTime);
- document.querySelector('#inquiry-edit').addEventListener('click',()=>{contactBooking?.destroy();messageAction?.destroy();calendarSlot.hidden=true;calendarButton.disabled=false;result.hidden=true;form.elements.message.focus();});
- document.querySelector('#inquiry-download').addEventListener('click',()=>{if(!prepared)return;if(downloadUrl)URL.revokeObjectURL(downloadUrl);downloadUrl=URL.createObjectURL(new Blob([prepared],{type:'text/plain;charset=utf-8'}));const link=document.createElement('a');link.href=downloadUrl;link.download='project-inquiry.txt';link.click();});
- form.addEventListener('meeting-busy',event=>{for(const el of form.querySelectorAll('input,select,textarea,button[type=submit],#inquiry-edit,#inquiry-book'))el.disabled=event.detail;});
- window.addEventListener('pagehide',event=>{if(!event.persisted){contactBooking?.destroy();messageAction?.destroy();}if(downloadUrl)URL.revokeObjectURL(downloadUrl);});
-}
-
 const backToTop=document.querySelector('.floating-top');
 if(backToTop){
  backToTop.hidden=false;

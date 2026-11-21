@@ -96,6 +96,16 @@ test('Topic and description are separately validated and cannot inject headers',
  for(const topic of [undefined,'', 'x'.repeat(201),'App\r\nBcc: attacker@example.com'])assert.equal(validateSubmission({...good,answers:{...good.answers,topic}}),null);
  assert.equal(validateSubmission({...good,answers:{...good.answers,message:'app'}}),null);
 });
+test('Nameless inquiries accept the hero collaboration choice and standalone bookings can omit project context',()=>{
+ const response={...answers,name:'',company:'',topic:'Graphic Design',subject:'graphic',engagement:'partnership',message:'App'};
+ const message=input(undefined,{kind:'message',answers:response});
+ assert.equal(validateSubmission(message).answers.engagement,'partnership');
+ assert.equal(validateSubmission({...message,answers:{...response,engagement:'other'}}),null);
+ assert.equal(validateSubmission({...message,answers:{...response,message:''}}),null);
+ const booking=input(undefined,{answers:{...answers,name:'',company:'',subject:'',message:''}});
+ assert.equal(validateSubmission(booking).answers.message,'');
+});
+
 test('Google event and email carry the topic alongside the full description',async()=>{
  const sent=[];const provider=createGoogleProvider({fetcher:async(url,options)=>{if(url.includes('oauth2'))return Response.json({access_token:'mock-token',expires_in:3600});sent.push({url,body:JSON.parse(options.body)});return Response.json({id:'mock-id',status:'confirmed'});}});
  const brief={...answers,topic:'App',message:'A detailed app brief with useful context.\nSecond line.'};

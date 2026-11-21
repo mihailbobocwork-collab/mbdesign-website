@@ -4,7 +4,7 @@ export const TAG_MANAGER_ID='GTM-PM9CSLRQ';
 // Activate after automatic form and user-provided-data collection are disabled in Google.
 export const TAG_MANAGER_READY=false;
 const choiceKey='mb:analytics-consent:v1';
-const steps=new Set(['topic','name','email','company','meeting_preference','message','calendar','review','complete']);
+const steps=new Set(['email','engagement','meeting_preference','message','calendar','review','complete']);
 const projects=new Set(['lendit','7code','lendit-branding','wholesum','angen-ai','lendit-flyers','lendit-gazebo','7code-tech']);
 export function safeEvent(name,params={}){
  if(name==='inquiry_step'&&steps.has(params.step))return {name,params:{step:params.step,form:'hero'}};

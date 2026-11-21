@@ -2,15 +2,15 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {MESSAGE_LIMIT,characterCount,messageLimitError,fittedMessageSize} from '../public/assets/components/message-editor.js';
 import {InteractiveTypewriter} from '../public/assets/components/hero-typewriter.js';
-import {validateAnswer,readFlow,FLOW_KEY} from '../public/assets/components/hero-inquiry.js';
+import {answerError,readFlow,FLOW_KEY} from '../public/assets/components/hero-inquiry.js';
 
 test('The 3,000-character boundary counts Unicode characters and validates without truncation',()=>{
   const atLimit='✨'.repeat(MESSAGE_LIMIT),oversized=atLimit+'🙂';
   assert.equal(characterCount(oversized),3001);
   assert.equal(messageLimitError(atLimit),'');
   assert.equal(messageLimitError(oversized),'Remove 1 character to continue (3,000 maximum).');
-  assert.equal(validateAnswer('message',atLimit),'');
-  assert.ok(validateAnswer('message',oversized,'hiring'));
+  assert.equal(answerError(atLimit,''),'');
+  assert.ok(answerError(oversized,'graphic'));
   const saved=readFlow({getItem:key=>key===FLOW_KEY?JSON.stringify({message:oversized}):null});
   assert.equal(saved.message,oversized);
 });
