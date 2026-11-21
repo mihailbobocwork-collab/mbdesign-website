@@ -35,6 +35,20 @@ test('A brief pointer exit waits, re-entry cancels restoration, and reduced moti
   }finally{globalThis.document=previous;}
 });
 
+test('A mouse exit releases scroll-activated Listening while a touch exit keeps it available',t=>{
+  t.mock.timers.enable({apis:['setTimeout']});
+  const el=Object.create(InteractiveTypewriter.prototype);
+  Object.assign(el,{motion:{matches:true},input:{value:''},characters:[],fullText:'',intro:{textContent:''},
+    dataset:{editing:'true'},scrolledToListen:true,contains:()=>false});
+  const previous=globalThis.document;globalThis.document={activeElement:null};
+  try{
+    el.scheduleRestore({pointerType:'touch'});t.mock.timers.tick(0);
+    assert.equal(el.dataset.editing,'true');
+    el.scheduleRestore({pointerType:'mouse'});t.mock.timers.tick(0);
+    assert.equal(el.dataset.editing,'false');
+  }finally{globalThis.document=previous;}
+});
+
 test('Reset returns a suggestion or manual message to a focused blank editor',()=>{
   for(const subject of ['hiring','product','']){
     const el=Object.create(InteractiveTypewriter.prototype),s=storage();let focused=false;saveDraft(s,'Old idea');

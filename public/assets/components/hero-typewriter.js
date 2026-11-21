@@ -86,10 +86,10 @@ export class InteractiveTypewriter extends BaseElement {
         this.focusFromHover();
       }
     });
-    on(this, 'pointerleave', () => { this.hovered = false; this.scheduleRestore(); });
+    on(this, 'pointerleave', event => { this.hovered = false; this.scheduleRestore(event); });
     if (this.engagement) {
       on(this.engagement, 'pointerenter', () => { this.engagementHovered = true; clearTimeout(this.restoreTimer); if(this.dataset.editing === 'true')this.focusFromHover(); });
-      on(this.engagement, 'pointerleave', () => { this.engagementHovered = false; this.scheduleRestore(); });
+      on(this.engagement, 'pointerleave', event => { this.engagementHovered = false; this.scheduleRestore(event); });
       on(this.engagement, 'focusout', () => this.scheduleRestore());
     }
     // The temporary homepage can fit in one viewport, so a downward gesture
@@ -213,7 +213,10 @@ export class InteractiveTypewriter extends BaseElement {
     if (this.suggestions) this.suggestions.inert = this.dataset.editing !== 'true';
     this.engagement?.querySelector('.hero-bio')?.setAttribute('aria-hidden', String(this.dataset.editing === 'true'));
   }
-  scheduleRestore() {
+  scheduleRestore(event) {
+    // A scroll can reveal Listening without a pointer over the editor. A later
+    // mouse or pen exit releases it, while lifting a finger after a swipe keeps it open.
+    if (event?.pointerType === 'mouse' || event?.pointerType === 'pen') this.scrolledToListen = false;
     clearTimeout(this.restoreTimer);
     // Let a brief pointer excursion settle before blending back into the introduction.
     this.restoreTimer = setTimeout(() => this.restore(), this.motion.matches ? 0 : 850);
