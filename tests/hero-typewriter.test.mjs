@@ -39,13 +39,34 @@ test('A mouse exit releases scroll-activated Listening while a touch exit keeps 
   t.mock.timers.enable({apis:['setTimeout']});
   const el=Object.create(InteractiveTypewriter.prototype);
   Object.assign(el,{motion:{matches:true},input:{value:''},characters:[],fullText:'',intro:{textContent:''},
-    dataset:{editing:'true'},scrolledToListen:true,contains:()=>false});
+    dataset:{editing:'true',scrollListening:'true'},contains:()=>false});
   const previous=globalThis.document;globalThis.document={activeElement:null};
   try{
     el.scheduleRestore({pointerType:'touch'});t.mock.timers.tick(0);
     assert.equal(el.dataset.editing,'true');
     el.scheduleRestore({pointerType:'mouse'});t.mock.timers.tick(0);
     assert.equal(el.dataset.editing,'false');
+  }finally{globalThis.document=previous;}
+});
+
+test('Reverse scrolling closes empty Listening and leaves an active draft alone',()=>{
+  const el=Object.create(InteractiveTypewriter.prototype);
+  let returned=0;
+  Object.assign(el,{input:{value:''},dataset:{scrollListening:'true'},closest:()=>null,
+    returnToIntroduction:()=>{returned++;}});
+  const previous=globalThis.document;
+  globalThis.document={activeElement:null,body:{dataset:{}}};
+  try{
+    el.input.value='Draft';
+    el.returnFromScroll();
+    assert.equal(returned,0);
+    el.input.value='';
+    document.activeElement=el.input;
+    el.returnFromScroll();
+    assert.equal(returned,0);
+    document.activeElement=null;
+    el.returnFromScroll();
+    assert.equal(returned,1);
   }finally{globalThis.document=previous;}
 });
 

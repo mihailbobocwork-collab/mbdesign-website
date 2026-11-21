@@ -105,18 +105,36 @@ export class InteractiveTypewriter extends BaseElement {
       if (wheelDistance >= 24) this.listenOnScroll();
     }, {passive:true,signal:this.events.signal});
     window.addEventListener('touchstart', event => {
-      touch = event.touches.length === 1 && overHomepage(event.target) ? event.touches[0] : null;
+      const target = event.target;
+      const emptyEditor = target === this.input && !this.input.value && document.activeElement !== this.input;
+      touch = event.touches.length === 1 && (emptyEditor || overHomepage(target)) ? {start:event.touches[0]} : null;
     }, {passive:true,signal:this.events.signal});
     window.addEventListener('touchmove', event => {
       if (!touch || event.touches.length !== 1) { touch = null; return; }
       const finger = event.touches[0];
-      if (touch.clientY-finger.clientY > Math.max(32,Math.abs(touch.clientX-finger.clientX))) {
-        touch = null;this.listenOnScroll();
+      const vertical = finger.clientY - touch.start.clientY;
+      if (Math.abs(vertical) <= Math.max(32,Math.abs(finger.clientX - touch.start.clientX))) return;
+      if (vertical < 0) {
+        touch = null;
+        this.listenOnScroll();
+      } else if (this.dataset.scrollListening === 'true') {
+        // Let a longer page scroll to the top before closing Listening.
+        touch.returning = true;
+        if (window.scrollY <= 2) {
+          touch = null;
+          this.returnFromScroll();
+        }
       }
     }, {passive:true,signal:this.events.signal});
+    on(window, 'touchend', () => { if (!touch?.returning) touch = null; });
+    on(window, 'touchcancel', () => { touch = null; });
     window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (y > lastY && document.activeElement?.tagName !== 'TEXTAREA' &&
+      // Rubber-band scrolling above the page must not reopen Listening on rebound.
+      const y = Math.max(0, window.scrollY);
+      if (touch?.returning && y <= 2) {
+        touch = null;
+        this.returnFromScroll();
+      } else if (y > lastY && document.activeElement?.tagName !== 'TEXTAREA' &&
           this.closest('.figma-hero')?.getBoundingClientRect().bottom > 0) this.listenOnScroll();
       lastY = y;
     }, {passive:true,signal:this.events.signal});
@@ -197,11 +215,17 @@ export class InteractiveTypewriter extends BaseElement {
     this.input.focus({preventScroll: true});
   }
   listenOnScroll() {
-    if (this.scrolledToListen || hasMessage(this.input.value) ||
+    if (this.dataset.scrollListening === 'true' || hasMessage(this.input.value) ||
         document.body.dataset.inquiryActive === 'true' || this.closest('[inert]') ||
         !this.closest('[data-hero-flow]')) return;
-    this.scrolledToListen = true;
+    this.dataset.scrollListening = 'true';
     this.reveal();
+  }
+  returnFromScroll() {
+    if (this.dataset.scrollListening !== 'true' || this.input.value.length || this.composing ||
+        document.activeElement === this.input || document.body.dataset.inquiryActive === 'true' ||
+        this.closest('[inert]')) return;
+    this.returnToIntroduction();
   }
   updateEngagement() {
     if (this.idle) this.idle.dataset.engaged = this.dataset.editing;
@@ -216,7 +240,7 @@ export class InteractiveTypewriter extends BaseElement {
   scheduleRestore(event) {
     // A scroll can reveal Listening without a pointer over the editor. A later
     // mouse or pen exit releases it, while lifting a finger after a swipe keeps it open.
-    if (event?.pointerType === 'mouse' || event?.pointerType === 'pen') this.scrolledToListen = false;
+    if (event?.pointerType === 'mouse' || event?.pointerType === 'pen') delete this.dataset.scrollListening;
     clearTimeout(this.restoreTimer);
     // Let a brief pointer excursion settle before blending back into the introduction.
     this.restoreTimer = setTimeout(() => this.restore(), this.motion.matches ? 0 : 850);
@@ -229,7 +253,7 @@ export class InteractiveTypewriter extends BaseElement {
     }
     const active = document.activeElement;
     const editingFocus = this.contains(active) && active !== this.visual;
-    if (this.scrolledToListen || this.hovered || this.engagementHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
+    if (this.dataset.scrollListening === 'true' || this.hovered || this.engagementHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
     clearTimeout(this.finishTimer);
     this.finishTyping();
     this.dataset.editing = 'false';
@@ -262,7 +286,7 @@ export class InteractiveTypewriter extends BaseElement {
     this.dataset.focused = 'true';
   }
   returnToIntroduction() {
-    this.scrolledToListen=false;
+    delete this.dataset.scrollListening;
     clearTimeout(this.restoreTimer);clearTimeout(this.finishTimer);
     this.finishTyping();this.composing=false;this.hovered=false;this.engagementHovered=false;this.hoverFocus=false;
     if(document.activeElement===this.input)this.input.blur();

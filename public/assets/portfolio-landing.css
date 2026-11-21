@@ -69,6 +69,13 @@
   padding: 0;
 }
 
+/* The return swipe should reach the hero before the browser's pull-to-refresh. */
+@media (pointer: coarse) {
+  html:has(.portfolio-landing:not([data-inquiry-active=true]) [data-scroll-listening=true][data-has-message=false]) {
+    overscroll-behavior-y: contain;
+  }
+}
+
 .portfolio-landing:not([data-inquiry-active=true]) .figma-hero-shell {
   display: grid;
   grid-template: minmax(min-content, 1fr) auto / minmax(0, 1fr);
