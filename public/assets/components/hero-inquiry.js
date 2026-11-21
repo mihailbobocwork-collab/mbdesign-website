@@ -76,7 +76,7 @@ export class HeroInquiry {
     this.flowKey=entry?.caseSlug?FLOW_KEY+':case:'+entry.caseSlug:FLOW_KEY;
     this.draftKey=entry?.draftKey;
     this.entryTopic=entry?.topic;
-    this.answers=readFlow(this.storage,this.flowKey);this.active=false;this.busy=false;this.step=STEP.answer;this.version=0;
+    this.answers=readFlow(this.storage,this.flowKey);this.active=false;this.busy=false;this.step=STEP.answer;
     this.surroundings=[document.querySelector('#navigation'),document.querySelector('.menu-toggle'),this.hero.querySelector('.hero-portrait'),shell.querySelector('.hero-client-strip'),...document.querySelectorAll('main > :not(.figma-hero-shell)'),document.querySelector('main + .wrap')].filter(Boolean);
     this.originalStates=new Map();this.downloadURL='';this.siteKey=shell.dataset.turnstileSiteKey||'';this.preview=shell.dataset.inquiryPreview==='true'||document.body.dataset.localBookingPreview==='true';this.booking=null;this.bookingBusy=false;this.meetingSelection=null;
     this.editor.addEventListener('hero-inquiry-start',event=>{event.preventDefault();this.start(event.detail.message);});
@@ -128,50 +128,61 @@ export class HeroInquiry {
     if(this.active||this.busy||(!this.direct&&!trigger&&!fromHistory&&!this.answers.subject&&!hasMessage(message)))return;
     this.entryTrigger=trigger;
     this.answers.message=message;this.persist();this.step=STEP.answer;
-    this.active=true;this.busy=true;const version=++this.version;
-    this.originalStates.clear();for(const el of this.surroundings){this.originalStates.set(el,{inert:el.inert,hidden:el.hidden});el.inert=true;}
-    this.idle.inert=true;this.panel.hidden=false;this.panel.inert=true;this.render();
-    this.content.style.removeProperty('opacity');this.content.style.removeProperty('transform');
-    this.progress.style.removeProperty('opacity');
+    this.active=true;this.busy=true;
+    this.originalStates.clear();
+    for(const el of this.surroundings)this.originalStates.set(el,{inert:el.inert,hidden:el.hidden});
     if(!this.direct){
       try{
         if(!fromHistory)history.pushState({...history.state,heroInquiry:true,viaContact:Boolean(trigger)},'',location.href);
         this.ownsHistory=true;
       }catch{}
-      await this.openFromHero();
-    }else{
-      this.showFlow();
     }
-    if(version!==this.version)return;
-    this.idle.hidden=true;this.panel.inert=false;this.busy=false;
-    // Keep the portrait’s slot so the form remains anchored to the introduction.
-    for(const el of this.surroundings)if(!el.classList.contains('hero-portrait'))el.hidden=true;
-    document.body.dataset.inquiryReady='true';
-    this.releaseLayout();
+    const open=()=>{
+      this.idle.inert=true;this.idle.hidden=true;
+      this.panel.hidden=false;this.panel.inert=true;
+      this.render();
+      for(const el of this.surroundings){
+        el.inert=true;
+        // The portrait still reserves the desktop column.
+        if(!el.classList.contains('hero-portrait'))el.hidden=true;
+      }
+      document.body.dataset.inquiryActive='true';
+      document.body.dataset.inquiryReady='true';
+      document.body.removeAttribute('data-inquiry-opening');
+      this.container.dataset.flow='true';this.hero.setAttribute('aria-label','Get in touch');
+      if(window.scrollY)window.scrollTo({top:0,behavior:'instant'});
+    };
+    if(this.direct)open();
+    else await this.morph(open,'enter');
+    this.panel.inert=false;this.busy=false;
     this.focusField();
   }
-  showFlow(){
-    document.body.dataset.inquiryActive='true';this.container.dataset.flow='true';this.hero.setAttribute('aria-label','Get in touch');
-    document.body.removeAttribute('data-inquiry-opening');
+
+  async morph(update,direction){
+    if(this.motion.matches){update();return;}
+    if(!document.startViewTransition){
+      update();
+      const target=this.active?this.panel:this.idle;
+      this.fallbackTransition=this.transition.run(target,[{opacity:.55,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:300});
+      await this.fallbackTransition;
+      this.fallbackTransition=null;
+      target.style.removeProperty('opacity');target.style.removeProperty('transform');
+      return;
+    }
+    const html=document.documentElement;
+    html.dataset.heroTransition=direction;
+    try{
+      const transition=document.startViewTransition(update);
+      this.viewTransition=transition;
+      // A hidden tab or a viewport resize can skip the animation and still update the DOM.
+      transition.ready.catch(()=>{});
+      await transition.finished;
+    }finally{
+      this.viewTransition=null;
+      delete html.dataset.heroTransition;
+    }
   }
-  openFromHero(){
-    const oldHeight=this.idle.getBoundingClientRect().height,newHeight=this.panel.getBoundingClientRect().height;
-    this.container.style.height=oldHeight+'px';this.container.dataset.transitioning='true';this.panel.style.opacity='0';
-    this.showFlow();
-    window.scrollTo({top:0,behavior:this.motion.matches?'instant':'smooth'});
-    return Promise.all([
-      this.animate(this.idle,[{},{opacity:0,transform:'translateY(-4px)'}],{duration:420}),
-      this.animate(this.panel,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:620,delay:150}),
-      this.animate(this.container,[{height:oldHeight+'px'},{height:newHeight+'px'}],{duration:770})
-    ]);
-  }
-  animate(el,keyframes,options={}){
-    return this.transition.run(el,keyframes,options);
-  }
-  releaseLayout(){
-    this.container.style.removeProperty('height');delete this.container.dataset.transitioning;
-    this.panel.removeAttribute('aria-busy');
-  }
+
   capture(){const field=this.form.querySelector('[data-answer]');if(field){this.answers[field.name]=field.value;this.persist();}}
   next(){
     if(!this.active||this.busy)return;
@@ -187,23 +198,21 @@ export class HeroInquiry {
   clearError(field){field.removeAttribute('aria-invalid');const error=this.form.querySelector('.hero-flow-error');if(error)error.textContent='';}
   async changeStep(step){
     if(!this.active||this.busy||this.bookingBusy)return;
-    this.capture();this.busy=true;if(window.scrollY>24)window.scrollTo({top:0,behavior:this.motion.matches?'instant':'smooth'});const version=++this.version;const oldHeight=this.container.getBoundingClientRect().height;
-    this.container.style.height=oldHeight+'px';this.container.dataset.transitioning='true';this.panel.setAttribute('aria-busy','true');
-    const direction=step<this.step?-1:1;
-    await Promise.all([
-      this.animate(this.content,[{},{opacity:0,transform:`translateY(${-direction*4}px)`}],{duration:260}),
-      this.animate(this.progress,[{},{opacity:0}],{duration:260})
-    ]);
-    if(version!==this.version)return;
-    this.step=step;this.render();const newHeight=this.panel.getBoundingClientRect().height;
-    await Promise.all([
-      this.animate(this.content,[{opacity:0,transform:`translateY(${direction*6}px)`},{opacity:1,transform:'translateY(0)'}],{duration:480}),
-      this.animate(this.progress,[{opacity:0},{opacity:1}],{duration:480}),
-      this.animate(this.container,[{height:oldHeight+'px'},{height:newHeight+'px'}],{duration:480})
-    ]);
-    if(version!==this.version)return;
-    this.busy=false;this.releaseLayout();this.focusField();
-    if(this.step===STEP.calendar)this.mountBooking();
+    this.capture();this.busy=true;
+    this.panel.setAttribute('aria-busy','true');
+    const direction=step<this.step?'back':'forward';
+    await this.morph(()=>{
+      this.panel.inert=true;
+      this.step=step;
+      this.render();
+      // Fill the calendar's space before it enters, including while availability loads.
+      if(this.step===STEP.calendar)this.mountBooking();
+      if(window.scrollY>24)window.scrollTo({top:0,behavior:'instant'});
+    },direction);
+    this.panel.inert=false;
+    this.busy=false;
+    this.panel.removeAttribute('aria-busy');
+    this.focusField();
   }
   render(){
     const {answer,engagement,budget,preference,calendar,email,review,complete}=STEP;
@@ -367,46 +376,49 @@ export class HeroInquiry {
   }
 
   resizeField(field){if(field.tagName==='TEXTAREA')this.messageEditor?.update();}
-  async completeAndReturn(){
-    if(!this.active||this.busy)return;
-    this.busy=true;
-    if(brandEntrance)await brandEntrance.play({restore:()=>this.exit(true,{completed:true})});
-    else await this.exit(true,{completed:true});
-    document.querySelector('.hero-brand')?.focus({preventScroll:true});
+  completeAndReturn(){
+    if(this.busy)return;
+    return this.exit(true,{completed:true});
   }
   focusField(){const target=this.form.querySelector('.hero-flow-question');target?.focus({preventScroll:true});}
   async exit(updateHistory=true,{completed=false}={}){
     if(!this.active||this.bookingBusy)return;
+    if(this.viewTransition){
+      const current=this.viewTransition;
+      current.skipTransition();
+      await current.finished;
+    }else if(this.fallbackTransition)await this.fallbackTransition;
+    if(!this.active||this.bookingBusy)return;
     this.messageAction?.destroy();
-    this.capture();this.booking?.destroy();this.booking=null;this.active=false;this.busy=true;const version=++this.version;
+    this.capture();this.booking?.destroy();this.booking=null;this.active=false;this.busy=true;
     if(this.direct){
       if(completed)this.resetDraft();
       window.location.replace('/');
       return;
     }
-    this.transition.cancel();
-    const oldHeight=this.container.getBoundingClientRect().height;
-    this.container.style.height=oldHeight+'px';this.container.dataset.transitioning='true';
     this.messageEditor?.destroy();this.messageEditor=null;
     if(updateHistory&&this.ownsHistory&&history.state?.heroInquiry){history.back();this.ownsHistory=false;}
-    document.body.removeAttribute('data-inquiry-ready');
-    for(const [el,state] of this.originalStates){el.hidden=state.hidden;el.inert=state.inert;}
-    if(completed){this.editor.input.value='';this.resetDraft();this.editor.returnToIntroduction();window.scrollTo({top:0,behavior:'instant'});}
-    else{this.editor.input.value=this.answers.message;this.updateSubjectUI();this.editor.syncInput();this.editor.finishTyping();}
-    this.idle.style.opacity='0';this.idle.style.transform='translateY(4px)';
-    this.idle.hidden=false;this.idle.inert=true;this.panel.inert=true;
-    const newHeight=this.idle.getBoundingClientRect().height;
-    document.body.removeAttribute('data-inquiry-active');this.container.removeAttribute('data-flow');this.hero.setAttribute('aria-label','Introduction');
-    await Promise.all([
-      this.animate(this.panel,[{},{opacity:0,transform:'translateY(-4px)'}],{duration:360}),
-      this.animate(this.idle,[{opacity:0,transform:'translateY(4px)'},{opacity:1,transform:'translateY(0)'}],{duration:620,delay:120}),
-      this.animate(this.container,[{height:oldHeight+'px'},{height:newHeight+'px'}],{duration:740})
-    ]);
-    if(version!==this.version)return;
-    this.panel.hidden=true;this.idle.inert=false;this.busy=false;this.releaseLayout();
+    await this.morph(()=>{
+      document.body.removeAttribute('data-inquiry-ready');
+      document.body.removeAttribute('data-inquiry-active');
+      this.container.removeAttribute('data-flow');
+      this.container.removeAttribute('data-booking');
+      this.hero.setAttribute('aria-label','Introduction');
+      for(const [el,state] of this.originalStates){el.hidden=state.hidden;el.inert=state.inert;}
+      this.panel.hidden=true;
+      this.idle.hidden=false;this.idle.inert=true;
+      if(completed){this.editor.input.value='';this.resetDraft();this.editor.returnToIntroduction();}
+      else{
+        this.editor.input.value=this.answers.message;
+        this.updateSubjectUI();this.editor.finishTyping();
+        if(!this.entryTrigger)this.editor.reveal();
+      }
+      if(window.scrollY)window.scrollTo({top:0,behavior:'instant'});
+    },'leave');
+    this.idle.inert=false;this.busy=false;
     if(completed)document.querySelector('.hero-brand')?.focus({preventScroll:true});
     else if(this.entryTrigger)this.entryTrigger.focus({preventScroll:true});
-    else{this.editor.reveal();this.editor.input.focus({preventScroll:true});}
+    else this.editor.input.focus({preventScroll:true});
   }
   download(){
     if(this.downloadURL)URL.revokeObjectURL(this.downloadURL);

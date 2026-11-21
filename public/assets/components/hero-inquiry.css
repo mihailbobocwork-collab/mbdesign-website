@@ -3,22 +3,89 @@
 .hero-page[data-inquiry-opening] :is(.figma-hero,.hero-client-strip,.site-header nav,.menu-toggle){display:none}
 .hero-inquiry-fallback{margin:48px auto;padding:0 22px}
 .hero-idle,.hero-flow-panel{grid-area:1 / 1;align-self:start;min-width:0}
-.hero-introduction[data-transitioning=true]{overflow:clip;overflow-anchor:none}
+html[data-hero-transition] {
+  --hero-morph-duration: 540ms;
+  --hero-morph-ease: cubic-bezier(.28,.68,.26,1);
+  --hero-morph-offset: 9px;
+}
+html:is([data-hero-transition=enter],[data-hero-transition=leave]) { --hero-morph-duration: 680ms; }
+html:is([data-hero-transition=back],[data-hero-transition=leave]) { --hero-morph-offset: -9px; }
+html[data-hero-transition] .hero-brand { view-transition-name: inquiry-logo; }
+html[data-hero-transition] .hero-portrait { view-transition-name: inquiry-portrait; }
+html[data-hero-transition] :is(.hero-typewriter,.hero-flow-question) { view-transition-name: inquiry-heading; }
+html[data-hero-transition] .hero-flow-top { view-transition-name: inquiry-progress; }
+html[data-hero-transition] .hero-flow-privacy { view-transition-name: inquiry-note; }
+html[data-hero-transition] :is(
+  .hero-step-content > .hero-flow-continue,
+  .hero-flow-actions > .hero-flow-continue,
+  .hero-meeting-options > .hero-flow-continue
+) { view-transition-name: inquiry-action; }
+html[data-hero-transition]::view-transition { background: var(--bg); }
+html[data-hero-transition]::view-transition-group(*) {
+  animation-duration: var(--hero-morph-duration);
+  animation-timing-function: var(--hero-morph-ease);
+}
+html[data-hero-transition]::view-transition-old(root) {
+  animation: hero-body-out var(--hero-morph-duration) ease-out both;
+  mix-blend-mode: normal;
+}
+html[data-hero-transition]::view-transition-new(root) {
+  animation: hero-body-in var(--hero-morph-duration) ease-out both;
+  mix-blend-mode: normal;
+}
+html[data-hero-transition]::view-transition-old(inquiry-heading) {
+  animation: hero-type-out var(--hero-morph-duration) var(--hero-morph-ease) both;
+  object-fit: contain;
+  object-position: left top;
+}
+html[data-hero-transition]::view-transition-old(inquiry-logo) { animation: none; opacity: 0; }
+html[data-hero-transition]::view-transition-new(inquiry-logo) { animation: none; }
+html[data-hero-transition]::view-transition-old(inquiry-progress),
+html[data-hero-transition]::view-transition-old(inquiry-portrait),
+html[data-hero-transition]::view-transition-old(inquiry-action) {
+  animation: hero-body-out var(--hero-morph-duration) ease-out both;
+}
+html[data-hero-transition]::view-transition-new(inquiry-progress),
+html[data-hero-transition]::view-transition-new(inquiry-portrait),
+html[data-hero-transition]::view-transition-new(inquiry-action) {
+  animation: hero-body-in var(--hero-morph-duration) ease-out both;
+}
+html[data-hero-transition]::view-transition-new(inquiry-heading) {
+  animation: hero-type-in var(--hero-morph-duration) var(--hero-morph-ease) both;
+  object-fit: contain;
+  object-position: left top;
+}
+@keyframes hero-body-out {
+  from { opacity: 1; }
+  40%, 100% { opacity: 0; }
+}
+@keyframes hero-body-in {
+  0%, 24% { opacity: 0; }
+  72%, 100% { opacity: 1; }
+}
+@keyframes hero-type-out {
+  0% { opacity: 1; filter: blur(0); }
+  62%, 100% { opacity: 0; filter: blur(4px); translate: 0 calc(-1 * var(--hero-morph-offset)); }
+}
+@keyframes hero-type-in {
+  0%, 14% { opacity: 0; filter: blur(4px); translate: 0 var(--hero-morph-offset); }
+  100% { opacity: 1; filter: blur(0); translate: 0 0; }
+}
 /* Shared slots keep the biography and chips from changing the hero height. */
 .hero-page .hero-engagement{display:grid;max-width:881.558px;min-height:75px;margin:43.976px 0 0;align-items:start;--hero-ease:cubic-bezier(.4,0,.2,1)}
-.hero-page .hero-introduction .hero-bio{grid-area:1 / 1;width:100%;margin:0 0 0 4.558px;color:#a2a2a2;opacity:1;filter:blur(0);transform:translateY(0);transition:opacity 1450ms cubic-bezier(.45,0,.2,1) 160ms,filter 1450ms cubic-bezier(.45,0,.2,1) 160ms,transform 1450ms cubic-bezier(.45,0,.2,1) 160ms}
-.hero-suggestions{grid-area:1 / 1;opacity:0;visibility:hidden;pointer-events:none;filter:blur(3px);transform:translateY(5px);transition:opacity 1150ms cubic-bezier(.45,0,.2,1),filter 1450ms cubic-bezier(.45,0,.2,1),transform 1450ms cubic-bezier(.45,0,.2,1),visibility 0s linear 1450ms;font-family:var(--font-sans)}
+.hero-page .hero-introduction .hero-bio{grid-area:1 / 1;width:100%;margin:0 0 0 4.558px;color:#a2a2a2;opacity:1;filter:blur(0);transform:translateY(0);transition:opacity 640ms var(--hero-ease) 80ms,filter 640ms var(--hero-ease) 80ms,transform 640ms var(--hero-ease) 80ms}
+.hero-suggestions{grid-area:1 / 1;opacity:0;visibility:hidden;pointer-events:none;filter:blur(3px);transform:translateY(6px);transition:opacity 560ms var(--hero-ease),filter 620ms var(--hero-ease),transform 620ms var(--hero-ease),visibility 0s linear 620ms;font-family:var(--font-sans)}
 .hero-subject-options{display:flex;flex-wrap:wrap;gap:18px 25px;align-content:start;align-items:start}
 .hero-suggestions button{flex:none;display:inline-flex;align-items:center;justify-content:center;background:transparent;border:1px solid #d9d9d9;color:#000;border-radius:55px;padding:16px 24px;height:65px;font-family:inherit;font-size:16px;font-weight:400;line-height:20px;text-align:center;transition:color 250ms,border-color 250ms,background 250ms}
 .hero-suggestions button:hover,.hero-suggestions button:focus-visible,.hero-suggestions button[aria-pressed=true]{border-color:#a7b1ba;background:#eef1f4}
-.hero-idle[data-engaged=true] .hero-bio{opacity:0;filter:blur(3px);transform:translateY(-5px);pointer-events:none;transition-duration:600ms;transition-delay:0ms}
-.hero-idle[data-engaged=true] .hero-suggestions{opacity:1;visibility:visible;pointer-events:auto;filter:blur(0);transform:translateY(0);transition-duration:700ms,700ms,700ms,0s;transition-delay:100ms,100ms,100ms,0ms}
+.hero-idle[data-engaged=true] .hero-bio{opacity:0;filter:blur(3px);transform:translateY(-5px);pointer-events:none;transition-duration:540ms;transition-delay:0ms}
+.hero-idle[data-engaged=true] .hero-suggestions{opacity:1;visibility:visible;pointer-events:auto;filter:blur(0);transform:translateY(0);transition-delay:80ms,80ms,80ms,0ms}
 /* A reversible blend: no scale or layout motion, and the active native editor stays crisp. */
 .hero-idle .hero-typewriter{--hero-ease:cubic-bezier(.4,0,.2,1)}
-.hero-idle .hero-visual{filter:blur(0);transform:translateY(0);transition:opacity 1450ms cubic-bezier(.45,0,.2,1) 160ms,filter 1450ms cubic-bezier(.45,0,.2,1) 160ms,transform 1450ms cubic-bezier(.45,0,.2,1) 160ms}
-.hero-idle .hero-typewriter textarea{filter:blur(3px);transform:translateY(4px);transition:opacity 1250ms cubic-bezier(.45,0,.2,1),filter 1450ms cubic-bezier(.45,0,.2,1),transform 1450ms cubic-bezier(.45,0,.2,1)}
-.hero-idle .hero-typewriter[data-editing=true] .hero-visual{filter:blur(3px);transform:translateY(-4px);transition-duration:620ms;transition-delay:0ms}
-.hero-idle .hero-typewriter[data-editing=true] textarea{filter:blur(0);transform:translateY(0);transition-duration:700ms;transition-delay:80ms}
+.hero-idle .hero-visual{filter:blur(0);transform:translateY(0);transition:opacity 640ms var(--hero-ease) 70ms,filter 640ms var(--hero-ease) 70ms,transform 640ms var(--hero-ease) 70ms}
+.hero-idle .hero-typewriter textarea{filter:blur(3px);transform:translateY(6px);transition:opacity 560ms var(--hero-ease),filter 620ms var(--hero-ease),transform 620ms var(--hero-ease)}
+.hero-idle .hero-typewriter[data-editing=true] .hero-visual{filter:blur(3px);transform:translateY(-5px);transition-duration:540ms;transition-delay:0ms}
+.hero-idle .hero-typewriter[data-editing=true] textarea{filter:blur(0);transform:translateY(0);transition-delay:70ms}
 .hero-idle .hero-placeholder-caret{transition:opacity 700ms var(--hero-ease)}
 .hero-page .site-header nav,.hero-page .menu-toggle,.hero-page .hero-portrait,.hero-page .hero-client-strip,.hero-page main>:not(.figma-hero-shell),.hero-page main+.wrap{transition:opacity 600ms cubic-bezier(.22,1,.36,1),visibility 600ms}
 .hero-page[data-inquiry-active=true] .site-header nav,.hero-page[data-inquiry-active=true] .menu-toggle,.hero-page[data-inquiry-active=true] .hero-portrait,.hero-page[data-inquiry-active=true] .hero-client-strip,.hero-page[data-inquiry-active=true] main>:not(.figma-hero-shell),.hero-page[data-inquiry-active=true] main+.wrap{opacity:0;visibility:hidden;pointer-events:none}

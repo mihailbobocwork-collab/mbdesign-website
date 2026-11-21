@@ -94,11 +94,6 @@
   line-height: 1.55;
 }
 
-/* Only the visible biography contributes to the resting hero's height. */
-.portfolio-landing .hero-idle[data-engaged=false] .hero-suggestions {
-  contain: size;
-}
-
 .portfolio-landing .hero-client-strip {
   width: calc(min(100%, var(--landing-max-width)) - 2 * var(--landing-header-gutter));
   margin: 0 auto;
@@ -171,7 +166,7 @@
     margin-block: clamp(12px, 3dvh, 24px);
   }
 
-  .portfolio-landing .hero-idle[data-engaged=false] .hero-engagement {
+  .portfolio-landing .hero-idle .hero-engagement {
     margin-top: clamp(16px, 4dvh, 32px);
   }
 }
