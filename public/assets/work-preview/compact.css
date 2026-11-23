@@ -1,0 +1,138 @@
+/* Phones and iPads in portrait (up to 1024px wide). Desktop keeps preview.css and case-reader.css as they are.
+   - The header keeps the logo and Get in touch; About and the social links move into a menu drawer, with Work.
+   - Work opens as a full page grid of every card over the blurred homepage, scrollable, with its own close.
+   - Case studies and About open as a near full-screen frame.
+   The hero keeps its original mobile behaviour. */
+
+.nav-menu, .mobile-drawer, .work-preview-head { display: none; }
+
+@media (max-width: 1024px) {
+  /* Header: logo · Get in touch · menu */
+  .site-header .landing-actions > .nav-about,
+  .site-header .landing-actions > .footer-socials { display: none; }
+  .site-header .landing-actions { gap: 10px; }
+  .nav-menu {
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    flex: none;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid #d3dbe1;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav-menu span {
+    display: block;
+    width: 18px;
+    height: 1.6px;
+    border-radius: 2px;
+    background: currentColor;
+    transition: transform 320ms cubic-bezier(.22,1,.36,1);
+  }
+  .nav-menu[aria-expanded=true] span:first-child { transform: translateY(3.3px) rotate(45deg); }
+  .nav-menu[aria-expanded=true] span:last-child { transform: translateY(-3.3px) rotate(-45deg); }
+  .nav-menu:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+  /* Menu drawer: drops down under the header */
+  .mobile-drawer {
+    display: block;
+    position: fixed;
+    z-index: 120;
+    top: var(--drawer-top, 84px);
+    left: 12px;
+    right: 12px;
+    padding: 8px 20px 18px;
+    border-radius: 24px;
+    background: #fff;
+    box-shadow: 0 24px 60px rgb(26 30 34 / 14%);
+    opacity: 0;
+    transform: translateY(-10px) scale(.98);
+    transform-origin: top right;
+    transition: opacity 260ms ease, transform 420ms cubic-bezier(.22,1,.36,1);
+  }
+  .mobile-drawer[hidden] { display: none; }
+  .mobile-drawer[data-open] { opacity: 1; transform: none; }
+  .mobile-drawer-links { display: grid; }
+  .mobile-drawer-links button {
+    min-height: 48px;
+    padding: 14px 0;
+    border: 0;
+    border-bottom: 1px solid #eef1f4;
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    font-size: 16px; /* same as Get in touch */
+    line-height: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .mobile-drawer-links button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+  .mobile-drawer-socials { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+  .mobile-drawer-socials a { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #d3dbe1; border-radius: 50%; color: var(--ink); }
+  .mobile-drawer-socials svg { width: 21px; height: 21px; }
+
+  /* Work: every card in a scrollable grid over the blurred homepage */
+  .work-preview-region {
+    inset: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: max(14px, env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom));
+  }
+  .work-preview-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 760px;
+    margin: 0 auto 14px;
+    padding: 6px 2px;
+    opacity: 0;
+    transition: opacity var(--preview-duration) var(--preview-ease);
+  }
+  body[data-work-preview=open] .work-preview-head { opacity: 1; }
+  .work-preview-title { margin: 0; color: #fff; font-weight: 500; font-size: 30px; letter-spacing: -.02em; text-shadow: 0 1px 12px rgb(26 30 34 / 25%); }
+  .work-preview-close {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--ink);
+    box-shadow: 0 8px 24px rgb(26 30 34 / 12%);
+    cursor: pointer;
+  }
+  .work-preview-close svg { width: 20px; height: 20px; }
+  .work-preview-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: 760px; }
+  .work-preview-more { display: none !important; }
+  .work-preview-card:is(:hover, :focus-visible) { transform: none; }
+
+  /* Case studies and About: near full-screen frame */
+  .work-preview-detail,
+  .work-preview-detail[data-mode=reader] { width: calc(100vw - 24px); margin: max(12px, env(safe-area-inset-top)) auto 12px; }
+  .case-reader { height: calc(100dvh - 24px - 136px); }
+  .work-preview-detail:has(.work-project-rail[hidden]) .case-reader { height: calc(100dvh - 28px); }
+  .work-project-rail { grid-auto-columns: 110px; justify-content: start; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .work-project-rail::-webkit-scrollbar { display: none; }
+  .work-preview-detail[data-mode=reader] .work-project-rail { margin-top: 12px; }
+
+}
+
+@media (max-width: 600px) {
+  .work-preview-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; }
+  .work-preview-card { padding: 13px; }
+  .case-reader { height: calc(100dvh - 24px - 122px); }
+  .work-project-rail { grid-auto-columns: 96px; }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-drawer { transition: none; transform: none; }
+}

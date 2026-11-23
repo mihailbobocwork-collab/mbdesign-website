@@ -288,9 +288,17 @@ export async function workPreview(root) {
     <div class="work-preview-overlay">
       <div class="work-preview-shade" aria-hidden="true"></div>
       <section class="work-preview-region" id="work-preview" aria-label="Selected work" inert>
+        <div class="work-preview-head"><h2 class="work-preview-title">Work</h2><button class="work-preview-close" type="button" aria-label="Close work"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button></div>
         <div class="work-preview-cards">${cards}</div>
         ${more}
       </section>
+    </div>
+    <div class="mobile-drawer" id="mobile-drawer" hidden>
+      <nav class="mobile-drawer-links" aria-label="Menu">
+        <button type="button" data-drawer="work">Work</button>
+        <button type="button" data-drawer="about">About</button>
+      </nav>
+      <div class="mobile-drawer-socials"></div>
     </div>
     <dialog class="work-preview-detail" aria-labelledby="work-preview-detail-name" data-mode="cover">
       <div class="work-project-frame">
@@ -317,7 +325,8 @@ export async function workPreview(root) {
     </details>`;
   const trigger = '<button type="button" class="work-preview-trigger" aria-controls="work-preview" aria-expanded="false">Preview work</button>';
   return {
-    head: '<link rel="stylesheet" href="/assets/work-preview/preview.css"><link rel="stylesheet" href="/assets/work-preview/case-reader.css"><script type="module" src="/assets/work-preview/preview.js"></script>',
+    head: '<link rel="stylesheet" href="/assets/work-preview/preview.css"><link rel="stylesheet" href="/assets/work-preview/case-reader.css"><link rel="stylesheet" href="/assets/work-preview/compact.css"><script type="module" src="/assets/work-preview/preview.js"></script>',
+    menu: '<button class="nav-menu" type="button" aria-expanded="false" aria-controls="mobile-drawer" aria-label="Menu"><span></span><span></span></button>',
     trigger,
     overlay,
     about: '<a class="nav-about" href="#about" aria-haspopup="dialog">About</a>'

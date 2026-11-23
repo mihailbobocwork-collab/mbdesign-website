@@ -9,11 +9,15 @@ const tuning = document.querySelector('.work-preview-tuning');
 const scenes = [...document.querySelectorAll('body > .site-header, body > main')];
 const hero = document.querySelector('interactive-typewriter');
 const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
-if (hero) hero.listenOnScroll = () => {}; // Scroll now belongs to the work preview in this experiment.
+// Desktop: scrolling down opens the work preview instead of the hero's Listening state.
+// Phones and iPads keep the hero's own scroll-to-Listening; there the brand strip opens Work.
+if (hero) hero.listenOnScroll = () => { if (compact.matches) Object.getPrototypeOf(hero).listenOnScroll?.call(hero); };
 let pinned = false;
 let closeTimer;
 let lastViewport;
 
+// Phones and iPads in portrait: menu drawer, full work grid, near full-screen focus view (see compact.css).
+const compact = matchMedia('(max-width: 1024px)');
 const isOpen = () => document.body.dataset.workPreview === 'open';
 const inInquiry = () => document.body.dataset.inquiryActive === 'true';
 
@@ -124,7 +128,7 @@ function placeReader() {
   dialog.style.removeProperty('margin');
   dialog.style.removeProperty('width');
   dialog.style.removeProperty('--reader-height');
-  if (dialog.dataset.mode !== 'reader' || innerWidth <= 700 || !header) return;
+  if (dialog.dataset.mode !== 'reader' || compact.matches || !header) return;
   // The homepage behind is scaled around the viewport centre, so align with where its header edges end up.
   const scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--preview-scale')) || .87;
   const cx = innerWidth / 2, cy = innerHeight / 2;
@@ -279,10 +283,12 @@ function selectProject(index, source) {
 
 // About opens in the same focus view: it grows out of the header link and the homepage blurs behind it.
 // It has no rail of work beneath it.
+// On phones and iPads the About link lives in the drawer, so About grows out of (and returns to) the menu button.
+const aboutOrigin = () => (aboutLink?.offsetParent ? aboutLink : document.querySelector('.site-header .nav-menu'));
 function openAbout() {
   if (!aboutReader || leaving) return;
   if (dialog.open && dialog.dataset.mode === 'reader') return switchStudy(ABOUT, aboutReader);
-  const from = aboutLink.getBoundingClientRect();
+  const from = aboutOrigin()?.getBoundingClientRect();
   open({pin:true});
   selected = ABOUT;
   rail.replaceChildren();
@@ -339,8 +345,8 @@ function leaveToHome() {
   if (leaving) return;
   leaving = true;
   // A case study opened from the rail may belong to the folded second row; unfold it so the morph has a card to land in.
-  if (cards[selected]?.hidden) toggleMore(true);
-  const target = selected === ABOUT ? aboutLink?.getBoundingClientRect() : cards[selected]?.getBoundingClientRect();
+  if (cards[selected]?.hidden && !compact.matches) toggleMore(true);
+  const target = selected === ABOUT ? aboutOrigin()?.getBoundingClientRect() : cards[selected]?.getBoundingClientRect();
   close();
   morphFrame(target, {reverse:true}).then(() => {
     dialog.close();
@@ -358,8 +364,11 @@ dialog.addEventListener('click', event => {
   document.querySelector('.site-header .nav-contact')?.click();
 });
 
+// Clicking anywhere on the blur leaves: the backdrop, the space around the frame and the gaps in the rail.
+// Only the frame itself and the rail's thumbnails keep the view open.
 dialog.addEventListener('click', event => {
-  if (event.target === dialog) leaveToHome();
+  if (event.target.closest('.work-project-frame, .work-project-rail [data-project]')) return;
+  leaveToHome();
 });
 if (new URLSearchParams(location.search).has('tune')) {
   tuning.hidden = false;
@@ -380,20 +389,27 @@ if (new URLSearchParams(location.search).has('tune')) {
 }
 
 // Scroll down (wheel or swipe up) opens the work preview; scrolling back up closes it.
-let wheelDistance = 0, wheelAt = 0, touchY = null;
+// On phones and iPads the work grid scrolls: scrolling back up inside it only closes once it is at the top.
+let wheelDistance = 0, wheelAt = 0, touchY = null, gestureInGrid = false;
 function scrollIntent(delta) {
-  if (dialog.open || inInquiry() || document.activeElement?.matches('textarea, input')) return;
-  if (delta > 0 && !isOpen()) open({pin:true});
-  else if (delta < 0 && isOpen() && pinned) close();
+  if (dialog.open || inInquiry() || drawerOpen() || document.activeElement?.matches('textarea, input')) return;
+  if (delta > 0 && !isOpen() && !compact.matches) open({pin:true});
+  else if (delta < 0 && isOpen() && pinned && !(gestureInGrid && region.scrollTop > 0)) close();
 }
 addEventListener('wheel', event => {
   if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+  gestureInGrid = region.contains(event.target);
   if (event.timeStamp - wheelAt > 200) wheelDistance = 0;
   wheelAt = event.timeStamp;
   wheelDistance += event.deltaY * (event.deltaMode === 0 ? 1 : 16);
   if (Math.abs(wheelDistance) >= 24) { scrollIntent(wheelDistance); wheelDistance = 0; }
 }, {passive:true});
-addEventListener('touchstart', event => { touchY = event.touches[0]?.clientY ?? null; }, {passive:true});
+addEventListener('touchstart', event => {
+  touchY = event.touches[0]?.clientY ?? null;
+  // A swipe that starts inside the grid while it is scrolled is just scrolling.
+  gestureInGrid = region.contains(event.target);
+  if (gestureInGrid && region.scrollTop > 0) touchY = null;
+}, {passive:true});
 addEventListener('touchmove', event => {
   if (touchY === null) return;
   const delta = touchY - event.touches[0].clientY;
@@ -426,3 +442,64 @@ function toggleMore(expand = moreButton.getAttribute('aria-expanded') !== 'true'
   } else finish();
 }
 moreButton?.addEventListener('click', () => { pinned = true; toggleMore(); });
+
+
+// Menu drawer (phones and iPads): Work, About and the social links, under the header.
+const menuButton = document.querySelector('.site-header .nav-menu');
+const drawer = document.querySelector('.mobile-drawer');
+const drawerOpen = () => menuButton?.getAttribute('aria-expanded') === 'true';
+if (drawer) {
+  const socials = document.querySelector('.site-header .footer-socials');
+  if (socials) drawer.querySelector('.mobile-drawer-socials').append(...[...socials.children].map(link => link.cloneNode(true)));
+}
+function setDrawer(openIt, {restoreFocus = false} = {}) {
+  if (!menuButton || !drawer || openIt === drawerOpen()) return;
+  menuButton.setAttribute('aria-expanded', String(openIt));
+  menuButton.setAttribute('aria-label', openIt ? 'Close menu' : 'Menu');
+  if (openIt) {
+    const bar = document.querySelector('body > .site-header').getBoundingClientRect();
+    drawer.style.setProperty('--drawer-top', `${Math.round(bar.bottom + 10)}px`);
+    drawer.hidden = false;
+    requestAnimationFrame(() => requestAnimationFrame(() => drawer.dataset.open = ''));
+  } else {
+    delete drawer.dataset.open;
+    const done = () => { if (!drawerOpen()) drawer.hidden = true; };
+    if (reduceMotion.matches) done(); else setTimeout(done, 280);
+    if (restoreFocus) menuButton.focus({preventScroll:true});
+  }
+}
+menuButton?.addEventListener('click', event => { event.stopPropagation(); setDrawer(!drawerOpen()); });
+drawer?.addEventListener('click', event => {
+  const item = event.target.closest('[data-drawer]');
+  if (!item) return;
+  setDrawer(false);
+  if (item.dataset.drawer === 'work') open({pin:true, focus:event.detail === 0});
+  else openAbout();
+});
+document.addEventListener('click', event => {
+  if (drawerOpen() && !drawer.contains(event.target) && !menuButton.contains(event.target)) setDrawer(false);
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && drawerOpen()) { event.preventDefault(); setDrawer(false, {restoreFocus:true}); }
+});
+compact.addEventListener('change', () => { if (!compact.matches) setDrawer(false); });
+
+// Work page close (phones and iPads).
+region.querySelector('.work-preview-close')?.addEventListener('click', () => close({restoreFocus:false}));
+// Opening the work page always starts at the top of the grid.
+new MutationObserver(() => { if (isOpen() && compact.matches) region.scrollTop = 0; })
+  .observe(document.body, {attributes:true, attributeFilter:['data-work-preview']});
+
+// Phones and iPads show every card (no "more" chevron); desktop goes back to the folded second row.
+function syncCompactCards() {
+  const expanded = compact.matches || moreButton?.getAttribute('aria-expanded') === 'true';
+  for (const card of extras) card.hidden = !expanded;
+}
+compact.addEventListener('change', syncCompactCards);
+syncCompactCards();
+
+// Phones and iPads: tapping the brand strip opens the work page (its own buttons keep their jobs).
+strip.addEventListener('click', event => {
+  if (!compact.matches || event.target.closest('button, a')) return;
+  open({pin:true});
+});

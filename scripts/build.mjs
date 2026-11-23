@@ -83,6 +83,7 @@ pages.set('/',versionStyles(pages.get('/')
  .replace('</head>',preview.head+'</head>')
  .replace('</brand-marquee>',preview.trigger+'</brand-marquee>')
  .replace('<div class="landing-actions">','<div class="landing-actions">'+preview.about)
+ .replace(/(<a class="button nav-contact[\s\S]*?<\/a>)/,'$1'+preview.menu)
  .replace('</body>',preview.overlay+'</body>')));
 
 if (limitedPortfolio) {

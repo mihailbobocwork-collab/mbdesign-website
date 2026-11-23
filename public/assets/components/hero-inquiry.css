@@ -103,6 +103,8 @@ html[data-hero-transition]::view-transition-new(inquiry-heading) {
 .hero-flow-answer[aria-invalid=true]{border-color:#a36856}
 .hero-flow-error{font-size:14px;line-height:1.5;color:#925f50;min-height:22px;margin:12px 0 24px}
 /* Chosen suggestion, shown as a removable tag above the note. */
+/* A question with no helper line keeps the same space before the field. */
+.hero-page .hero-flow-panel .hero-flow-question.is-solo{margin-bottom:36px}
 .hero-flow-tag{display:inline-flex;align-items:center;gap:6px;margin:0 0 6px;padding:6px 6px 6px 16px;border:1px solid #a7b1ba;border-radius:999px;background:#eef1f4;color:#171c20;font-size:16px;line-height:20px}
 .hero-flow-tag-remove{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:transparent;color:#4b5761;cursor:pointer;transition:background-color 200ms,color 200ms}
 .hero-flow-tag-remove:hover,.hero-flow-tag-remove:focus-visible{background:#dde3e8;color:#171c20}

@@ -121,6 +121,7 @@ export class HeroInquiry {
   }
   chooseSubject(id){
     if(this.active||this.busy||!SUBJECTS.some(s=>s.id===id))return;
+    if(this.answers.subject===id){this.answers.subject='';this.persist();this.updateSubjectUI();return;}
     this.answers.subject=id;
     this.start(this.editor.input.value);
   }
@@ -238,8 +239,10 @@ export class HeroInquiry {
 
   heading(title,helper){
     const h=element('h1','hero-flow-question',title);h.tabIndex=-1;
+    this.content.append(h);
+    if(!helper){h.classList.add('is-solo');return;}
     const p=element('p','hero-flow-helper',helper);p.id='hero-flow-helper';
-    this.content.append(h,p);
+    this.content.append(p);
   }
 
   renderField(isEmail){
@@ -247,12 +250,12 @@ export class HeroInquiry {
     const service=SUBJECTS.find(s=>s.id===this.answers.subject);
     this.heading(isEmail?(meeting?'Where should I send the invite?':'Where should I reply?'):'What can I help you with?',
       isEmail?(meeting?'I’ll send the Google Meet invitation to this address.':'I’ll use this address to reply to your message.'):
-        service?'Add a note if you’d like, or continue.':'Tell me a little about what you’re working on.');
+        '');
     const field=element(isEmail?'input':'textarea','hero-flow-answer');
     field.name=isEmail?'email':'message';field.id='hero-flow-answer';field.dataset.answer='';
-    field.placeholder=isEmail?'you@company.com':service?'Tell me more…':'What are you working on?';
+    field.placeholder=isEmail?'you@company.com':service?'Tell me more…':'Tell me a little about what you’re working on.';
     field.setAttribute('aria-label',isEmail?'Email address':'Your project');
-    field.setAttribute('aria-describedby','hero-flow-helper hero-flow-error');
+    field.setAttribute('aria-describedby',isEmail?'hero-flow-helper hero-flow-error':'hero-flow-error');
     field.value=this.answers[field.name]||'';field.enterKeyHint='next';
     if(isEmail){field.type='email';field.autocomplete='email';field.maxLength=254;}else field.rows=1;
     const next=control('Continue','hero-flow-continue','submit');
@@ -263,7 +266,7 @@ export class HeroInquiry {
     if(!isEmail){
       const counter=element('p','message-count');counter.id='hero-flow-count';counter.hidden=true;
       const status=element('span','sr-only');status.id='hero-flow-limit-status';status.setAttribute('role','status');
-      field.setAttribute('aria-describedby','hero-flow-helper hero-flow-count hero-flow-error hero-flow-limit-status');
+      field.setAttribute('aria-describedby','hero-flow-count hero-flow-error hero-flow-limit-status');
       this.content.append(counter,status);this.messageEditor=new MessageEditor(field,{counter,status,button:next});
     }
     const error=element('p','hero-flow-error');error.id='hero-flow-error';error.setAttribute('role','alert');
@@ -279,8 +282,7 @@ export class HeroInquiry {
     remove.addEventListener('click',()=>{
       this.answers.subject='';this.persist();this.updateSubjectUI();
       tag.remove();
-      field.placeholder='What are you working on?';
-      this.content.querySelector('.hero-flow-helper').textContent='Tell me a little about what you’re working on.';
+      field.placeholder='Tell me a little about what you’re working on.';
       field.focus({preventScroll:true});
     });
     tag.append(element('span','hero-flow-tag-label',service.label),remove);
