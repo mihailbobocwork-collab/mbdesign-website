@@ -253,7 +253,7 @@ export class HeroInquiry {
         '');
     const field=element(isEmail?'input':'textarea','hero-flow-answer');
     field.name=isEmail?'email':'message';field.id='hero-flow-answer';field.dataset.answer='';
-    field.placeholder=isEmail?'you@company.com':service?'Tell me more…':'Tell me a little about what you’re working on.';
+    field.placeholder=isEmail?'you@company.com':service?'Tell me more…':'Tell me about your project…';
     field.setAttribute('aria-label',isEmail?'Email address':'Your project');
     field.setAttribute('aria-describedby',isEmail?'hero-flow-helper hero-flow-error':'hero-flow-error');
     field.value=this.answers[field.name]||'';field.enterKeyHint='next';
@@ -282,7 +282,7 @@ export class HeroInquiry {
     remove.addEventListener('click',()=>{
       this.answers.subject='';this.persist();this.updateSubjectUI();
       tag.remove();
-      field.placeholder='Tell me a little about what you’re working on.';
+      field.placeholder='Tell me about your project…';
       field.focus({preventScroll:true});
     });
     tag.append(element('span','hero-flow-tag-label',service.label),remove);

@@ -1,11 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createAnalytics,safeEvent,ANALYTICS_ID} from '../public/assets/analytics.js';
-function setup(options={}){const saved=new Map(),scripts=[];const win={location:{origin:'https://mihaiboboc.com',hostname:'mihaiboboc.com',pathname:'/work/lendit/',search:'?email=private@example.com',hash:'#private-message'}};const doc={title:'Lendit · Mihai Boboc',referrer:'https://example.com/private?email=secret',cookie:'_ga=old',head:{append:script=>scripts.push(script)},createElement:()=>({})};return {win,doc,scripts,tracker:createAnalytics({win,doc,storage:{getItem:k=>saved.get(k),setItem:(k,v)=>saved.set(k,v)},...options})};}
-test('Analytics loads nothing and buffers nothing until explicit consent',()=>{const s=setup();s.tracker.track('generate_lead',{lead_type:'message'});assert.equal(s.win.dataLayer,undefined);assert.equal(s.scripts.length,0);s.tracker.choose('denied');assert.equal(s.scripts.length,0);s.tracker.choose('granted');assert.equal(s.scripts.length,1);assert.match(s.scripts[0].src,new RegExp(ANALYTICS_ID));assert.equal(s.win.dataLayer.filter(x=>x[1]==='generate_lead').length,0);});
-test('Only allowlisted values are sent; URL queries, fragments and referrer paths are excluded',()=>{const s=setup();s.tracker.choose('granted');s.tracker.track('generate_lead',{lead_type:'meeting',email:'secret@example.com',message:'private text',topic:'private topic'},'one');s.tracker.track('generate_lead',{lead_type:'meeting'},'one');s.tracker.track('inquiry_step',{step:'private text'});const data=JSON.stringify(s.win.dataLayer);for(const value of ['secret@example.com','private text','private topic','private-message','?email=','/private'])assert.ok(!data.includes(value),value);assert.equal(s.win.dataLayer.filter(x=>x[1]==='generate_lead').length,1);assert.equal(safeEvent('unexpected',{email:'secret'}),null);assert.equal(safeEvent('view_case_study',{project:'someone@example.com'}),null);});
-test('Withdrawal disables analytics and removes analytics cookies without emitting more events',()=>{const s=setup();s.tracker.choose('granted');const count=s.win.dataLayer.length;s.tracker.choose('denied');s.tracker.track('generate_lead',{lead_type:'message'});assert.equal(s.win.dataLayer.length,count);assert.equal(s.win['ga-disable-'+ANALYTICS_ID],true);assert.match(s.doc.cookie,/Max-Age=0/);s.tracker.choose('granted');assert.equal(s.scripts.length,1);});
+import {readFile} from 'node:fs/promises';
+import {track} from '../public/assets/analytics.js';
 
-test('Tag Manager mode loads one container after consent and never also loads the direct tag',()=>{
- const s=setup({tagManager:true});assert.equal(s.scripts.length,0);s.tracker.choose('granted');assert.equal(s.scripts.length,1);assert.ok(s.scripts[0].src.endsWith('/gtm.js?id=GTM-PM9CSLRQ'));assert.equal(s.win.dataLayer.filter(x=>x.event==='gtm.js').length,1);s.tracker.choose('granted');assert.equal(s.scripts.length,1);
+test('Analytics is cookieless: no Google tag, no consent banner, and track() is a safe no-op', async () => {
+  assert.doesNotThrow(() => track('inquiry_step', {step:'message'}));
+  const build = await readFile(new URL('../scripts/build.mjs', import.meta.url), 'utf8');
+  const loader = await readFile(new URL('../public/assets/analytics.js', import.meta.url), 'utf8');
+  for (const source of [build, loader]) {
+    assert.doesNotMatch(source, /googletagmanager|gtag\(|G-MJ6TYXCYLQ|Allow analytics/);
+  }
 });

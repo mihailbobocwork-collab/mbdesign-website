@@ -56,7 +56,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - Front end: vanilla JS native custom elements in `public/assets/components/` (`interactive-typewriter`, `brand-marquee`, hero-inquiry, meeting-calendar, portrait-motion, transition-motion, brand-loader, message-editor…). Global helpers are in `public/assets/app.js` (magnetic buttons, menu, back-to-top).
 - Back end: Cloudflare Pages Functions in `functions/` (`/auth`, `/callback`, `/api/calendar`, `/api/bookings`) with logic in `lib/` (Google Calendar/Meet/Gmail, scheduling, D1 booking store, GitHub OAuth for Decap). D1 schema in `migrations/`. Turnstile anti-spam.
 - CMS: Decap 3.9.0 (pinned, unpkg), GitHub backend. Collections are defined in `cms.config.json`; content is edited in `content/`.
-- Analytics: consent-gated GA4 (`G-MJ6TYXCYLQ`), only on the production domain; GTM alternative prepared. See `ANALYTICS.md`.
+- Analytics: **Cloudflare Web Analytics**, cookieless, no consent banner (owner, 2026-11-24). Enabled in the Cloudflare dashboard, not in code; `public/assets/analytics.js` is a no-op `track()`. Google Analytics 4 and its banner were removed. See `ANALYTICS.md`.
 - Secrets: `.dev.vars` and `.local/` are private and gitignored. Never commit or print them.
 - Topic docs (detail lives there, not here): `README.md` (full chronological implementation log, partly superseded), `LAUNCH.md` (launch checklist), `GOOGLE-SETUP.md`, `ANALYTICS.md`, `PROJECT-PAGES.md`, `WORK-COVERS.md`, `PORTRAIT-NOTES.md`, `QA.md`, `MOBILE-QA.md`.
 
@@ -66,7 +66,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - ✅ **Typewriter hero** (`hero-typewriter.js`). Hover/pen focuses a native textarea without a click. Suggestion subjects: Product Design, Graphic Design, Brand Identity. Reset icon above the send arrow. 3,000-character limit with adaptive font size and scrolling. Slow eased hover-out (850ms grace, about 1450ms return).
 - ✅ **Three-state portrait** (idle → listening → writing) with canvas mesh + 61-frame optical-flow WebP atlas (`portrait-motion.js`). The alternate portraits are AI-edited (`PORTRAIT-NOTES.md`).
 - ✅ **Hero → inquiry morph** (`hero-inquiry.js`). Current step order: topic → engagement type → EUR budget → meeting/message preference → calendar (if meeting) → email → final review → complete. "Back to website" replays the loader. Answers persist in sessionStorage. ⚠ `LAUNCH.md` lists an older step order (with name/company).
-  - First step (owner, 2026-11-23): "What can I help you with?" has no helper line; the prompt lives in the field. With no suggestion the placeholder is "Tell me a little about what you’re working on."; with a suggestion (e.g. Graphic Design) the subject shows as a removable tag above the field and the placeholder is "Tell me more…". Removing the tag switches back to the first placeholder. Clicking a highlighted suggestion on the hero deselects it instead of opening the flow. Typing a message on the hero with no suggestion skips that step and opens "How would you like to work together?" (Question 2 of 4); Back returns to the first step with the typed text kept.
+  - First step (owner, 2026-11-23): "What can I help you with?" has no helper line; the prompt lives in the field. With no suggestion the placeholder is "Tell me about your project…" (shortened by the owner, 2026-11-24); with a suggestion (e.g. Graphic Design) the subject shows as a removable tag above the field and the placeholder is "Tell me more…". Removing the tag switches back to "Tell me about your project…". The empty-field error still reads "Tell me a little about what you’re working on." Clicking a highlighted suggestion on the hero deselects it instead of opening the flow. Typing a message on the hero with no suggestion skips that step and opens "How would you like to work together?" (Question 2 of 4); Back returns to the first step with the typed text kept.
 - ✅ **Own booking system**: custom calendar UI with Google Calendar busy times, D1 atomic reservation, Google Meet event + invite, Gmail delivery, idempotent retries. Rules in `content/booking.json` (30 min, Mon–Fri 10–17 Europe/Chisinau, 24h notice, 15 min buffers, 60 days).
 - ✅ Monochrome **brand marquee** (9 logos, 110s loop, edge fades, pause control).
 - ✅ Custom arrow/I-beam **cursor** (`cursor.css`, native pointer hand on links). **Magnetic buttons** (`[data-magnetic]`, ≤5px, off for touch/reduced motion).
@@ -92,6 +92,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - 2026-11-20: Site-wide Excon Variable; Outfit removed.
 - 2026-11-20: Case studies restored to the original vertical layout; the horizontal Lendit chapters are archived in `experiments/lendit-horizontal/`.
 - 2026-11-20: Pricing, Playground, Services and Privacy paused. The `/work/` collection page was removed (old URLs → `/#work`).
+- 2026-11-24: Google Analytics + consent banner removed; Cloudflare Web Analytics (cookieless) instead, so visitors are never asked about analytics. Funnel events are no longer measured.
 - 2026-11-20/21: `limitedPortfolio = true` temporarily publishes only the hero landing + contact.
 - No delivery is ever faked. Local preview uses labelled samples only. Production fails closed without Google, D1 or Turnstile.
 - Generated `dist/`, `.dev.vars`, `.local/`, `preview/` and `experiments/` stay out of Git.
@@ -162,12 +163,12 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - No physical iPhone keyboard test yet (simulation only).
 - Node is not on the default shell PATH on the owner's Mac; use `~/.nvm/versions/node/v24.13.0/bin`.
 
-- **Published 2026-11-23** (owner approved): the brand-strip experiment is now part of the build (`scripts/work-preview.mjs` + `public/assets/work-preview/`, injected into `/` and `/404.html` by `scripts/build.mjs`). Pushed to GitHub `main` as `7ae6522` (on top of `213de32`), then `7b2595e` on 2026-11-24 (mobile/iPad); Cloudflare redeployed https://mbdesign-website.pages.dev within ~1 min. Draft/noindex unchanged; no domain change. Unconfirmed case-study facts were published as written at the owner's request.
+- **Published 2026-11-23** (owner approved): the brand-strip experiment is now part of the build (`scripts/work-preview.mjs` + `public/assets/work-preview/`, injected into `/` and `/404.html` by `scripts/build.mjs`). Pushed to GitHub `main` as `7ae6522` (on top of `213de32`), then `7b2595e` on 2026-11-24 (mobile/iPad) and `7f0a3a0` (Preview work pill hidden); Cloudflare redeployed https://mbdesign-website.pages.dev within ~1 min. Draft/noindex unchanged; no domain change. Unconfirmed case-study facts were published as written at the owner's request.
 - Sync method used: this local folder is still **not** linked to GitHub (its `.git` has no commits). The push was made from a fresh clone with the local files copied in (excluding `experiments/`, `preview/`, `dist/`, `.local/`, `.dev.vars`, `bookings.sqlite*`, root `preview-*.jpg/gif`, `.DS_Store`; the unused 4 MB `public/assets/about/mihail-boboc.png` was left out). Edit `scripts/work-preview.mjs` / `public/assets/work-preview/` from now on; `experiments/brand-strip-preview/` is the superseded prototype (its server skips injection when the build already includes the preview).
 
 ## 10. Next priorities
 
-1. Make this folder a proper clone of GitHub `main` (now at `7b2595e`) so future pushes don't need the copy-into-clone step.
+1. Make this folder a proper clone of GitHub `main` (now at `7f0a3a0`) so future pushes don't need the copy-into-clone step.
 2. Make the tests pass (mode-aware tests or re-enable pages).
 3. ✅ Work preview shipped to staging. Next: owner review on the live staging URL.
 4. Confirm email, domain and meeting rules. Connect Google + D1 + Turnstile. Run a real acceptance test (`LAUNCH.md` §8).
@@ -187,7 +188,8 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 | 2026-11-23 | Claude Code | 100% corner smoothing on cards (24px, owner's choice) and the focus frame (60px) via CSS corner-shape. |
 | 2026-11-23 | Claude Code | × and Escape in the focused view return to the home screen (same morph as the blur). |
 | 2026-11-23 | Claude Code | 7code web case study uses the owner's copy; visible placeholder tags removed (values still flagged in data). |
-| 2026-11-24 | Claude Code | "Preview work" pill hidden (keyboard focus only); the brand strip itself opens Work on touch. Local only. |
+| 2026-11-24 | Claude Code | Removed Google Analytics and its consent banner; privacy copy and ANALYTICS.md now describe cookieless Cloudflare Web Analytics (to be enabled in the dashboard). Tests 87/91 (same 4 known). Local only. |
+| 2026-11-24 | Claude Code | "Preview work" pill hidden (keyboard focus only); the brand strip itself opens Work on touch. Pushed in `7f0a3a0`, live on staging. |
 | 2026-11-24 | Claude Code | Published to staging: mobile/iPad drawer + work grid, inquiry placeholder, deselectable suggestions, click-anywhere exit. GitHub main `7b2595e`; live on mbdesign-website.pages.dev (draft/noindex kept). |
 | 2026-11-24 | Claude Code | Phones/iPads: scroll down opens the hero Listening state again; tapping the brand strip opens Work. Desktop unchanged. Pushed in `7b2595e`. |
 | 2026-11-23 | Claude Code | Phones/iPads: menu drawer (Work, About, socials), full work grid page, near full-screen case studies (the tried "Tap to tell me…" hero field was removed; hero unchanged). Pushed in `7b2595e`. |
