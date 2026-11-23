@@ -49,6 +49,28 @@ test('A mouse exit releases scroll-activated Listening while a touch exit keeps 
   }finally{globalThis.document=previous;}
 });
 
+test('Scroll-activated Listening returns to the intro after the last scroll becomes idle',t=>{
+  t.mock.timers.enable({apis:['setTimeout']});
+  const el=Object.create(InteractiveTypewriter.prototype);
+  Object.assign(el,{motion:{matches:true},input:{value:''},characters:[],fullText:'',intro:{textContent:''},
+    dataset:{editing:'false'},contains:()=>false,closest:selector=>selector==='[data-hero-flow]'?{}:null});
+  const previous=globalThis.document;
+  globalThis.document={activeElement:null,body:{dataset:{}}};
+  try{
+    el.listenOnScroll();t.mock.timers.tick(2000);
+    el.listenOnScroll();t.mock.timers.tick(2499);
+    assert.equal(el.dataset.editing,'true');
+    t.mock.timers.tick(1);
+    assert.equal(el.dataset.editing,'false');
+    assert.equal(el.dataset.scrollListening,undefined);
+    el.listenOnScroll();
+    el.input.value='Keep my draft';
+    t.mock.timers.tick(2500);
+    assert.equal(el.dataset.editing,'true');
+    assert.equal(el.input.value,'Keep my draft');
+  }finally{globalThis.document=previous;}
+});
+
 test('Reverse scrolling closes empty Listening and leaves an active draft alone',()=>{
   const el=Object.create(InteractiveTypewriter.prototype);
   let returned=0;

@@ -1,6 +1,6 @@
 # Supplied homepage covers
 
-Source: Mihail’s Figma file, frame `46:4947` (`3chviwyGZ43nLoMaufQbhl`). These are supplied cover assets, not generated substitute artwork. Source order is preserved in `content/home-work.json`.
+Source: Mihai’s Figma file, frame `46:4947` (`3chviwyGZ43nLoMaufQbhl`). These are supplied cover assets, not generated substitute artwork. Source order is preserved in `content/home-work.json`.
 
 | Cover | Source node | Implementation |
 | --- | --- | --- |

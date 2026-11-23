@@ -1,4 +1,4 @@
-# Mihail Boboc — portfolio website
+# Mihai Boboc — portfolio website
 
 A custom-coded, dependency-free static portfolio for Cloudflare Pages, with Decap CMS and a small GitHub OAuth handler. Source repository: https://github.com/mihailbobocwork-collab/mbdesign-website. Website deployment and the private Google connection are pending.
 
@@ -81,7 +81,7 @@ The local `/admin/` route currently shows an honest setup screen. It cannot sign
 
 1. In GitHub, open **Settings → Developer settings → OAuth Apps → New OAuth App**.
 2. Use these values, replacing the domain with the exact origin from `siteUrl`:
-   - Application name: `Mihail Boboc CMS`
+   - Application name: `Mihai Boboc CMS`
    - Homepage URL: `https://YOUR_SITE/admin/`
    - Authorization callback URL: **`https://YOUR_SITE/callback`**
 3. Generate the client secret. Enter it directly into Cloudflare's secret settings; never put it in the source, public CMS configuration, or chat.
@@ -192,7 +192,7 @@ The existing portrait circle now crossfades to an AI-edited, note-taking variati
 
 Both layers share the existing portrait slot. Only opacity changes, with the editor’s slower return timing. A load-ready guard keeps the source photo visible until the alternate image has loaded; an error leaves the source photo in place. The alternate is decorative for screen readers. Reduced motion disables the crossfade.
 
-**Hiring a designer** now seeds an empty/preset editor with: “Hi Mihail, we’re looking for a product designer to join our team. I’d love to tell you more about the role.” It remains editable and never replaces visitor-written text. This supersedes the earlier blank hiring suggestion.
+**Hiring a designer** now seeds an empty/preset editor with: “Hi Mihai, we’re looking for a product designer to join our team. I’d love to tell you more about the role.” It remains editable and never replaces visitor-written text. This supersedes the earlier blank hiring suggestion.
 
 ## Portrait follows the message
 
@@ -319,7 +319,7 @@ All website text now shares the locally hosted Excon Variable font, including na
 
 ## Original portfolio case studies
 
-The illustrative project copy has now been replaced with seven original public case studies from Mihail’s current website, including the full product stories, brand guidelines and print projects. Their 96 original images are local, with smaller responsive previews and access to the original artwork. 7code Tech has a friendly “Request this case study” page that prefills the existing contact form and preserves any separate inquiry draft. Homepage covers remain as supplied; the Lendit identity cover now links to the correct branding page.
+The illustrative project copy has now been replaced with seven original public case studies from Mihai’s current website, including the full product stories, brand guidelines and print projects. Their 96 original images are local, with smaller responsive previews and access to the original artwork. 7code Tech has a friendly “Request this case study” page that prefills the existing contact form and preserves any separate inquiry draft. Homepage covers remain as supplied; the Lendit identity cover now links to the correct branding page.
 
 Services and Work categories now use Product Design, Graphic Design and Brand Design. Source mapping, project routes, CMS editing notes and media details are in [PROJECT-PAGES.md](PROJECT-PAGES.md). The downloadable source excludes generated `dist/`; `npm run build` recreates the Cloudflare Pages output. Existing CMS authentication and Google connection instructions above still apply.
 
@@ -332,7 +332,7 @@ The separate Work collection page and its homepage subtitle are removed; old col
 
 ## Restored original vertical case studies
 
-At Mihail’s request, Lendit again uses the original imported story, artwork sequence and vertical case-study layout, with shared navigation and footer. The horizontal chapter experiment is archived under experiments/lendit-horizontal and is not loaded or shown in the CMS. Other project pages retain their original imported layouts. The floating circular Back to top button, removed homepage subtitle, and homepage Work destination remain in place.
+At Mihai’s request, Lendit again uses the original imported story, artwork sequence and vertical case-study layout, with shared navigation and footer. The horizontal chapter experiment is archived under experiments/lendit-horizontal and is not loaded or shown in the CMS. Other project pages retain their original imported layouts. The floating circular Back to top button, removed homepage subtitle, and homepage Work destination remain in place.
 
 
 ## Process timelines and iPhone mockups

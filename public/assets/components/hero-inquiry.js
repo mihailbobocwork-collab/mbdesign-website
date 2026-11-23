@@ -127,7 +127,9 @@ export class HeroInquiry {
   async start(message,{trigger=null,fromHistory=false}={}){
     if(this.active||this.busy||(!this.direct&&!trigger&&!fromHistory&&!this.answers.subject&&!hasMessage(message)))return;
     this.entryTrigger=trigger;
-    this.answers.message=message;this.persist();this.step=STEP.answer;
+    this.answers.message=message;this.persist();
+    // A typed message with no suggestion already answers the first question, so go straight to how we'd work together.
+    this.step=!this.answers.subject&&hasMessage(message)?STEP.engagement:STEP.answer;
     this.active=true;this.busy=true;
     this.originalStates.clear();
     for(const el of this.surroundings)this.originalStates.set(el,{inert:el.inert,hidden:el.hidden});
@@ -245,10 +247,10 @@ export class HeroInquiry {
     const service=SUBJECTS.find(s=>s.id===this.answers.subject);
     this.heading(isEmail?(meeting?'Where should I send the invite?':'Where should I reply?'):'What can I help you with?',
       isEmail?(meeting?'I’ll send the Google Meet invitation to this address.':'I’ll use this address to reply to your message.'):
-        service?`You selected ${service.label}. Add a note if you’d like.`:'Tell me a little about what you’re working on.');
+        service?'Add a note if you’d like, or continue.':'Tell me a little about what you’re working on.');
     const field=element(isEmail?'input':'textarea','hero-flow-answer');
     field.name=isEmail?'email':'message';field.id='hero-flow-answer';field.dataset.answer='';
-    field.placeholder=isEmail?'you@company.com':'What are you working on?';
+    field.placeholder=isEmail?'you@company.com':service?'Tell me more…':'What are you working on?';
     field.setAttribute('aria-label',isEmail?'Email address':'Your project');
     field.setAttribute('aria-describedby','hero-flow-helper hero-flow-error');
     field.value=this.answers[field.name]||'';field.enterKeyHint='next';
@@ -256,6 +258,7 @@ export class HeroInquiry {
     const next=control('Continue','hero-flow-continue','submit');
     const actions=element('div','hero-flow-actions');
     actions.append(next,element('span','hero-flow-key-hint','or press Enter'));
+    if(!isEmail&&service)this.content.append(this.subjectTag(service,field));
     this.content.append(field);
     if(!isEmail){
       const counter=element('p','message-count');counter.id='hero-flow-count';counter.hidden=true;
@@ -265,6 +268,23 @@ export class HeroInquiry {
     }
     const error=element('p','hero-flow-error');error.id='hero-flow-error';error.setAttribute('role','alert');
     this.content.append(error,actions);
+  }
+
+  // The suggestion picked on the homepage, shown as a tag above the note. Removing it asks for a description instead.
+  subjectTag(service,field){
+    const tag=element('span','hero-flow-tag');
+    const remove=control('','hero-flow-tag-remove');
+    remove.setAttribute('aria-label',`Remove ${service.label}`);
+    remove.innerHTML='<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
+    remove.addEventListener('click',()=>{
+      this.answers.subject='';this.persist();this.updateSubjectUI();
+      tag.remove();
+      field.placeholder='What are you working on?';
+      this.content.querySelector('.hero-flow-helper').textContent='Tell me a little about what you’re working on.';
+      field.focus({preventScroll:true});
+    });
+    tag.append(element('span','hero-flow-tag-label',service.label),remove);
+    return tag;
   }
 
   renderEngagement(){

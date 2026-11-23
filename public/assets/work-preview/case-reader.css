@@ -1,0 +1,241 @@
+body[data-selected-work] .work-preview-cards { opacity: 0; }
+
+.work-preview-detail {
+  --cover-side: min(640px, calc(100dvh - 200px), calc(100vw - 40px));
+  width: min(1110px, calc(100vw - 48px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto auto clamp(22px, 6.55dvh, 76px);
+  padding: 0 0 4px;
+  border: 0;
+  overflow: auto;
+  background: transparent;
+}
+.work-preview-detail::backdrop { background: transparent; }
+.work-project-frame {
+  position: relative;
+  width: var(--cover-side);
+  margin: auto;
+  border-radius: var(--frame-radius);
+  background: #fff;
+  overflow: clip;
+}
+.work-project-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  padding: 0 !important;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+  font-size: 23px !important;
+}
+/* Back to top: same size and right edge as ×, in the bottom corner. Appears once you have scrolled the story. */
+.work-project-top {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  padding: 0 !important;
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .4s cubic-bezier(.22,1,.36,1), visibility 0s linear .4s;
+}
+.work-project-top svg { width: 20px; height: 20px; }
+.work-project-top.is-shown { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.work-preview-detail:not([data-mode=reader]) .work-project-top { display: none; }
+@media (prefers-reduced-motion: reduce) { .work-project-top { transition: none; transform: none; } }
+.work-project-cover {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 1;
+  gap: 20px;
+  padding: clamp(20px, 4vw, 56px);
+}
+.work-preview-detail-art { display: grid; align-items: center; flex: 1; min-height: 0; }
+.work-preview-detail-art > .work-preview-art { height: 100%; }
+.work-project-caption { display: flex; align-items: flex-end; gap: 12px; justify-content: space-between; }
+.work-project-caption h2 { font-weight: 500; font-size: clamp(22px, 2.6vw, 31px); line-height: 1.16; }
+.work-preview-detail-category { margin-top: 5px; font-size: clamp(12px, 1.15vw, 16px); }
+.work-project-read { flex-shrink: 0; min-height: 44px; }
+.work-project-read span { margin-left: 5px; }
+/* Every other case study in one row beneath the open one. */
+.work-project-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 137px);
+  justify-content: center;
+  gap: clamp(8px, 1.2vw, 16px);
+  max-width: 100%;
+  margin: clamp(14px, 2.8vh, 32px) auto 0;
+}
+/* Figma 172:3028: artwork and title sit at the bottom of the card with 14px between them; title is Regular 12px. */
+.work-project-rail .work-preview-card { justify-content: flex-end; gap: clamp(8px, 1vw, 14px); padding: clamp(8px, 1.2vw, 14px); border-radius: clamp(14px, 2.2vw, 25px); corner-shape: round; }
+.work-project-rail .work-preview-art { flex: none; aspect-ratio: 107 / 67; height: auto; }
+.work-project-rail .work-preview-caption { min-height: 0; }
+.work-project-rail .work-preview-label strong { font-weight: 400; font-size: clamp(10px, .84vw, 12px); line-height: 1.5; }
+.work-project-rail .work-preview-label small { display: none; }
+.work-project-rail .work-preview-arrow { display: none; }
+
+/* Reading view: a calmer landscape card, centred with the other works beneath it. */
+.work-preview-detail[data-mode=reader] {
+  width: min(980px, calc(100vw - 48px));
+  margin: auto;
+  overflow: visible;
+}
+.work-preview-detail[data-mode=reader] .work-project-frame {
+  width: 100%;
+  border-radius: var(--frame-radius);
+}
+.work-preview-detail[data-mode=reader] .work-project-rail { margin-top: clamp(14px, 2.2vh, 24px); }
+.case-reader { display: flex; flex-direction: column; height: var(--reader-height, clamp(380px, calc(100dvh - 300px), 720px)); background: #fff; }
+.case-reader-content { min-height: 0; overflow: auto; overscroll-behavior: contain; background: #fff; }
+.case-reader-content:focus-visible { outline-offset: -3px; }
+
+/* Slim scrollbar that stops before the frame's rounded corners instead of running into them. */
+.case-reader-content::-webkit-scrollbar { width: 12px; }
+.case-reader-content::-webkit-scrollbar-track { margin-block: calc(var(--frame-radius) + 6px); background: transparent; }
+.case-reader-content::-webkit-scrollbar-thumb {
+  border: 4px solid transparent;
+  border-radius: 999px;
+  background: rgb(37 45 51 / 22%) padding-box;
+  min-height: 48px;
+}
+.case-reader-content:hover::-webkit-scrollbar-thumb { background-color: rgb(37 45 51 / 34%); }
+.case-reader-content::-webkit-scrollbar-thumb:active { background-color: rgb(37 45 51 / 48%); }
+@supports not selector(::-webkit-scrollbar) {
+  .case-reader-content { scrollbar-width: thin; scrollbar-color: rgb(37 45 51 / 28%) transparent; }
+}
+
+.case { max-width: 980px; margin: 0 auto; padding: clamp(36px, 4.4vw, 60px) clamp(20px, 5vw, 64px) clamp(64px, 8vw, 104px); }
+/* The selected work's card cover leads the story, left-aligned with the text, so it is clear which case study is open. */
+.case-cover { width: clamp(200px, 36%, 320px); aspect-ratio: 195 / 140; height: auto; margin: 0 0 clamp(8px, 1.4vw, 16px); }
+/* Logo covers: just the logo, no tile, left-aligned with the title like the laptops. */
+.case-cover:has(.is-identity) { display: block; place-items: normal; aspect-ratio: auto; container-type: normal; margin-bottom: clamp(24px, 3vw, 40px); }
+.case-cover .is-identity { display: block; width: 70%; }
+.case :is(h2, h3, figure, dl, dd) { margin: 0; }
+.case-head h2 {
+  color: var(--ink);
+  font-weight: 500;
+  font-size: clamp(30px, 3.6vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.case-head h2:focus { outline: none; }
+.case-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 60fr) minmax(0, 25fr);
+  justify-content: space-between;
+  gap: 40px;
+  align-items: start;
+  margin-top: clamp(28px, 4vw, 48px);
+}
+.case-body p { margin: 0 0 1em; color: #3f4850; font-size: 17px; line-height: 1.6; }
+.case-body p:last-child { margin-bottom: 0; }
+.case-facts { display: grid; gap: 18px; }
+.case-facts dt { color: var(--muted); font-size: 13px; }
+.case-facts dd { margin-top: 3px; color: var(--ink); font-size: 15px; line-height: 1.4; }
+
+.case-figure img { display: block; width: 100%; height: auto; }
+.case .case-hero { margin-top: clamp(48px, 7vw, 88px); }
+
+.case-body .case-note { color: var(--muted); font-size: 15px; }
+.placeholder-tag {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 1px 7px;
+  border: 1px dashed #c9a24a;
+  border-radius: 999px;
+  background: #fff8e6;
+  color: #8a6512;
+  font-size: 11px;
+  line-height: 1.5;
+  vertical-align: 1px;
+  white-space: nowrap;
+}
+.case-body .case-note .placeholder-tag { margin: 0 4px 0 0; }
+.case-hero .work-preview-reference, .case-hero .work-preview-composition { width: 100%; }
+
+/* Image-led studies: scroll straight through the original artwork. */
+.case-gallery { display: grid; gap: 16px; margin-top: clamp(40px, 6vw, 72px); }
+/* Product screens, no device mockups: desktop screens full width, mobile screens three across. */
+.case-screens { display: grid; gap: clamp(16px, 2vw, 24px); margin-top: clamp(48px, 7vw, 88px); }
+.case-screen img { border: 1px solid #e3e8ec; border-radius: 14px; }
+.case-phones { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 2vw, 24px); }
+.case-phone img { aspect-ratio: 786 / 1704; object-fit: cover; object-position: top; border: 1px solid #e3e8ec; border-radius: clamp(14px, 2.2vw, 28px); }
+@media (max-width: 700px) { .case-phones { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+/* Short overviews: the first image fills the space beside the facts. */
+.case-lead { margin-top: clamp(20px, 2.4vw, 32px); }
+.case-lead img { border-radius: 14px; }
+.case-gallery img { border-radius: 14px; }
+
+/* Closing invitation */
+.case-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px 40px;
+  margin-top: clamp(48px, 7vw, 88px);
+  padding-top: clamp(28px, 4vw, 44px);
+  border-top: 1px solid #e7ebee;
+}
+.case-cta h3 { color: var(--ink); font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -.02em; }
+.case-cta p { margin: 8px 0 0; color: #3f4850; font-size: 17px; line-height: 1.6; }
+.case-cta-button { flex: none; }
+
+@media (max-width: 700px) {
+  .work-preview-detail { width: calc(100vw - 24px); margin: auto; }
+  .work-project-frame { --cover-side: min(calc(100dvh - 170px), calc(100vw - 24px)); }
+  .work-project-caption { align-items: center; }
+  .work-project-read { font-size: 12px !important; }
+  .work-project-close { top: 10px; right: 10px; }
+  .work-project-top { right: 10px; bottom: 10px; }
+  .work-preview-detail[data-mode=reader] { width: calc(100vw - 24px); }
+  .case-reader { height: clamp(360px, calc(100dvh - 220px), 720px); }
+  .work-project-rail { grid-auto-columns: 96px; justify-content: start; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .case .case-hero { margin-top: 40px; }
+  .case { padding-top: 64px; }
+  .case-head h2 { font-size: 30px; }
+  .case-intro { grid-template-columns: 1fr; gap: 28px; }
+  .case-cta { flex-direction: column; align-items: flex-start; }
+  .case-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .case-body p, .case-cta p { font-size: 16px; }
+}
+
+@supports (corner-shape: superellipse(2)) {
+  .work-project-frame, .work-preview-detail[data-mode=reader] .work-project-frame { border-radius: calc(var(--frame-radius) * 2); corner-shape: superellipse(2.1); }
+  .case-reader-content::-webkit-scrollbar-track { margin-block: calc(var(--frame-radius) * 2 + 6px); }
+}
+
+/* About in focus view: header link, portrait in place of the card cover, principles before the call to action. */
+.site-header .nav-about { color: var(--ink); font-size: 16px; line-height: 20px; text-decoration: none; white-space: nowrap; transition: opacity .2s ease; }
+.site-header .nav-about:hover { opacity: .65; }
+.site-header .nav-about:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 4px; }
+/* About: a large portrait on the left with the details beneath it; the story sits beside it. */
+.about-intro { display: grid; grid-template-columns: minmax(0, 44fr) minmax(0, 52fr); justify-content: space-between; gap: clamp(28px, 5vw, 64px); align-items: start; }
+.case .about-photo { margin: 0; }
+.about-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: clamp(20px, 2.6vw, 36px); }
+@supports (corner-shape: superellipse(2)) { .about-photo img { border-radius: clamp(40px, 5.2vw, 72px); corner-shape: superellipse(2.1); } }
+.case .about-facts { grid-template-columns: 1fr; gap: 18px; margin-top: clamp(24px, 3vw, 36px); }
+.about-main { padding-top: clamp(8px, 1.6vw, 24px); }
+.case-head .about-main h2 { font-size: clamp(28px, 3vw, 40px); }
+.about-main .case-body { margin-top: clamp(18px, 2.2vw, 28px); }
+@media (max-width: 700px) { .about-intro { grid-template-columns: 1fr; } .about-main { padding-top: 0; } }
+.case-principles { margin-top: clamp(56px, 7vw, 88px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid #e3e8ec; }
+.case-principles h3 { color: var(--ink); font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -.02em; }
+.case-principles > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); margin-top: clamp(20px, 2.6vw, 32px); }
+.case-principles h4 { margin: 0; color: var(--ink); font-weight: 500; font-size: 17px; line-height: 1.35; }
+.case-principles p { margin: 8px 0 0; color: #3f4850; font-size: 15px; line-height: 1.6; }
+@media (max-width: 700px) { .case-principles > div { grid-template-columns: 1fr; } }
+
+.work-project-rail[hidden] { display: none; }

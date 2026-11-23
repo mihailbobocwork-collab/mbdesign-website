@@ -1,0 +1,190 @@
+:root {
+  --preview-blur: 4px;
+  --preview-scale: .87;
+  --preview-duration: 620ms;
+  --preview-ease: cubic-bezier(.45, .08, .22, 1);
+  /* Radii: cards 24px (at 238px), focus frame 60px, both with 100% corner smoothing. */
+  --card-radius: clamp(16px, 1.67vw, 24px);
+  --frame-radius: clamp(28px, 4.17vw, 60px);
+}
+
+body:has(.work-preview-overlay) > :is(.site-header, main) {
+  transform-origin: var(--preview-origin, center);
+  transition: transform var(--preview-duration) var(--preview-ease), filter var(--preview-duration) var(--preview-ease);
+}
+
+body[data-work-preview=open] > :is(.site-header, main) {
+  transform: scale(var(--preview-scale));
+  filter: blur(var(--preview-blur));
+}
+
+body[data-work-preview=open] .hero-client-track { animation-play-state: paused; }
+body[data-work-preview=open] .hero-client-strip { opacity: 0; }
+body:has(.work-preview-overlay) .hero-client-strip { transition: opacity 320ms ease; }
+
+.work-preview-trigger {
+  position: absolute;
+  z-index: 1;
+  left: 50%;
+  bottom: 6px;
+  translate: -50% 0;
+  min-height: 38px;
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .work-preview-trigger:not(:focus-visible) { opacity: 0; }
+}
+
+.work-preview-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.work-preview-shade {
+  position: absolute;
+  inset: 0;
+  background: rgb(34 37 41 / 21%);
+  opacity: 0;
+  transition: opacity var(--preview-duration) var(--preview-ease);
+}
+
+body[data-work-preview=open] .work-preview-shade { opacity: 1; pointer-events: auto; }
+
+.work-preview-region {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 18px max(22px, 8vw) clamp(26px, 7.2dvh, 80px);
+}
+
+body[data-work-preview=open] .work-preview-region { pointer-events: auto; }
+
+.work-preview-cards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.67vw, 24px);
+  max-width: min(100%, 1024px, 175dvh);
+  margin-inline: auto;
+  opacity: 0;
+  transform: translateY(30px) scale(.975);
+  transition: opacity var(--preview-duration) var(--preview-ease), transform var(--preview-duration) var(--preview-ease);
+}
+
+body[data-work-preview=open] .work-preview-cards { opacity: 1; transform: none; }
+
+.work-preview-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 12px;
+  min-width: 0;
+  aspect-ratio: 1;
+  padding: clamp(13px, 1.5vw, 22px);
+  border: 0;
+  border-radius: var(--card-radius);
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 300ms var(--preview-ease), box-shadow 300ms var(--preview-ease);
+}
+
+.work-preview-card:is(:hover, :focus-visible) {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgb(26 30 34 / 11%);
+}
+
+.work-preview-card:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.work-preview-art { flex: 1; min-height: 0; display: grid; place-items: center; width: 100%; }
+/* Laptop covers: scale each MacBook so its screen is 78% of the artwork width, centred, with the base at 85% height.
+   Uses container units, so the same rule works for the large cards and the small thumbnails. */
+.work-preview-art { container-type: size; }
+.work-preview-art > [data-device] {
+  transform-origin: calc(var(--cx) * 100%) calc(var(--by) * 100%);
+  transform:
+    translate(calc((.5 - var(--cx)) * 100cqw),
+              calc(85cqh - ((100cqh - var(--ratio) * 100cqw) / 2 + var(--by) * var(--ratio) * 100cqw)))
+    scale(calc(.78 / var(--w)));
+}
+.work-preview-composition { display: block; position: relative; width: 100%; aspect-ratio: 890 / 576; }
+.work-preview-composition .cover-composition { position: absolute; inset: 0; }
+.work-preview-cover { width: 100%; height: auto; max-height: 100%; object-fit: contain; }
+.work-preview-reference { display: block; width: 100%; aspect-ratio: 406 / 245; position: relative; overflow: hidden; }
+.work-preview-reference img { position: absolute; width: 709.36%; height: auto; max-width: none; left: -240.89%; top: -660.41%; }
+
+.work-preview-cover.is-identity { width: 70%; }
+.work-preview-photo { display: block; width: 100%; height: 100%; min-height: 0; overflow: hidden; border-radius: clamp(10px, 1.2vw, 14px); }
+.work-preview-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+/* "More" reveals the second set of four; the first row eases up to make room. */
+.work-preview-more {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: clamp(10px, 1.6vh, 18px) auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 55%);
+  color: var(--ink);
+  opacity: 0;
+  transition: opacity var(--preview-duration) var(--preview-ease), background .25s;
+}
+.work-preview-more svg { width: 22px; height: 22px; opacity: .7; transition: transform .5s cubic-bezier(.22,1,.36,1), opacity .25s; }
+body[data-work-preview=open]:not([data-selected-work]) .work-preview-more { opacity: 1; }
+body[data-selected-work] .work-preview-more { pointer-events: none; }
+body[data-work-preview=open] .work-preview-more[aria-expanded=false] svg { animation: more-nudge 2.4s ease-in-out 1s infinite; }
+.work-preview-more:is(:hover, :focus-visible) { background: rgb(255 255 255 / 90%); }
+.work-preview-more:is(:hover, :focus-visible) svg { opacity: 1; }
+.work-preview-more[aria-expanded=true] svg { transform: rotate(180deg); }
+@keyframes more-nudge { 0%, 70%, 100% { translate: 0 0; } 82% { translate: 0 3px; } }
+@media (prefers-reduced-motion: reduce) { .work-preview-more svg { animation: none !important; } }
+
+.work-preview-caption { display: flex; justify-content: space-between; align-items: center; gap: 6px; min-height: 43px; }
+.work-preview-label { display: grid; gap: 3px; }
+.work-preview-label strong { font-weight: 500; font-size: clamp(13px, 1.25vw, 16px); }
+.work-preview-label small { color: var(--muted); font-size: clamp(10px, .84vw, 11px); line-height: 1.35; }
+/* Figma 145:7552: the icon matches the title size, sits centred on the caption and is mirrored (↖↘). */
+.work-preview-arrow { position: relative; flex: none; align-self: center; width: clamp(13px, 1.25vw, 16px); aspect-ratio: 1; transform: scaleX(-1); transition: transform .35s cubic-bezier(.22,1,.36,1); }
+.work-preview-arrow img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.work-preview-card:is(:hover, :focus-visible) .work-preview-arrow { transform: scaleX(-1) scale(1.12); }
+
+.work-preview-detail h2 { margin: 0; }
+.work-preview-detail-category { color: var(--muted); margin: 12px 0 0; }
+.work-preview-detail button,.work-preview-reset { font:inherit; color:var(--ink); border:1px solid var(--line); border-radius:999px; padding:6px 13px; background:var(--bg); }
+
+.work-preview-tuning { position: fixed; top: 12px; left: 12px; z-index: 110; width: min(230px, calc(100vw - 24px)); padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink); font-size: 13px; }
+.work-preview-tuning summary { cursor: pointer; }
+.work-preview-tuning label { display: grid; grid-template-columns: 1fr auto; margin-top: 10px; }
+.work-preview-tuning input { grid-column: 1/-1; width: 100%; padding: 0; }
+.work-preview-tuning button { margin-top: 10px; }
+
+@media (max-width: 700px) {
+  .work-preview-region { padding: 12px 18px max(18px, env(safe-area-inset-bottom)); }
+  .work-preview-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: min(100%, 440px, 78dvh); }
+  .work-preview-caption { align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-work-preview=open] > :is(.site-header, main), body[data-work-preview=open] .work-preview-cards { transform: none; }
+  .work-preview-card:is(:hover, :focus-visible) { transform: none; }
+}
+
+
+/* 100% corner smoothing (Figma squircle). Figma's smoothed curve starts 2× the radius from the corner
+   while its midpoint matches a plain circle of the same radius; superellipse(2.1) over 2× the radius
+   reproduces both. Browsers without corner-shape keep the plain radius. */
+@supports (corner-shape: superellipse(2)) {
+  .work-preview-card { border-radius: calc(var(--card-radius) * 2); corner-shape: superellipse(2.1); }
+}

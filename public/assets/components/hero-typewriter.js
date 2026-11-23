@@ -3,6 +3,7 @@ import {MessageEditor, messageLimitError} from './message-editor.js';
 import {PortraitMotion} from './portrait-motion.js';
 import {topicFromMessage} from './inquiry-details.js';
 export const DRAFT_KEY = 'mihail:hero-inquiry:v1';
+const SCROLL_LISTEN_IDLE_MS = 2500;
 export const hasMessage = value => value.trim().length > 0;
 export function typingDelay(character, random = Math.random) {
   return 50 + random() * 30 + (/[.!?]/.test(character) ? 260 : /[,;:]/.test(character) ? 140 : 0);
@@ -215,11 +216,14 @@ export class InteractiveTypewriter extends BaseElement {
     this.input.focus({preventScroll: true});
   }
   listenOnScroll() {
-    if (this.dataset.scrollListening === 'true' || hasMessage(this.input.value) ||
+    if (hasMessage(this.input.value) ||
         document.body.dataset.inquiryActive === 'true' || this.closest('[inert]') ||
         !this.closest('[data-hero-flow]')) return;
-    this.dataset.scrollListening = 'true';
-    this.reveal();
+    if (this.dataset.scrollListening !== 'true') {
+      this.dataset.scrollListening = 'true';
+      this.reveal();
+    }
+    this.scheduleRestore();
   }
   returnFromScroll() {
     if (this.dataset.scrollListening !== 'true' || this.input.value.length || this.composing ||
@@ -238,12 +242,15 @@ export class InteractiveTypewriter extends BaseElement {
     this.engagement?.querySelector('.hero-bio')?.setAttribute('aria-hidden', String(this.dataset.editing === 'true'));
   }
   scheduleRestore(event) {
-    // A scroll can reveal Listening without a pointer over the editor. A later
-    // mouse or pen exit releases it, while lifting a finger after a swipe keeps it open.
+    // A swipe leaves time for the visitor to choose a suggestion. Mouse or pen
+    // exits keep the shorter hover-out delay.
     if (event?.pointerType === 'mouse' || event?.pointerType === 'pen') delete this.dataset.scrollListening;
     clearTimeout(this.restoreTimer);
-    // Let a brief pointer excursion settle before blending back into the introduction.
-    this.restoreTimer = setTimeout(() => this.restore(), this.motion.matches ? 0 : 850);
+    const scrollListening = this.dataset.scrollListening === 'true';
+    this.restoreTimer = setTimeout(() => {
+      if (scrollListening) delete this.dataset.scrollListening;
+      this.restore();
+    }, scrollListening ? SCROLL_LISTEN_IDLE_MS : this.motion.matches ? 0 : 850);
   }
   restore() {
     if (!this.hovered && !this.engagementHovered && !this.input.value.length && this.hoverFocus) {

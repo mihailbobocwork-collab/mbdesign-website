@@ -102,6 +102,12 @@ html[data-hero-transition]::view-transition-new(inquiry-heading) {
 .hero-flow-answer::placeholder{color:#84909a;opacity:1}
 .hero-flow-answer[aria-invalid=true]{border-color:#a36856}
 .hero-flow-error{font-size:14px;line-height:1.5;color:#925f50;min-height:22px;margin:12px 0 24px}
+/* Chosen suggestion, shown as a removable tag above the note. */
+.hero-flow-tag{display:inline-flex;align-items:center;gap:6px;margin:0 0 6px;padding:6px 6px 6px 16px;border:1px solid #a7b1ba;border-radius:999px;background:#eef1f4;color:#171c20;font-size:16px;line-height:20px}
+.hero-flow-tag-remove{display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:transparent;color:#4b5761;cursor:pointer;transition:background-color 200ms,color 200ms}
+.hero-flow-tag-remove:hover,.hero-flow-tag-remove:focus-visible{background:#dde3e8;color:#171c20}
+.hero-flow-tag-remove:focus-visible{outline:2px solid #171c20;outline-offset:2px}
+.hero-flow-tag-remove svg{width:16px;height:16px}
 .hero-flow-actions{display:flex;align-items:center;flex-wrap:wrap;gap:18px;margin-top:28px}
 .hero-flow-continue{display:inline-flex;justify-content:center;align-items:center;min-height:46px;padding:12px 24px;border:1px solid #252d33;border-radius:30px;color:#f7f9fb;background:#252d33;font-family:var(--font-sans);font-size:15px;line-height:20px;transition:background 250ms,border-color 250ms}
 .hero-flow-continue:hover{background:#424f58;border-color:#424f58}

@@ -60,7 +60,7 @@ export class MeetingCalendar{
   const focusSelector=focused?.classList.contains('meeting-zone')?'.meeting-zone':focused?.closest('.meeting-month-header')?'.meeting-month':null;
   this.element.replaceChildren();this.element.dataset.state=this.state;
   const root=node('div','meeting-calendar');this.element.append(root);
-  if(this.preview){const note=node('p','meeting-preview-note','Design preview · Sample times, not Mihail’s availability.');root.append(note);}
+  if(this.preview){const note=node('p','meeting-preview-note','Design preview · Sample times, not Mihai’s availability.');root.append(note);}
   const meta=node('div','meeting-meta');meta.append(node('span','',`${this.duration||30}-minute conversation`),node('span','','Google Meet'));root.append(meta);
   const columns=node('div','meeting-columns'),dateSide=node('section','meeting-date-side'),timeSide=node('section','meeting-time-side');dateSide.setAttribute('aria-label','Choose a day');timeSide.setAttribute('aria-label','Choose a time');columns.append(dateSide,timeSide);root.append(columns);
   const {year,month,offset,days}=monthGrid(this.month),groups=groupSlots(this.slots,this.timeZone,this.month);

@@ -1,6 +1,6 @@
 # Original portfolio project pages
 
-Imported on 20 November 2026 from Mihail’s current website, using the original public stories and artwork. The shared website header, Excon Variable typography and footer remain in place. The homepage cover artwork and ordering are unchanged; the Lendit identity cover now opens its own branding project.
+Imported on 20 November 2026 from Mihai’s current website, using the original public stories and artwork. The shared website header, Excon Variable typography and footer remain in place. The homepage cover artwork and ordering are unchanged; the Lendit identity cover now opens its own branding project.
 
 | Project | Local route | Original source | Images |
 | --- | --- | --- | ---: |
@@ -13,7 +13,7 @@ Imported on 20 November 2026 from Mihail’s current website, using the original
 | 7code brand identity | `/work/7code/` | https://mihailboboc.com/p/brand-guidelines-7code | 8 |
 | 7code Tech website | `/work/7code-tech/` | https://mihailboboc.com/p/2d54480d | Shared on request |
 
-The source portfolio presents 7code Tech behind a password. Per Mihail’s instruction, the new website offers a friendly request page rather than importing or exposing its private content. “Request this case study” opens the existing contact page, explains the request and prefills an editable message. The draft is scoped to that project, preserving any general inquiry draft. Nothing is sent by the link. The visitor can choose a meeting or message, review, and confirm using the existing flow. The local preview remains explicitly simulated until Google delivery is connected.
+The source portfolio presents 7code Tech behind a password. Per Mihai’s instruction, the new website offers a friendly request page rather than importing or exposing its private content. “Request this case study” opens the existing contact page, explains the request and prefills an editable message. The draft is scoped to that project, preserving any general inquiry draft. Nothing is sent by the link. The visitor can choose a meeting or message, review, and confirm using the existing flow. The local preview remains explicitly simulated until Google delivery is connected.
 
 ## Content and media
 
@@ -25,7 +25,7 @@ The source portfolio presents 7code Tech behind a password. Per Mihail’s instr
 - `scripts/case-study.mjs` renders reusable story sections. Basic rich-text formatting is allowlisted; unsupported markup is escaped, image paths are local, and prototype embeds are limited to Figma.
 - In Decap CMS, **Projects** offers text, image and prototype blocks grouped into columns and sections. Edit text with basic paragraph/heading/list formatting, images with alt text and dimensions, and categories/order. If replacing an original image, its old previews are automatically ignored. Regenerate previews for the replacement when preparing publication.
 
-The Work collection now groups Product Design, Graphic Design and Brand Design. Services match Mihail’s supplied list: UI/UX and Design Engineering; Creative Design, Print Design and Social Media; Logo Design, Icon Design and Logo Reveal Design.
+The Work collection now groups Product Design, Graphic Design and Brand Design. Services match Mihai’s supplied list: UI/UX and Design Engineering; Creative Design, Print Design and Social Media; Logo Design, Icon Design and Logo Reveal Design.
 
 ## Preview and deployment
 
@@ -44,7 +44,7 @@ The separate Work collection and homepage subtitle have been removed. `/work` an
 
 ## Restored original vertical case studies
 
-At Mihail’s request, Lendit again uses the original imported story, artwork sequence and vertical case-study layout, with shared navigation and footer. The horizontal chapter experiment is archived under experiments/lendit-horizontal and is not loaded or shown in the CMS. Other project pages retain their original imported layouts. The floating circular Back to top button, removed homepage subtitle, and homepage Work destination remain in place.
+At Mihai’s request, Lendit again uses the original imported story, artwork sequence and vertical case-study layout, with shared navigation and footer. The horizontal chapter experiment is archived under experiments/lendit-horizontal and is not loaded or shown in the CMS. Other project pages retain their original imported layouts. The floating circular Back to top button, removed homepage subtitle, and homepage Work destination remain in place.
 
 ## iPhone mockups and process timelines
 
