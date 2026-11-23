@@ -38,8 +38,12 @@ body:has(.work-preview-overlay) .hero-client-strip { transition: opacity 320ms e
   font-size: 14px;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .work-preview-trigger:not(:focus-visible) { opacity: 0; }
+/* Kept only for keyboard users: invisible (and not in the way of taps) until it receives keyboard focus.
+   On touch screens the brand strip itself opens Work. */
+.work-preview-trigger:not(:focus-visible) {
+  opacity: 0;
+  pointer-events: none;
+  clip-path: inset(50%);
 }
 
 .work-preview-overlay {

@@ -122,9 +122,10 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
     - **Phones and iPads in portrait (≤1024px)** (owner, 2026-11-23; `public/assets/work-preview/compact.css` + `preview.js`; desktop and iPad landscape unchanged):
       - Header: logo · Get in touch · round menu button. About and the social icons move into a **menu drawer** that drops under the header (Work, About, LinkedIn, Instagram); Work and About are 16px like Get in touch, and the links and social icons are centred (owner, 2026-11-24); closes on outside tap, Escape or a choice.
       - **Scroll vs Work** (owner, 2026-11-24): on phones and iPads, scrolling/swiping down opens the hero's own Listening state (as before the work preview existed), not Work. Tapping the brand strip opens the work page. Desktop is unchanged (scroll down opens the work preview).
-      - **Work page**: Work in the drawer, tapping the brand strip or the Preview work button opens every card (no chevron) in a scrollable grid over the blurred homepage, fading in like desktop: 2 columns on phones, 3 on iPads, with a "Work" title and a close button. Scrolling back up inside the grid only closes it once the grid is at the top.
+      - **Work page**: Work in the drawer or tapping the brand strip opens every card (no chevron) in a scrollable grid over the blurred homepage, fading in like desktop: 2 columns on phones, 3 on iPads, with a "Work" title and a close button. Scrolling back up inside the grid only closes it once the grid is at the top.
       - Case studies and About open as a near full-screen frame; the rail of other work swipes sideways underneath. About grows out of the menu button.
       - Hero: unchanged on mobile. A "Tap to tell me what you’re working on" field was tried on 2026-11-24 and removed at the owner's request.
+    - The "Preview work" pill on the brand strip is hidden everywhere (owner, 2026-11-24); it only appears for keyboard focus, so keyboard users can still open the work preview.
     - **Clicking anywhere on the blur leaves** (owner, 2026-11-23): only the frame and the rail's thumbnails keep the focus view open; the backdrop, the space around the frame and the gaps in the rail all close it (`public/assets/work-preview/preview.js`).
     - **Back to top** (owner, 2026-11-23): a 44px round arrow button in the frame's bottom-right corner, on the same right edge and inset (16px) as ×. It fades in once the story is scrolled past half the frame height and smooth-scrolls the reader back to the top (`.work-project-top`, `updateTopButton()` in `preview.js`). Works for case studies and About.
     - **The rail works like a carousel queue** (owner, 2026-11-23): it opens with the studies after the selected one, wrapping round. Switching runs in two calm, non-overlapping steps timed with the story crossfade: the picked thumbnail fades out in place (240ms), then the rest glide left together (560ms ease-in-out) and the study you left eases in at the right end (520ms ease-out, 160ms delay). Thumbnails are kept and moved, never rebuilt, so images never reload; the rail is inert while it moves (`buildRail(index, previous)`, `thumbnail()`, `settleRail()` in `preview.js`).
@@ -161,12 +162,12 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - No physical iPhone keyboard test yet (simulation only).
 - Node is not on the default shell PATH on the owner's Mac; use `~/.nvm/versions/node/v24.13.0/bin`.
 
-- **Published 2026-11-23** (owner approved): the brand-strip experiment is now part of the build (`scripts/work-preview.mjs` + `public/assets/work-preview/`, injected into `/` and `/404.html` by `scripts/build.mjs`). Pushed to GitHub `main` as `7ae6522` (on top of `213de32`); Cloudflare redeployed https://mbdesign-website.pages.dev within ~1 min. Draft/noindex unchanged; no domain change. Unconfirmed case-study facts were published as written at the owner's request.
+- **Published 2026-11-23** (owner approved): the brand-strip experiment is now part of the build (`scripts/work-preview.mjs` + `public/assets/work-preview/`, injected into `/` and `/404.html` by `scripts/build.mjs`). Pushed to GitHub `main` as `7ae6522` (on top of `213de32`), then `7b2595e` on 2026-11-24 (mobile/iPad); Cloudflare redeployed https://mbdesign-website.pages.dev within ~1 min. Draft/noindex unchanged; no domain change. Unconfirmed case-study facts were published as written at the owner's request.
 - Sync method used: this local folder is still **not** linked to GitHub (its `.git` has no commits). The push was made from a fresh clone with the local files copied in (excluding `experiments/`, `preview/`, `dist/`, `.local/`, `.dev.vars`, `bookings.sqlite*`, root `preview-*.jpg/gif`, `.DS_Store`; the unused 4 MB `public/assets/about/mihail-boboc.png` was left out). Edit `scripts/work-preview.mjs` / `public/assets/work-preview/` from now on; `experiments/brand-strip-preview/` is the superseded prototype (its server skips injection when the build already includes the preview).
 
 ## 10. Next priorities
 
-1. Make this folder a proper clone of GitHub `main` (now at `7ae6522`) so future pushes don't need the copy-into-clone step.
+1. Make this folder a proper clone of GitHub `main` (now at `7b2595e`) so future pushes don't need the copy-into-clone step.
 2. Make the tests pass (mode-aware tests or re-enable pages).
 3. ✅ Work preview shipped to staging. Next: owner review on the live staging URL.
 4. Confirm email, domain and meeting rules. Connect Google + D1 + Turnstile. Run a real acceptance test (`LAUNCH.md` §8).
@@ -186,9 +187,11 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 | 2026-11-23 | Claude Code | 100% corner smoothing on cards (24px, owner's choice) and the focus frame (60px) via CSS corner-shape. |
 | 2026-11-23 | Claude Code | × and Escape in the focused view return to the home screen (same morph as the blur). |
 | 2026-11-23 | Claude Code | 7code web case study uses the owner's copy; visible placeholder tags removed (values still flagged in data). |
-| 2026-11-24 | Claude Code | Phones/iPads: scroll down opens the hero Listening state again; tapping the brand strip opens Work. Desktop unchanged. Local only. |
-| 2026-11-23 | Claude Code | Phones/iPads: menu drawer (Work, About, socials), full work grid page, near full-screen case studies (the tried "Tap to tell me…" hero field was removed; hero unchanged). Local only, not yet pushed. |
-| 2026-11-23 | Claude Code | Inquiry first step: placeholder replaces the helper line; hero suggestions can be deselected; focus view closes on any click outside the frame and thumbnails. Local only, not yet pushed. |
+| 2026-11-24 | Claude Code | "Preview work" pill hidden (keyboard focus only); the brand strip itself opens Work on touch. Local only. |
+| 2026-11-24 | Claude Code | Published to staging: mobile/iPad drawer + work grid, inquiry placeholder, deselectable suggestions, click-anywhere exit. GitHub main `7b2595e`; live on mbdesign-website.pages.dev (draft/noindex kept). |
+| 2026-11-24 | Claude Code | Phones/iPads: scroll down opens the hero Listening state again; tapping the brand strip opens Work. Desktop unchanged. Pushed in `7b2595e`. |
+| 2026-11-23 | Claude Code | Phones/iPads: menu drawer (Work, About, socials), full work grid page, near full-screen case studies (the tried "Tap to tell me…" hero field was removed; hero unchanged). Pushed in `7b2595e`. |
+| 2026-11-23 | Claude Code | Inquiry first step: placeholder replaces the helper line; hero suggestions can be deselected; focus view closes on any click outside the frame and thumbnails. Pushed in `7b2595e`. |
 | 2026-11-23 | Claude Code | Published to staging: work preview + focus-view case studies + About built into the site, pushed `7ae6522` to GitHub main; live on mbdesign-website.pages.dev (draft/noindex kept). |
 | 2026-11-23 | Claude Code | Inquiry: chosen suggestion shown as removable tag with "Tell me more…"; typed hero message without a suggestion skips to the engagement step. Tests 90/94 (same 4 known). |
 | 2026-11-23 | Claude Code | Name changed to Mihai across content, build templates, lib, admin, tests and docs; About details updated to the owner's text (Design Partner, Moldova, 10+ years, Expertise, Product Domains). |
