@@ -154,7 +154,7 @@ async function load() {
     const response = await fetch(api, {cache: 'no-store'});
     const result = await response.json().catch(() => ({}));
     if (!response.ok) {
-      status.textContent = response.status === 401
+      status.textContent = response.status === 401 && (!result.reason || ['no_token', 'expired'].includes(result.reason))
         ? 'Your sign-in has expired. Reload the page to sign in again.'
         : result.message || 'Requests couldn’t be loaded. Please try again.';
       return;
