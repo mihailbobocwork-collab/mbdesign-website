@@ -167,13 +167,28 @@ export class HeroInquiry {
 
   async morph(update,direction){
     if(this.motion.matches){update();return;}
+    await this.settleKeyboard();
     if(!document.startViewTransition){
+      // Browsers without view transitions (older iOS Safari, in-app browsers) get the same idea:
+      // opening or closing fades the screen out in place, swaps it, then fades the new one in.
+      if(direction==='enter'||direction==='leave'){
+        const stage=[document.querySelector('body>.site-header'),document.querySelector('body>main')].filter(Boolean);
+        const fade=(from,to,options)=>Promise.all(stage.map(el=>this.transition.run(el,[{opacity:from},{opacity:to}],options)));
+        this.fallbackTransition=fade(1,0,{duration:340,easing:'cubic-bezier(.45,0,.55,1)'});
+        await this.fallbackTransition;
+        update();
+        this.fallbackTransition=fade(0,1,{duration:480,easing:'cubic-bezier(.33,0,.2,1)'});
+        await this.fallbackTransition;
+        this.fallbackTransition=null;
+        for(const el of stage)el.style.removeProperty('opacity');
+        return;
+      }
       update();
       const target=this.active?this.panel:this.idle;
-      this.fallbackTransition=this.transition.run(target,[{opacity:.55,transform:'translateY(4px)'},{opacity:1,transform:'none'}],{duration:300});
+      this.fallbackTransition=this.transition.run(target,[{opacity:.55},{opacity:1}],{duration:300});
       await this.fallbackTransition;
       this.fallbackTransition=null;
-      target.style.removeProperty('opacity');target.style.removeProperty('transform');
+      target.style.removeProperty('opacity');
       return;
     }
     const html=document.documentElement;
@@ -190,6 +205,19 @@ export class HeroInquiry {
     }
   }
 
+  // On phones the keyboard closes as the next screen takes focus. Closing it mid-animation resizes
+  // the viewport, which cancels the transition and makes the text jump, so let it close first.
+  async settleKeyboard(){
+    if(document.body.dataset.keyboardOpen!=='true')return;
+    const viewport=window.visualViewport;
+    document.activeElement?.blur?.();
+    await new Promise(resolve=>{
+      let timer=setTimeout(done,500);
+      function done(){clearTimeout(timer);viewport?.removeEventListener('resize',settle);resolve();}
+      function settle(){clearTimeout(timer);timer=setTimeout(done,120);}
+      viewport?.addEventListener('resize',settle);
+    });
+  }
   capture(){const field=this.form.querySelector('[data-answer]');if(field){this.answers[field.name]=field.value;this.persist();}}
   next(){
     if(!this.active||this.busy)return;

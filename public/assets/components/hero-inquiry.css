@@ -79,6 +79,11 @@ html:is([data-hero-transition=enter],[data-hero-transition=leave]) .hero-typewri
 /* The portrait belongs to the hero block: it dissolves in place with "Hey there…" instead of
    gliding to its hidden position, and skips its own opacity fade so it doesn't double up. */
 html:is([data-hero-transition=enter],[data-hero-transition=leave]) .hero-portrait { view-transition-name: none; transition: none; }
+/* On phones the header sits 10px higher during the inquiry; the logo dissolves with the screen
+   instead of sliding up to it. */
+@media (max-width: 820px) {
+  html:is([data-hero-transition=enter],[data-hero-transition=leave]) .hero-brand { view-transition-name: none; }
+}
 html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(root),
 html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(inquiry-intro),
 html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(inquiry-heading),
