@@ -1,11 +1,11 @@
 {
   "brands": [
     {
-      "name": "Fusion Works",
-      "image": "/assets/hero/featured/fusion-works.svg",
-      "width": 154.333,
-      "height": 38.0823,
-      "node": "14:71"
+      "name": "Lendit",
+      "image": "/assets/hero/featured/lendit.svg",
+      "width": 201,
+      "height": 34.454,
+      "node": "17:157"
     },
     {
       "name": "Makita",
@@ -15,13 +15,6 @@
       "node": "17:148"
     },
     {
-      "name": "Midnight Works",
-      "image": "/assets/hero/featured/midnight-works.svg",
-      "width": 146.268,
-      "height": 52.0771,
-      "node": "17:101"
-    },
-    {
       "name": "Bosch",
       "image": "/assets/hero/featured/bosch.png",
       "width": 271,
@@ -29,11 +22,18 @@
       "node": "18:160"
     },
     {
-      "name": "Capsys",
-      "image": "/assets/hero/featured/capsys.svg",
-      "width": 241,
-      "height": 60.3655,
-      "node": "18:162"
+      "name": "Fusion Works",
+      "image": "/assets/hero/featured/fusion-works.svg",
+      "width": 154.333,
+      "height": 38.082,
+      "node": "14:71"
+    },
+    {
+      "name": "7code",
+      "image": "/assets/hero/featured/7code.svg",
+      "width": 146,
+      "height": 55.861,
+      "node": "17:155"
     },
     {
       "name": "Volta",
@@ -43,13 +43,6 @@
       "node": "17:136"
     },
     {
-      "name": "Lendit",
-      "image": "/assets/hero/featured/lendit.svg",
-      "width": 201,
-      "height": 34.4543,
-      "node": "17:157"
-    },
-    {
       "name": "WholeSum",
       "image": "/assets/hero/featured/wholesum.png",
       "width": 153,
@@ -57,11 +50,18 @@
       "node": "17:145"
     },
     {
-      "name": "7code",
-      "image": "/assets/hero/featured/7code.svg",
-      "width": 146,
-      "height": 55.8608,
-      "node": "17:155"
+      "name": "Capsys",
+      "image": "/assets/hero/featured/capsys.svg",
+      "width": 241,
+      "height": 60.366,
+      "node": "18:162"
+    },
+    {
+      "name": "Midnight Works",
+      "image": "/assets/hero/featured/midnight-works.svg",
+      "width": 146.268,
+      "height": 52.077,
+      "node": "17:101"
     }
   ]
 }

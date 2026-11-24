@@ -6,78 +6,32 @@ import path from 'node:path';
 import {readFile} from 'node:fs/promises';
 import {responsiveImage} from './case-study.mjs';
 
-const fact = (label, value, placeholder = false) => ({label, value, placeholder});
 const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
-// Images and layout of each case study, by id. The words (name, category, title, story, facts) and
-// the order live in content/case-studies.json, edited in the admin. The first four are always
-// visible; the rest appear with "More".
+// The original cover of each of the first eight case studies (laptop renders, identity marks, a
+// project photo), kept in code because some are optically normalised. Everything else about a case
+// study (words, order, images, an uploaded cover, hidden or not) lives in content/case-studies.json
+// and is edited in the admin. The first four visible studies show as cards; the rest appear with "More".
 export const LAYOUT = [
-  {
-    id: 'lendit', cover: {homeCover: 'lendit-product'},
-    // Product screens without device mockups: owner-supplied desktop screens, then the app's mobile screens (project images 14–22).
-    screens: {
-      desktop: [
-        {src: 'lendit-desktop-listing', alt: 'Lendit: item page with photos, price and booking request'},
-        {src: 'lendit-desktop-messages', alt: 'Lendit: messages with a booking request to confirm or decline'},
-        {src: 'lendit-desktop-listings', alt: 'Lendit: lender dashboard with listings and their status'}
-      ],
-      mobile: {project: 'lendit', from: 13, to: 22}
-    }
-  },
-  {
-    id: '7code-web', cover: {laptop: '7code-laptop', width: 976, height: 596, alt: '7code website on a laptop'},
-    // Website screens from Figma (170:14420), without a device mockup.
-    screens: {
-      desktop: [
-        {src: '7code-desktop-home', alt: '7Code: home page hero', height: 900},
-        {src: '7code-desktop-case-studies', alt: '7Code: case studies on the home page', height: 900},
-        {src: '7code-desktop-why-7code', alt: '7Code: why choose 7Code, with key numbers', height: 900},
-        {src: '7code-desktop-service', alt: '7Code: Web & Mobile App Development service page', height: 900},
-        {src: '7code-desktop-case-study', alt: '7Code: Daily8 case study page', height: 900},
-        {src: '7code-desktop-process', alt: '7Code: Our Process page', height: 900},
-        {src: '7code-desktop-contact', alt: '7Code: contact page with form and office details', height: 887}
-      ]
-    }
-  },
-  {
-    id: 'angen-ai', cover: {laptop: 'angen-ai-laptop', width: 392, height: 226, alt: 'Angen AI development workspace shown on a MacBook'},
-    // The final UI screens from the project (images 18–29: workspace, work items, media library, light and dark), no mockup.
-    screens: {projectDesktop: {project: 'angen-ai', from: 17, to: 29}}
-  },
-  {
-    id: 'wholesum', cover: {laptop: 'wholesum-laptop', width: 392, height: 226, alt: 'WholeSum research platform landing page shown on a MacBook'},
-    // Owner-supplied screens, no device mockup.
-    screens: {
-      desktop: [
-        {src: 'wholesum-how-it-works', alt: 'WholeSum: how it works, from upload to analysis to insights', width: 1922, height: 760},
-        {src: 'wholesum-desktop-upload', alt: 'WholeSum: upload step with file validation and a quick guide', width: 2000, height: 1494},
-        {src: 'wholesum-desktop-analysis', alt: 'WholeSum: analysis with sentiment, theme distribution and segmentation', width: 2000, height: 1250}
-      ]
-    }
-  },
-  {
-    id: 'lendit-branding', cover: {homeCover: 'lendit-identity'}, project: 'lendit-branding',
-  },
-  {
-    id: '7code-branding', cover: {homeCover: '7code-identity'}, project: '7code',
-  },
-  {
-    id: 'lendit-flyers', cover: {projectImage: true}, project: 'lendit-flyers',
-  },
-  {
-    id: 'lendit-gazebo', cover: {projectImage: true}, project: 'lendit-gazebo',
-  }
+  {id: 'lendit', cover: {homeCover: 'lendit-product'}},
+  {id: '7code-web', cover: {laptop: '7code-laptop', width: 976, height: 596, alt: '7code website on a laptop'}},
+  {id: 'angen-ai', cover: {laptop: 'angen-ai-laptop', width: 392, height: 226, alt: 'Angen AI development workspace shown on a MacBook'}},
+  {id: 'wholesum', cover: {laptop: 'wholesum-laptop', width: 392, height: 226, alt: 'WholeSum research platform landing page shown on a MacBook'}},
+  {id: 'lendit-branding', cover: {homeCover: 'lendit-identity'}},
+  {id: '7code-branding', cover: {homeCover: '7code-identity'}},
+  {id: 'lendit-flyers', cover: {projectImage: true}, project: 'lendit-flyers'},
+  {id: 'lendit-gazebo', cover: {projectImage: true}, project: 'lendit-gazebo'}
 ];
 
 export const VISIBLE = 4;
 
-// Case studies in the saved order, each with its words and its layout. A study without a layout
-// (or a layout without words) is left out rather than half-rendered.
+// Visible case studies in the saved order. A study shows its uploaded cover, or its original one
+// from LAYOUT; one with neither is left out rather than shown without a card.
 export async function loadStudies(root) {
   const {studies} = JSON.parse(await readFile(path.join(root, 'content/case-studies.json'), 'utf8'));
   const layout = new Map(LAYOUT.map(item => [item.id, item]));
-  return studies.filter(study => layout.has(study.id)).map(study => ({...layout.get(study.id), ...study}));
+  return studies.filter(study => !study.hidden).map(study => ({cover: {}, ...(study.originalCover ? layout.get(study.id) : {}), ...study}))
+    .filter(study => study.thumbnail || study.cover.laptop || study.cover.homeCover || study.cover.projectImage);
 }
 
 async function projectImages(root, slug) {
@@ -126,53 +80,38 @@ export async function cardArt(root, study, byId) {
   return `<img class="work-preview-cover${cover.kind === 'identity' ? ' is-identity' : ''}" src="${escape(cover.image)}" alt="${escape(cover.imageAlt)}" width="${cover.width}" height="${cover.height}"${device(study.cover.homeCover)}>`;
 }
 
-async function screensFigure(root, study) {
-  if (!study.screens) return '';
-  // Desktop screens default to the 2000×1250 exports; Figma exports pass their own size (1440 wide).
-  // Saved screens: 2000×1250 by default, 1440 wide when only a height is given (Figma exports), or an explicit size.
-  let desktop = (study.screens.desktop || []).map(({src, alt, width, height}) => ({src, alt, width: width || (height ? 1440 : 2000), height: height || 1250})).map(({src, alt, width, height}) =>
-    `<figure class="case-figure case-screen"><img src="/assets/work-preview/${src}.jpg" alt="${escape(alt)}" width="${width}" height="${height}" loading="lazy" decoding="async"></figure>`).join('');
-  if (study.screens.projectDesktop) {
-    const {project, from, to} = study.screens.projectDesktop;
-    const shots = (await projectImages(root, project)).slice(from, to);
-    desktop += shots.map((block, i) => `<figure class="case-figure case-screen">${img(block, `${study.name}: screen ${i + 1} of ${shots.length}`)}</figure>`).join('');
+// A case study's images, in their saved order. "screen" is a bordered screenshot, "phone" a mobile
+// screen (three per row), "photo" a full-width image. Neighbouring screens and phones share one
+// block, neighbouring photos another. When the story is a single paragraph, a first photo sits
+// beside the facts instead.
+const picture = (image, sizes, eager = false) => img({image: image.src, variants: image.variants, width: image.width, height: image.height}, image.alt, {eager, sizes});
+function studyImages(study) {
+  const images = [...(study.images || [])];
+  const lead = study.body.length <= 1 && images[0]?.style === 'photo'
+    ? `<div class="case-lead"><figure class="case-figure">${picture(images.shift(), undefined, true)}</figure></div>` : '';
+  let html = '', run = [];
+  const flush = () => {
+    if (!run.length) return;
+    if (run[0].style === 'photo') html += `<div class="case-gallery">${run.map(image => `<figure class="case-figure">${picture(image)}</figure>`).join('')}</div>`;
+    else {
+      let inner = '', phones = [];
+      const phonesOut = () => { if (phones.length) inner += `<div class="case-phones">${phones.map(image => `<figure class="case-figure case-phone">${picture(image, '(max-width: 700px) 45vw, 280px')}</figure>`).join('')}</div>`; phones = []; };
+      for (const image of run) {
+        if (image.style === 'phone') { phones.push(image); continue; }
+        phonesOut();
+        inner += `<figure class="case-figure case-screen">${picture(image)}</figure>`;
+      }
+      phonesOut();
+      html += `<div class="case-screens">${inner}</div>`;
+    }
+    run = [];
+  };
+  for (const image of images) {
+    if (run.length && (run[0].style === 'photo') !== (image.style === 'photo')) flush();
+    run.push(image);
   }
-  let phones = '';
-  if (study.screens.mobile) {
-    const {project, from, to} = study.screens.mobile;
-    const mobile = (await projectImages(root, project)).slice(from, to);
-    phones = `<div class="case-phones">${mobile.map((block, i) => `<figure class="case-figure case-phone">${img(block, `${study.name}: mobile screen ${i + 1} of ${mobile.length}`, {sizes: '(max-width: 700px) 45vw, 280px'})}</figure>`).join('')}</div>`;
-  }
-  return `<div class="case-screens">${desktop}${phones}</div>`;
-}
-
-async function heroFigure(root, study, byId) {
-  if (!study.hero) return '';
-  if (study.hero.image) return `<figure class="case-figure case-hero">${img(study.hero.image, study.hero.alt, {eager: true})}</figure>`;
-  if (study.hero.reference) return `<figure class="case-figure case-hero"><span class="work-preview-reference" role="img" aria-label="${escape(study.hero.alt)}"><img alt="" width="2880" height="2174" src="/assets/work-preview/reference.png"></span></figure>`;
-  const cover = byId.get(study.hero.homeCover);
-  const layers = await readFile(path.join(root, 'scripts/templates/covers', cover.composition + '.html'), 'utf8');
-  return `<figure class="case-figure case-hero"><span class="work-preview-composition" role="img" aria-label="${escape(cover.imageAlt)}">${layers}</span></figure>`;
-}
-
-// Image-led studies: the card cover is already shown on top, so a project photo used as the cover is not repeated.
-// When the overview is short, the next image fills the space beside the facts; the rest follow below.
-async function studyImages(root, study) {
-  if (!study.project) return {lead: '', rest: ''};
-  const images = await projectImages(root, study.project);
-  const figure = (block, i) => `<figure class="case-figure">${img(block, `${study.name}: image ${i + 1} of ${images.length}`)}</figure>`;
-  const start = study.cover.projectImage && !study.thumbnail ? 1 : 0;
-  const useLead = study.body.length <= 1 && images.length > start;
-  const lead = useLead ? `<div class="case-lead">${figure(images[start], start).replace('loading="lazy" ', '')}</div>` : '';
-  const rest = images.slice(start + (useLead ? 1 : 0)).map((block, i) => figure(block, start + (useLead ? 1 : 0) + i)).join('');
-  return {lead, rest: rest ? `<div class="case-gallery">${rest}</div>` : ''};
-}
-
-// Photos added in the admin, after the images set in code.
-function addedPhotos(study) {
-  if (!study.photos?.length) return '';
-  return `<div class="case-gallery">${study.photos.map(({src, width, height, alt}, i) =>
-    `<figure class="case-figure"><img src="${escape(src)}" alt="${escape(alt || `${study.name}: photo ${i + 1}`)}" width="${width}" height="${height}" loading="lazy" decoding="async"></figure>`).join('')}</div>`;
+  flush();
+  return {lead, rest: html};
 }
 
 // The cover set in code, as one image the admin can preview next to "Use the original cover".
@@ -191,7 +130,7 @@ export async function defaultThumbs(root) {
 export async function renderReader(root, study, index, byId) {
   const facts = study.facts.map(({label, value, placeholder}) =>
     `<div><dt>${escape(label)}</dt><dd${placeholder ? ' data-unconfirmed' : ''}>${escape(value)}</dd></div>`).join('');
-  const {lead, rest} = await studyImages(root, study);
+  const {lead, rest} = studyImages(study);
   return `<div class="case-reader" data-study="${index}" hidden>
   <div class="case-reader-content" tabindex="0" aria-label="${escape(study.name)} case study">
     <article class="case">
@@ -203,7 +142,7 @@ export async function renderReader(root, study, index, byId) {
           <dl class="case-facts">${facts}</dl>
         </div>
       </header>
-      ${await heroFigure(root, study, byId)}${await screensFigure(root, study)}${rest}${addedPhotos(study)}
+      ${rest}
       <aside class="case-cta" aria-labelledby="case-cta-${index}">
         <div>
           <h3 id="case-cta-${index}">Want to learn more about this project?</h3>
@@ -217,23 +156,19 @@ export async function renderReader(root, study, index, byId) {
 }
 
 // About, opened from the header in the same focus view as the case studies.
-export async function renderAbout(root) {
+// `id` is "about" on the landing; the full portfolio has its own About section with that id.
+export async function renderAbout(root, id = 'about') {
   const site = JSON.parse(await readFile(path.join(root, 'content/site.json'), 'utf8'));
   const body = site.aboutBody.split(/\n\s*\n/).map(p => `<p>${escape(p.trim())}</p>`).join('');
-  // Owner's details (2026-11-23). A line break in a value starts a new line.
-  const facts = [
-    fact('Role', 'Design Partner'),
-    fact('Location', 'Based in Moldova, Europe\nWorking worldwide'),
-    fact('Experience', '10+ years in digital design'),
-    fact('Expertise', 'Product Design,\nGraphic Design & Branding'),
-    fact('Product Domains', 'AI & Developer Tools, B2B SaaS,\nMarketplaces & Research Platforms')
-  ].map(({label, value}) => `<div><dt>${escape(label)}</dt><dd>${value.split('\n').map(escape).join('<br>')}</dd></div>`).join('');
-  const principles = [
-    ['Start with the real problem.', 'A well-framed question is more useful than a polished answer to the wrong one.'],
-    ['Make the work easy to share.', 'Clear reasoning and early conversations help everyone make better decisions.'],
-    ['Care about the small things.', 'The empty state, the error message, the space between two elements. They all shape the experience.']
-  ].map(([title, text]) => `<div><h4>${escape(title)}</h4><p>${escape(text)}</p></div>`).join('');
-  return `<div class="case-reader" id="about" data-about hidden>
+  // Edited in the admin (About). A line break in a detail's value starts a new line.
+  const facts = (site.aboutFacts || []).map(({label, value}) => `<div><dt>${escape(label)}</dt><dd>${String(value).split('\n').map(escape).join('<br>')}</dd></div>`).join('');
+  const principles = (site.aboutPrinciples || []).map(({title, text}) => `<div><h4>${escape(title)}</h4><p>${escape(text)}</p></div>`).join('');
+  const principlesSection = principles ? `
+      <section class="case-principles" aria-labelledby="about-principles">
+        <h3 id="about-principles">${escape(site.aboutPrinciplesTitle)}</h3>
+        <div>${principles}</div>
+      </section>` : '';
+  return `<div class="case-reader" id="${id}" data-about hidden>
   <div class="case-reader-content" tabindex="0" aria-label="About ${escape(site.name)}">
     <article class="case case-about">
       <header class="case-head about-intro">
@@ -242,18 +177,14 @@ export async function renderAbout(root) {
           <dl class="case-facts about-facts">${facts}</dl>
         </div>
         <div class="about-main">
-          <h2 id="about-title" tabindex="-1">I’m Mihai, good to meet you</h2>
+          <h2 id="${id}-title" tabindex="-1">${escape(site.aboutHeading)}</h2>
           <div class="case-body">${body}</div>
         </div>
-      </header>
-      <section class="case-principles" aria-labelledby="about-principles">
-        <h3 id="about-principles">Things I come back to.</h3>
-        <div>${principles}</div>
-      </section>
+      </header>${principlesSection}
       <aside class="case-cta" aria-labelledby="about-cta">
         <div>
-          <h3 id="about-cta">Have a project in mind?</h3>
-          <p>Tell me what you’re working on and I’ll get back to you.</p>
+          <h3 id="about-cta">${escape(site.aboutCtaTitle)}</h3>
+          <p>${escape(site.aboutCtaText)}</p>
         </div>
         <a class="button contact-gradient case-cta-button" href="/contact/" data-case-contact><span class="contact-fill" aria-hidden="true"><span class="contact-shade"></span></span><span class="button-label">Get in touch</span></a>
       </aside>
@@ -264,7 +195,7 @@ export async function renderAbout(root) {
 
 
 // Markup for the homepage: the work preview overlay, its trigger, the About link and the focus-view dialog.
-export async function workPreview(root) {
+export async function workPreview(root, {aboutId = 'about'} = {}) {
   const studies = await loadStudies(root);
   const {covers} = JSON.parse(await readFile(path.join(root, 'content/home-work.json'), 'utf8'));
   const byId = new Map(covers.map(cover => [cover.id, cover]));
@@ -278,7 +209,7 @@ export async function workPreview(root) {
       </span>
     </button>`).join('');
   const reader = (await Promise.all(studies.map((study, index) => renderReader(root, study, index, byId)))).join('');
-  const about = await renderAbout(root);
+  const about = await renderAbout(root, aboutId);
   const more = studies.length > VISIBLE ? '<button class="work-preview-more" type="button" aria-expanded="false" aria-label="Show more work"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9.5 6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' : '';
   const overlay = `
     <div class="work-preview-overlay">

@@ -1,7 +1,7 @@
 // Content tab: edit the homepage copy, About and meeting availability, then publish.
 // Publishing commits the file to GitHub (/api/admin/content); the page then waits for
 // Cloudflare's rebuild by comparing /admin/version.json with the saved commit.
-import {CONTENT_SECTIONS, WEEKDAYS, STUDY_LIMITS, checkSection} from '/admin/content-schema.js';
+import {CONTENT_SECTIONS, WEEKDAYS, STUDY_LIMITS, IMAGE_STYLES, checkSection} from '/admin/content-schema.js';
 
 const api = '/api/admin/content';
 let defaultThumbs = {};
@@ -33,7 +33,22 @@ const srcOf = value => String(value || '').startsWith('upload:') ? pendingImages
 
 // Resize in the browser before upload: square crops for the About photo, longest side capped
 // for everything else. PNGs stay PNG (logos and mockups may be transparent); the rest become JPEG.
+// SVGs are drawn into a PNG here, so only plain images ever reach the site's files.
+async function svgToPng(file, width = 900) {
+  const url = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    image.src = url;
+    await image.decode();
+    const ratio = (image.naturalHeight || 1) / (image.naturalWidth || 1);
+    const canvas = Object.assign(document.createElement('canvas'), {width, height: Math.max(1, Math.round(width * ratio))});
+    canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+    return new File([await new Promise(resolve => canvas.toBlob(resolve, 'image/png'))], 'logo.png', {type: 'image/png'});
+  } finally { URL.revokeObjectURL(url); }
+}
+
 async function prepareImage(file, {square = false, max = 2400, name = 'image'} = {}) {
+  if (file.type === 'image/svg+xml') file = await svgToPng(file, Math.min(max, 1200));
   const bitmap = await createImageBitmap(file, {imageOrientation: 'from-image'});
   const side = Math.min(bitmap.width, bitmap.height);
   const scale = Math.min(1, max / (square ? side : Math.max(bitmap.width, bitmap.height)));
@@ -50,7 +65,7 @@ async function prepareImage(file, {square = false, max = 2400, name = 'image'} =
   const data = await new Promise(resolve => { const reader = new FileReader(); reader.onload = () => resolve(String(reader.result).split(',')[1]); reader.readAsDataURL(blob); });
   const token = newToken();
   pendingImages.set(token, {data, name, url: URL.createObjectURL(blob)});
-  return {value: 'upload:' + token, width, height, small: (square ? side : Math.max(bitmap.width, bitmap.height)) < 800};
+  return {value: 'upload:' + token, width, height, small: (square ? side : Math.max(bitmap.width, bitmap.height)) < 800, url: pendingImages.get(token).url};
 }
 const fileInput = (multiple = false) => { const input = el('input', 'sr-only'); Object.assign(input, {type: 'file', multiple, accept: 'image/jpeg,image/png,image/webp'}); return input; };
 const dropOn = (target, take) => {
@@ -73,7 +88,7 @@ const labelled = (labelText, control, hint) => {
 };
 
 // One case study: name, category, title, story and facts. Its id (which ties it to its images) never changes.
-function studyEditor(study, change, move) {
+function studyEditor(study, change, move, removeStudy) {
   const L = STUDY_LIMITS;
   const item = el('li', 'study');
   item.dataset.id = study.id;
@@ -90,7 +105,8 @@ function studyEditor(study, change, move) {
   const up = smallButton('up', `Move ${study.name} up`), down = smallButton('down', `Move ${study.name} down`);
   up.addEventListener('click', () => move(item, -1));
   down.addEventListener('click', () => move(item, 1));
-  head.append(toggle, unconfirmed, up, down);
+  const hiddenFlag = el('span', 'study-flag is-hidden', 'Hidden');
+  head.append(toggle, hiddenFlag, unconfirmed, up, down);
 
   const body = el('div', 'study-body');
   body.hidden = true;
@@ -140,7 +156,7 @@ function studyEditor(study, change, move) {
   const coverFrame = el('div', 'study-cover-frame');
   const coverImg = el('img');
   coverImg.alt = '';
-  coverFrame.append(coverImg);
+  coverFrame.append(coverImg, el('span', 'study-cover-empty', 'No cover yet'));
   const coverSide = el('div', 'content-photo-side');
   const coverInput = fileInput();
   coverInput.id = `field-${++uid}`;
@@ -167,13 +183,15 @@ function studyEditor(study, change, move) {
   coverWrap.append(el('p', 'content-label', 'Cover'), coverRow, el('p', 'content-hint', 'The thumbnail on the card and at the top of the open case study. Use “Show it whole” for logos and mockups on a transparent background.'));
   let thumbnail = study.thumbnail || null;
   const drawCover = () => {
-    const original = defaultThumbs[study.id];
+    const original = study.originalCover ? defaultThumbs[study.id] : null;
     const shown = thumbnail ? {src: srcOf(thumbnail.src), fit: thumbnail.fit} : original || {src: '', fit: 'fit'};
     coverImg.src = shown.src;
     coverFrame.dataset.fit = shown.fit;
     coverFrame.classList.toggle('is-identity', !thumbnail && Boolean(original?.identity));
+    coverFrame.classList.toggle('is-empty', !shown.src);
     coverFrame.classList.toggle('is-new', String(thumbnail?.src || '').startsWith('upload:'));
-    coverReset.hidden = fitGroup.hidden = !thumbnail;
+    coverReset.hidden = !thumbnail || !study.originalCover;
+    fitGroup.hidden = !thumbnail;
     fits.forEach(radio => { radio.checked = radio.value === thumbnail?.fit; });
     coverNote.textContent = String(thumbnail?.src || '').startsWith('upload:') ? 'New cover, not published yet.' : '';
   };
@@ -191,17 +209,19 @@ function studyEditor(study, change, move) {
   dropOn(coverFrame, takeCover);
   drawCover();
 
-  // Photos added here appear after the case study's existing images, in this order.
+  // Every image of the case study, in order: photos (full width), screens (bordered screenshots)
+  // and phones (mobile screens, three per row). New uploads are resized before they're sent.
   const photosWrap = el('div', 'content-field study-photos');
   const photoGrid = el('ul', 'study-photo-grid');
   const photosInput = fileInput(true);
   photosInput.id = `field-${++uid}`;
-  const photosPick = el('label', 'admin-button', 'Add photos');
+  const photosPick = el('label', 'admin-button', 'Add images');
   photosPick.htmlFor = photosInput.id;
   const photosNote = el('p', 'content-photo-note');
+  const photosCount = el('p', 'content-hint study-photos-count');
   const photosBar = el('div', 'study-photos-bar');
   photosBar.append(photosInput, photosPick, photosNote);
-  photosWrap.append(el('p', 'content-label', 'Added photos'), photoGrid, photosBar, el('p', 'content-hint', 'They appear after the case study’s current images, in this order. Drag photos here or choose several at once; each is resized before upload.'));
+  photosWrap.append(el('p', 'content-label', 'Images'), photosCount, photoGrid, photosBar, el('p', 'content-hint', 'Shown after the story, in this order. Photo is full width, Screen is a screenshot with a thin border, Phone shows mobile screens three to a row. When the story is one paragraph, a first photo sits beside the facts. Drag images here or choose several at once.'));
   const syncPhotos = () => {
     const tiles = [...photoGrid.children];
     tiles.forEach((tile, index) => {
@@ -209,21 +229,28 @@ function studyEditor(study, change, move) {
       tile.querySelector('[data-move="1"]').disabled = index === tiles.length - 1;
     });
     photoGrid.hidden = !tiles.length;
-    photosPick.hidden = tiles.length >= L.photos;
+    photosPick.hidden = tiles.length >= L.images;
+    photosCount.textContent = tiles.length ? `${tiles.length} image${tiles.length > 1 ? 's' : ''}` : 'No images yet.';
   };
   const photoTile = photo => {
     const tile = el('li', 'study-photo' + (String(photo.src).startsWith('upload:') ? ' is-new' : ''));
     tile.photo = photo;
     const frame = el('div', 'study-photo-frame');
+    frame.dataset.style = photo.style;
     const image = el('img');
-    image.src = srcOf(photo.src); image.alt = '';
+    image.src = srcOf(photo.variants?.[0]?.image || photo.src); image.alt = ''; image.loading = 'lazy';
     frame.append(image);
+    const style = el('select', 'content-input study-photo-style');
+    style.setAttribute('aria-label', 'Show as');
+    style.append(...IMAGE_STYLES.map(([value, text]) => { const option = el('option', '', text); option.value = value; return option; }));
+    style.value = photo.style;
+    style.addEventListener('change', () => { tile.photo = {...tile.photo, style: style.value}; frame.dataset.style = style.value; change(); });
     const alt = el('input', 'content-input');
     Object.assign(alt, {value: photo.alt || '', maxLength: L.alt, placeholder: 'Describe the image', autocomplete: 'off'});
     alt.setAttribute('aria-label', 'Image description');
     alt.addEventListener('input', () => { tile.photo = {...tile.photo, alt: alt.value}; change(); });
     const tools = el('div', 'study-photo-tools');
-    const back = smallButton('left', 'Move photo earlier'), forward = smallButton('right', 'Move photo later'), remove = smallButton('close', 'Remove photo');
+    const back = smallButton('left', 'Move image earlier'), forward = smallButton('right', 'Move image later'), remove = smallButton('close', 'Remove image');
     back.dataset.move = '-1'; forward.dataset.move = '1';
     for (const button of [back, forward]) button.addEventListener('click', () => {
       const sibling = button.dataset.move === '-1' ? tile.previousElementSibling : tile.nextElementSibling;
@@ -232,31 +259,56 @@ function studyEditor(study, change, move) {
       syncPhotos(); change(); button.disabled ? tile.querySelector('input').focus() : button.focus();
     });
     remove.addEventListener('click', () => { const next = tile.nextElementSibling || tile.previousElementSibling; tile.remove(); syncPhotos(); change(); (next?.querySelector('input') || photosPick).focus(); });
-    tools.append(back, forward, remove);
+    tools.append(style, back, forward, remove);
     tile.append(frame, alt, tools);
     return tile;
   };
-  (study.photos || []).forEach(photo => photoGrid.append(photoTile(photo)));
+  (study.images || []).forEach(photo => photoGrid.append(photoTile(photo)));
   const takePhotos = async files => {
-    const room = L.photos - photoGrid.children.length;
+    const room = L.images - photoGrid.children.length;
     const chosen = files.filter(file => /^image\//.test(file.type)).slice(0, room);
     if (!chosen.length) return;
     let failed = 0;
     for (const [index, file] of chosen.entries()) {
       photosNote.textContent = `Preparing ${index + 1} of ${chosen.length}…`;
-      try { const next = await prepareImage(file, {max: 2400, name: `${study.id}-photo`}); photoGrid.append(photoTile({src: next.value, width: next.width, height: next.height, alt: ''})); }
-      catch { failed++; }
+      try {
+        const next = await prepareImage(file, {max: 2400, name: `${study.id}-image`});
+        // Tall images are most likely phone screens.
+        photoGrid.append(photoTile({src: next.value, width: next.width, height: next.height, alt: '', style: next.height > next.width * 1.7 ? 'phone' : 'photo'}));
+      } catch { failed++; }
     }
-    photosNote.textContent = failed ? `${failed} file${failed > 1 ? 's' : ''} couldn’t be read. Try JPG or PNG.` : files.length > room ? `Only ${L.photos} photos fit; the rest were left out.` : '';
+    photosNote.textContent = failed ? `${failed} file${failed > 1 ? 's' : ''} couldn’t be read. Try JPG or PNG.` : files.length > room ? `Only ${L.images} images fit; the rest were left out.` : '';
     syncPhotos(); change();
   };
   photosInput.addEventListener('change', () => { takePhotos([...photosInput.files]); photosInput.value = ''; });
   dropOn(photosWrap, takePhotos);
   syncPhotos();
 
+  // Shown or hidden, and deleting the whole case study.
+  const footer = el('div', 'study-footer');
+  const visible = el('label', 'study-visible');
+  const visibleBox = el('input');
+  visibleBox.type = 'checkbox'; visibleBox.checked = !study.hidden;
+  visible.append(visibleBox, el('span', '', 'Show on the website'));
+  const syncVisible = () => { item.dataset.hidden = String(!visibleBox.checked); hiddenFlag.hidden = visibleBox.checked; };
+  visibleBox.addEventListener('change', () => { syncVisible(); change(); });
+  const removeButton = el('button', 'admin-button quiet study-delete', 'Delete case study');
+  removeButton.type = 'button';
+  const confirm = el('div', 'inbox-confirm');
+  confirm.hidden = true;
+  const sure = el('button', 'admin-button danger', 'Delete');
+  const keep = el('button', 'admin-button quiet', 'Keep it');
+  sure.type = keep.type = 'button';
+  confirm.append(el('p', '', 'Delete this case study? It disappears when you publish.'), sure, keep);
+  removeButton.addEventListener('click', () => { confirm.hidden = false; removeButton.hidden = true; keep.focus(); });
+  keep.addEventListener('click', () => { confirm.hidden = true; removeButton.hidden = false; removeButton.focus(); });
+  sure.addEventListener('click', () => removeStudy(item));
+  footer.append(visible, removeButton, confirm);
+  syncVisible();
+
   const grid = el('div', 'study-grid');
   grid.append(labelled('Name', nameInput, 'On the card.'), labelled('Category', categoryInput, 'Under the name on the card.'));
-  body.append(grid, labelled('Title', titleInput, 'The heading when the case study is open.'), labelled('Story', story, 'Leave an empty line between paragraphs.'), facts, coverWrap, photosWrap);
+  body.append(grid, labelled('Title', titleInput, 'The heading when the case study is open.'), labelled('Story', story, 'Leave an empty line between paragraphs.'), facts, coverWrap, photosWrap, footer);
   toggle.addEventListener('click', () => {
     const open = body.hidden;
     body.hidden = !open;
@@ -268,13 +320,156 @@ function studyEditor(study, change, move) {
     id: study.id, name: nameInput.value, category: categoryInput.value, title: titleInput.value,
     body: story.value.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean),
     facts: [...factRows.children].map(row => ({label: row.querySelector('input').value, value: row.querySelector('textarea').value, placeholder: row.querySelector('input[type=checkbox]').checked})),
-    thumbnail, photos: [...photoGrid.children].map(tile => tile.photo)
+    hidden: !visibleBox.checked, originalCover: Boolean(study.originalCover),
+    thumbnail, images: [...photoGrid.children].map(tile => tile.photo)
   });
+  item.open = () => { if (body.hidden) toggle.click(); nameInput.focus(); nameInput.select(); };
   return item;
 }
 
 // Each control returns {node, get, set} and calls change() when edited.
 const controls = {
+  // A short list of two-part items (a label and a value, a title and a text), reorderable.
+  pairs(field, id, change) {
+    const node = el('div', 'pairs');
+    const list = el('ol', 'pair-list');
+    list.id = id;
+    const add = el('button', 'admin-button quiet content-add', field.add);
+    add.type = 'button';
+    const sync = () => {
+      [...list.children].forEach((row, index, rows) => {
+        row.querySelector('[data-move="-1"]').disabled = index === 0;
+        row.querySelector('[data-move="1"]').disabled = index === rows.length - 1;
+      });
+      add.hidden = list.children.length >= field.max;
+    };
+    const pairRow = (item = {}) => {
+      const row = el('li', 'pair-row');
+      const first = el('input', 'content-input');
+      Object.assign(first, {value: item[field.first] || '', maxLength: field.firstMax, placeholder: field.firstName, autocomplete: 'off'});
+      first.setAttribute('aria-label', field.firstName);
+      const second = el(field.multiline ? 'textarea' : 'input', 'content-input');
+      Object.assign(second, {value: item[field.second] || '', maxLength: field.secondMax, placeholder: field.secondName});
+      if (field.multiline) second.rows = 2;
+      second.setAttribute('aria-label', field.secondName);
+      for (const input of [first, second]) input.addEventListener('input', change);
+      const tools = el('div', 'study-photo-tools');
+      const up = smallButton('up', 'Move up'), down = smallButton('down', 'Move down'), remove = smallButton('close', `Remove this ${field.firstName.toLowerCase()}`);
+      up.dataset.move = '-1'; down.dataset.move = '1';
+      for (const button of [up, down]) button.addEventListener('click', () => {
+        const sibling = button.dataset.move === '-1' ? row.previousElementSibling : row.nextElementSibling;
+        if (!sibling) return;
+        button.dataset.move === '-1' ? sibling.before(row) : sibling.after(row);
+        sync(); change(); button.disabled ? first.focus() : button.focus();
+      });
+      remove.addEventListener('click', () => { const next = row.nextElementSibling || row.previousElementSibling; row.remove(); sync(); change(); (next?.querySelector('input') || add).focus(); });
+      tools.append(up, down, remove);
+      row.append(first, second, tools);
+      row.read = () => ({[field.first]: first.value, [field.second]: second.value});
+      return row;
+    };
+    add.addEventListener('click', () => { const row = pairRow(); list.append(row); sync(); change(); row.querySelector('input').focus(); });
+    node.append(list, add);
+    return {node, focus: null,
+      get: () => [...list.children].map(row => row.read()),
+      set: value => { list.replaceChildren(...(value || []).map(pairRow)); sync(); }};
+  },
+  // The brand strip: a live preview at the site's proportions, then one row per logo.
+  logos(field, id, change) {
+    const node = el('div', 'logos');
+    const preview = el('div', 'logo-preview');
+    preview.setAttribute('aria-hidden', 'true');
+    const list = el('ol', 'logo-list');
+    list.id = id;
+    const input = fileInput(true);
+    input.accept = 'image/png,image/webp,image/svg+xml';
+    input.id = `field-${++uid}`;
+    const add = el('label', 'admin-button', 'Add a logo');
+    add.htmlFor = input.id;
+    const note = el('p', 'content-photo-note');
+    const bar = el('div', 'study-photos-bar');
+    bar.append(input, add, note);
+    node.append(preview, list, bar, el('p', 'content-hint', 'Use a logo on a transparent background (PNG or SVG; SVGs are turned into a sharp PNG first). Adjust the size until it sits well next to the others in the preview.'));
+    const draw = () => {
+      preview.replaceChildren(...[...list.children].map(row => {
+        const brand = row.brand;
+        const item = el('span', 'logo-preview-item');
+        item.style.setProperty('--w', brand.width + 'px');
+        item.style.setProperty('--h', brand.height + 'px');
+        const image = el('img');
+        image.src = srcOf(brand.image); image.alt = '';
+        if (brand.image.endsWith('.svg')) image.dataset.vector = '';
+        item.append(image);
+        return item;
+      }));
+      [...list.children].forEach((row, index, rows) => {
+        row.querySelector('[data-move="-1"]').disabled = index === 0;
+        row.querySelector('[data-move="1"]').disabled = index === rows.length - 1;
+      });
+    };
+    const logoRow = brand => {
+      const row = el('li', 'logo-row' + (String(brand.image).startsWith('upload:') ? ' is-new' : ''));
+      row.brand = {...brand};
+      const ratio = brand.width / brand.height;
+      const frame = el('span', 'logo-thumb');
+      const image = el('img');
+      image.src = srcOf(brand.image); image.alt = '';
+      frame.append(image);
+      const name = el('input', 'content-input');
+      Object.assign(name, {value: brand.name, maxLength: 40, autocomplete: 'off', placeholder: 'Company name'});
+      name.setAttribute('aria-label', 'Company name');
+      name.addEventListener('input', () => { row.brand.name = name.value; change(); });
+      const sizeWrap = el('label', 'logo-size');
+      const size = el('input');
+      Object.assign(size, {type: 'range', min: 60, max: 320, step: 1, value: Math.round(brand.width)});
+      size.setAttribute('aria-label', `Size of ${brand.name || 'this logo'}`);
+      const readout = el('span', '', `${Math.round(brand.width)} px`);
+      size.addEventListener('input', () => {
+        const width = Number(size.value);
+        row.brand.width = width;
+        row.brand.height = Math.round(width / ratio * 1000) / 1000;
+        readout.textContent = `${width} px`;
+        draw(); change();
+      });
+      sizeWrap.append(size, readout);
+      const tools = el('div', 'study-photo-tools');
+      const up = smallButton('up', 'Move logo earlier'), down = smallButton('down', 'Move logo later'), remove = smallButton('close', 'Remove logo');
+      up.dataset.move = '-1'; down.dataset.move = '1';
+      for (const button of [up, down]) button.addEventListener('click', () => {
+        const sibling = button.dataset.move === '-1' ? row.previousElementSibling : row.nextElementSibling;
+        if (!sibling) return;
+        button.dataset.move === '-1' ? sibling.before(row) : sibling.after(row);
+        draw(); change(); button.disabled ? name.focus() : button.focus();
+      });
+      remove.addEventListener('click', () => { const next = row.nextElementSibling || row.previousElementSibling; row.remove(); draw(); change(); (next?.querySelector('input') || add).focus(); });
+      tools.append(up, down, remove);
+      row.append(frame, name, sizeWrap, tools);
+      return row;
+    };
+    const take = async files => {
+      const chosen = files.filter(file => /^image\/(png|webp|svg\+xml)$/.test(file.type)).slice(0, 24 - list.children.length);
+      if (!chosen.length) { if (files.length) note.textContent = 'Use a PNG, WebP or SVG logo.'; return; }
+      let failed = 0;
+      for (const file of chosen) {
+        try {
+          const next = await prepareImage(file, {max: 1200, name: 'logo'});
+          // Start at a size similar to the others: about 44px tall, never wider than 220px.
+          const ratio = next.width / next.height;
+          const width = Math.round(Math.min(220, Math.max(60, 44 * ratio)));
+          const row = logoRow({name: file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '), image: next.value, width, height: Math.round(width / ratio * 1000) / 1000});
+          list.append(row);
+        } catch { failed++; }
+      }
+      note.textContent = failed ? 'One of the files couldn’t be read.' : '';
+      draw(); change();
+      list.lastElementChild?.querySelector('input')?.select();
+    };
+    input.addEventListener('change', () => { take([...input.files]); input.value = ''; });
+    dropOn(node, take);
+    return {node, focus: null,
+      get: () => [...list.children].map(row => ({...row.brand})),
+      set: value => { list.replaceChildren(...(value || []).map(logoRow)); draw(); }};
+  },
   studies(field, id, change) {
     const node = el('div', 'studies');
     const list = el('ol', 'study-list');
@@ -288,7 +483,8 @@ const controls = {
         item.querySelector('[aria-label^="Move"][aria-label$="up"]').disabled = index === 0;
         item.querySelector('[aria-label^="Move"][aria-label$="down"]').disabled = index === items.length - 1;
       });
-      if (items.length > 4) items[4].before(divider);
+      const shown = items.filter(item => item.dataset.hidden !== 'true');
+      if (shown.length > 4) shown[4].before(divider);
     };
     const move = (item, step) => {
       const items = [...list.querySelectorAll('.study')];
@@ -302,10 +498,26 @@ const controls = {
       item.querySelector(`[aria-label$="${step < 0 ? 'up' : 'down'}"]:not(:disabled)`)?.focus() || item.querySelector('.study-toggle').focus();
       change();
     };
-    node.append(list);
+    const removeStudy = item => {
+      const next = item.nextElementSibling?.classList.contains('study') ? item.nextElementSibling : item.previousElementSibling;
+      item.remove(); place(); change();
+      (next?.querySelector('.study-toggle') || add).focus();
+    };
+    const add = el('button', 'admin-button study-add', 'Add a case study');
+    add.type = 'button';
+    add.addEventListener('click', () => {
+      const study = {id: 'study-' + newToken().slice(0, 8), name: 'New case study', category: '', title: '', body: [], facts: [], hidden: true, originalCover: false, thumbnail: null, images: []};
+      const item = studyEditor(study, change, move, removeStudy);
+      list.append(item); place(); change();
+      item.open();
+    });
+    const note = el('p', 'content-hint', 'New case studies start hidden, so you can publish a draft and switch on “Show on the website” when it’s ready. To be shown, a case study needs a title, a story and a cover.');
+    node.append(list, add, note);
+    // Re-place the divider when a study is shown or hidden.
+    list.addEventListener('change', event => { if (event.target.closest('.study-visible')) place(); });
     return {node, focus: null,
       get: () => [...list.querySelectorAll('.study')].map(item => item.read()),
-      set: value => { list.replaceChildren(...(value || []).map(study => studyEditor(study, change, move))); place(); }};
+      set: value => { list.replaceChildren(...(value || []).map(study => studyEditor(study, change, move, removeStudy))); place(); }};
   },
   image(field, id, change) {
     const node = el('div', 'content-photo');
@@ -357,6 +569,13 @@ const controls = {
     return {node, focus: input, get: () => input.value, set: value => { input.value = value ?? ''; update(); }};
   },
   email(field, id, change) { return controls.line(field, id, change, 'email'); },
+  // A single line of text with a character limit.
+  short(field, id, change) {
+    const input = el('input', 'content-input');
+    Object.assign(input, {id, type: 'text', maxLength: field.max, autocomplete: 'off'});
+    input.addEventListener('input', change);
+    return {node: input, focus: input, get: () => input.value, set: value => { input.value = value ?? ''; }};
+  },
   url(field, id, change) { return controls.line(field, id, change, 'url', 'https://'); },
   line(field, id, change, type, placeholder = '') {
     const input = el('input', 'content-input');
@@ -530,13 +749,14 @@ function section(config, saved, version) {
     const id = `field-${++uid}`;
     const control = controls[field.type](field, id, () => { if (fields.get(field.key).error.textContent) setErrors({}); change(); });
     const wrap = el('div', `content-field is-${field.type}`);
-    const label = el(field.type === 'weekdays' ? 'p' : 'label', field.type === 'studies' ? 'sr-only' : 'content-label', field.label);
+    const label = el(field.type === 'weekdays' ? 'p' : 'label', ['studies', 'logos'].includes(field.type) ? 'sr-only' : 'content-label', field.label);
     if (field.type !== 'weekdays') label.htmlFor = id; else { label.id = id + '-label'; control.node.setAttribute('aria-labelledby', label.id); }
     const error = el('p', 'content-error');
     error.id = id + '-error';
     wrap.append(label, control.node);
     if (field.hint) { const hint = el('p', 'content-hint', field.hint); hint.id = id + '-hint'; wrap.append(hint); control.focus?.setAttribute('aria-describedby', hint.id + ' ' + error.id); }
     wrap.append(error);
+    if (field.group) body.append(el('h3', 'content-group', field.group));
     body.append(wrap);
     control.set(saved[field.key]);
     fields.set(field.key, {control, wrap, error});

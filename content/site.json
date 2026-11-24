@@ -1,6 +1,6 @@
 {
   "name": "Mihai Boboc",
-  "role": "Independent product designer",
+  "role": "Product designer & design engineer",
   "intro": "Hey, I’m Mihai\nyour design partner",
   "bio": "I’m Mihai, a product designer working across digital products, design systems, and brand experiences. I like untangling the complicated parts and making the everyday ones feel just right.",
   "location": "Based in Europe · Working everywhere",
@@ -10,14 +10,54 @@
   "githubBranch": "main",
   "draft": true,
   "aboutTitle": "About me",
-  "aboutBody": "My design journey started over a decade ago with simple graphic design gigs on Upwork — small projects that taught me discipline, creativity, and how to deliver under pressure. As I kept growing, I found myself drawn to UI/UX. I started designing iOS apps, and that’s where everything clicked for me: design wasn’t just about visuals anymore, it was about people, interactions, and the experience behind every screen.\n\nThat mindset carried over when I moved into the gaming industry, where I helped design games published on Steam. Working in games was a real turning point for me — constant iteration, user testing, A/B experiments, and balancing creativity with functionality shaped how I think as a product designer today.\n\nOver the years I’ve worked across multiple platforms, industries, and product objectives, and each one strengthened my ability to adapt and build meaningful design solutions. Whether it’s branding, UI/UX, or full product design, my goal stays the same: create something that works beautifully, solves real problems, and feels effortless for the user.",
+  "aboutBody": "My design journey started over a decade ago with simple graphic design gigs on Upwork — small projects that taught me discipline, creativity, and how to deliver under pressure. As I kept growing, I found myself drawn to UI/UX. I started designing iOS apps, and that’s where everything clicked for me: design wasn’t just about visuals anymore, it was about people, interactions, and the experience behind every screen.\n\nThat mindset carried over when I moved into the gaming industry, where I helped design games published on Steam. Working in games was a real turning point for me — constant iteration, user testing, A/B experiments, and balancing creativity with functionality shaped how I think as a product designer today.\n\nOver the years I’ve worked across multiple platforms, industries, and product objectives, and each one strengthened my ability to adapt and build meaningful design solutions. Whether it’s branding, UI/UX, or full product design, my goal stays the same: create something that works beautifully, solves real problems, and feels effortless for the user.\n\nThese days I also build what I design. As a design engineer, I turn interfaces into working front-ends, design systems into code and websites into something a team can update on its own, so nothing gets lost between the Figma file and the product people actually use.",
+  "aboutHeading": "I’m Mihai, good to meet you",
+  "aboutFacts": [
+    {
+      "label": "Role",
+      "value": "Design Partner"
+    },
+    {
+      "label": "Location",
+      "value": "Based in Moldova, Europe\nWorking worldwide"
+    },
+    {
+      "label": "Experience",
+      "value": "10+ years in digital design"
+    },
+    {
+      "label": "Expertise",
+      "value": "Product Design & Design Engineering,\nGraphic Design & Branding"
+    },
+    {
+      "label": "Product Domains",
+      "value": "AI & Developer Tools, B2B SaaS,\nMarketplaces & Research Platforms"
+    }
+  ],
+  "aboutPrinciplesTitle": "Things I come back to.",
+  "aboutPrinciples": [
+    {
+      "title": "Start with the real problem.",
+      "text": "A well-framed question is more useful than a polished answer to the wrong one."
+    },
+    {
+      "title": "Make the work easy to share.",
+      "text": "Clear reasoning and early conversations help everyone make better decisions."
+    },
+    {
+      "title": "Care about the small things.",
+      "text": "The empty state, the error message, the space between two elements. They all shape the experience."
+    }
+  ],
+  "aboutCtaTitle": "Have a project in mind?",
+  "aboutCtaText": "Tell me what you’re working on and I’ll get back to you.",
   "aboutPhoto": "/assets/about/mihail-boboc.jpg",
   "aboutNote": "",
   "contactIntro": "Share the context, your ideal timing, and what you’d like help with. We can work out the rest together.",
   "servicesIntro": "From an early idea to a product that’s already growing. I can help you find the shape of it, build a consistent system, and bring it to life.",
   "pricingIntro": "A focused review, a defined project, or a little more continuity. Choose a starting point and we’ll agree the scope together.",
   "playgroundIntro": "Small experiments in form, motion, and interaction. A place to follow an idea and see where it goes.",
-  "heroBio": "Working across digital products, design systems, and brand experiences. I like untangling the complicated parts and making the everyday ones feel just right.",
+  "heroBio": "Designing digital products, design systems and brand experiences, and building them in code. I like untangling the complicated parts and making the everyday ones feel just right.",
   "turnstileSiteKey": "0x4AAAAAAGKGURx8DpvPml2b",
   "instagramUrl": "https://www.instagram.com/bymbdesigns/",
   "linkedinUrl": "https://www.linkedin.com/in/mb-designs/"

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>History · Admin · Mihai Boboc</title>
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/admin/admin.css">
+<script type="module" src="/admin/shell.js"></script>
+<script type="module" src="/admin/history.js"></script>
+</head>
+<body data-page="history">
+<a class="skip-link" href="#main">Skip to content</a>
+<aside class="admin-side" data-side>
+  <div class="admin-side-top">
+    <a class="admin-brand" href="/admin/" aria-label="Admin home"><img src="/assets/hero/mark.svg" alt="" width="26" height="29"><span>Admin</span></a>
+    <button type="button" class="admin-menu" aria-expanded="false" aria-controls="admin-nav" data-menu><span class="sr-only">Menu</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </div>
+  <div class="admin-side-body" id="admin-nav">
+    <nav class="admin-nav" aria-label="Admin">
+      <p class="admin-nav-label">Inbox</p>
+      <a href="/admin/" data-nav="requests"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 13.5 6.4 5.8A2 2 0 0 1 8.3 4.4h7.4a2 2 0 0 1 1.9 1.4l2.4 7.7V18a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4.5Z M4 13.5h4.5l1 2h5l1-2H20"/></svg><span>Meeting requests</span><span class="admin-count" data-waiting-count hidden></span></a>
+      <a href="/admin/messages/" data-nav="messages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6.5h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1Zm-.5 1 7.5 5.5 7.5-5.5"/></svg><span>Messages</span><span class="admin-count" data-unread-count hidden></span></a>
+      <p class="admin-nav-label">Website</p>
+      <a href="/admin/content/#home" data-nav="home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 10.5 12 4.5l7.5 6V19a1 1 0 0 1-1 1h-4v-5.5h-5V20h-4a1 1 0 0 1-1-1v-8.5Z"/></svg><span>Homepage</span></a>
+      <a href="/admin/content/#about" data-nav="about"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a3.75 3.75 0 1 0 0-7.5 3.75 3.75 0 0 0 0 7.5Zm-7 7.5c.8-3.3 3.6-5.25 7-5.25s6.2 1.95 7 5.25"/></svg><span>About</span></a>
+      <a href="/admin/content/#cases" data-nav="cases"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 4.5 8 4-8 4-8-4 8-4Zm-8 8 8 4 8-4m-16 4 8 4 8-4"/></svg><span>Case studies</span></a>
+      <a href="/admin/content/#logos" data-nav="logos"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 8.5h4v7h-4zm5.5 0h4v7h-4zm5.5 0h4v7h-4z"/></svg><span>Brand strip</span></a>
+      <a href="/admin/content/#inquiry" data-nav="inquiry"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 5.5h13a1 1 0 0 1 1 1v8.5a1 1 0 0 1-1 1H10l-4 3v-3h-.5a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1Zm3 4h7m-7 3h4.5"/></svg><span>Inquiry wording</span></a>
+      <a href="/admin/content/#meetings" data-nav="meetings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5.5 6.5h13a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-13a1 1 0 0 1-1-1v-11a1 1 0 0 1 1-1Zm-1 4.5h15M8.5 4.5v4m7-4v4"/></svg><span>Availability</span></a>
+      <a href="/admin/history/" data-nav="history"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3L4.5 9m0-4.5V9H9m3-1.5V12l3 2"/></svg><span>History</span></a>
+    </nav>
+    <div class="admin-side-foot">
+      <a class="admin-nav-site" href="/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 5.5h5v5m0-5-8 8M10 6.5H6.5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V14"/></svg><span>View website</span></a>
+      <p class="admin-who" data-who></p>
+    </div>
+  </div>
+</aside>
+<main id="main" class="admin-main" tabindex="-1">
+  <div class="admin-head">
+    <div>
+      <p class="admin-eyebrow">Website</p>
+      <h1>History</h1>
+      <p class="admin-lede">Every change published to the website’s content, newest first. Undo puts that part of the site back as it was just before the change.</p>
+    </div>
+  </div>
+  <p class="admin-status" data-status role="status" aria-live="polite">Loading changes…</p>
+  <ol class="history-list" data-list></ol>
+</main>
+</body>
+</html>

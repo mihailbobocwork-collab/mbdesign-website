@@ -6,7 +6,7 @@ import {TransitionMotion} from './transition-motion.js';
 import {brandEntrance} from './brand-loader.js';
 import {MeetingCalendar} from './meeting-calendar.js';
 import {BookingAction} from './booking-action.js';
-import {SUBJECTS,ENGAGEMENTS,BUDGET_RANGES,budgetLabel,emailError,topicFromMessage,formatMeeting} from './inquiry-details.js';
+import {COPY as C,SUBJECTS,ENGAGEMENTS,BUDGET_RANGES,budgetLabel,emailError,topicFromMessage,formatMeeting} from './inquiry-details.js';
 
 export const FLOW_KEY = 'mihail:hero-flow:v1';
 const WEBKIT=typeof navigator!=='undefined'&&/AppleWebKit/.test(navigator.userAgent)&&!/Chrome|Chromium|Edg|OPR/.test(navigator.userAgent);
@@ -28,7 +28,7 @@ export function readFlow(storage,key=FLOW_KEY) {
 }
 
 export function answerError(message,subject) {
-  return messageLimitError(message) || (!hasMessage(message)&&!subject?'Tell me a little about what you’re working on.':'');
+  return messageLimitError(message) || (!hasMessage(message)&&!subject?C.topicError:'');
 }
 
 export function previousInquiryStep(step,meeting) {
@@ -275,7 +275,7 @@ export class HeroInquiry {
     else if(step===calendar)this.renderCalendar();
     else if(step===review)this.renderReview();
     else this.renderReceipt();
-    this.panel.querySelector('.hero-flow-privacy').textContent=step===complete?'Your details are used only for this conversation.':'Your draft stays in this browser tab. You’ll review your details before confirming.';
+    this.panel.querySelector('.hero-flow-privacy').textContent=step===complete?'Your details are used only for this conversation.':C.privacyNote;
   }
 
   heading(title,helper){
@@ -289,12 +289,12 @@ export class HeroInquiry {
   renderField(isEmail){
     const meeting=this.answers.meeting==='yes';
     const service=SUBJECTS.find(s=>s.id===this.answers.subject);
-    this.heading(isEmail?(meeting?'Where should I send the invite?':'Where should I reply?'):'What can I help you with?',
-      isEmail?(meeting?'Once I confirm the time, I’ll send the Google Meet invitation here.':'I’ll use this address to reply to your message.'):
+    this.heading(isEmail?(meeting?C.emailQuestionMeeting:C.emailQuestionMessage):C.topicQuestion,
+      isEmail?(meeting?C.emailHelperMeeting:C.emailHelperMessage):
         '');
     const field=element(isEmail?'input':'textarea','hero-flow-answer');
     field.name=isEmail?'email':'message';field.id='hero-flow-answer';field.dataset.answer='';
-    field.placeholder=isEmail?'you@company.com':service?'Tell me more…':'Tell me about your project…';
+    field.placeholder=isEmail?'you@company.com':service?C.topicPlaceholderSubject:C.topicPlaceholder;
     field.setAttribute('aria-label',isEmail?'Email address':'Your project');
     field.setAttribute('aria-describedby',isEmail?'hero-flow-helper hero-flow-error':'hero-flow-error');
     field.value=this.answers[field.name]||'';field.enterKeyHint='next';
@@ -323,7 +323,7 @@ export class HeroInquiry {
     remove.addEventListener('click',()=>{
       this.answers.subject='';this.persist();this.updateSubjectUI();
       tag.remove();
-      field.placeholder='Tell me about your project…';
+      field.placeholder=C.topicPlaceholder;
       field.focus({preventScroll:true});
     });
     tag.append(element('span','hero-flow-tag-label',service.label),remove);
@@ -331,13 +331,12 @@ export class HeroInquiry {
   }
 
   renderEngagement(){
-    this.heading('How would you like to work together?','Choose the option that best fits what you have in mind.');
+    this.heading(C.engagementQuestion,C.engagementHelper);
     this.renderChoices('engagement','Type of collaboration',ENGAGEMENTS);
   }
 
   renderBudget(){
-    this.heading('Budget range (EUR)',this.answers.engagement==='partnership'
-      ?'What monthly budget do you have in mind?':'What’s your estimated budget for the whole project?');
+    this.heading(C.budgetQuestion,this.answers.engagement==='partnership'?C.budgetHelperMonthly:C.budgetHelperProject);
     this.renderChoices('budget','Budget range (EUR)',BUDGET_RANGES);
   }
 
@@ -359,9 +358,9 @@ export class HeroInquiry {
   }
 
   renderPreference(){
-    this.heading('How would you like to start?','We can talk on Google Meet or start over email.');
+    this.heading(C.startQuestion,C.startHelper);
     const choices=element('div','hero-meeting-options');
-    for(const [value,label] of [['yes','Book a discovery call'],['no','Send a message']]){
+    for(const [value,label] of [['yes',C.startMeeting],['no',C.startMessage]]){
       const button=control(label,value==='yes'?'hero-flow-continue':'button');
       button.setAttribute('aria-pressed',String(this.answers.meeting===value));
       button.addEventListener('click',()=>{
@@ -383,17 +382,17 @@ export class HeroInquiry {
   renderReview(){
     const meeting=this.answers.meeting==='yes';
     const payload=inquiryPayload(this.answers,this.entryTopic);
-    this.heading('Does this feel right?',meeting?'Review your details before confirming the call.':'Review your details before sending your message.');
+    this.heading(C.reviewQuestion,meeting?C.reviewHelperMeeting:C.reviewHelperMessage);
     const review=element('dl','hero-flow-review');
     if(payload.subject)this.reviewRow(review,'Service',SUBJECTS.find(service=>service.id===payload.subject)?.label,STEP.answer);
     if(this.entryTopic)this.reviewRow(review,'Topic',this.entryTopic,STEP.answer);
     this.reviewRow(review,'Your project',payload.message,STEP.answer);
     this.reviewRow(review,'Collaboration',ENGAGEMENTS.find(e=>e.id===payload.engagement)?.label,STEP.engagement);
     this.reviewRow(review,'Budget (EUR)',budgetLabel(payload),STEP.budget);
-    this.reviewRow(review,'Next step',meeting?'Discovery call':'Send a message',STEP.preference);
+    this.reviewRow(review,'Next step',meeting?'Discovery call':C.startMessage,STEP.preference);
     if(meeting&&this.meetingSelection)this.reviewRow(review,'When',formatMeeting(this.meetingSelection),STEP.calendar);
     this.reviewRow(review,'Email',payload.email,STEP.email);
-    const button=control(this.preview?'Confirm preview':meeting?'Request meeting':'Send message','hero-flow-continue');
+    const button=control(this.preview?'Confirm preview':meeting?C.submitMeeting:C.submitMessage,'hero-flow-continue');
     const challenge=element('div'),status=element('p','booking-status');status.setAttribute('role','status');
     this.content.append(review,button,challenge,status);
     if(meeting&&!this.meetingSelection){button.disabled=true;status.textContent='Choose a meeting time before confirming.';return;}
@@ -406,7 +405,7 @@ export class HeroInquiry {
 
   renderCalendar(){
     this.container.dataset.booking='true';
-    this.heading('Let’s find a time.','Pick a time for a short discovery call on Google Meet. I’ll confirm it personally.');
+    this.heading(C.calendarQuestion,C.calendarHelper);
     this.bookingSlot=element('div','hero-booking-slot');
     this.bookingSlot.setAttribute('aria-label','Meeting scheduler');this.bookingSlot.setAttribute('role','region');
     const download=control('Keep a copy of my answer','hero-flow-edit');download.dataset.download='';
@@ -417,9 +416,9 @@ export class HeroInquiry {
   renderReceipt(){
     const receipt=this.receipt;
     const requested=receipt?.status==='requested';
-    this.heading(receipt?.preview&&!requested?'Preview complete.':receipt?.kind==='message'?'Thanks for reaching out.':requested?'Your request is in.':'You’re booked.',
-      receipt?.preview&&!requested?'You’ve reached the end of the inquiry preview.':receipt?.kind==='message'?'I look forward to continuing the conversation.':
-      requested?'Your call is waiting for my approval. Once I confirm, you’ll get the calendar invitation with the Google Meet link by email.':
+    this.heading(receipt?.preview&&!requested?'Preview complete.':receipt?.kind==='message'?C.doneMessageTitle:requested?C.doneMeetingTitle:'You’re booked.',
+      receipt?.preview&&!requested?'You’ve reached the end of the inquiry preview.':receipt?.kind==='message'?C.doneMessageText:
+      requested?C.doneMeetingText:
       receipt?.emailStatus==='accepted'?'Your Google Meet invitation and confirmation are on their way.':'Your meeting is saved. Keep the details below for reference.');
     if(receipt?.startTime)this.content.append(element('p','hero-flow-helper',formatMeeting({startTime:receipt.startTime,timeZone:this.meetingSelection?.timeZone||'UTC'})));
     const actions=element('div','hero-flow-actions hero-confirmation-actions');

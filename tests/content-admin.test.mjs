@@ -13,7 +13,7 @@ const post=(body,origin='http://localhost:4173')=>new Request('http://localhost:
 // The real content files, kept in memory.
 async function memoryStore(){
  const files=new Map();let n=0;
- for(const file of ['content/site.json','content/booking.json','content/case-studies.json'])files.set(file,{text:await read(file),version:'v0'});
+ for(const file of ['content/site.json','content/booking.json','content/case-studies.json','content/inquiry.json','content/featured.json'])files.set(file,{text:await read(file),version:'v0'});
  const uploads=new Map(),commits=[];
  return {files,uploads,commits,source:'local',
   async read(_env,file){return {...files.get(file)};},
@@ -158,53 +158,159 @@ test('Photos that aren’t images, or paths outside the site’s images, are ref
  assert.equal(store.uploads.size,0);assert.equal(store.files.get('content/site.json').version,'v0');
 });
 
-test('Case studies save their words and order; their ids and images stay tied together',async()=>{
+test('Case studies save their words, order and images, and can be hidden or deleted',async()=>{
  const {store,admin}=await setup();const {cases}=await sections(admin);
  const list=cases.values.studies;assert.equal(list.length,8);
- const reordered=[list[1],{...list[0],title:'  A rental   marketplace for neighbours. ',body:['First.','Second.'],facts:[{label:'Year',value:'2026',placeholder:true}]},...list.slice(2)];
- const response=await admin.save(local,post({section:'cases',version:cases.version,values:{studies:reordered}}));
+ const lendit=list[0];assert.equal(lendit.images.length,12);assert.equal(lendit.images[3].style,'phone');
+ const edited={...lendit,title:'  A rental   marketplace for neighbours. ',body:['First.','Second.'],facts:[{label:'Year',value:'2026',placeholder:true}],
+  images:[{...lendit.images[4],style:'screen',alt:' Booking  screen '},lendit.images[0]]};
+ const response=await admin.save(local,post({section:'cases',version:cases.version,values:{studies:[list[1],edited,...list.slice(2,7),{...list[7],hidden:true}]}}));
  assert.equal(response.status,200);
  const saved=JSON.parse(store.files.get('content/case-studies.json').text).studies;
- assert.deepEqual(saved.map(s=>s.id).slice(0,2),[list[1].id,list[0].id]);
+ assert.deepEqual(saved.map(s=>s.id).slice(0,2),[list[1].id,list[0].id]);assert.equal(saved.length,8);
  assert.equal(saved[1].title,'A rental marketplace for neighbours.');assert.deepEqual(saved[1].body,['First.','Second.']);assert.equal(saved[1].facts[0].placeholder,true);
- // Adding, dropping or renaming a study is refused: its images are set in code by id.
+ assert.equal(saved[1].images.length,2);assert.equal(saved[1].images[0].style,'screen');assert.equal(saved[1].images[0].alt,'Booking screen');assert.ok(saved[1].images[0].variants.length);
+ assert.equal(saved[7].hidden,true);
+ // Deleting one is just leaving it out.
  const {cases:fresh}=await sections(admin);
- const dropped=await admin.save(local,post({section:'cases',version:fresh.version,values:{studies:fresh.values.studies.slice(1)}}));
- assert.equal(dropped.status,409);
- const renamed=await admin.save(local,post({section:'cases',version:fresh.version,values:{studies:[{...fresh.values.studies[0],id:'new-one'},...fresh.values.studies.slice(1)]}}));
- assert.equal(renamed.status,409);
- const empty=await admin.save(local,post({section:'cases',version:fresh.version,values:{studies:[{...fresh.values.studies[0],body:[]},...fresh.values.studies.slice(1)]}}));
- assert.equal(empty.status,422);assert.match((await empty.json()).errors.studies,/paragraph/);
+ assert.equal((await admin.save(local,post({section:'cases',version:fresh.version,values:{studies:fresh.values.studies.slice(1)}}))).status,200);
+ assert.equal(JSON.parse(store.files.get('content/case-studies.json').text).studies.length,7);
 });
 
-test('Every case study in the content file has its images in the code, and the other way round',async()=>{
+test('A new case study can be saved as a hidden draft, but needs a title, story and cover to be shown',async()=>{
+ const {store,admin}=await setup();const {cases}=await sections(admin);
+ const draft={id:'study-abc12345',name:'New case study',category:'',title:'',body:[],facts:[],hidden:true,originalCover:false,thumbnail:null,images:[]};
+ assert.equal((await admin.save(local,post({section:'cases',version:cases.version,values:{studies:[...cases.values.studies,draft]}}))).status,200);
+ const {cases:next}=await sections(admin);
+ const shown=await admin.save(local,post({section:'cases',version:next.version,values:{studies:[...next.values.studies.slice(0,8),{...draft,hidden:false,title:'A title',body:['A story.']}]}}));
+ assert.equal(shown.status,422);assert.match((await shown.json()).errors.studies,/New case study: it needs a cover/);
+ // Two studies with the same id, or an image outside the site's assets, are refused.
+ assert.equal((await admin.save(local,post({section:'cases',version:next.version,values:{studies:[...next.values.studies,next.values.studies[0]]}}))).status,422);
+ const outside={...next.values.studies[0],images:[{src:'https://evil.example/x.jpg',width:10,height:10,alt:'',style:'photo'}]};
+ assert.equal((await admin.save(local,post({section:'cases',version:next.version,values:{studies:[outside,...next.values.studies.slice(1)]}}))).status,422);
+ const climbing={...next.values.studies[0],images:[{src:'/assets/../.dev.vars.jpg',width:10,height:10,alt:'',style:'photo'}]};
+ assert.equal((await admin.save(local,post({section:'cases',version:next.version,values:{studies:[climbing,...next.values.studies.slice(1)]}}))).status,422);
+ assert.equal(JSON.parse(store.files.get('content/case-studies.json').text).studies.at(-1).id,'study-abc12345');
+});
+
+test('Every case-study image exists, and studies with an original cover have it in code',async()=>{
  const {LAYOUT,loadStudies}=await import('../scripts/work-preview.mjs');
+ const {access}=await import('node:fs/promises');
  const {studies}=JSON.parse(await read('content/case-studies.json'));
- assert.deepEqual(studies.map(s=>s.id).sort(),LAYOUT.map(l=>l.id).sort());
- assert.equal((await loadStudies(fileURLToPath(new URL('../',import.meta.url)))).length,LAYOUT.length);
+ for(const study of studies){
+  if(study.originalCover)assert.ok(LAYOUT.some(l=>l.id===study.id),study.id);
+  for(const image of study.images)for(const file of [image.src,...(image.variants||[]).map(v=>v.image)])await access(new URL('../public'+file,import.meta.url));
+ }
+ assert.equal((await loadStudies(fileURLToPath(new URL('../',import.meta.url)))).length,studies.filter(s=>!s.hidden).length);
 });
 
-test('Case studies take an uploaded cover and added photos in one save',async()=>{
+test('Case studies take an uploaded cover and new images in one save',async()=>{
  const {store,admin}=await setup();const {cases}=await sections(admin);
  const png=Buffer.from([0x89,0x50,0x4e,0x47,13,10,26,10]).toString('base64'),jpeg=Buffer.from([0xff,0xd8,0xff,0xe1]).toString('base64');
  const [first,...others]=cases.values.studies;
- const edited={...first,thumbnail:{src:'upload:cover000001',width:800,height:600,fit:'fit'},photos:[{src:'upload:photo000001',width:2400,height:1500,alt:'  Team  workshop '},{src:'upload:photo000002',width:1200,height:1600,alt:''}]};
- const response=await admin.save(local,post({section:'cases',version:cases.version,values:{studies:[edited,...others]},uploads:{cover000001:{data:png,name:'lendit-cover'},photo000001:{data:jpeg,name:'lendit-photo'},photo000002:{data:jpeg,name:'lendit-photo'},unused00001:{data:jpeg}}}));
+ const edited={...first,thumbnail:{src:'upload:cover000001',width:800,height:600,fit:'fit'},images:[...first.images,{src:'upload:photo000001',width:2400,height:1500,alt:'  Team  workshop ',style:'photo'},{src:'upload:photo000002',width:800,height:1700,alt:'',style:'phone'}]};
+ const response=await admin.save(local,post({section:'cases',version:cases.version,values:{studies:[edited,...others]},uploads:{cover000001:{data:png,name:'lendit-cover'},photo000001:{data:jpeg,name:'lendit-image'},photo000002:{data:jpeg,name:'lendit-image'},unused00001:{data:jpeg}}}));
  assert.equal(response.status,200);
  assert.equal(store.commits.length,1);assert.equal(store.commits[0].paths.length,4);assert.match(store.commits[0].message,/with 3 new images/);
  const saved=JSON.parse(store.files.get('content/case-studies.json').text).studies[0];
- assert.match(saved.thumbnail.src,/^\/assets\/uploads\/lendit-cover-.*\.png$/);assert.equal(saved.thumbnail.fit,'fit');
- assert.equal(saved.photos.length,2);assert.equal(saved.photos[0].alt,'Team workshop');assert.match(saved.photos[1].src,/\.jpg$/);
- for(const photo of [saved.thumbnail,...saved.photos])assert.ok(store.uploads.has('public'+photo.src));
- // A token without its image is refused, and nothing is written.
+ assert.match(saved.thumbnail.src,/^\/assets\/uploads\/lendit-cover-.*\.png$/);
+ const added=saved.images.slice(-2);assert.equal(added[0].alt,'Team workshop');assert.equal(added[1].style,'phone');
+ for(const image of [saved.thumbnail,...added])assert.ok(store.uploads.has('public'+image.src));
  const {cases:fresh}=await sections(admin);
- const missing=await admin.save(local,post({section:'cases',version:fresh.version,values:{studies:[{...fresh.values.studies[0],photos:[{src:'upload:gone000001',width:10,height:10,alt:''}]},...fresh.values.studies.slice(1)]}}));
+ const missing=await admin.save(local,post({section:'cases',version:fresh.version,values:{studies:[{...fresh.values.studies[0],images:[{src:'upload:gone000001',width:10,height:10,alt:'',style:'photo'}]},...fresh.values.studies.slice(1)]}}));
  assert.equal(missing.status,422);assert.equal(store.commits.length,1);
 });
 
-test('The site shows an uploaded cover and the added photos',async()=>{
- const {cardArt}=await import('../scripts/work-preview.mjs');
- const study={id:'x',name:'X',category:'Y',cover:{laptop:'7code-laptop',width:1,height:1,alt:''},thumbnail:{src:'/assets/uploads/x.png',width:800,height:600,fit:'fit'}};
+test('The site shows an uploaded cover, groups images by style and leaves hidden studies out',async()=>{
+ const {cardArt,renderReader,loadStudies}=await import('../scripts/work-preview.mjs');
+ const study={id:'x',name:'X',category:'Y',title:'T',body:['One.','Two.'],facts:[],cover:{},thumbnail:{src:'/assets/uploads/x.png',width:800,height:600,fit:'fit'},
+  images:[{src:'/assets/uploads/a.jpg',width:2000,height:1250,alt:'A',style:'screen'},{src:'/assets/uploads/b.jpg',width:800,height:1700,alt:'B',style:'phone'},{src:'/assets/uploads/c.jpg',width:800,height:1700,alt:'C',style:'phone'},{src:'/assets/uploads/d.jpg',width:2000,height:1500,alt:'D',style:'photo'}]};
  assert.match(await cardArt('',study,new Map()),/^<img class="work-preview-cover" src="\/assets\/uploads\/x\.png"/);
  assert.match(await cardArt('',{...study,thumbnail:{...study.thumbnail,fit:'fill'}},new Map()),/^<span class="work-preview-photo"><img src="\/assets\/uploads\/x\.png"/);
+ const html=await renderReader('',study,0,new Map());
+ assert.match(html,/<div class="case-screens"><figure class="case-figure case-screen"><img src="\/assets\/uploads\/a\.jpg"[^>]*><\/figure><div class="case-phones">(<figure class="case-figure case-phone">.*?<\/figure>){2}<\/div><\/div><div class="case-gallery"><figure class="case-figure"><img src="\/assets\/uploads\/d\.jpg"/);
+ // One-paragraph story: the first photo moves beside the facts.
+ const short=await renderReader('',{...study,body:['One.'],images:[study.images[3],study.images[0]]},0,new Map());
+ assert.match(short,/<div class="case-lead"><figure class="case-figure"><img src="\/assets\/uploads\/d\.jpg"/);
+ const root=fileURLToPath(new URL('../',import.meta.url));
+ const all=(await loadStudies(root)).map(s=>s.id);assert.equal(all.length,8);
+});
+
+test('History lists content changes; undo restores the files from before an admin change in one commit',async()=>{
+ const A='a'.repeat(40),B='b'.repeat(40),P='c'.repeat(40),calls=[];
+ const before=JSON.stringify({studies:[{id:'x',name:'Before'}]},null,2)+'\n';
+ const fetcher=async(url,init={})=>{
+  calls.push({url,init,body:init.body?JSON.parse(init.body):null});
+  const at=url.replace('https://api.github.com/repos/mihailbobocwork-collab/mbdesign-website','');
+  if(at.startsWith('/commits?'))return Response.json([
+   {sha:A,parents:[{sha:P}],commit:{message:'Update case studies from the admin with 2 new images\n\nbody',committer:{date:'2026-11-24T10:00:00Z'}}},
+   {sha:B,parents:[{sha:A}],commit:{message:'Admin: sidebar, content editing',committer:{date:'2026-11-23T10:00:00Z'}}}]);
+  if(at===`/commits/${A}`)return Response.json({files:[{filename:'content/case-studies.json',status:'modified'},{filename:'public/assets/uploads/x.jpg',status:'added'},{filename:'public/assets/uploads/y.jpg',status:'added'}]});
+  if(at===`/commits/${B}`)return Response.json({files:[{filename:'content/site.json',status:'modified'},{filename:'lib/x.js',status:'modified'}]});
+  if(at===`/contents/content/case-studies.json?ref=${P}`)return Response.json({sha:'old',content:Buffer.from(before).toString('base64')});
+  if(at==='/git/ref/heads/main')return Response.json({object:{sha:'head-1'}});
+  if(at.startsWith('/git/commits/'))return Response.json({tree:{sha:'tree-0'}});
+  if(at==='/git/blobs')return Response.json({sha:'blob-1'});
+  if(at==='/git/trees')return Response.json({sha:'tree-1'});
+  if(at==='/git/commits')return Response.json({sha:'commit-undo'});
+  if(at==='/git/refs/heads/main')return Response.json({});
+  throw Error('unexpected '+at);
+ };
+ const auth=Object.assign(async()=>({email:'owner@example.com'}),{verify:async()=>({email:'owner@example.com'})});
+ const admin=createContentAdmin({auth,store:githubFiles({fetcher})});
+ const env={GITHUB_CONTENT_TOKEN:'token'};
+ const {changes}=await (await admin.history(env,new Request('https://site.example/api/admin/history'))).json();
+ assert.deepEqual(changes.map(c=>[c.sections.join(),c.images,c.undoable]),[['Case studies',2,true],['Homepage & About',0,false]]);
+ assert.equal(changes[0].message,'Update case studies from the admin with 2 new images');
+ const undo=sha=>admin.undo(env,new Request('https://site.example/api/admin/history',{method:'POST',headers:{Origin:'https://site.example'},body:JSON.stringify({sha})}));
+ const done=await (await undo(A)).json();
+ assert.equal(done.commit,'commit-undo');
+ const blob=calls.find(c=>c.url.endsWith('/git/blobs')).body;assert.equal(Buffer.from(blob.content,'base64').toString('utf8'),before);
+ assert.deepEqual(calls.find(c=>c.url.endsWith('/git/trees')).body.tree.map(t=>t.path),['content/case-studies.json']);
+ assert.equal(calls.find(c=>c.url.endsWith('/git/commits')&&c.body).body.message,'Undo “Update case studies from the admin with 2 new images”');
+ // A change published from code is never undone from the admin.
+ assert.equal((await undo(B)).status,422);
+ assert.equal((await undo('f'.repeat(40))).status,404);
+ assert.equal((await admin.undo(env,new Request('https://site.example/api/admin/history',{method:'POST',headers:{Origin:'https://evil.example'},body:JSON.stringify({sha:A})}))).status,403);
+ // The local preview has no history (it isn't a Git checkout).
+ const local=await (await createContentAdmin({localStore:{source:'local',read:async()=>({}),commit:async()=>({})}}).history({BOOKING_LOCAL:'true'},new Request('http://localhost:4173/api/admin/history'))).json();
+ assert.equal(local.unavailable,true);
+});
+
+test('The brand strip saves logos in order with their sizes, and takes a new uploaded logo',async()=>{
+ const {store,admin}=await setup();const {logos}=await sections(admin);
+ const brands=logos.values.brands;assert.equal(brands.length,9);assert.equal(brands.find(b=>b.name==='Fusion Works').node,'14:71');
+ const png=Buffer.from([0x89,0x50,0x4e,0x47,13,10,26,10]).toString('base64');
+ const next=[{...brands[3],width:200,height:47.25},...brands.slice(0,3),...brands.slice(4,8),{name:'  New   Client ',image:'upload:logo00000001',width:150,height:40}];
+ const response=await admin.save(local,post({section:'logos',version:logos.version,values:{brands:next},uploads:{logo00000001:{data:png,name:'logo'}}}));
+ assert.equal(response.status,200);
+ const saved=JSON.parse(store.files.get('content/featured.json').text).brands;
+ assert.deepEqual(saved.map(b=>b.name),[...[brands[3],...brands.slice(0,3),...brands.slice(4,8)].map(b=>b.name),'New Client']);
+ assert.equal(saved[0].width,200);assert.match(saved.at(-1).image,/^\/assets\/uploads\/logo-\d{14}-[a-f0-9-]{6}\.png$/);assert.ok(store.uploads.has('public'+saved.at(-1).image));
+ // Empty strips, nameless logos and outside images are refused.
+ const {logos:fresh}=await sections(admin);
+ for(const bad of [[],[{...brands[0],name:''}],[{...brands[0],image:'https://evil.example/x.png'}],[{...brands[0],width:9999}]])
+  assert.equal((await admin.save(local,post({section:'logos',version:fresh.version,values:{brands:bad}}))).status,422);
+});
+
+test('About details, principles and the closing invitation are editable and reach the About panel',async()=>{
+ const {store,admin}=await setup();const {about}=await sections(admin);
+ assert.equal(about.values.aboutFacts[0].label,'Role');assert.equal(about.values.aboutPrinciples.length,3);
+ const values={...about.values,aboutHeading:'Hello, I’m Mihai',aboutFacts:[{label:'  Role ',value:'Design partner '},{label:'Location',value:'Chișinău \r\n Working worldwide'}],aboutPrinciples:[],aboutCtaTitle:'Say hello'};
+ assert.equal((await admin.save(local,post({section:'about',version:about.version,values}))).status,200);
+ const site=JSON.parse(store.files.get('content/site.json').text);
+ assert.deepEqual(site.aboutFacts,[{label:'Role',value:'Design partner'},{label:'Location',value:'Chișinău\nWorking worldwide'}]);
+ const {renderAbout}=await import('../scripts/work-preview.mjs');
+ const {mkdtemp,mkdir,writeFile,rm}=await import('node:fs/promises');const os=await import('node:os');const path=await import('node:path');
+ const temp=await mkdtemp(path.join(os.tmpdir(),'mb-about-'));
+ try{
+  await mkdir(path.join(temp,'content'));await writeFile(path.join(temp,'content/site.json'),store.files.get('content/site.json').text);
+  const html=await renderAbout(temp);
+  assert.match(html,/<h2 id="about-title" tabindex="-1">Hello, I’m Mihai<\/h2>/);
+  assert.match(html,/<dt>Location<\/dt><dd>Chișinău<br>Working worldwide<\/dd>/);
+  assert.ok(!html.includes('case-principles'));assert.match(html,/<h3 id="about-cta">Say hello<\/h3>/);
+ }finally{await rm(temp,{recursive:true,force:true});}
+ // A detail without a value is refused.
+ const {about:fresh}=await sections(admin);
+ assert.equal((await admin.save(local,post({section:'about',version:fresh.version,values:{...fresh.values,aboutFacts:[{label:'Role',value:''}]}}))).status,422);
 });

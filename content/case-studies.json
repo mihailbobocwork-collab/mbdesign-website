@@ -38,8 +38,185 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/work-preview/lendit-desktop-listing.jpg",
+          "width": 2000,
+          "height": 1250,
+          "alt": "Lendit: item page with photos, price and booking request",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/lendit-desktop-messages.jpg",
+          "width": 2000,
+          "height": 1250,
+          "alt": "Lendit: messages with a booking request to confirm or decline",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/lendit-desktop-listings.jpg",
+          "width": 2000,
+          "height": 1250,
+          "alt": "Lendit: lender dashboard with listings and their status",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/lendit/7644cf0c681d4e.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/7644cf0c681d4e-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/7644cf0c681d4e-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 1 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/a0e67371d6a6e3.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/a0e67371d6a6e3-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/a0e67371d6a6e3-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 2 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/d6a104e068f385.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/d6a104e068f385-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/d6a104e068f385-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 3 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/ab213cc48fae52.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/ab213cc48fae52-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/ab213cc48fae52-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 4 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/d56a2f86870e99.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/d56a2f86870e99-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/d56a2f86870e99-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 5 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/51333deff91c73.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/51333deff91c73-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/51333deff91c73-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1746,
+          "alt": "Lendit: mobile screen 6 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/c99b6b435cbf7e.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/c99b6b435cbf7e-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/c99b6b435cbf7e-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 7 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/7ce8e113284a4b.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/7ce8e113284a4b-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/7ce8e113284a4b-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 8 of 9",
+          "style": "phone"
+        },
+        {
+          "src": "/assets/projects/lendit/1884a31ce4e2d6.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit/1884a31ce4e2d6-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit/1884a31ce4e2d6-786.webp",
+              "width": 786
+            }
+          ],
+          "width": 786,
+          "height": 1704,
+          "alt": "Lendit: mobile screen 9 of 9",
+          "style": "phone"
+        }
+      ]
     },
     {
       "id": "7code-web",
@@ -79,8 +256,60 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/work-preview/7code-desktop-home.jpg",
+          "width": 1440,
+          "height": 900,
+          "alt": "7Code: home page hero",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/7code-desktop-case-studies.jpg",
+          "width": 1440,
+          "height": 900,
+          "alt": "7Code: case studies on the home page",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/7code-desktop-why-7code.jpg",
+          "width": 1440,
+          "height": 900,
+          "alt": "7Code: why choose 7Code, with key numbers",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/7code-desktop-service.jpg",
+          "width": 1440,
+          "height": 900,
+          "alt": "7Code: Web & Mobile App Development service page",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/7code-desktop-case-study.jpg",
+          "width": 1440,
+          "height": 900,
+          "alt": "7Code: Daily8 case study page",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/7code-desktop-process.jpg",
+          "width": 1440,
+          "height": 900,
+          "alt": "7Code: Our Process page",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/7code-desktop-contact.jpg",
+          "width": 1440,
+          "height": 887,
+          "alt": "7Code: contact page with form and office details",
+          "style": "screen"
+        }
+      ]
     },
     {
       "id": "angen-ai",
@@ -119,8 +348,263 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/projects/angen-ai/477e5002b96468.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/477e5002b96468-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/477e5002b96468-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/477e5002b96468-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 1 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/8b13e0dbf004e5.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/8b13e0dbf004e5-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/8b13e0dbf004e5-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/8b13e0dbf004e5-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 2 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/9620ab7e38492e.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/9620ab7e38492e-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/9620ab7e38492e-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/9620ab7e38492e-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 3 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/38e825c1c616e2.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/38e825c1c616e2-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/38e825c1c616e2-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/38e825c1c616e2-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 4 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/f074fccd3e6168.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/f074fccd3e6168-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/f074fccd3e6168-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/f074fccd3e6168-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 5 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/fb888d6f3ba5d8.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/fb888d6f3ba5d8-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 6 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/fc71caf7a8df9c.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/fc71caf7a8df9c-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/fc71caf7a8df9c-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/fc71caf7a8df9c-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 7 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/626ca5b7ce5e78.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/626ca5b7ce5e78-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/626ca5b7ce5e78-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/626ca5b7ce5e78-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 8 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/75f20755d8c10d.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/75f20755d8c10d-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/75f20755d8c10d-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/75f20755d8c10d-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 9 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/4de1decde17573.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/4de1decde17573-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/4de1decde17573-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/4de1decde17573-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 10 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/f3be143d9edd3e.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/f3be143d9edd3e-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/f3be143d9edd3e-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/f3be143d9edd3e-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 11 of 12",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/projects/angen-ai/3282c214ea8d57.png",
+          "variants": [
+            {
+              "image": "/assets/projects/angen-ai/3282c214ea8d57-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/angen-ai/3282c214ea8d57-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/angen-ai/3282c214ea8d57-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 3456,
+          "height": 1808,
+          "alt": "Angen AI: screen 12 of 12",
+          "style": "screen"
+        }
+      ]
     },
     {
       "id": "wholesum",
@@ -159,8 +643,32 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/work-preview/wholesum-how-it-works.jpg",
+          "width": 1922,
+          "height": 760,
+          "alt": "WholeSum: how it works, from upload to analysis to insights",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/wholesum-desktop-upload.jpg",
+          "width": 2000,
+          "height": 1494,
+          "alt": "WholeSum: upload step with file validation and a quick guide",
+          "style": "screen"
+        },
+        {
+          "src": "/assets/work-preview/wholesum-desktop-analysis.jpg",
+          "width": 2000,
+          "height": 1250,
+          "alt": "WholeSum: analysis with sentiment, theme distribution and segmentation",
+          "style": "screen"
+        }
+      ]
     },
     {
       "id": "lendit-branding",
@@ -197,8 +705,158 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/projects/lendit-branding/9aef48dc4664eb.jpeg",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-branding/9aef48dc4664eb-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-branding/9aef48dc4664eb-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-branding/9aef48dc4664eb-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 4096,
+          "height": 2302,
+          "alt": "Lendit: image 1 of 7",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-branding/7d4227840b5e63.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-branding/7d4227840b5e63-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-branding/7d4227840b5e63-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-branding/7d4227840b5e63-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 4500,
+          "alt": "Lendit: image 2 of 7",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-branding/f302e4f5bd0919.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-branding/f302e4f5bd0919-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-branding/f302e4f5bd0919-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-branding/f302e4f5bd0919-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 8640,
+          "alt": "Lendit: image 3 of 7",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-branding/60454e198532a4.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-branding/60454e198532a4-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-branding/60454e198532a4-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-branding/60454e198532a4-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 2160,
+          "alt": "Lendit: image 4 of 7",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-branding/503542665f4087.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-branding/503542665f4087-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-branding/503542665f4087-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-branding/503542665f4087-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 3240,
+          "alt": "Lendit: image 5 of 7",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-branding/54051d186c5927.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-branding/54051d186c5927-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-branding/54051d186c5927-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-branding/54051d186c5927-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 4320,
+          "alt": "Lendit: image 6 of 7",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-branding/981306895d22d3.png",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-branding/981306895d22d3-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-branding/981306895d22d3-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-branding/981306895d22d3-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 4320,
+          "alt": "Lendit: image 7 of 7",
+          "style": "photo"
+        }
+      ]
     },
     {
       "id": "7code-branding",
@@ -235,8 +893,175 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/projects/7code/d790f1cd74e1ee.jpeg",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/d790f1cd74e1ee-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/d790f1cd74e1ee-808.webp",
+              "width": 808
+            }
+          ],
+          "width": 808,
+          "height": 505,
+          "alt": "7code: image 1 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/7code/c1a56d015e583a.png",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/c1a56d015e583a-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/c1a56d015e583a-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/7code/c1a56d015e583a-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 4320,
+          "alt": "7code: image 2 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/7code/63b025d4609a41.png",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/63b025d4609a41-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/63b025d4609a41-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/7code/63b025d4609a41-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 7560,
+          "alt": "7code: image 3 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/7code/4cb31ca5b673bc.png",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/4cb31ca5b673bc-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/4cb31ca5b673bc-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/7code/4cb31ca5b673bc-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 5400,
+          "alt": "7code: image 4 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/7code/a494e46464b9ad.png",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/a494e46464b9ad-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/a494e46464b9ad-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/7code/a494e46464b9ad-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 3240,
+          "alt": "7code: image 5 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/7code/d090d3fa37715b.png",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/d090d3fa37715b-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/d090d3fa37715b-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/7code/d090d3fa37715b-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 2160,
+          "alt": "7code: image 6 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/7code/c2431851a9565e.jpeg",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/c2431851a9565e-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/c2431851a9565e-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/7code/c2431851a9565e-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 11880,
+          "alt": "7code: image 7 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/7code/d1489c73d99c15.png",
+          "variants": [
+            {
+              "image": "/assets/projects/7code/d1489c73d99c15-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/7code/d1489c73d99c15-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/7code/d1489c73d99c15-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 1920,
+          "height": 1080,
+          "alt": "7code: image 8 of 8",
+          "style": "photo"
+        }
+      ]
     },
     {
       "id": "lendit-flyers",
@@ -273,8 +1098,74 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/projects/lendit-flyers/03725b78aca704.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-flyers/03725b78aca704-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-flyers/03725b78aca704-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-flyers/03725b78aca704-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2880,
+          "alt": "A5 Flyers: image 2 of 4",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-flyers/aa1be54e52fc33.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-flyers/aa1be54e52fc33-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2880,
+          "alt": "A5 Flyers: image 3 of 4",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-flyers/a5924e8a7714db.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-flyers/a5924e8a7714db-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-flyers/a5924e8a7714db-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-flyers/a5924e8a7714db-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2880,
+          "alt": "A5 Flyers: image 4 of 4",
+          "style": "photo"
+        }
+      ]
     },
     {
       "id": "lendit-gazebo",
@@ -311,8 +1202,158 @@
           "placeholder": false
         }
       ],
+      "hidden": false,
+      "originalCover": true,
       "thumbnail": null,
-      "photos": []
+      "images": [
+        {
+          "src": "/assets/projects/lendit-gazebo/49683e896a1186.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-gazebo/49683e896a1186-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/49683e896a1186-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/49683e896a1186-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2160,
+          "height": 2307,
+          "alt": "Event Gazebo: image 2 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-gazebo/8ea87c6e1305d0.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/8ea87c6e1305d0-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2880,
+          "alt": "Event Gazebo: image 3 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-gazebo/d997341dae1f62.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-gazebo/d997341dae1f62-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/d997341dae1f62-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/d997341dae1f62-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2880,
+          "alt": "Event Gazebo: image 4 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-gazebo/262c2f4d351838.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-gazebo/262c2f4d351838-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/262c2f4d351838-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/262c2f4d351838-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2880,
+          "alt": "Event Gazebo: image 5 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-gazebo/6e3cff7d207f80.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/6e3cff7d207f80-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2880,
+          "alt": "Event Gazebo: image 6 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-gazebo/f9d7abb769acbb.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/f9d7abb769acbb-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 2620,
+          "alt": "Event Gazebo: image 7 of 8",
+          "style": "photo"
+        },
+        {
+          "src": "/assets/projects/lendit-gazebo/b1830c29f73021.webp",
+          "variants": [
+            {
+              "image": "/assets/projects/lendit-gazebo/b1830c29f73021-640.webp",
+              "width": 640
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/b1830c29f73021-1280.webp",
+              "width": 1280
+            },
+            {
+              "image": "/assets/projects/lendit-gazebo/b1830c29f73021-1920.webp",
+              "width": 1920
+            }
+          ],
+          "width": 2304,
+          "height": 1879,
+          "alt": "Event Gazebo: image 8 of 8",
+          "style": "photo"
+        }
+      ]
     }
   ]
 }

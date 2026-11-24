@@ -48,7 +48,7 @@ Meetings are **requests until the owner approves them** (owner, 2026-11-24). Mes
 
 ## 5. Editing site content (admin)
 
-`/admin/content/` edits the homepage greeting and short biography, contact email, LinkedIn/Instagram links, the About photo and story, and meeting availability (days, hours, time zone, call length, start-time spacing, break, notice, how far ahead, days off). What each section can change is defined in `public/admin/content-schema.js`; every other key in `content/*.json` is left untouched.
+`/admin/content/` edits the case studies (words, cover, every image with its style and description, order, add/hide/delete), the inquiry wording (every question, option label and done screen; sidebar → Inquiry wording), the homepage greeting and short biography, contact email, LinkedIn/Instagram links, the About photo and story, and meeting availability (days, hours, time zone, call length, start-time spacing, break, notice, how far ahead, days off). What each section can change is defined in `public/admin/content-schema.js`; every other key in `content/*.json` is left untouched.
 
 New images (About photo, case-study covers and added photos) are resized in the browser, checked on the server (JPG/PNG/WebP, ≤5 MB each) and committed to `public/assets/uploads/` in the same single commit as the text, so each Publish triggers one rebuild.
 
@@ -60,6 +60,8 @@ One-time setup:
 2. Resource owner: `mihailbobocwork-collab`. Repository access: **Only select repositories** → `mbdesign-website`. Repository permissions: **Contents: Read and write** (nothing else). Choose an expiry and put a reminder in your calendar to renew it.
 3. Cloudflare → Workers & Pages → `mbdesign-website` → Settings → Variables and secrets → Production → Add → type **Secret**, name `GITHUB_CONTENT_TOKEN`, value = the token. Then redeploy (or publish anything).
 4. Optional: `GITHUB_CONTENT_REPO` / `GITHUB_CONTENT_BRANCH` if the repository or branch ever changes (defaults: `mihailbobocwork-collab/mbdesign-website`, `main`).
+
+**History** (`/admin/history/`) lists the latest content changes; a change made in the admin can be undone, which publishes the affected files as they were just before it (one new commit). Changes published from code are listed but can't be undone there.
 
 If the token expires or loses access, the Content tab says GitHub refused it; make a new token and replace the secret. On `npm run dev` the Content tab saves into this folder's `content/` files and rebuilds instead (no GitHub).
 

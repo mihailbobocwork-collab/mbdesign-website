@@ -1,21 +1,25 @@
+import COPY from './inquiry-copy.js';
+// The ids are fixed (stored with every request); the labels come from content/inquiry.json.
+export {COPY};
+const subject=(id,label)=>({id,label,prompt:`I’d like to discuss a ${label.toLowerCase()} project.`});
 export const SUBJECTS = [
-  {id:'product',label:'Product Design',prompt:'I’d like to discuss a product design project.'},
-  {id:'graphic',label:'Graphic Design',prompt:'I’d like to discuss a graphic design project.'},
-  {id:'brand',label:'Brand Identity',prompt:'I’d like to discuss a brand identity project.'}
+  subject('product',COPY.subjectProduct),
+  subject('graphic',COPY.subjectGraphic),
+  subject('brand',COPY.subjectBrand)
 ];
 
 export const ENGAGEMENTS = [
-  {id:'partnership',label:'Long-term partnership'},
-  {id:'project',label:'Project-based'}
+  {id:'partnership',label:COPY.engagementPartnership},
+  {id:'project',label:COPY.engagementProject}
 ];
 
 export const BUDGET_RANGES = [
-  {id:'under-1000',label:'Under €1,000'},
-  {id:'1000-2999',label:'€1,000–€2,999'},
-  {id:'3000-4999',label:'€3,000–€4,999'},
-  {id:'5000-9999',label:'€5,000–€9,999'},
-  {id:'10000-plus',label:'€10,000+'},
-  {id:'unsure',label:'Not sure yet'}
+  {id:'under-1000',label:COPY.budgetUnder1000},
+  {id:'1000-2999',label:COPY.budget1000},
+  {id:'3000-4999',label:COPY.budget3000},
+  {id:'5000-9999',label:COPY.budget5000},
+  {id:'10000-plus',label:COPY.budget10000},
+  {id:'unsure',label:COPY.budgetUnsure}
 ];
 
 export function budgetLabel({budget,engagement}) {
