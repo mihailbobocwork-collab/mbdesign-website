@@ -167,22 +167,13 @@ export class HeroInquiry {
 
   async morph(update,direction){
     if(this.motion.matches){update();return;}
+    if(direction==='enter'||direction==='leave'){
+      this.swap=this.fadeSwap(update);
+      try{await this.swap;}finally{this.swap=null;}
+      return;
+    }
     await this.settleKeyboard();
     if(!document.startViewTransition){
-      // Browsers without view transitions (older iOS Safari, in-app browsers) get the same idea:
-      // opening or closing fades the screen out in place, swaps it, then fades the new one in.
-      if(direction==='enter'||direction==='leave'){
-        const stage=[document.querySelector('body>.site-header'),document.querySelector('body>main')].filter(Boolean);
-        const fade=(from,to,options)=>Promise.all(stage.map(el=>this.transition.run(el,[{opacity:from},{opacity:to}],options)));
-        this.fallbackTransition=fade(1,0,{duration:340,easing:'cubic-bezier(.45,0,.55,1)'});
-        await this.fallbackTransition;
-        update();
-        this.fallbackTransition=fade(0,1,{duration:480,easing:'cubic-bezier(.33,0,.2,1)'});
-        await this.fallbackTransition;
-        this.fallbackTransition=null;
-        for(const el of stage)el.style.removeProperty('opacity');
-        return;
-      }
       update();
       const target=this.active?this.panel:this.idle;
       this.fallbackTransition=this.transition.run(target,[{opacity:.55},{opacity:1}],{duration:300});
@@ -205,6 +196,29 @@ export class HeroInquiry {
     }
   }
 
+  // Opening or closing the inquiry: fade the screen out in place, swap it while invisible
+  // (closing the phone keyboard there too), then fade the new screen in. No movement, no overlap.
+  async fadeSwap(update){
+    const header=document.querySelector('body>.site-header');
+    // On desktop the logo stays put; on phones the header shifts, so the logo fades with it.
+    const keepLogo=header&&!matchMedia('(max-width: 820px)').matches;
+    const stage=[...(keepLogo?[...header.children].filter(el=>!el.matches('.hero-brand')):[header]),document.querySelector('body>main'),document.querySelector('body>main+.wrap')].filter(Boolean);
+    const fade=(from,to,options)=>Promise.all(stage.map(el=>this.transition.run(el,[{opacity:from},{opacity:to}],options)));
+    this.fallbackTransition=fade(1,0,{duration:320,easing:'cubic-bezier(.45,0,.55,1)'});
+    try{
+      await this.fallbackTransition;
+      await this.settleKeyboard();
+      const html=document.documentElement;
+      html.dataset.heroSwapping='';
+      try{update();void document.body.offsetHeight;}
+      finally{delete html.dataset.heroSwapping;}
+      this.fallbackTransition=fade(0,1,{duration:480,easing:'cubic-bezier(.33,0,.2,1)'});
+      await this.fallbackTransition;
+    }finally{
+      this.fallbackTransition=null;
+      for(const el of stage)el.style.removeProperty('opacity');
+    }
+  }
   // On phones the keyboard closes as the next screen takes focus. Closing it mid-animation resizes
   // the viewport, which cancels the transition and makes the text jump, so let it close first.
   async settleKeyboard(){
@@ -441,7 +455,8 @@ export class HeroInquiry {
       const current=this.viewTransition;
       current.skipTransition();
       await current.finished;
-    }else if(this.fallbackTransition)await this.fallbackTransition;
+    }else if(this.swap)await this.swap;
+    else if(this.fallbackTransition)await this.fallbackTransition;
     if(!this.active||this.bookingBusy)return;
     this.messageAction?.destroy();
     this.capture();this.booking?.destroy();this.booking=null;this.active=false;this.busy=true;
