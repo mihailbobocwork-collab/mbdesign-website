@@ -74,7 +74,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - 🟡 Homepage Work grid (5 supplied Figma covers + 1 placeholder, CMS "Homepage work covers"). Hidden by limited mode.
 - 🟡 Eight imported case studies (96 local images, vertical layout with process timeline and CSS iPhone mockups). 7code Tech is a "Request this case study" page. Hidden by limited mode.
 - 🟡 Decap CMS + GitHub OAuth functions. Code exists; live sign-in is not verified.
-- 🟡 Google connection. Code exists; **no account connected**, so no real booking or email has been sent.
+- ✅ Google connection **live in production** (verified 2026-11-24: `/api/calendar` on mihaiboboc.com and pages.dev returns real slots, so Google + D1 `mihail-bookings` bound as `BOOKING_DB` + Turnstile are configured). Google Auth Platform publishing status: In production. A real end-to-end request → approve test is pending (owner).
 
 ## 6. Planned features (vision, not built)
 
@@ -170,7 +170,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 
 ## 10. Next priorities
 
-1. Owner: set up Cloudflare Access for `/admin/*` + `/api/admin/*` and add `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD` (+ optional `ADMIN_EMAILS`) to Pages (see `GOOGLE-SETUP.md` §4). Then a real end-to-end test: request → owner email → approve → guest invite; and decline.
+1. ✅ Cloudflare Access works (2026-11-24): owner signs in at mihaiboboc.com/admin/ (team `ancient-paper-7275`, `ACCESS_TEAM_DOMAIN` + `ACCESS_AUD` set in Pages Production; an earlier wrong `ACCESS_AUD` gave reason "audience"). Google + D1 + Turnstile are connected in production. Next: a real end-to-end test: request → owner email → approve → guest invite; and decline.
 2. CMS phase 2 (content editing), see §6.
 3. Make this folder a proper clone of GitHub `main` so future pushes don't need the copy-into-clone step.
 4. Make the tests pass (mode-aware tests or re-enable pages).
@@ -232,3 +232,6 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 | 2026-11-24 | Claude Code | Mobile hero tap: a finger tap on the heading now focuses the field from `touchend` (preventScroll, so iOS opens the keyboard without the page jumping) and sets `touchListening`, which keeps Listening open until a tap outside the hero (no more 2.5s timeout back to "Hey there"). Step changes inside the form use the same scripted fade (260ms out / 420ms in, panel only) on ≤1024px and WebKit/Safari; desktop Chrome/Edge keep the view transition. Checked in Chrome at iPhone 12 Pro with synthetic touch: listening persists 4s+, tap outside restores; steps only change while panel opacity ≈0. Not yet confirmed on a real iPhone. Tests 87/91 (same 4 known). Pushed 2026-11-24. |
 | 2026-11-24 | Claude Code | CMS phase 1 — meeting approval: bookings become private Google Calendar holds + `requested` D1 rows (answers in `result_json`), owner gets a request email, guest a "request received" email and an on-screen "Your request is in"; new `/admin/` (Requests: Waiting/Upcoming/Past, Approve & send invite, Decline with note) in the site's style; `lib/booking-admin.js`, `lib/admin-auth.js` (Cloudflare Access JWT), `functions/api/admin/bookings.js`, `_routes.json`; booking tests updated, `tests/booking-admin.test.mjs` added (93/97 pass, same 4 known). Privacy copy + GOOGLE-SETUP §4 updated. Pushed 2026-11-24 (owner set up Cloudflare Access). |
 | 2026-11-24 | Claude Code | Access live (team `ancient-paper-7275.cloudflareaccess.com`, app covers mihaiboboc.com `/admin` + `/api/admin`; vars set, redeployed `21752ae`). Owner saw "sign-in expired" (API 401) after signing in. `lib/admin-auth.js` now also reads the `CF_Authorization` cookie, trims the env values, imports only kty/n/e of the JWK, and the 401 carries a `reason` code (no_token/key/signature/audience/team_domain/expired/email) shown in the admin. Tests 93/97 (same 4). Pushed 2026-11-24. |
+| 2026-11-24 | Claude Code | Owner corrected `ACCESS_AUD`; redeployed (`da08e0e`). Owner confirmed the admin now opens after Access sign-in. |
+| 2026-11-24 | Claude Code | Confirmed production booking is connected (live availability from Google; D1 `mihail-bookings` bound; Google app In production). Owner to run the first real request → approve/decline test. |
+| 2026-11-24 | Claude Code | Guest-facing booking emails can be sent from a public address: `BOOKING_FROM_EMAIL` (owner wants `hello@mihaiboboc.com`; domain mail is Google Workspace, connected account is a gmail.com address, so hello@ must be added as a Gmail "Send mail as" alias). Owner notices unchanged. Test added (94/98, same 4). Pushed 2026-11-24; owner confirmed hello@ is a Send-as address of the connected Gmail and set `BOOKING_FROM_EMAIL`. |

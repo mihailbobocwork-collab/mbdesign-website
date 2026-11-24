@@ -141,3 +141,16 @@ test('Request emails are attempted once and a failed email never cancels the req
   }finally{s.db.close();}
  }
 });
+
+test('Guest emails come from the public address when one is set; owner notices stay on the connected account',async()=>{
+ const mails=[];const provider=createGoogleProvider({fetcher:async(url,options)=>{
+  if(url.includes('oauth2'))return Response.json({access_token:'mock'});
+  mails.push(Buffer.from(JSON.parse(options.body).raw,'base64url').toString('utf8'));return Response.json({id:'mail'});
+ }});
+ const publicEnv={...env,BOOKING_FROM_EMAIL:'hello@example.org'},data={id:'event',answers,startTime:input().startTime,timeZone:'Europe/Chisinau'};
+ await provider.requestReceived(publicEnv,data);assert.match(mails.at(-1),/^From: Mihai Boboc <hello@example.org>\r\nTo: alex@example.com\r\nReply-To: hello@example.org\r\n/);
+ await provider.declineNotice(publicEnv,{...data,note:''});assert.match(mails.at(-1),/^From: Mihai Boboc <hello@example.org>\r\n/);
+ await provider.meetingConfirmation(publicEnv,{...data,endTime:'2026-11-20T08:30:00Z',event:{id:'event',status:'confirmed'}});assert.match(mails.at(-1),/^From: Mihai Boboc <hello@example.org>\r\nTo: alex@example.com\r\nCc: owner@example.com\r\nReply-To: hello@example.org\r\n/);
+ await provider.requestNotice(publicEnv,{...data,adminUrl:'https://example.org/admin/'});assert.match(mails.at(-1),/^From: owner@example.com\r\nTo: owner@example.com\r\nReply-To: alex@example.com\r\n/);
+ await provider.requestReceived(env,data);assert.match(mails.at(-1),/^From: Mihai Boboc <owner@example.com>\r\n/);
+});
