@@ -9,6 +9,8 @@ import {BookingAction} from './booking-action.js';
 import {SUBJECTS,ENGAGEMENTS,BUDGET_RANGES,budgetLabel,emailError,topicFromMessage,formatMeeting} from './inquiry-details.js';
 
 export const FLOW_KEY = 'mihail:hero-flow:v1';
+const WEBKIT=typeof navigator!=='undefined'&&/AppleWebKit/.test(navigator.userAgent)&&!/Chrome|Chromium|Edg|OPR/.test(navigator.userAgent);
+const SCRIPTED_STEPS=()=>WEBKIT||matchMedia('(max-width: 1024px)').matches;
 export const STEP = Object.freeze({answer:0,engagement:1,budget:2,preference:3,calendar:4,email:5,review:6,complete:7});
 
 export function readFlow(storage,key=FLOW_KEY) {
@@ -167,19 +169,12 @@ export class HeroInquiry {
 
   async morph(update,direction){
     if(this.motion.matches){update();return;}
-    if(direction==='enter'||direction==='leave'){
-      this.swap=this.fadeSwap(update);
+    const whole=direction==='enter'||direction==='leave';
+    // Phones, tablets and Safari play view transitions as a dragging crossfade, so they get the
+    // scripted fade between questions too. Desktop Chrome/Edge keep the view transition.
+    if(whole||!document.startViewTransition||SCRIPTED_STEPS()){
+      this.swap=this.fadeSwap(update,whole);
       try{await this.swap;}finally{this.swap=null;}
-      return;
-    }
-    await this.settleKeyboard();
-    if(!document.startViewTransition){
-      update();
-      const target=this.active?this.panel:this.idle;
-      this.fallbackTransition=this.transition.run(target,[{opacity:.55},{opacity:1}],{duration:300});
-      await this.fallbackTransition;
-      this.fallbackTransition=null;
-      target.style.removeProperty('opacity');
       return;
     }
     const html=document.documentElement;
@@ -198,13 +193,13 @@ export class HeroInquiry {
 
   // Opening or closing the inquiry: fade the screen out in place, swap it while invisible
   // (closing the phone keyboard there too), then fade the new screen in. No movement, no overlap.
-  async fadeSwap(update){
+  async fadeSwap(update,whole=true){
     const header=document.querySelector('body>.site-header');
     // On desktop the logo stays put; on phones the header shifts, so the logo fades with it.
     const keepLogo=header&&!matchMedia('(max-width: 820px)').matches;
-    const stage=[...(keepLogo?[...header.children].filter(el=>!el.matches('.hero-brand')):[header]),document.querySelector('body>main'),document.querySelector('body>main+.wrap')].filter(Boolean);
+    const stage=whole?[...(keepLogo?[...header.children].filter(el=>!el.matches('.hero-brand')):[header]),document.querySelector('body>main'),document.querySelector('body>main+.wrap')].filter(Boolean):[this.panel];
     const fade=(from,to,options)=>Promise.all(stage.map(el=>this.transition.run(el,[{opacity:from},{opacity:to}],options)));
-    this.fallbackTransition=fade(1,0,{duration:320,easing:'cubic-bezier(.45,0,.55,1)'});
+    this.fallbackTransition=fade(1,0,{duration:whole?320:260,easing:'cubic-bezier(.45,0,.55,1)'});
     try{
       await this.fallbackTransition;
       await this.settleKeyboard();
@@ -212,7 +207,7 @@ export class HeroInquiry {
       html.dataset.heroSwapping='';
       try{update();void document.body.offsetHeight;}
       finally{delete html.dataset.heroSwapping;}
-      this.fallbackTransition=fade(0,1,{duration:480,easing:'cubic-bezier(.33,0,.2,1)'});
+      this.fallbackTransition=fade(0,1,{duration:whole?480:420,easing:'cubic-bezier(.33,0,.2,1)'});
       await this.fallbackTransition;
     }finally{
       this.fallbackTransition=null;

@@ -155,7 +155,33 @@ export class InteractiveTypewriter extends BaseElement {
       if(!event.defaultPrevented&&['ArrowDown','PageDown',' '].includes(event.key)&&
         overHomepage(event.target)) this.listenOnScroll();
     });
-    on(this.input, 'pointerdown', () => { this.hoverFocus = false; this.reveal(); });
+    on(this.input, 'pointerdown', event => {
+      this.hoverFocus = false;
+      // A finger tap is handled on touchend below, so iOS opens the keyboard.
+      if (event.pointerType !== 'touch') this.reveal();
+    });
+    // Tapping the heading on a phone: focus the field from the tap itself (iOS only opens the
+    // keyboard for focus inside the tap) without the page jumping, and keep Listening open
+    // until the visitor taps somewhere else, instead of timing out.
+    let tap = null;
+    this.input.addEventListener('touchstart', event => { tap = event.touches.length === 1 ? event.touches[0] : null; }, {passive:true, signal:this.events.signal});
+    this.input.addEventListener('touchend', event => {
+      const end = event.changedTouches[0];
+      const moved = !tap || !end || Math.hypot(end.clientX - tap.clientX, end.clientY - tap.clientY) > 10;
+      tap = null;
+      if (moved || document.activeElement === this.input) return;
+      event.preventDefault();
+      this.touchListening = true;
+      delete this.dataset.scrollListening;
+      clearTimeout(this.restoreTimer);
+      this.input.focus({preventScroll: true});
+      this.reveal();
+    }, {signal:this.events.signal});
+    on(document, 'pointerdown', event => {
+      if (!this.touchListening || event.target instanceof Node && (this.contains(event.target) || this.engagement?.contains(event.target) || this.portrait?.contains(event.target))) return;
+      this.touchListening = false;
+      this.scheduleRestore();
+    });
     on(this.input, 'focus', () => { this.reveal(); this.dataset.focused = 'true'; });
     on(this, 'focusout', () => queueMicrotask(() => {
       this.dataset.focused = String(document.activeElement === this.input);
@@ -272,7 +298,7 @@ export class InteractiveTypewriter extends BaseElement {
     }
     const active = document.activeElement;
     const editingFocus = this.contains(active) && active !== this.visual;
-    if (this.dataset.scrollListening === 'true' || this.hovered || this.engagementHovered || this.portraitHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
+    if (this.dataset.scrollListening === 'true' || this.touchListening || this.hovered || this.engagementHovered || this.portraitHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
     clearTimeout(this.finishTimer);
     this.finishTyping();
     this.dataset.editing = 'false';
@@ -305,7 +331,7 @@ export class InteractiveTypewriter extends BaseElement {
     this.dataset.focused = 'true';
   }
   returnToIntroduction() {
-    delete this.dataset.scrollListening;
+    delete this.dataset.scrollListening;this.touchListening=false;
     clearTimeout(this.restoreTimer);clearTimeout(this.finishTimer);
     this.finishTyping();this.composing=false;this.hovered=false;this.engagementHovered=false;this.portraitHovered=false;this.hoverFocus=false;
     if(document.activeElement===this.input)this.input.blur();
