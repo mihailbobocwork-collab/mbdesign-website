@@ -15,7 +15,7 @@ Google's external **Testing** mode may issue refresh tokens that expire after se
 
 ## 2. Set your meeting rules
 
-Edit **Booking availability** in the Git-backed CMS, or `content/booking.json` directly. Draft defaults: 30-minute meetings, weekdays 10:00–17:00 Europe/Chisinau, 30-minute start intervals, 15-minute buffers, 24-hour notice, and 60 days ahead. Add `blockedDates` in YYYY-MM-DD format. Time rules belong to the owner zone; visitors can view them in their own zone.
+Edit **Meeting availability** in `/admin/content/` (§5), or `content/booking.json` directly. Draft defaults: 30-minute meetings, weekdays 10:00–17:00 Europe/Chisinau, 30-minute start intervals, 15-minute buffers, 24-hour notice, and 60 days ahead. Add `blockedDates` in YYYY-MM-DD format. Time rules belong to the owner zone; visitors can view them in their own zone.
 
 `GOOGLE_CALENDAR_ID` defaults to the connected owner's primary calendar. If you select another one, it must be owned by that account and support Meet creation. Optional `GOOGLE_CHECK_CALENDARS` is a comma-separated list of additional calendars to check for conflicts. Any failed calendar check blocks availability rather than treating the calendar as empty.
 
@@ -41,6 +41,29 @@ Meetings are **requests until the owner approves them** (owner, 2026-11-24). Mes
 - Public sender (owner, 2026-11-24): guest-facing emails ("request received", "meeting confirmed", decline note) use `BOOKING_FROM_EMAIL` (e.g. `hello@mihaiboboc.com`, display name `BOOKING_FROM_NAME`, default "Mihai Boboc") as From and Reply-To. It must be a verified **Send mail as** address in the connected Gmail account (Gmail → Settings → Accounts and Import → Send mail as; SMTP `smtp.gmail.com:587` with an app password of the hello@ account), otherwise Gmail sends from the account itself. Owner notices and message inquiries still go from/to `BOOKING_HOST_EMAIL`. The Google Calendar invitation itself always comes from the connected calendar's account.
 - No D1 migration is needed: the new statuses and the stored answers live in the existing `booking_requests` table (`status`, `result_json`).
 - Local review: `npm run dev`, open `/admin/?sample` for labelled sample requests (nothing is sent). Loopback with `BOOKING_LOCAL` skips Access.
+
+### Messages inbox
+
+`/admin/messages/` lists messages sent from the inquiry form (kept in D1 about 90 days after the last activity). Opening one marks it read; **Send reply** emails the sender from `BOOKING_FROM_EMAIL` (falls back to the connected Gmail) with their message quoted, through the same Gmail connection, so replies also appear in that Gmail's Sent folder. The visitor's answer arrives at the public address like any other email. Review it locally with `/admin/messages/?sample` (nothing is sent).
+
+## 5. Editing site content (admin)
+
+`/admin/content/` edits the homepage greeting and short biography, contact email, LinkedIn/Instagram links, the About photo and story, and meeting availability (days, hours, time zone, call length, start-time spacing, break, notice, how far ahead, days off). What each section can change is defined in `public/admin/content-schema.js`; every other key in `content/*.json` is left untouched.
+
+New images (About photo, case-study covers and added photos) are resized in the browser, checked on the server (JPG/PNG/WebP, ≤5 MB each) and committed to `public/assets/uploads/` in the same single commit as the text, so each Publish triggers one rebuild.
+
+**Publish** commits the edited file to GitHub `main` (`lib/content-admin.js`, GitHub contents API). Cloudflare Pages then rebuilds the site from that commit, so changes are live about a minute later; the admin waits for `/admin/version.json` (written by the build from `CF_PAGES_COMMIT_SHA`) to show "Live on the site". Each save checks the file's version first, so an edit made elsewhere in the meantime is never overwritten (the admin asks you to reload).
+
+One-time setup:
+
+1. GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token.
+2. Resource owner: `mihailbobocwork-collab`. Repository access: **Only select repositories** → `mbdesign-website`. Repository permissions: **Contents: Read and write** (nothing else). Choose an expiry and put a reminder in your calendar to renew it.
+3. Cloudflare → Workers & Pages → `mbdesign-website` → Settings → Variables and secrets → Production → Add → type **Secret**, name `GITHUB_CONTENT_TOKEN`, value = the token. Then redeploy (or publish anything).
+4. Optional: `GITHUB_CONTENT_REPO` / `GITHUB_CONTENT_BRANCH` if the repository or branch ever changes (defaults: `mihailbobocwork-collab/mbdesign-website`, `main`).
+
+If the token expires or loses access, the Content tab says GitHub refused it; make a new token and replace the secret. On `npm run dev` the Content tab saves into this folder's `content/` files and rebuilds instead (no GitHub).
+
+**For agents:** admin edits land on GitHub `main` only. Before copying this folder into a clone to publish, pull `content/` changes made through the admin back into this folder first, or the copy will undo them.
 
 ## What happens for visitors
 

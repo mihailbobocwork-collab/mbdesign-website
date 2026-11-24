@@ -1,0 +1,318 @@
+{
+  "studies": [
+    {
+      "id": "lendit",
+      "name": "Lendit",
+      "category": "Product design · Marketplace",
+      "title": "A rental marketplace for neighbours.",
+      "body": [
+        "People already borrow from friends, put projects off, or buy a tool they’ll use once. Lendit set out to let neighbours rent everyday things to each other: drills, ladders, cameras. A stranger lending to a stranger only works if both sides trust what they see.",
+        "I was the only designer, working with four developers from August 2025. I took Lendit from research and user flows to wireframes and the web and mobile UI. Then I built the design system the team ships from, with 100+ components and 500+ variables.",
+        "Every screen puts trust before money. Cards lead with the lender’s face, name and distance. A booking starts as a request, and nothing is charged until the lender accepts. AI Quick Listing drafts a listing from photos, but the lender approves it before it goes live. Lendit is live and has passed 500 users.",
+        "Testing hasn’t stopped. An early review of the item card picked the version that leads with the person and rounds ratings to whole stars. That hierarchy now anchors every listing."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "Peer-to-peer rental marketplace",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "500+ users",
+          "placeholder": false
+        },
+        {
+          "label": "Year",
+          "value": "2025–present",
+          "placeholder": false
+        },
+        {
+          "label": "The work",
+          "value": "Product design, UX research, Design system",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Product Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    },
+    {
+      "id": "7code-web",
+      "name": "7code",
+      "category": "Web design",
+      "title": "A new brand and website for 7Code.",
+      "body": [
+        "7Code designs and builds AI-native products, LLM features and the cloud behind them, but its website read like any other software agency. Its three service lines looked the same, the client work was buried, and there was no brand system behind any of it.",
+        "I was the only designer, working directly with the 7Code founders from February 2026. I took 7Code from discovery meetings and a sitemap to low-fidelity wireframes, a new brand identity and the full UI for desktop, tablet and mobile. Then I built the design system the site ships from, with 281 components and 523 variables, and turned the design into a working site with a Git-based CMS.",
+        "Every page shows the engineering instead of describing it. The services became three distinct lines in a mega menu, and every case study follows the same Problem, Solution and Outcome structure. The stats count up on screen instead of hiding behind adjectives. In the hero, a soft cyan form follows the cursor on a spring, capped so it never pulls focus from the headline. 7Code launched the new site in September 2026.",
+        "All content runs through seven CMS collections. Six case studies, 25 articles and six expertise pages are already in it, so 7Code adds new work as an entry, not a redesign."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "AI-native software engineering",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "Launched September 2026",
+          "placeholder": true
+        },
+        {
+          "label": "Year",
+          "value": "2026",
+          "placeholder": false
+        },
+        {
+          "label": "The work",
+          "value": "Brand identity, Product design, Design system, Design engineering",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Brand Design, Product Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    },
+    {
+      "id": "angen-ai",
+      "name": "Angen AI",
+      "category": "Product design · Developer tools",
+      "title": "A developer workspace for Angen AI.",
+      "body": [
+        "Angen AI turns natural-language tasks into production-ready code. The product worked, but it felt like a generic chat app. Navigation mixed tools, resources and settings, switching tasks broke focus, and context like files and knowledge sat apart from the work.",
+        "I was the UI/UX designer, working with three developers for 16 weeks, from April to July 2025. I reviewed tools like GitHub Copilot and Cursor and gathered developer feedback. Then I explored wireframes, redesigned the layout, sidebar, workbench and context panel, and built the design system with light and dark themes.",
+        "The idea was structure over novelty, turning an AI coding prototype into a workspace built for developers. A three-panel layout mirrors modern IDEs. The workbench is task-first, with separate Plan and Code modes, and tabs keep several tasks open at once. Angen AI went from a functional prototype to a tool that feels made for engineers."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "AI developer tools",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "Redesign shipped to early teams",
+          "placeholder": true
+        },
+        {
+          "label": "Year",
+          "value": "2025",
+          "placeholder": false
+        },
+        {
+          "label": "The work",
+          "value": "Product design, UX research, Design system",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Product Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    },
+    {
+      "id": "wholesum",
+      "name": "WholeSum",
+      "category": "Product design · Research SaaS",
+      "title": "An AI workspace for qualitative research.",
+      "body": [
+        "Researchers working with interviews, surveys and open-ended responses struggle to organise unstructured text. Existing tools were too manual, too complex, or produced shallow AI summaries that were hard to trust in a client report. WholeSum set out to turn raw interviews into client-ready research.",
+        "I was the UI/UX designer, working with two developers for 10 weeks, from August to October 2025. We started from the founders’ direction, user interviews and real analysis artefacts. Then we moved through user stories, personas and flows into high-fidelity design, a style guide and a detailed developer handoff.",
+        "Everything follows how analysts already work: upload, process, explore, refine, export. AI suggests themes, matrices and summaries, and the researcher can edit, merge and reorganise every one of them, so speed never costs rigour."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "Qualitative research SaaS",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "Handed off for pilot launch",
+          "placeholder": true
+        },
+        {
+          "label": "Year",
+          "value": "2025",
+          "placeholder": false
+        },
+        {
+          "label": "The work",
+          "value": "Product design, Style guide, Developer handoff",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Product Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    },
+    {
+      "id": "lendit-branding",
+      "name": "Lendit",
+      "category": "Brand identity",
+      "title": "A visual identity for Lendit.",
+      "body": [
+        "A complete visual identity system for Lendit, the UK app that helps neighbours borrow and lend everyday things. The work runs from the logo to the brand guidelines."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "Peer-to-peer rental marketplace",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "Rolled out across app, web and print",
+          "placeholder": true
+        },
+        {
+          "label": "Year",
+          "value": "2025",
+          "placeholder": true
+        },
+        {
+          "label": "The work",
+          "value": "Logo design, Brand guidelines",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Brand Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    },
+    {
+      "id": "7code-branding",
+      "name": "7code",
+      "category": "Brand identity",
+      "title": "A brand identity for 7code.",
+      "body": [
+        "A complete brand identity for 7code, covering logo design, colour system, typography and overall visual language."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "Software development studio",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "Adopted across 7code’s website and materials",
+          "placeholder": true
+        },
+        {
+          "label": "Year",
+          "value": "2025",
+          "placeholder": true
+        },
+        {
+          "label": "The work",
+          "value": "Logo design, Brand guidelines",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Brand Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    },
+    {
+      "id": "lendit-flyers",
+      "name": "A5 Flyers",
+      "category": "Lendit · Print design",
+      "title": "A5 leaflets for Lendit.",
+      "body": [
+        "A set of A5 leaflets that get neighbours borrowing and lending with Lendit. Each leaflet has one clear job: get people borrowing, get people lending what’s already in their shed, or show existing lenders why they’d keep more on Lendit. We kept the copy short, used real app screens and photos of real handovers, and added local QR codes so every leaflet feels like it’s from the neighbourhood."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "Peer-to-peer rental marketplace",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "Distributed in Lendit’s launch neighbourhoods",
+          "placeholder": true
+        },
+        {
+          "label": "Year",
+          "value": "2025",
+          "placeholder": true
+        },
+        {
+          "label": "The work",
+          "value": "Print design",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Graphic Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    },
+    {
+      "id": "lendit-gazebo",
+      "name": "Event Gazebo",
+      "category": "Lendit · Branding",
+      "title": "An event gazebo for Lendit.",
+      "body": [
+        "From the print template to the street. I designed the full 3×3m gazebo for Lendit, the app for borrowing anything from your neighbours: the roof, back wall and half walls, all in the bold pink-to-orange style and built so people get the idea at a glance."
+      ],
+      "facts": [
+        {
+          "label": "Sector",
+          "value": "Peer-to-peer rental marketplace",
+          "placeholder": false
+        },
+        {
+          "label": "Result",
+          "value": "Used at local community street festivals",
+          "placeholder": false
+        },
+        {
+          "label": "Year",
+          "value": "2025",
+          "placeholder": true
+        },
+        {
+          "label": "The work",
+          "value": "Creative design, Print design",
+          "placeholder": false
+        },
+        {
+          "label": "Related",
+          "value": "Graphic Design",
+          "placeholder": false
+        }
+      ],
+      "thumbnail": null,
+      "photos": []
+    }
+  ]
+}

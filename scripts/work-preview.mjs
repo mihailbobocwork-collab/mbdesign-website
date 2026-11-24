@@ -6,21 +6,15 @@ import path from 'node:path';
 import {readFile} from 'node:fs/promises';
 import {responsiveImage} from './case-study.mjs';
 
-const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const fact = (label, value, placeholder = false) => ({label, value, placeholder});
+const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
-// The first four are always visible; the rest appear with "More".
-export const studies = [
+// Images and layout of each case study, by id. The words (name, category, title, story, facts) and
+// the order live in content/case-studies.json, edited in the admin. The first four are always
+// visible; the rest appear with "More".
+export const LAYOUT = [
   {
-    id: 'lendit', name: 'Lendit', category: 'Product design · Marketplace', cover: {homeCover: 'lendit-product'},
-    title: 'A rental marketplace for neighbours.',
-    body: [
-      'People already borrow from friends, put projects off, or buy a tool they’ll use once. Lendit set out to let neighbours rent everyday things to each other: drills, ladders, cameras. A stranger lending to a stranger only works if both sides trust what they see.',
-      'I was the only designer, working with four developers from August 2025. I took Lendit from research and user flows to wireframes and the web and mobile UI. Then I built the design system the team ships from, with 100+ components and 500+ variables.',
-      'Every screen puts trust before money. Cards lead with the lender’s face, name and distance. A booking starts as a request, and nothing is charged until the lender accepts. AI Quick Listing drafts a listing from photos, but the lender approves it before it goes live. Lendit is live and has passed 500 users.',
-      'Testing hasn’t stopped. An early review of the item card picked the version that leads with the person and rounds ratings to whole stars. That hierarchy now anchors every listing.'
-    ],
-    facts: [fact('Sector', 'Peer-to-peer rental marketplace'), fact('Result', '500+ users'), fact('Year', '2025–present'), fact('The work', 'Product design, UX research, Design system'), fact('Related', 'Product Design')],
+    id: 'lendit', cover: {homeCover: 'lendit-product'},
     // Product screens without device mockups: owner-supplied desktop screens, then the app's mobile screens (project images 14–22).
     screens: {
       desktop: [
@@ -32,15 +26,7 @@ export const studies = [
     }
   },
   {
-    id: '7code-web', name: '7code', category: 'Web design', cover: {laptop: '7code-laptop', width: 976, height: 596, alt: '7code website on a laptop'},
-    title: 'A new brand and website for 7Code.',
-    body: [
-      '7Code designs and builds AI-native products, LLM features and the cloud behind them, but its website read like any other software agency. Its three service lines looked the same, the client work was buried, and there was no brand system behind any of it.',
-      'I was the only designer, working directly with the 7Code founders from February 2026. I took 7Code from discovery meetings and a sitemap to low-fidelity wireframes, a new brand identity and the full UI for desktop, tablet and mobile. Then I built the design system the site ships from, with 281 components and 523 variables, and turned the design into a working site with a Git-based CMS.',
-      'Every page shows the engineering instead of describing it. The services became three distinct lines in a mega menu, and every case study follows the same Problem, Solution and Outcome structure. The stats count up on screen instead of hiding behind adjectives. In the hero, a soft cyan form follows the cursor on a spring, capped so it never pulls focus from the headline. 7Code launched the new site in September 2026.',
-      'All content runs through seven CMS collections. Six case studies, 25 articles and six expertise pages are already in it, so 7Code adds new work as an entry, not a redesign.'
-    ],
-    facts: [fact('Sector', 'AI-native software engineering'), fact('Result', 'Launched September 2026', true), fact('Year', '2026'), fact('The work', 'Brand identity, Product design, Design system, Design engineering'), fact('Related', 'Brand Design, Product Design')],
+    id: '7code-web', cover: {laptop: '7code-laptop', width: 976, height: 596, alt: '7code website on a laptop'},
     // Website screens from Figma (170:14420), without a device mockup.
     screens: {
       desktop: [
@@ -55,26 +41,12 @@ export const studies = [
     }
   },
   {
-    id: 'angen-ai', name: 'Angen AI', category: 'Product design · Developer tools', cover: {laptop: 'angen-ai-laptop', width: 392, height: 226, alt: 'Angen AI development workspace shown on a MacBook'},
-    title: 'A developer workspace for Angen AI.',
-    body: [
-      'Angen AI turns natural-language tasks into production-ready code. The product worked, but it felt like a generic chat app. Navigation mixed tools, resources and settings, switching tasks broke focus, and context like files and knowledge sat apart from the work.',
-      'I was the UI/UX designer, working with three developers for 16 weeks, from April to July 2025. I reviewed tools like GitHub Copilot and Cursor and gathered developer feedback. Then I explored wireframes, redesigned the layout, sidebar, workbench and context panel, and built the design system with light and dark themes.',
-      'The idea was structure over novelty, turning an AI coding prototype into a workspace built for developers. A three-panel layout mirrors modern IDEs. The workbench is task-first, with separate Plan and Code modes, and tabs keep several tasks open at once. Angen AI went from a functional prototype to a tool that feels made for engineers.'
-    ],
-    facts: [fact('Sector', 'AI developer tools'), fact('Result', 'Redesign shipped to early teams', true), fact('Year', '2025'), fact('The work', 'Product design, UX research, Design system'), fact('Related', 'Product Design')],
+    id: 'angen-ai', cover: {laptop: 'angen-ai-laptop', width: 392, height: 226, alt: 'Angen AI development workspace shown on a MacBook'},
     // The final UI screens from the project (images 18–29: workspace, work items, media library, light and dark), no mockup.
     screens: {projectDesktop: {project: 'angen-ai', from: 17, to: 29}}
   },
   {
-    id: 'wholesum', name: 'WholeSum', category: 'Product design · Research SaaS', cover: {laptop: 'wholesum-laptop', width: 392, height: 226, alt: 'WholeSum research platform landing page shown on a MacBook'},
-    title: 'An AI workspace for qualitative research.',
-    body: [
-      'Researchers working with interviews, surveys and open-ended responses struggle to organise unstructured text. Existing tools were too manual, too complex, or produced shallow AI summaries that were hard to trust in a client report. WholeSum set out to turn raw interviews into client-ready research.',
-      'I was the UI/UX designer, working with two developers for 10 weeks, from August to October 2025. We started from the founders’ direction, user interviews and real analysis artefacts. Then we moved through user stories, personas and flows into high-fidelity design, a style guide and a detailed developer handoff.',
-      'Everything follows how analysts already work: upload, process, explore, refine, export. AI suggests themes, matrices and summaries, and the researcher can edit, merge and reorganise every one of them, so speed never costs rigour.'
-    ],
-    facts: [fact('Sector', 'Qualitative research SaaS'), fact('Result', 'Handed off for pilot launch', true), fact('Year', '2025'), fact('The work', 'Product design, Style guide, Developer handoff'), fact('Related', 'Product Design')],
+    id: 'wholesum', cover: {laptop: 'wholesum-laptop', width: 392, height: 226, alt: 'WholeSum research platform landing page shown on a MacBook'},
     // Owner-supplied screens, no device mockup.
     screens: {
       desktop: [
@@ -85,32 +57,28 @@ export const studies = [
     }
   },
   {
-    id: 'lendit-branding', name: 'Lendit', category: 'Brand identity', cover: {homeCover: 'lendit-identity'}, project: 'lendit-branding',
-    title: 'A visual identity for Lendit.',
-    body: ['A complete visual identity system for Lendit, the UK app that helps neighbours borrow and lend everyday things. The work runs from the logo to the brand guidelines.'],
-    facts: [fact('Sector', 'Peer-to-peer rental marketplace'), fact('Result', 'Rolled out across app, web and print', true), fact('Year', '2025', true), fact('The work', 'Logo design, Brand guidelines'), fact('Related', 'Brand Design')]
+    id: 'lendit-branding', cover: {homeCover: 'lendit-identity'}, project: 'lendit-branding',
   },
   {
-    id: '7code-branding', name: '7code', category: 'Brand identity', cover: {homeCover: '7code-identity'}, project: '7code',
-    title: 'A brand identity for 7code.',
-    body: ['A complete brand identity for 7code, covering logo design, colour system, typography and overall visual language.'],
-    facts: [fact('Sector', 'Software development studio'), fact('Result', 'Adopted across 7code’s website and materials', true), fact('Year', '2025', true), fact('The work', 'Logo design, Brand guidelines'), fact('Related', 'Brand Design')]
+    id: '7code-branding', cover: {homeCover: '7code-identity'}, project: '7code',
   },
   {
-    id: 'lendit-flyers', name: 'A5 Flyers', category: 'Lendit · Print design', cover: {projectImage: true}, project: 'lendit-flyers',
-    title: 'A5 leaflets for Lendit.',
-    body: ['A set of A5 leaflets that get neighbours borrowing and lending with Lendit. Each leaflet has one clear job: get people borrowing, get people lending what’s already in their shed, or show existing lenders why they’d keep more on Lendit. We kept the copy short, used real app screens and photos of real handovers, and added local QR codes so every leaflet feels like it’s from the neighbourhood.'],
-    facts: [fact('Sector', 'Peer-to-peer rental marketplace'), fact('Result', 'Distributed in Lendit’s launch neighbourhoods', true), fact('Year', '2025', true), fact('The work', 'Print design'), fact('Related', 'Graphic Design')]
+    id: 'lendit-flyers', cover: {projectImage: true}, project: 'lendit-flyers',
   },
   {
-    id: 'lendit-gazebo', name: 'Event Gazebo', category: 'Lendit · Branding', cover: {projectImage: true}, project: 'lendit-gazebo',
-    title: 'An event gazebo for Lendit.',
-    body: ['From the print template to the street. I designed the full 3×3m gazebo for Lendit, the app for borrowing anything from your neighbours: the roof, back wall and half walls, all in the bold pink-to-orange style and built so people get the idea at a glance.'],
-    facts: [fact('Sector', 'Peer-to-peer rental marketplace'), fact('Result', 'Used at local community street festivals'), fact('Year', '2025', true), fact('The work', 'Creative design, Print design'), fact('Related', 'Graphic Design')]
+    id: 'lendit-gazebo', cover: {projectImage: true}, project: 'lendit-gazebo',
   }
 ];
 
 export const VISIBLE = 4;
+
+// Case studies in the saved order, each with its words and its layout. A study without a layout
+// (or a layout without words) is left out rather than half-rendered.
+export async function loadStudies(root) {
+  const {studies} = JSON.parse(await readFile(path.join(root, 'content/case-studies.json'), 'utf8'));
+  const layout = new Map(LAYOUT.map(item => [item.id, item]));
+  return studies.filter(study => layout.has(study.id)).map(study => ({...layout.get(study.id), ...study}));
+}
 
 async function projectImages(root, slug) {
   const project = JSON.parse(await readFile(path.join(root, 'content/projects', slug + '.json'), 'utf8'));
@@ -137,6 +105,13 @@ const device = key => {
 
 // Card artwork: supplied laptop renders, homepage covers, or the project's own first photo.
 export async function cardArt(root, study, byId) {
+  // A cover uploaded in the admin replaces the one set in code: "fill" crops it to the card like a
+  // photo, "fit" shows it whole (logos, mockups with a transparent background).
+  if (study.thumbnail) {
+    const {src, width, height, fit} = study.thumbnail;
+    const tag = `<img src="${escape(src)}" alt="${escape(`${study.name}: ${study.category}`)}" width="${width}" height="${height}" decoding="async">`;
+    return fit === 'fill' ? `<span class="work-preview-photo">${tag}</span>` : tag.replace('<img ', '<img class="work-preview-cover" ');
+  }
   // Owner-supplied transparent laptop renders (7code, Angen AI, WholeSum).
   if (study.cover.laptop) return `<img class="work-preview-cover" src="/assets/work-preview/${study.cover.laptop}.png" alt="${escape(study.cover.alt)}" width="${study.cover.width}" height="${study.cover.height}"${device(study.cover.laptop)}>`;
   if (study.cover.projectImage) {
@@ -186,11 +161,31 @@ async function studyImages(root, study) {
   if (!study.project) return {lead: '', rest: ''};
   const images = await projectImages(root, study.project);
   const figure = (block, i) => `<figure class="case-figure">${img(block, `${study.name}: image ${i + 1} of ${images.length}`)}</figure>`;
-  const start = study.cover.projectImage ? 1 : 0;
+  const start = study.cover.projectImage && !study.thumbnail ? 1 : 0;
   const useLead = study.body.length <= 1 && images.length > start;
   const lead = useLead ? `<div class="case-lead">${figure(images[start], start).replace('loading="lazy" ', '')}</div>` : '';
   const rest = images.slice(start + (useLead ? 1 : 0)).map((block, i) => figure(block, start + (useLead ? 1 : 0) + i)).join('');
   return {lead, rest: rest ? `<div class="case-gallery">${rest}</div>` : ''};
+}
+
+// Photos added in the admin, after the images set in code.
+function addedPhotos(study) {
+  if (!study.photos?.length) return '';
+  return `<div class="case-gallery">${study.photos.map(({src, width, height, alt}, i) =>
+    `<figure class="case-figure"><img src="${escape(src)}" alt="${escape(alt || `${study.name}: photo ${i + 1}`)}" width="${width}" height="${height}" loading="lazy" decoding="async"></figure>`).join('')}</div>`;
+}
+
+// The cover set in code, as one image the admin can preview next to "Use the original cover".
+export async function defaultThumbs(root) {
+  const {covers} = JSON.parse(await readFile(path.join(root, 'content/home-work.json'), 'utf8'));
+  const byId = new Map(covers.map(cover => [cover.id, cover]));
+  const thumbs = {};
+  for (const study of LAYOUT) {
+    if (study.cover.laptop) thumbs[study.id] = {src: `/assets/work-preview/${study.cover.laptop}.png`, fit: 'fit'};
+    else if (study.cover.projectImage) { const [first] = await projectImages(root, study.project); thumbs[study.id] = {src: first.variants?.[0]?.image || first.image, fit: 'fill'}; }
+    else { const cover = byId.get(study.cover.homeCover); thumbs[study.id] = {src: cover.image, fit: 'fit', identity: cover.kind === 'identity'}; }
+  }
+  return thumbs;
 }
 
 export async function renderReader(root, study, index, byId) {
@@ -208,7 +203,7 @@ export async function renderReader(root, study, index, byId) {
           <dl class="case-facts">${facts}</dl>
         </div>
       </header>
-      ${await heroFigure(root, study, byId)}${await screensFigure(root, study)}${rest}
+      ${await heroFigure(root, study, byId)}${await screensFigure(root, study)}${rest}${addedPhotos(study)}
       <aside class="case-cta" aria-labelledby="case-cta-${index}">
         <div>
           <h3 id="case-cta-${index}">Want to learn more about this project?</h3>
@@ -243,7 +238,7 @@ export async function renderAbout(root) {
     <article class="case case-about">
       <header class="case-head about-intro">
         <div class="about-side">
-          <figure class="about-photo"><img src="/assets/about/mihail-boboc.jpg" alt="${escape(site.name)}" width="1200" height="1200" decoding="async"></figure>
+          <figure class="about-photo"><img src="${escape(site.aboutPhoto || '/assets/about/mihail-boboc.jpg')}" alt="${escape(site.name)}" width="1200" height="1200" decoding="async"></figure>
           <dl class="case-facts about-facts">${facts}</dl>
         </div>
         <div class="about-main">
@@ -270,6 +265,7 @@ export async function renderAbout(root) {
 
 // Markup for the homepage: the work preview overlay, its trigger, the About link and the focus-view dialog.
 export async function workPreview(root) {
+  const studies = await loadStudies(root);
   const {covers} = JSON.parse(await readFile(path.join(root, 'content/home-work.json'), 'utf8'));
   const byId = new Map(covers.map(cover => [cover.id, cover]));
   const art = await Promise.all(studies.map(study => cardArt(root, study, byId)));
