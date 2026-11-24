@@ -5,7 +5,7 @@ Shared memory for every AI agent (Claude Code in T3 Code, OpenAI Codex) and huma
 
 Legend used throughout: ✅ implemented and verified in code · 🟡 implemented but hidden, paused or unverified · 💭 vision / planned, not built.
 
-_Last updated: 2026-11-23 by Claude Code (Opus 5.5)._
+_Last updated: 2026-11-24 by Claude Code (Opus 5.5)._
 
 ---
 
@@ -37,7 +37,7 @@ Actual **current build** (`scripts/build.mjs` has `const limitedPortfolio = true
 | --- | --- |
 | `/` | ✅ Built and live on staging. Hero + inquiry + brand marquee + header About/socials/Get in touch, plus the work preview (8 cards), focus-view case studies and About (`scripts/work-preview.mjs`, assets in `public/assets/work-preview/`). The old Work/About sections stay hidden in limited mode. |
 | `/contact/` | ✅ Built. Same inquiry and calendar flow. |
-| `/admin/` | ✅ Built. Decap CMS shell (sign-in needs OAuth setup). |
+| `/admin/` | ✅ Built (2026-11-24): own admin, **Requests** tab (approve/decline meeting requests); **Content** tab is "Soon" (phase 2). Signed in via Cloudflare Access (not yet configured). The Decap launcher page was replaced; `public/admin/setup.js` + `dist/admin/config.yml` remain until phase 2. |
 | `/404.html` | ✅ Copy of home in limited mode. |
 | `/work/*` (8 case studies) | 🟡 Templates and content exist; removed from the build and 302 → `/`. |
 | `/about/` | 🟡 About moved onto the homepage below Work (hidden in limited mode); `/about` → `/`. |
@@ -54,7 +54,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - `npm run dev` → `scripts/serve.mjs`: builds, then serves `dist/` on `127.0.0.1:${PORT:-4173}`. It doesn't watch files (restart or rebuild after edits), uses local SQLite for bookings and shows labelled sample availability while Google is unconnected.
 - `npm test` → `node --test tests/*.test.mjs`. `npm run connect:google` → private OAuth helper that writes `.dev.vars`.
 - Front end: vanilla JS native custom elements in `public/assets/components/` (`interactive-typewriter`, `brand-marquee`, hero-inquiry, meeting-calendar, portrait-motion, transition-motion, brand-loader, message-editor…). Global helpers are in `public/assets/app.js` (magnetic buttons, menu, back-to-top).
-- Back end: Cloudflare Pages Functions in `functions/` (`/auth`, `/callback`, `/api/calendar`, `/api/bookings`) with logic in `lib/` (Google Calendar/Meet/Gmail, scheduling, D1 booking store, GitHub OAuth for Decap). D1 schema in `migrations/`. Turnstile anti-spam.
+- Back end: Cloudflare Pages Functions in `functions/` (`/auth`, `/callback`, `/api/calendar`, `/api/bookings`, `/api/admin/bookings`) with logic in `lib/` (Google Calendar/Meet/Gmail, scheduling, D1 booking store, GitHub OAuth for Decap). D1 schema in `migrations/`. Turnstile anti-spam.
 - CMS: Decap 3.9.0 (pinned, unpkg), GitHub backend. Collections are defined in `cms.config.json`; content is edited in `content/`.
 - Analytics: **Cloudflare Web Analytics**, cookieless, no consent banner (owner, 2026-11-24). Enabled in the Cloudflare dashboard, not in code; `public/assets/analytics.js` is a no-op `track()`. Google Analytics 4 and its banner were removed. See `ANALYTICS.md`.
 - Secrets: `.dev.vars` and `.local/` are private and gitignored. Never commit or print them.
@@ -67,7 +67,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - ✅ **Three-state portrait** (idle → listening → writing) with canvas mesh + 61-frame optical-flow WebP atlas (`portrait-motion.js`). The alternate portraits are AI-edited (`PORTRAIT-NOTES.md`).
 - ✅ **Hero → inquiry morph** (`hero-inquiry.js`). Current step order: topic → engagement type → EUR budget → meeting/message preference → calendar (if meeting) → email → final review → complete. "Back to website" replays the loader. Answers persist in sessionStorage. ⚠ `LAUNCH.md` lists an older step order (with name/company).
   - First step (owner, 2026-11-23): "What can I help you with?" has no helper line; the prompt lives in the field. With no suggestion the placeholder is "Tell me about your project…" (shortened by the owner, 2026-11-24); with a suggestion (e.g. Graphic Design) the subject shows as a removable tag above the field and the placeholder is "Tell me more…". Removing the tag switches back to "Tell me about your project…". The empty-field error still reads "Tell me a little about what you’re working on." Clicking a highlighted suggestion on the hero deselects it instead of opening the flow. Typing a message on the hero with no suggestion skips that step and opens "How would you like to work together?" (Question 2 of 4); Back returns to the first step with the typed text kept.
-- ✅ **Own booking system**: custom calendar UI with Google Calendar busy times, D1 atomic reservation, Google Meet event + invite, Gmail delivery, idempotent retries. Rules in `content/booking.json` (30 min, Mon–Fri 10–17 Europe/Chisinau, 24h notice, 15 min buffers, 60 days).
+- ✅ **Own booking system**: custom calendar UI with Google Calendar busy times, D1 atomic reservation, Gmail delivery, idempotent retries. **Meetings need the owner's approval** (2026-11-24): a booking creates a private "Pending approval" hold (no guest, no Meet), emails the owner and a "request received" note to the guest; the visitor sees "Your request is in". In `/admin/` the owner approves (hold → real event with guest + Meet, `sendUpdates=all`, confirmation email) or declines (hold deleted, guest emailed with an optional note). Details: `GOOGLE-SETUP.md` §4. Verified with mocked Google only. Rules in `content/booking.json` (30 min, Mon–Fri 10–17 Europe/Chisinau, 24h notice, 15 min buffers, 60 days).
 - ✅ Monochrome **brand marquee** (9 logos, 110s loop, edge fades, pause control).
 - ✅ Custom arrow/I-beam **cursor** (`cursor.css`, native pointer hand on links). **Magnetic buttons** (`[data-magnetic]`, ≤5px, off for touch/reduced motion).
 - ✅ Page entrance + same-origin view transitions (`page-motion.*`). Floating circular back-to-top.
@@ -81,7 +81,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - 💭 Bring back Work, About, Services, Pricing and Playground publicly (turn off `limitedPortfolio`).
 - 💭 Prototype animations inside case studies (owner will supply).
 - 💭 Stronger, rethought Lendit case study (owner exploring ideas; the horizontal-scroll version was tried and archived).
-- 💭 Private inquiry inbox inside the CMS (explicitly not implemented; Gmail and Calendar are used instead).
+- 💭 CMS phase 2: edit case studies (move `scripts/work-preview.mjs` data into `content/`), About, homepage copy and booking settings from `/admin/`, saving via GitHub commits (fine-grained token as a Pages secret) → Cloudflare rebuild. Messages stay email-only (owner).
 - 💭 Custom domain cutover from mihailboboc.com, only after approval and a DNS/email check.
 
 ## 7. Important design and technical decisions
@@ -92,6 +92,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - 2026-11-20: Site-wide Excon Variable; Outfit removed.
 - 2026-11-20: Case studies restored to the original vertical layout; the horizontal Lendit chapters are archived in `experiments/lendit-horizontal/`.
 - 2026-11-20: Pricing, Playground, Services and Privacy paused. The `/work/` collection page was removed (old URLs → `/#work`).
+- 2026-11-24: **Meetings are approved manually** (owner): no automatic invite or Meet link; requests hold the slot privately until approved/declined in `/admin/`. Admin sign-in via **Cloudflare Access** (no passwords, JWT verified server-side). CMS built in code in the site's style, not Decap; content editing is phase 2. Request answers are stored in D1 (`result_json`) so they can be approved later; no schema migration.
 - 2026-11-24: Google Analytics + consent banner removed; Cloudflare Web Analytics (cookieless) instead, so visitors are never asked about analytics. Funnel events are no longer measured.
 - 2026-11-20/21: `limitedPortfolio = true` temporarily publishes only the hero landing + contact.
 - No delivery is ever faked. Local preview uses labelled samples only. Production fails closed without Google, D1 or Turnstile.
@@ -156,7 +157,8 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 
 ## 9. Known issues and limitations
 
-- 4 failing tests (above) until limited mode is turned off or the tests are made mode-aware.
+- 4 failing tests (above) until limited mode is turned off or the tests are made mode-aware. Current total: 97 tests, 93 pass (2026-11-24, incl. `tests/booking-admin.test.mjs`).
+- Local `.dev.vars` is connected to the owner's real Google account: submitting a meeting on `npm run dev` creates a real calendar hold and sends real emails. Use `/admin/?sample` and the unit tests for review.
 - Contact email inconsistency: `site.json` `hello@mihaiboboc.com` vs `LAUNCH.md` `mihailboboc.work@gmail.com`. Analytics domain is `mihaiboboc.com` vs the existing site `mihailboboc.com`. Confirm the intended domain.
 - `README.md` is a long append-only log; several sections are superseded (it says so at the end). `LAUNCH.md` step order is outdated.
 - Google, D1 production binding and the CMS OAuth app are not configured. No real end-to-end booking test yet.
@@ -168,11 +170,13 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 
 ## 10. Next priorities
 
-1. Make this folder a proper clone of GitHub `main` (now at `183c3f2`) so future pushes don't need the copy-into-clone step.
-2. Make the tests pass (mode-aware tests or re-enable pages).
-3. ✅ Work preview shipped to staging. Next: owner review on the live staging URL.
-4. Confirm email, domain and meeting rules. Connect Google + D1 + Turnstile. Run a real acceptance test (`LAUNCH.md` §8).
-5. Re-enable the full portfolio when the content is approved; set `draft: false` only at launch.
+1. Owner: set up Cloudflare Access for `/admin/*` + `/api/admin/*` and add `ACCESS_TEAM_DOMAIN`, `ACCESS_AUD` (+ optional `ADMIN_EMAILS`) to Pages (see `GOOGLE-SETUP.md` §4). Then a real end-to-end test: request → owner email → approve → guest invite; and decline.
+2. CMS phase 2 (content editing), see §6.
+3. Make this folder a proper clone of GitHub `main` so future pushes don't need the copy-into-clone step.
+4. Make the tests pass (mode-aware tests or re-enable pages).
+5. ✅ Work preview shipped to staging. Next: owner review on the live staging URL.
+6. Confirm email, domain and meeting rules. Connect Google + D1 + Turnstile in production. Run a real acceptance test (`LAUNCH.md` §8).
+7. Re-enable the full portfolio when the content is approved; set `draft: false` only at launch.
 
 ## 11. Change log
 
@@ -226,3 +230,4 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 | 2026-11-24 | Claude Code | Mobile hero → inquiry: the logo no longer slides up 10px during the transition (≤820px it dissolves with the screen); the keyboard is closed and allowed to settle before the transition so the viewport resize can't cancel it (`settleKeyboard()`); browsers without view transitions now fade the screen out, swap, and fade in, instead of sliding the new step up. Checked at iPhone 12 Pro size in Chrome (both paths). Tests 87/91 (same 4 known). Pushed 2026-11-24. |
 | 2026-11-24 | Claude Code | Owner's iPhone recording showed iOS Safari playing the hero ⇄ inquiry view transition as a simultaneous crossfade (portrait over the question, texts overlapping) plus a jump when the keyboard closed. Opening/closing the inquiry no longer uses a view transition: `fadeSwap()` fades header (logo kept on desktop) + main + footer out (320ms), closes the keyboard and swaps while invisible with the hero's own CSS transitions suspended (`html[data-hero-swapping]`), then fades in (480ms). Step changes inside the form still use the view transition. Checked in Chrome at iPhone 12 Pro and desktop: content only changes while opacity is ~0, nothing moves while visible, logo static on desktop. Not yet confirmed on a real iPhone. Tests 87/91 (same 4 known). Pushed 2026-11-24. |
 | 2026-11-24 | Claude Code | Mobile hero tap: a finger tap on the heading now focuses the field from `touchend` (preventScroll, so iOS opens the keyboard without the page jumping) and sets `touchListening`, which keeps Listening open until a tap outside the hero (no more 2.5s timeout back to "Hey there"). Step changes inside the form use the same scripted fade (260ms out / 420ms in, panel only) on ≤1024px and WebKit/Safari; desktop Chrome/Edge keep the view transition. Checked in Chrome at iPhone 12 Pro with synthetic touch: listening persists 4s+, tap outside restores; steps only change while panel opacity ≈0. Not yet confirmed on a real iPhone. Tests 87/91 (same 4 known). Pushed 2026-11-24. |
+| 2026-11-24 | Claude Code | CMS phase 1 — meeting approval: bookings become private Google Calendar holds + `requested` D1 rows (answers in `result_json`), owner gets a request email, guest a "request received" email and an on-screen "Your request is in"; new `/admin/` (Requests: Waiting/Upcoming/Past, Approve & send invite, Decline with note) in the site's style; `lib/booking-admin.js`, `lib/admin-auth.js` (Cloudflare Access JWT), `functions/api/admin/bookings.js`, `_routes.json`; booking tests updated, `tests/booking-admin.test.mjs` added (93/97 pass, same 4 known). Privacy copy + GOOGLE-SETUP §4 updated. Pushed 2026-11-24 (owner set up Cloudflare Access). |

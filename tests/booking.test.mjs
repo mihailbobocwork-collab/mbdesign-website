@@ -13,7 +13,7 @@ const answers={topic:'App',name:'Alex',email:'alex@example.com',company:'Team',m
 const input=(id='aaaaaaaa-aaaa-4aaa-aaaa-aaaaaaaaaaaa',extra={})=>({id,kind:'meeting',answers,timeZone:'Europe/Chisinau',startTime:'2026-11-20T08:00:00.000Z',...extra});
 const request=body=>new Request('http://localhost:4173/api/bookings',{method:'POST',headers:{Origin:'http://localhost:4173','Content-Type':'application/json'},body:JSON.stringify(body)});
 function setup(options={}){
- const db=localBookingDB(root,{memory:true}),calls={create:0,message:0,busy:0},provider={busy:async()=>{calls.busy++;return [];},find:async()=>null,create:async(_env,data)=>{calls.create++;return {id:data.id,status:'confirmed',hangoutLink:'https://meet.google.com/abc-defg-hij'};},message:async()=>{calls.message++;return {id:'mail'};},...options.provider};
+ const db=localBookingDB(root,{memory:true}),calls={create:0,message:0,busy:0},provider={busy:async()=>{calls.busy++;return [];},find:async()=>null,hold:async(_env,data)=>{calls.create++;return {id:data.id,status:'confirmed'};},requestNotice:async()=>{calls.notice=(calls.notice||0)+1;return 'notice';},requestReceived:async()=>'received',message:async()=>{calls.message++;return {id:'mail'};},...options.provider};
  const api=createBookingAPI({...options,provider,clock:options.clock||(()=>NOW)});return {db,calls,api,env:{...env,BOOKING_DB:db}};
 }
 test('Scheduling enforces host hours, notice, blocked dates and conflict buffers',()=>{
@@ -30,26 +30,26 @@ test('Scheduling aligns quarter-hour zones and adjusts to daylight saving',()=>{
  const slots=availableSlots({start,end:start+86400000,settings,now:start-2*86400000});assert.equal(slots[0].startTime,'2026-11-20T04:15:00.000Z');
  for(const [day,expected] of [['2027-01-04','08'],['2027-07-05','07']]){const start=Date.parse(day+'T00:00Z'),values=availableSlots({start,end:start+86400000,settings:bookingSettings(raw),now:start-3*86400000});assert.equal(values[0].startTime,day+'T'+expected+':00:00.000Z');}
 });
-test('Confirmed submissions are idempotent and changed payloads cannot reuse an ID',async()=>{
- const s=setup();try{const first=await s.api.submit(s.env,request(input()));assert.equal(first.status,201);assert.equal((await first.json()).meetUrl,'https://meet.google.com/abc-defg-hij');
- assert.equal((await s.api.submit(s.env,request(input()))).status,200);assert.equal(s.calls.create,1);
+test('Meeting requests are held for approval, idempotent, and changed payloads cannot reuse an ID',async()=>{
+ const s=setup();try{const first=await s.api.submit(s.env,request(input()));assert.equal(first.status,201);const receipt=await first.json();assert.equal(receipt.status,'requested');assert.equal(receipt.meetUrl,undefined);assert.equal(s.calls.notice,1);
+ const again=await s.api.submit(s.env,request(input()));assert.equal(again.status,200);assert.equal((await again.json()).status,'requested');assert.equal(s.calls.create,1);assert.equal(s.calls.notice,1);
  assert.equal((await s.api.submit(s.env,request(input(undefined,{answers:{...answers,name:'Different'}})))).status,409);assert.equal(s.calls.create,1);
  }finally{s.db.close();}
 });
-test('Simultaneous requests for one time create only one Google event',async()=>{
+test('Simultaneous requests for one time hold it only once',async()=>{
  const s=setup();try{const responses=await Promise.all([s.api.submit(s.env,request(input())),s.api.submit(s.env,request(input('bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbbb')))]);
  assert.deepEqual(responses.map(r=>r.status).sort(),[201,409]);assert.equal(s.calls.create,1);
  }finally{s.db.close();}
 });
 test('Uncertain writes retain their reservation and never blindly write again',async()=>{
- let calls=0;const s=setup({provider:{create:async()=>{calls++;throw Error('timeout');}}});try{
+ let calls=0;const s=setup({provider:{hold:async()=>{calls++;throw Error('timeout');}}});try{
  assert.equal((await s.api.submit(s.env,request(input()))).status,202);assert.equal((await s.api.submit(s.env,request(input()))).status,202);assert.equal(calls,1);
  assert.equal((await s.api.submit(s.env,request(input('bbbbbbbb-bbbb-4bbb-bbbb-bbbbbbbbbbbb')))).status,409);
  }finally{s.db.close();}
 });
 test('Later status checks recover an event by its deterministic ID',async()=>{
- let now=NOW,findId;const s=setup({clock:()=>now,provider:{create:async()=>{throw Error('network');},find:async(_env,id)=>{findId=id;return {id,status:'confirmed',hangoutLink:'https://meet.google.com/abc-defg-hij'};}}});try{
- await s.api.submit(s.env,request(input()));now+=6000;const response=await s.api.submit(s.env,request(input()));assert.equal(response.status,200);assert.equal((await response.json()).status,'confirmed');assert.match(findId,/^mb[a-f0-9]{64}$/);
+ let now=NOW,findId;const s=setup({clock:()=>now,provider:{hold:async()=>{throw Error('network');},find:async(_env,id)=>{findId=id;return {id,status:'confirmed'};}}});try{
+ await s.api.submit(s.env,request(input()));now+=6000;const response=await s.api.submit(s.env,request(input()));assert.equal(response.status,200);assert.equal((await response.json()).status,'requested');assert.match(findId,/^mb[a-f0-9]{64}$/);
  }finally{s.db.close();}
 });
 test('Message delivery is confirmed once and cleanup failures preserve confirmed truth',async()=>{
@@ -79,10 +79,13 @@ test('Database limits request six and releases expired completed locks',async()=
  assert.equal((await store.busy(NOW,NOW+1800000,NOW+120001)).length,0);
  }finally{s.db.close();}
 });
-test('Google provider fails closed on calendar errors and requests native Meet invitations',async()=>{
+test('Google provider fails closed, holds requests privately and sends Meet invitations only on approval',async()=>{
  const calls=[];const provider=createGoogleProvider({fetcher:async(url,options)=>{calls.push({url,options});if(url.includes('oauth2'))return Response.json({access_token:'mock-access',expires_in:3600});if(url.endsWith('/freeBusy'))return Response.json({calendars:{'owner@example.com':{errors:[{reason:'forbidden'}]}}});return Response.json({id:'event',status:'confirmed'});}});
- await assert.rejects(()=>provider.busy(env,NOW,NOW+86400000));await provider.create(env,{id:'event',startTime:input().startTime,endTime:'2026-11-20T08:30:00Z',answers,timeZone:'Europe/Chisinau'});
- const call=calls.at(-1),body=JSON.parse(call.options.body);assert.match(call.url,/conferenceDataVersion=1&sendUpdates=all/);assert.equal(body.conferenceData.createRequest.conferenceSolutionKey.type,'hangoutsMeet');assert.equal(body.attendees[0].email,answers.email);assert.equal(body.guestsCanModify,false);assert.equal(calls.filter(c=>c.url.includes('oauth2')).length,1);
+ await assert.rejects(()=>provider.busy(env,NOW,NOW+86400000));await provider.hold(env,{id:'event',startTime:input().startTime,endTime:'2026-11-20T08:30:00Z',answers,timeZone:'Europe/Chisinau'});
+ let call=calls.at(-1),body=JSON.parse(call.options.body);assert.match(call.url,/sendUpdates=none/);assert.equal(call.options.method,'POST');assert.equal(body.attendees,undefined);assert.equal(body.conferenceData,undefined);assert.equal(body.visibility,'private');assert.match(body.summary,/^Pending approval: /);
+ await provider.approve(env,{id:'event',answers,timeZone:'Europe/Chisinau'});
+ call=calls.at(-1);body=JSON.parse(call.options.body);assert.equal(call.options.method,'PATCH');assert.match(call.url,/events\/event\?conferenceDataVersion=1&sendUpdates=all/);assert.equal(body.conferenceData.createRequest.conferenceSolutionKey.type,'hangoutsMeet');assert.equal(body.attendees[0].email,answers.email);assert.equal(body.guestsCanModify,false);assert.equal(body.summary,'App — Alex');
+ await provider.release(env,'event');call=calls.at(-1);assert.equal(call.options.method,'DELETE');assert.match(call.url,/sendUpdates=none/);assert.equal(calls.filter(c=>c.url.includes('oauth2')).length,1);
 });
 test('Gmail sends only to the owner with a visitor reply address; receipts reject unsafe URLs',async()=>{
  let mail;const provider=createGoogleProvider({fetcher:async(url,options)=>{if(url.includes('oauth2'))return Response.json({access_token:'mock'});mail=Buffer.from(JSON.parse(options.body).raw,'base64url').toString('utf8');return Response.json({id:'mail'});}});
@@ -112,8 +115,8 @@ test('Nameless inquiries accept the hero collaboration choice and standalone boo
 test('Google event and email carry the topic alongside the full description',async()=>{
  const sent=[];const provider=createGoogleProvider({fetcher:async(url,options)=>{if(url.includes('oauth2'))return Response.json({access_token:'mock-token',expires_in:3600});sent.push({url,body:JSON.parse(options.body)});return Response.json({id:'mock-id',status:'confirmed'});}});
  const brief={...answers,topic:'App',engagement:'partnership',budget:'3000-4999',message:'A detailed app brief with useful context.\nSecond line.'};
- await provider.create(env,{id:'mock-event',startTime:'2026-11-20T08:00:00Z',endTime:'2026-11-20T08:30:00Z',answers:brief,timeZone:'UTC'});
- assert.equal(sent[0].body.summary,'App — Alex');assert.ok(sent[0].body.description.includes('Topic: App'));assert.ok(sent[0].body.description.includes(brief.message));assert.match(sent[0].body.description,/Budget \(EUR\): €3,000–€4,999 per month/);
+ await provider.hold(env,{id:'mock-event',startTime:'2026-11-20T08:00:00Z',endTime:'2026-11-20T08:30:00Z',answers:brief,timeZone:'UTC'});
+ assert.equal(sent[0].body.summary,'Pending approval: App — Alex');assert.ok(sent[0].body.description.includes('Topic: App'));assert.ok(sent[0].body.description.includes(brief.message));assert.match(sent[0].body.description,/Budget \(EUR\): €3,000–€4,999 per month/);
  await provider.message(env,{id:'mock-message',answers:brief});const mail=Buffer.from(sent[1].body.raw,'base64url').toString('utf8');const subject=mail.match(/Subject: =\?UTF-8\?B\?(.+)\?=/)[1];assert.equal(Buffer.from(subject,'base64').toString(),'Project inquiry — App');
  const body=Buffer.from(mail.split('\r\n\r\n')[1],'base64').toString('utf8');assert.ok(body.includes('Topic: App'));assert.ok(body.includes(brief.message));assert.match(body,/Budget \(EUR\): €3,000–€4,999 per month/);
 });
@@ -129,11 +132,11 @@ test('Meeting confirmation email reaches the guest and owner with time, topic an
  await provider.meetingConfirmation(env,{...data,answers:{...answers,email:env.BOOKING_HOST_EMAIL}});assert.ok(!mail.includes('Cc:'));
 });
 
-test('Confirmation email is attempted once and failure never cancels or duplicates the meeting',async()=>{
+test('Request emails are attempted once and a failed email never cancels the request',async()=>{
  for(const fail of [false,true]){
-  let attempts=0;const s=setup({provider:{meetingConfirmation:async()=>{attempts++;if(fail)throw Error('mail unavailable');return 'accepted';}}});
+  let attempts=0;const s=setup({provider:{requestReceived:async()=>{attempts++;if(fail)throw Error('mail unavailable');return 'sent';}}});
   try{
-   const first=await s.api.submit(s.env,request(input()));assert.equal(first.status,201);const receipt=await first.json();assert.equal(receipt.status,'confirmed');assert.equal(receipt.emailStatus,fail?'unconfirmed':'accepted');
+   const first=await s.api.submit(s.env,request(input()));assert.equal(first.status,201);const receipt=await first.json();assert.equal(receipt.status,'requested');assert.equal(receipt.emailStatus,fail?'unconfirmed':'accepted');
    const again=await s.api.submit(s.env,request(input()));assert.equal(again.status,200);assert.equal(attempts,1);assert.equal(s.calls.create,1);
   }finally{s.db.close();}
  }

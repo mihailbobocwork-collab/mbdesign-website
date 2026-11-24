@@ -266,7 +266,7 @@ export class HeroInquiry {
     this.booking?.destroy();this.booking=null;this.messageAction?.destroy();this.messageAction=null;
     delete this.container.dataset.booking;this.back.disabled=false;
     this.back.textContent=step===answer||step===complete?'Back to website':'Back';
-    this.progress.textContent=step<=preference?`Question ${step+1} of ${preference+1}`:step===calendar?'Choose a time':step===email?'Contact details':step===review?'A final look':this.receipt?.preview?'Preview complete':this.receipt?.kind==='message'?'Message received':'Meeting confirmed';
+    this.progress.textContent=step<=preference?`Question ${step+1} of ${preference+1}`:step===calendar?'Choose a time':step===email?'Contact details':step===review?'A final look':this.receipt?.preview?'Preview complete':this.receipt?.kind==='message'?'Message received':this.receipt?.status==='requested'?'Request sent':'Meeting confirmed';
     this.content.replaceChildren();
     if(step===answer||step===email)this.renderField(step===email);
     else if(step===engagement)this.renderEngagement();
@@ -290,7 +290,7 @@ export class HeroInquiry {
     const meeting=this.answers.meeting==='yes';
     const service=SUBJECTS.find(s=>s.id===this.answers.subject);
     this.heading(isEmail?(meeting?'Where should I send the invite?':'Where should I reply?'):'What can I help you with?',
-      isEmail?(meeting?'I’ll send the Google Meet invitation to this address.':'I’ll use this address to reply to your message.'):
+      isEmail?(meeting?'Once I confirm the time, I’ll send the Google Meet invitation here.':'I’ll use this address to reply to your message.'):
         '');
     const field=element(isEmail?'input':'textarea','hero-flow-answer');
     field.name=isEmail?'email':'message';field.id='hero-flow-answer';field.dataset.answer='';
@@ -393,7 +393,7 @@ export class HeroInquiry {
     this.reviewRow(review,'Next step',meeting?'Discovery call':'Send a message',STEP.preference);
     if(meeting&&this.meetingSelection)this.reviewRow(review,'When',formatMeeting(this.meetingSelection),STEP.calendar);
     this.reviewRow(review,'Email',payload.email,STEP.email);
-    const button=control(this.preview?'Confirm preview':meeting?'Confirm meeting':'Send message','hero-flow-continue');
+    const button=control(this.preview?'Confirm preview':meeting?'Request meeting':'Send message','hero-flow-continue');
     const challenge=element('div'),status=element('p','booking-status');status.setAttribute('role','status');
     this.content.append(review,button,challenge,status);
     if(meeting&&!this.meetingSelection){button.disabled=true;status.textContent='Choose a meeting time before confirming.';return;}
@@ -406,7 +406,7 @@ export class HeroInquiry {
 
   renderCalendar(){
     this.container.dataset.booking='true';
-    this.heading('Let’s find a time.','Choose a time for a short discovery call on Google Meet.');
+    this.heading('Let’s find a time.','Pick a time for a short discovery call on Google Meet. I’ll confirm it personally.');
     this.bookingSlot=element('div','hero-booking-slot');
     this.bookingSlot.setAttribute('aria-label','Meeting scheduler');this.bookingSlot.setAttribute('role','region');
     const download=control('Keep a copy of my answer','hero-flow-edit');download.dataset.download='';
@@ -416,13 +416,17 @@ export class HeroInquiry {
 
   renderReceipt(){
     const receipt=this.receipt;
-    this.heading(receipt?.preview?'Preview complete.':receipt?.kind==='message'?'Thanks for reaching out.':'You’re booked.',
-      receipt?.preview?'You’ve reached the end of the inquiry preview.':receipt?.kind==='message'?'I look forward to continuing the conversation.':
+    const requested=receipt?.status==='requested';
+    this.heading(receipt?.preview&&!requested?'Preview complete.':receipt?.kind==='message'?'Thanks for reaching out.':requested?'Your request is in.':'You’re booked.',
+      receipt?.preview&&!requested?'You’ve reached the end of the inquiry preview.':receipt?.kind==='message'?'I look forward to continuing the conversation.':
+      requested?'Your call is waiting for my approval. Once I confirm, you’ll get the calendar invitation with the Google Meet link by email.':
       receipt?.emailStatus==='accepted'?'Your Google Meet invitation and confirmation are on their way.':'Your meeting is saved. Keep the details below for reference.');
     if(receipt?.startTime)this.content.append(element('p','hero-flow-helper',formatMeeting({startTime:receipt.startTime,timeZone:this.meetingSelection?.timeZone||'UTC'})));
     const actions=element('div','hero-flow-actions hero-confirmation-actions');
     if(receipt?.meetUrl){
       const link=element('a','text-link','Your Google Meet link');link.href=receipt.meetUrl;link.target='_blank';link.rel='noopener';actions.append(link);
+    }else if(requested){
+      this.content.append(element('p','meeting-note',receipt.preview?'Preview: nothing was sent.':receipt.emailStatus==='accepted'?'A copy of your request is in your inbox.':'Keep this time free; I’ll reply by email.'));
     }else if(receipt?.kind==='meeting'&&!receipt.preview){
       this.content.append(element('p','meeting-note',receipt.videoStatus==='unavailable'?'I’ll share the video link before we meet.':'Check your calendar invitation for the latest meeting link.'));
     }

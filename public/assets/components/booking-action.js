@@ -13,7 +13,7 @@ export class BookingAction{
  async initChallenge(){try{const api=await loadChallenge();if(this.disposed)return;this.widget=api.render(this.challenge,{sitekey:this.siteKey,action:'inquiry',appearance:'interaction-only',callback:()=>{this.status.textContent='';},'error-callback':()=>{if(!this.disposed)this.status.textContent='Verification couldn’t start. Please refresh this page or try another browser.';return true;},'timeout-callback':()=>{if(!this.disposed)this.status.textContent='Verification timed out. Please try again.';},'expired-callback':()=>{this.status.textContent='Please verify once more before confirming.';}});}catch{if(!this.disposed)this.status.textContent='Verification couldn’t load. Please try again.';}}
  async send(){
   if(this.busy||this.disposed)return;
-  if(this.preview){this.onSuccess({preview:true,status:'confirmed',kind:this.body.kind,startTime:this.body.startTime,platform:'Google Meet'});return;}
+  if(this.preview){this.onSuccess({preview:true,status:this.body.kind==='meeting'?'requested':'confirmed',kind:this.body.kind,startTime:this.body.startTime,platform:'Google Meet'});return;}
   let challengeToken='';
   try{challengeToken=this.siteKey&&this.widget!==undefined?globalThis.turnstile?.getResponse(this.widget)||'':'';}catch{this.status.textContent='Verification isn’t ready. Please refresh this page and try again.';return;}
   if(this.siteKey&&!challengeToken){this.status.textContent='Please complete the quick verification below before sending.';this.challenge?.scrollIntoView?.({block:'nearest',behavior:'instant'});return;}
@@ -23,7 +23,7 @@ export class BookingAction{
    const response=await fetch('/api/bookings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...this.body,id:this.keyInfo.id,challengeToken}),signal:AbortSignal.timeout(30000)});
    const result=await response.json();
    if(this.disposed)return;
-   if(response.ok&&result.status==='confirmed'){
+   if(response.ok&&['confirmed','requested'].includes(result.status)){
     track('generate_lead',{lead_type:this.body.kind},'lead:'+this.keyInfo.id);
     try{sessionStorage.setItem('mihail:last-confirmation',JSON.stringify(result));}catch{}
     this.button.dispatchEvent(new CustomEvent('meeting-busy',{bubbles:true,detail:false}));

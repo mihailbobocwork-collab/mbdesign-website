@@ -1,1 +1,79 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Content manager · Mihai Boboc</title><link rel="stylesheet" href="/assets/fonts.css"><style>body{margin:0;font-family:var(--font-sans);color:#263022;background:#f7f8f7}.setup{max-width:650px;margin:10vh auto;padding:30px;line-height:1.7}button,a{color:inherit}button{font-family:inherit;border:1px solid #bbc4b5;background:#263022;color:white;padding:14px 22px;border-radius:28px;font-size:16px;cursor:pointer}a{text-underline-offset:4px}#cms{display:none}</style></head><body><div class="setup" id="setup"><p>MIHAI BOBOC / CONTENT MANAGER</p><h1>Your content, in one place.</h1><p id="status">Checking the CMS configuration…</p><button id="launch" hidden>Open content manager</button><p><a href="/">Back to the website</a></p><p>Setup instructions are included in the source README. GitHub sign-in requires a connected repository and Cloudflare authentication settings.</p></div><script src="/admin/setup.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin · Mihai Boboc</title>
+<link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/fonts.css">
+<link rel="stylesheet" href="/admin/admin.css">
+<script type="module" src="/admin/admin.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="admin-bar">
+  <a class="admin-brand" href="/admin/" aria-label="Admin home"><img src="/assets/hero/mark.svg" alt="" width="26" height="29"><span>Admin</span></a>
+  <nav class="admin-tabs" aria-label="Admin sections">
+    <a href="/admin/" aria-current="page">Requests <span class="admin-count" data-waiting-count hidden></span></a>
+    <span class="admin-tab-soon" aria-disabled="true" title="Coming next">Content <small>Soon</small></span>
+  </nav>
+  <div class="admin-account">
+    <span class="admin-who" data-who></span>
+    <a class="admin-link" href="/" target="_blank" rel="noopener">View site</a>
+  </div>
+</header>
+<main id="main" class="admin-main" tabindex="-1">
+  <div class="admin-head">
+    <div>
+      <h1>Meeting requests</h1>
+      <p class="admin-lede">Nothing reaches a guest’s calendar until you approve it.</p>
+    </div>
+    <div class="admin-filters" role="tablist" aria-label="Show requests">
+      <button type="button" role="tab" data-filter="waiting" aria-selected="true">Waiting <span data-filter-count="waiting"></span></button>
+      <button type="button" role="tab" data-filter="upcoming" aria-selected="false">Upcoming <span data-filter-count="upcoming"></span></button>
+      <button type="button" role="tab" data-filter="past" aria-selected="false">Past &amp; declined <span data-filter-count="past"></span></button>
+    </div>
+  </div>
+  <p class="admin-sample" data-sample hidden>Sample requests for reviewing the design. Approving or declining here sends nothing.</p>
+  <p class="admin-status" data-status role="status" aria-live="polite">Loading requests…</p>
+  <ol class="admin-list" data-list aria-live="polite"></ol>
+</main>
+<template id="request-template">
+  <li class="request">
+    <div class="request-when">
+      <p class="request-day"></p>
+      <p class="request-time"></p>
+      <p class="request-zone"></p>
+    </div>
+    <div class="request-body">
+      <div class="request-top">
+        <div>
+          <h2 class="request-name"></h2>
+          <p class="request-contact"><a class="request-email"></a><span class="request-company"></span></p>
+        </div>
+        <span class="request-state"></span>
+      </div>
+      <dl class="request-facts"></dl>
+      <p class="request-message"></p>
+      <button type="button" class="request-more" hidden>Read more</button>
+      <p class="request-outcome"></p>
+      <div class="request-actions">
+        <button type="button" class="admin-button primary" data-action="approve">Approve &amp; send invite</button>
+        <button type="button" class="admin-button" data-action="decline">Decline</button>
+      </div>
+      <form class="request-decline" hidden>
+        <label>Note to the guest <span>(optional)</span>
+          <textarea rows="3" maxlength="1000" placeholder="e.g. I’m fully booked that week. Could we talk by email instead?"></textarea>
+        </label>
+        <div class="request-actions">
+          <button type="submit" class="admin-button danger">Decline and email guest</button>
+          <button type="button" class="admin-button quiet" data-cancel>Cancel</button>
+        </div>
+      </form>
+      <p class="request-error" role="alert"></p>
+    </div>
+  </li>
+</template>
+</body>
+</html>
