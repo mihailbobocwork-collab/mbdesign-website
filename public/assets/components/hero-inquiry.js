@@ -103,6 +103,9 @@ export class HeroInquiry {
     });
     window.addEventListener('pagehide',event=>{if(!event.persisted)this.booking?.destroy();if(this.downloadURL)URL.revokeObjectURL(this.downloadURL);});
     this.panel.addEventListener('meeting-busy',event=>{this.bookingBusy=event.detail;this.back.disabled=event.detail;for(const control of this.panel.querySelectorAll('[data-edit-step],[data-download],[data-finish]'))control.disabled=event.detail;});
+    // A suggestion only lasts for the visit it was chosen in: reloading or coming back starts unselected.
+    if(!this.direct&&!entry&&!history.state?.viaContact)this.answers.subject='';
+    window.addEventListener('pageshow',event=>{if(event.persisted&&!this.active&&!this.direct)this.clearSubject();});
     this.updateSubjectUI();
     if(entry){this.start(entry.message);return;}
     if(history.state?.viaContact)this.start(this.editor.input.value,{trigger:contactButton,fromHistory:true});
@@ -115,6 +118,7 @@ export class HeroInquiry {
     this.idle.querySelectorAll('button[data-subject]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.subject===this.answers.subject)));
     this.editor.syncInput();
   }
+  clearSubject(){if(!this.answers.subject)return;this.answers.subject='';this.persist();this.updateSubjectUI();}
   resetDraft(){
     this.answers.message='';this.answers.subject='';this.answers.engagement='';this.answers.budget='';this.answers.meeting='';
     this.meetingSelection=null;this.persist();this.updateSubjectUI();
@@ -435,6 +439,7 @@ export class HeroInquiry {
         if(brandEntrance)this.editor.replayIntroduction();else this.editor.returnToIntroduction();
       }else{
         this.editor.input.value=this.answers.message;
+        this.answers.subject='';this.persist();
         this.updateSubjectUI();this.editor.finishTyping();
         if(!this.entryTrigger)this.editor.reveal();
       }
