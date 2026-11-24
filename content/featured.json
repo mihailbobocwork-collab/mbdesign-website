@@ -1,18 +1,18 @@
 {
   "brands": [
     {
-      "name": "Lendit",
-      "image": "/assets/hero/featured/lendit.svg",
-      "width": 201,
-      "height": 34.454,
-      "node": "17:157"
-    },
-    {
       "name": "Makita",
       "image": "/assets/hero/featured/makita.png",
       "width": 214,
       "height": 48.484,
       "node": "17:148"
+    },
+    {
+      "name": "Lendit",
+      "image": "/assets/hero/featured/lendit.svg",
+      "width": 201,
+      "height": 34.454,
+      "node": "17:157"
     },
     {
       "name": "Bosch",
