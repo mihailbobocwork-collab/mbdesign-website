@@ -1,21 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {FLOW_KEY, STEP, HeroInquiry, readFlow, answerError, inquiryPayload, previousInquiryStep} from '../public/assets/components/hero-inquiry.js';
+import {FLOW_KEY, STEP, HeroInquiry, readFlow, answerError, inquiryPayload, previousInquiryStep, messageSubject, subjectHoldsMessage, writeError} from '../public/assets/components/hero-inquiry.js';
 import {SUBJECTS, ENGAGEMENTS, emailError} from '../public/assets/components/inquiry-details.js';
 
 test('Saved and legacy answers survive reload without requiring name or company', () => {
-  const saved = {message:'First line\nSecond line',subject:'graphic',engagement:'project',budget:'1000-2999',meeting:'no',email:'alex@example.com'};
+  const saved = {message:'First line\nSecond line',subject:'graphic',engagement:'project',budget:'1000-2999',meeting:'no',title:'Subject',note:'Hello\nthere',wrote:true,email:'alex@example.com'};
   assert.deepEqual(readFlow({getItem:key => key === FLOW_KEY ? JSON.stringify(saved) : null}), saved);
   assert.deepEqual(readFlow({getItem:() => JSON.stringify({topic:'Previous topic',name:'Alex',subject:'hiring',meeting:'yes'})}),
-    {message:'Previous topic',subject:'',engagement:'',budget:'',meeting:'yes',email:''});
+    {message:'Previous topic',subject:'',engagement:'',budget:'',meeting:'yes',title:'',note:'',wrote:false,email:''});
   for (const raw of ['null','{broken','{"message":42,"email":{}}']) {
-    assert.deepEqual(readFlow({getItem:() => raw}), {message:'',subject:'',engagement:'',budget:'',meeting:'',email:''});
+    assert.deepEqual(readFlow({getItem:() => raw}), {message:'',subject:'',engagement:'',budget:'',meeting:'',title:'',note:'',wrote:false,email:''});
   }
   assert.equal(readFlow({getItem:() => JSON.stringify({message:'x'.repeat(6000)})}).message.length, 6000);
 });
 
 test('Each service starts the answer state and keeps existing draft text', () => {
-  assert.deepEqual(SUBJECTS.map(service => service.label), ['Product Design', 'Graphic Design', 'Brand Identity']);
+  assert.equal(SUBJECTS.length, 3);
+  assert.ok(SUBJECTS.every(service => service.label));
   const flow = Object.create(HeroInquiry.prototype);
   flow.answers = {};
   flow.editor = {input:{value:'Our own project idea\nMore context'}};
@@ -33,7 +34,7 @@ test('The first answer accepts a short note or a service and preserves multiline
   const first = {subject:'graphic',engagement:'partnership',budget:'3000-4999',email:' alex@example.com ',message:'First line\nSecond line'};
   assert.deepEqual(inquiryPayload(first), {
     name:'',company:'',subject:'graphic',engagement:'partnership',budget:'3000-4999',email:'alex@example.com',
-    topic:'Graphic Design',message:first.message
+    topic:SUBJECTS[1].label,message:first.message
   });
   assert.equal(inquiryPayload({...first,message:''}).message,SUBJECTS[1].prompt);
 });
@@ -57,8 +58,30 @@ test('Collaboration and budget are required and email comes after intent and any
   assert.deepEqual(destinations, [STEP.budget, STEP.preference]);
   assert.equal(previousInquiryStep(STEP.preference,'no'), STEP.budget);
   assert.equal(previousInquiryStep(STEP.email,'yes'), STEP.calendar);
-  assert.equal(previousInquiryStep(STEP.email,'no'), STEP.preference);
+  assert.equal(previousInquiryStep(STEP.email,'no'), STEP.write);
+  assert.equal(previousInquiryStep(STEP.write,'no'), STEP.preference);
   assert.equal(previousInquiryStep(STEP.calendar,'yes'), STEP.preference);
   assert.ok(emailError('alex@company'));
   assert.equal(emailError(' alex+design@example.com '), '');
+});
+
+test('Sending a message asks for the message, with the homepage note as its subject', () => {
+  assert.equal(messageSubject('Redesign of our booking app'), 'Redesign of our booking app');
+  const long = 'We are a small team building a marketplace for renting outdoor gear between neighbours and we need help with the whole product';
+  const subject = messageSubject(long);
+  assert.ok(subject.endsWith('…') && Array.from(subject).length <= 120 && long.startsWith(subject.slice(0, -1)));
+  assert.equal(messageSubject('', 'Lendit case study'), 'Lendit case study');
+  assert.equal(messageSubject('', '', 'brand'), SUBJECTS.find(service => service.id === 'brand').label);
+  assert.equal(messageSubject(''), 'Design inquiry');
+  assert.equal(subjectHoldsMessage('Short note'), true);
+  assert.equal(subjectHoldsMessage('Line one\nLine two'), false);
+  assert.equal(subjectHoldsMessage(long), false);
+  assert.ok(writeError('  '));
+  assert.ok(writeError('x'.repeat(3001)));
+  assert.equal(writeError('Hello'), '');
+  const answers = {subject:'',engagement:'project',budget:'unsure',meeting:'no',email:'a@example.com',message:'Booking app redesign',title:'',note:' Hi Mihai,\nwe need flows. '};
+  assert.deepEqual(inquiryPayload(answers), {name:'',company:'',subject:'',engagement:'project',budget:'unsure',email:'a@example.com',topic:'Booking app redesign',message:'Hi Mihai,\nwe need flows.'});
+  assert.equal(inquiryPayload({...answers,title:'Edited subject'}).topic, 'Edited subject');
+  // A call request keeps the homepage note as the message.
+  assert.equal(inquiryPayload({...answers,meeting:'yes'}).message, 'Booking app redesign');
 });

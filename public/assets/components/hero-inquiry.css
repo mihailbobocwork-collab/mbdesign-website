@@ -3,77 +3,10 @@
 .hero-page[data-inquiry-opening] :is(.figma-hero,.hero-client-strip,.site-header nav,.menu-toggle){display:none}
 .hero-inquiry-fallback{margin:48px auto;padding:0 22px}
 .hero-idle,.hero-flow-panel{grid-area:1 / 1;align-self:start;min-width:0}
-html[data-hero-transition] {
-  --hero-morph-duration: 540ms;
-  --hero-morph-ease: cubic-bezier(.28,.68,.26,1);
-  --hero-morph-offset: 9px;
-}
-html:is([data-hero-transition=enter],[data-hero-transition=leave]) { --hero-morph-duration: 680ms; }
-html:is([data-hero-transition=back],[data-hero-transition=leave]) { --hero-morph-offset: -9px; }
-html[data-hero-transition] .hero-brand { view-transition-name: inquiry-logo; }
-html[data-hero-transition] .hero-portrait { view-transition-name: inquiry-portrait; }
-html[data-hero-transition] :is(.hero-typewriter,.hero-flow-question) { view-transition-name: inquiry-heading; }
-html[data-hero-transition] .hero-flow-top { view-transition-name: inquiry-progress; }
-html[data-hero-transition] .hero-flow-privacy { view-transition-name: inquiry-note; }
-html[data-hero-transition] :is(
-  .hero-step-content > .hero-flow-continue,
-  .hero-flow-actions > .hero-flow-continue,
-  .hero-meeting-options > .hero-flow-continue
-) { view-transition-name: inquiry-action; }
-html[data-hero-transition]::view-transition { background: var(--bg); }
-html[data-hero-transition]::view-transition-group(*) {
-  animation-duration: var(--hero-morph-duration);
-  animation-timing-function: var(--hero-morph-ease);
-}
-html[data-hero-transition]::view-transition-old(root) {
-  animation: hero-body-out var(--hero-morph-duration) ease-out both;
-  mix-blend-mode: normal;
-}
-html[data-hero-transition]::view-transition-new(root) {
-  animation: hero-body-in var(--hero-morph-duration) ease-out both;
-  mix-blend-mode: normal;
-}
-html[data-hero-transition]::view-transition-old(inquiry-heading) {
-  animation: hero-type-out var(--hero-morph-duration) var(--hero-morph-ease) both;
-  object-fit: contain;
-  object-position: left top;
-}
-html[data-hero-transition]::view-transition-old(inquiry-logo) { animation: none; opacity: 0; }
-html[data-hero-transition]::view-transition-new(inquiry-logo) { animation: none; }
-html[data-hero-transition]::view-transition-old(inquiry-progress),
-html[data-hero-transition]::view-transition-old(inquiry-portrait),
-html[data-hero-transition]::view-transition-old(inquiry-action) {
-  animation: hero-body-out var(--hero-morph-duration) ease-out both;
-}
-html[data-hero-transition]::view-transition-new(inquiry-progress),
-html[data-hero-transition]::view-transition-new(inquiry-portrait),
-html[data-hero-transition]::view-transition-new(inquiry-action) {
-  animation: hero-body-in var(--hero-morph-duration) ease-out both;
-}
-html[data-hero-transition]::view-transition-new(inquiry-heading) {
-  animation: hero-type-in var(--hero-morph-duration) var(--hero-morph-ease) both;
-  object-fit: contain;
-  object-position: left top;
-}
-@keyframes hero-body-out {
-  from { opacity: 1; }
-  40%, 100% { opacity: 0; }
-}
-@keyframes hero-body-in {
-  0%, 24% { opacity: 0; }
-  72%, 100% { opacity: 1; }
-}
-@keyframes hero-type-out {
-  0% { opacity: 1; filter: blur(0); }
-  62%, 100% { opacity: 0; filter: blur(4px); translate: 0 calc(-1 * var(--hero-morph-offset)); }
-}
-@keyframes hero-type-in {
-  0%, 14% { opacity: 0; filter: blur(4px); translate: 0 var(--hero-morph-offset); }
-  100% { opacity: 1; filter: blur(0); translate: 0 0; }
-}
-/* Opening and closing the inquiry is a plain fade run from hero-inquiry.js (not a view
-   transition, which iOS Safari plays as a simultaneous crossfade): the screen fades out in place,
-   swaps while invisible, then fades in. While swapping, the hero settles into its final state
+/* Every screen change in the inquiry (opening, closing and between questions) is a fade run from
+   hero-inquiry.js, not a view transition (which slid buttons and headings into each other and
+   iOS Safari plays as a simultaneous crossfade): the screen fades out in place, swaps while
+   invisible, then fades in as one block. While swapping, the hero settles into its final state
    without its own transitions so nothing animates twice. */
 html[data-hero-swapping] body * { transition: none !important; }
 /* Shared slots keep the biography and chips from changing the hero height. */
@@ -195,3 +128,14 @@ html[data-hero-swapping] body * { transition: none !important; }
   .hero-budget-options .hero-choice-option{min-height:44px}
 }
 .hero-flow-continue:disabled{opacity:.45;cursor:default}
+
+/* Writing a message: a subject line and a message box, like a short email. */
+.hero-message-box{max-width:850px;background:#fff;border:1px solid #d3dbe1;border-radius:24px;transition:border-color 300ms,box-shadow 300ms}
+.hero-message-box:focus-within{border-color:#74828e;box-shadow:0 10px 30px rgb(23 28 32 / 6%)}
+.hero-message-subject{display:flex;align-items:baseline;gap:14px;padding:16px 24px 14px;border-bottom:1px solid #e3e8ec;cursor:text}
+.hero-message-label{flex:none;font-size:14px;color:#65727d}
+.hero-message-title{flex:1;min-width:0;margin:0;padding:0;border:0;background:transparent;font:500 18px/1.4 var(--font-sans);letter-spacing:-.01em;color:#171c20;outline:none;text-overflow:ellipsis}
+.hero-message-note{display:block;width:100%;min-height:168px;margin:0;padding:18px 24px 22px;border:0;border-radius:0 0 24px 24px;background:transparent;font:400 18px/1.55 var(--font-sans);letter-spacing:-.005em;color:#171c20;outline:none;resize:none;overflow-y:auto;box-sizing:border-box}
+.hero-message-note::placeholder{color:#84909a;opacity:1}
+.hero-message-box:has(.hero-message-note[aria-invalid=true]){border-color:#a36856}
+@media(max-width:600px){.hero-message-box{border-radius:20px}.hero-message-subject{padding:14px 18px 12px;gap:10px}.hero-message-title,.hero-message-note{font-size:16px}.hero-message-note{min-height:150px;padding:14px 18px 18px;border-radius:0 0 20px 20px}}

@@ -1,7 +1,7 @@
 import {FOOTER_HANDOFF} from './footer-inquiry.js';
 import {track} from '../analytics.js';
 import {saveDraft,hasMessage,readContactEntry} from './hero-typewriter.js';
-import {MessageEditor, messageLimitError} from './message-editor.js';
+import {MessageEditor, messageLimitError, characterCount, MESSAGE_LIMIT} from './message-editor.js';
 import {TransitionMotion} from './transition-motion.js';
 import {brandEntrance} from './brand-loader.js';
 import {MeetingCalendar} from './meeting-calendar.js';
@@ -9,9 +9,8 @@ import {BookingAction} from './booking-action.js';
 import {COPY as C,SUBJECTS,ENGAGEMENTS,BUDGET_RANGES,budgetLabel,emailError,topicFromMessage,formatMeeting} from './inquiry-details.js';
 
 export const FLOW_KEY = 'mihail:hero-flow:v1';
-const WEBKIT=typeof navigator!=='undefined'&&/AppleWebKit/.test(navigator.userAgent)&&!/Chrome|Chromium|Edg|OPR/.test(navigator.userAgent);
-const SCRIPTED_STEPS=()=>WEBKIT||matchMedia('(max-width: 1024px)').matches;
-export const STEP = Object.freeze({answer:0,engagement:1,budget:2,preference:3,calendar:4,email:5,review:6,complete:7});
+export const STEP = Object.freeze({answer:0,engagement:1,budget:2,preference:3,calendar:4,write:5,email:6,review:7,complete:8});
+const SUBJECT_LIMIT=120;
 
 export function readFlow(storage,key=FLOW_KEY) {
   let saved;
@@ -23,8 +22,26 @@ export function readFlow(storage,key=FLOW_KEY) {
     engagement:ENGAGEMENTS.some(e=>e.id===saved?.engagement)?saved.engagement:'',
     budget:BUDGET_RANGES.some(range=>range.id===saved?.budget)?saved.budget:'',
     meeting:['yes','no'].includes(saved?.meeting)?saved.meeting:'',
+    title:text('title',200),note:text('note',Infinity),wrote:saved?.wrote===true,
     email:text('email',254)
   };
+}
+
+// The homepage note becomes the message subject; a long note is shortened at a word.
+export function messageSubject(message,entryTopic='',subject=''){
+  const first=topicFromMessage(message||'');
+  if(first){
+    if(Array.from(first).length<=SUBJECT_LIMIT)return first;
+    const cut=Array.from(first).slice(0,SUBJECT_LIMIT-1).join('');
+    return cut.replace(/\s+\S*$/,'').replace(/[\s,.;:–—-]+$/,'')+'…';
+  }
+  return entryTopic||SUBJECTS.find(s=>s.id===subject)?.label||'Design inquiry';
+}
+// Whether the subject holds all of the homepage note (if not, the note starts the message).
+export const subjectHoldsMessage=message=>!hasMessage(message||'')||message.trim()===topicFromMessage(message)&&Array.from(topicFromMessage(message)).length<=SUBJECT_LIMIT;
+
+export function writeError(note){
+  return messageLimitError(note)||(note.trim()?'':C.writeError);
 }
 
 export function answerError(message,subject) {
@@ -32,17 +49,20 @@ export function answerError(message,subject) {
 }
 
 export function previousInquiryStep(step,meeting) {
-  if(step===STEP.email)return meeting==='yes'?STEP.calendar:STEP.preference;
+  if(step===STEP.email)return meeting==='yes'?STEP.calendar:STEP.write;
+  if(step===STEP.write)return STEP.preference;
   return step-1;
 }
 
 export function inquiryPayload(answers,entryTopic='') {
   const service=SUBJECTS.find(s=>s.id===answers.subject);
+  const written=answers.meeting==='no'&&Boolean(answers.note?.trim());
   return {
     name:'',company:'',email:answers.email.trim(),subject:answers.subject,engagement:answers.engagement,
     ...(answers.budget?{budget:answers.budget}:{}),
-    topic:entryTopic||service?.label||topicFromMessage(answers.message)||'Design inquiry',
-    message:answers.message.trim()||service?.prompt||''
+    // A message has its own subject and text; a call request keeps the homepage note as the message.
+    topic:written?(topicFromMessage(answers.title||'')||messageSubject(answers.message,entryTopic,answers.subject)):entryTopic||service?.label||topicFromMessage(answers.message)||'Design inquiry',
+    message:written?answers.note.trim():answers.message.trim()||service?.prompt||''
   };
 }
 
@@ -85,7 +105,13 @@ export class HeroInquiry {
     this.editor.addEventListener('hero-inquiry-reset',()=>this.resetDraft());
     this.form.addEventListener('submit',event=>{event.preventDefault();this.next();});
     this.form.addEventListener('input',event=>{const field=event.target.closest('[data-answer]');if(field){this.answers[field.name]=field.value;this.persist();this.clearError(field);this.resizeField(field);}});
-    this.form.addEventListener('keydown',event=>{if(event.key==='Enter'&&!event.shiftKey&&!event.isComposing&&event.keyCode!==229&&event.target.matches('[data-answer]')){event.preventDefault();this.next();}});
+    this.form.addEventListener('keydown',event=>{
+      if(event.key!=='Enter'||event.shiftKey||event.isComposing||event.keyCode===229||!event.target.matches('[data-answer]'))return;
+      // The message box is for writing: Return starts a new line, ⌘/Ctrl+Return continues.
+      if(event.target.name==='note'&&!event.metaKey&&!event.ctrlKey)return;
+      event.preventDefault();
+      if(event.target.name==='title')this.form.querySelector('[name=note]')?.focus();else this.next();
+    });
     this.back.addEventListener('click',()=>{if(this.busy||this.bookingBusy)return;if(this.step===STEP.complete)this.completeAndReturn();else if(this.step===STEP.answer)this.exit();else this.changeStep(previousInquiryStep(this.step,this.answers.meeting));});
     this.panel.addEventListener('click',event=>{const edit=event.target.closest('[data-edit-step]');if(edit&&!this.busy)this.changeStep(Number(edit.dataset.editStep));if(event.target.closest('[data-download]'))this.download();});
     this.idle.querySelectorAll('button[data-subject]').forEach(button=>button.addEventListener('click',()=>this.chooseSubject(button.dataset.subject)));
@@ -123,6 +149,7 @@ export class HeroInquiry {
   clearSubject(){if(!this.answers.subject)return;this.answers.subject='';this.persist();this.updateSubjectUI();}
   resetDraft(){
     this.answers.message='';this.answers.subject='';this.answers.engagement='';this.answers.budget='';this.answers.meeting='';
+    this.answers.title='';this.answers.note='';this.answers.wrote=false;
     this.meetingSelection=null;this.persist();this.updateSubjectUI();
   }
   chooseSubject(id){
@@ -167,39 +194,28 @@ export class HeroInquiry {
     this.focusField();
   }
 
+  // Every change of screen is one block: the old screen fades out in place, then the new one
+  // settles in. Nothing slides from one button or heading into another.
   async morph(update,direction){
     if(this.motion.matches){update();return;}
-    const whole=direction==='enter'||direction==='leave';
-    // Phones, tablets and Safari play view transitions as a dragging crossfade, so they get the
-    // scripted fade between questions too. Desktop Chrome/Edge keep the view transition.
-    if(whole||!document.startViewTransition||SCRIPTED_STEPS()){
-      this.swap=this.fadeSwap(update,whole);
-      try{await this.swap;}finally{this.swap=null;}
-      return;
-    }
-    const html=document.documentElement;
-    html.dataset.heroTransition=direction;
-    try{
-      const transition=document.startViewTransition(update);
-      this.viewTransition=transition;
-      // A hidden tab or a viewport resize can skip the animation and still update the DOM.
-      transition.ready.catch(()=>{});
-      await transition.finished;
-    }finally{
-      this.viewTransition=null;
-      delete html.dataset.heroTransition;
-    }
+    this.swap=this.fadeSwap(update,direction==='enter'||direction==='leave');
+    try{await this.swap;}finally{this.swap=null;}
   }
 
-  // Opening or closing the inquiry: fade the screen out in place, swap it while invisible
-  // (closing the phone keyboard there too), then fade the new screen in. No movement, no overlap.
+  // Fade the screen out in place, swap it while invisible (closing the phone keyboard there too),
+  // then fade the new screen in. Between questions the panel also softens out of and into focus
+  // and settles a few pixels, all of it together.
   async fadeSwap(update,whole=true){
     const header=document.querySelector('body>.site-header');
     // On desktop the logo stays put; on phones the header shifts, so the logo fades with it.
     const keepLogo=header&&!matchMedia('(max-width: 820px)').matches;
     const stage=whole?[...(keepLogo?[...header.children].filter(el=>!el.matches('.hero-brand')):[header]),document.querySelector('body>main'),document.querySelector('body>main+.wrap')].filter(Boolean):[this.panel];
-    const fade=(from,to,options)=>Promise.all(stage.map(el=>this.transition.run(el,[{opacity:from},{opacity:to}],options)));
-    this.fallbackTransition=fade(1,0,{duration:whole?320:260,easing:'cubic-bezier(.45,0,.55,1)'});
+    const frames=whole?{out:[{opacity:1},{opacity:0}],in:[{opacity:0},{opacity:1}]}:{
+      out:[{opacity:1,filter:'blur(0px)'},{opacity:0,filter:'blur(3px)'}],
+      in:[{opacity:0,filter:'blur(3px)',transform:'translateY(6px)'},{opacity:1,filter:'blur(0px)',transform:'translateY(0px)'}]
+    };
+    const fade=(keyframes,options)=>Promise.all(stage.map(el=>this.transition.run(el,keyframes,options)));
+    this.fallbackTransition=fade(frames.out,{duration:whole?320:240,easing:'cubic-bezier(.45,0,.55,1)'});
     try{
       await this.fallbackTransition;
       await this.settleKeyboard();
@@ -207,11 +223,11 @@ export class HeroInquiry {
       html.dataset.heroSwapping='';
       try{update();void document.body.offsetHeight;}
       finally{delete html.dataset.heroSwapping;}
-      this.fallbackTransition=fade(0,1,{duration:whole?480:420,easing:'cubic-bezier(.33,0,.2,1)'});
+      this.fallbackTransition=fade(frames.in,{duration:whole?480:560,easing:'cubic-bezier(.22,.61,.36,1)'});
       await this.fallbackTransition;
     }finally{
       this.fallbackTransition=null;
-      for(const el of stage)el.style.removeProperty('opacity');
+      for(const el of stage)for(const property of ['opacity','filter','transform'])el.style.removeProperty(property);
     }
   }
   // On phones the keyboard closes as the next screen takes focus. Closing it mid-animation resizes
@@ -227,7 +243,12 @@ export class HeroInquiry {
       viewport?.addEventListener('resize',settle);
     });
   }
-  capture(){const field=this.form.querySelector('[data-answer]');if(field){this.answers[field.name]=field.value;this.persist();}}
+  capture(){
+    const fields=this.form.querySelectorAll('[data-answer]');if(!fields.length)return;
+    for(const field of fields)this.answers[field.name]=field.name==='title'&&field.value.trim()===this.defaultSubject()?'':field.value;
+    this.persist();
+  }
+  defaultSubject(){return messageSubject(this.answers.message,this.entryTopic,this.answers.subject);}
   next(){
     if(!this.active||this.busy)return;
     const field=this.form.querySelector('[data-answer]');
@@ -235,6 +256,12 @@ export class HeroInquiry {
     if(this.step===STEP.budget&&this.answers.budget){this.changeStep(STEP.preference);return;}
     if(!field)return;
     this.capture();
+    if(this.step===STEP.write){
+      const note=this.form.querySelector('[name=note]');
+      const error=writeError(note.value);
+      if(error){note.setAttribute('aria-invalid','true');this.form.querySelector('.hero-flow-error').textContent=error;note.focus({preventScroll:true});return;}
+      this.changeStep(STEP.email);return;
+    }
     const error=this.step===STEP.answer?answerError(field.value,this.answers.subject):emailError(field.value);
     if(error){field.setAttribute('aria-invalid','true');this.form.querySelector('.hero-flow-error').textContent=error;field.focus({preventScroll:true});return;}
     this.changeStep(this.step===STEP.answer?STEP.engagement:STEP.review);
@@ -259,20 +286,21 @@ export class HeroInquiry {
     this.focusField();
   }
   render(){
-    const {answer,engagement,budget,preference,calendar,email,review,complete}=STEP;
+    const {answer,engagement,budget,preference,calendar,write,email,review,complete}=STEP;
     const step=this.step;
-    if(!this.preview)track('inquiry_step',{step:['message','engagement','budget','meeting_preference','calendar','email','review','complete'][step]});
+    if(!this.preview)track('inquiry_step',{step:['message','engagement','budget','meeting_preference','calendar','write','email','review','complete'][step]});
     this.messageEditor?.destroy();this.messageEditor=null;
     this.booking?.destroy();this.booking=null;this.messageAction?.destroy();this.messageAction=null;
     delete this.container.dataset.booking;this.back.disabled=false;
     this.back.textContent=step===answer||step===complete?'Back to website':'Back';
-    this.progress.textContent=step<=preference?`Question ${step+1} of ${preference+1}`:step===calendar?'Choose a time':step===email?'Contact details':step===review?'A final look':this.receipt?.preview?'Preview complete':this.receipt?.kind==='message'?'Message received':this.receipt?.status==='requested'?'Request sent':'Meeting confirmed';
+    this.progress.textContent=step<=preference?`Question ${step+1} of ${preference+1}`:step===calendar?'Choose a time':step===write?'Your message':step===email?'Contact details':step===review?'A final look':this.receipt?.preview?'Preview complete':this.receipt?.kind==='message'?'Message received':this.receipt?.status==='requested'?'Request sent':'Meeting confirmed';
     this.content.replaceChildren();
     if(step===answer||step===email)this.renderField(step===email);
     else if(step===engagement)this.renderEngagement();
     else if(step===budget)this.renderBudget();
     else if(step===preference)this.renderPreference();
     else if(step===calendar)this.renderCalendar();
+    else if(step===write)this.renderWrite();
     else if(step===review)this.renderReview();
     else this.renderReceipt();
     this.panel.querySelector('.hero-flow-privacy').textContent=step===complete?'Your details are used only for this conversation.':C.privacyNote;
@@ -330,6 +358,45 @@ export class HeroInquiry {
     return tag;
   }
 
+  renderWrite(){
+    // A homepage note too long for a subject starts the message, so nothing typed is lost.
+    if(!this.answers.wrote){
+      this.answers.wrote=true;
+      if(!this.answers.note&&!subjectHoldsMessage(this.answers.message))this.answers.note=this.answers.message.trim();
+      this.persist();
+    }
+    this.heading(C.writeQuestion,C.writeHelper);
+    const box=element('div','hero-message-box');
+    const label=element('label','hero-message-subject');
+    const title=element('input','hero-message-title');
+    title.name='title';title.dataset.answer='';title.maxLength=200;title.autocomplete='off';
+    title.value=this.answers.title||this.defaultSubject();title.enterKeyHint='next';
+    label.append(element('span','hero-message-label',C.writeSubjectLabel),title);
+    const note=element('textarea','hero-message-note');
+    note.name='note';note.id='hero-flow-answer';note.dataset.answer='';note.rows=5;
+    note.placeholder=C.writePlaceholder;note.value=this.answers.note||'';
+    note.setAttribute('aria-label','Your message');
+    const counter=element('p','message-count');counter.id='hero-flow-count';counter.hidden=true;
+    const status=element('span','sr-only');status.id='hero-flow-limit-status';status.setAttribute('role','status');
+    note.setAttribute('aria-describedby','hero-flow-helper hero-flow-count hero-flow-error hero-flow-limit-status');
+    box.append(label,note);
+    const next=control('Continue','hero-flow-continue','submit');
+    const actions=element('div','hero-flow-actions');
+    const mac=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent);
+    actions.append(next,element('span','hero-flow-key-hint',`or press ${mac?'⌘':'Ctrl'} + Enter`));
+    const error=element('p','hero-flow-error');error.id='hero-flow-error';error.setAttribute('role','alert');
+    this.content.append(box,counter,status,error,actions);
+    const fit=()=>{note.style.height='auto';note.style.height=Math.min(note.scrollHeight+2,Math.round(innerHeight*.45))+'px';};
+    const count=()=>{
+      const n=characterCount(note.value),over=n>MESSAGE_LIMIT;
+      counter.hidden=n<2400;counter.dataset.limit=over?'over':n>=2700?'near':'normal';
+      counter.textContent=`${n.toLocaleString('en-US')} / 3,000${over?` · ${(n-MESSAGE_LIMIT).toLocaleString('en-US')} over`:''}`;
+      next.disabled=over;status.textContent=over?messageLimitError(note.value):'';
+    };
+    note.addEventListener('input',()=>{fit();count();});
+    requestAnimationFrame(()=>{fit();count();});
+  }
+
   renderEngagement(){
     this.heading(C.engagementQuestion,C.engagementHelper);
     this.renderChoices('engagement','Type of collaboration',ENGAGEMENTS);
@@ -366,7 +433,7 @@ export class HeroInquiry {
       button.addEventListener('click',()=>{
         if(this.busy||this.bookingBusy)return;
         this.answers.meeting=value;if(value==='no')this.meetingSelection=null;
-        this.persist();this.changeStep(value==='yes'?STEP.calendar:STEP.email);
+        this.persist();this.changeStep(value==='yes'?STEP.calendar:STEP.write);
       });
       choices.append(button);
     }
@@ -385,8 +452,13 @@ export class HeroInquiry {
     this.heading(C.reviewQuestion,meeting?C.reviewHelperMeeting:C.reviewHelperMessage);
     const review=element('dl','hero-flow-review');
     if(payload.subject)this.reviewRow(review,'Service',SUBJECTS.find(service=>service.id===payload.subject)?.label,STEP.answer);
-    if(this.entryTopic)this.reviewRow(review,'Topic',this.entryTopic,STEP.answer);
-    this.reviewRow(review,'Your project',payload.message,STEP.answer);
+    if(meeting){
+      if(this.entryTopic)this.reviewRow(review,'Topic',this.entryTopic,STEP.answer);
+      this.reviewRow(review,'Your project',payload.message,STEP.answer);
+    }else{
+      this.reviewRow(review,C.writeSubjectLabel,payload.topic,STEP.write);
+      this.reviewRow(review,'Message',payload.message,STEP.write);
+    }
     this.reviewRow(review,'Collaboration',ENGAGEMENTS.find(e=>e.id===payload.engagement)?.label,STEP.engagement);
     this.reviewRow(review,'Budget (EUR)',budgetLabel(payload),STEP.budget);
     this.reviewRow(review,'Next step',meeting?'Discovery call':C.startMessage,STEP.preference);
@@ -449,11 +521,7 @@ export class HeroInquiry {
   focusField(){const target=this.form.querySelector('.hero-flow-question');target?.focus({preventScroll:true});}
   async exit(updateHistory=true,{completed=false}={}){
     if(!this.active||this.bookingBusy)return;
-    if(this.viewTransition){
-      const current=this.viewTransition;
-      current.skipTransition();
-      await current.finished;
-    }else if(this.swap)await this.swap;
+    if(this.swap)await this.swap;
     else if(this.fallbackTransition)await this.fallbackTransition;
     if(!this.active||this.bookingBusy)return;
     this.messageAction?.destroy();
