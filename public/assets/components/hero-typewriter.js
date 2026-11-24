@@ -56,6 +56,7 @@ export class InteractiveTypewriter extends BaseElement {
     this.characters = Array.from(this.fullText);
     this.index = 0;
     this.hovered = false;
+    this.portraitHovered = false;
     this.hoverFocus = false;
     this.composing = false;
     this.events = new AbortController();
@@ -88,6 +89,17 @@ export class InteractiveTypewriter extends BaseElement {
       }
     });
     on(this, 'pointerleave', event => { this.hovered = false; this.scheduleRestore(event); });
+    // Hovering the portrait listens too, the same as hovering the heading.
+    if (this.portrait) {
+      on(this.portrait, 'pointerenter', event => {
+        if (event.pointerType !== 'mouse' && event.pointerType !== 'pen') return;
+        this.portraitHovered = true;
+        clearTimeout(this.restoreTimer);
+        this.reveal();
+        this.focusFromHover();
+      });
+      on(this.portrait, 'pointerleave', event => { this.portraitHovered = false; this.scheduleRestore(event); });
+    }
     if (this.engagement) {
       on(this.engagement, 'pointerenter', () => { this.engagementHovered = true; clearTimeout(this.restoreTimer); if(this.dataset.editing === 'true')this.focusFromHover(); });
       on(this.engagement, 'pointerleave', event => { this.engagementHovered = false; this.scheduleRestore(event); });
@@ -152,7 +164,7 @@ export class InteractiveTypewriter extends BaseElement {
     on(this.input, 'input', () => {
       this.syncInput();
       saveDraft(this.storage, this.input.value);
-      if (!this.input.value.length && !this.hovered && !this.engagementHovered) this.scheduleRestore();
+      if (!this.input.value.length && !this.hovered && !this.engagementHovered && !this.portraitHovered) this.scheduleRestore();
     });
     on(this.input, 'compositionstart', () => { this.composing = true; });
     on(this.input, 'compositionend', () => { this.composing = false; this.syncInput(); });
@@ -253,14 +265,14 @@ export class InteractiveTypewriter extends BaseElement {
     }, scrollListening ? SCROLL_LISTEN_IDLE_MS : this.motion.matches ? 0 : 850);
   }
   restore() {
-    if (!this.hovered && !this.engagementHovered && !this.input.value.length && this.hoverFocus) {
+    if (!this.hovered && !this.engagementHovered && !this.portraitHovered && !this.input.value.length && this.hoverFocus) {
       this.hoverFocus = false;
       if (document.activeElement === this.input) this.input.blur();
       this.dataset.focused = 'false';
     }
     const active = document.activeElement;
     const editingFocus = this.contains(active) && active !== this.visual;
-    if (this.dataset.scrollListening === 'true' || this.hovered || this.engagementHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
+    if (this.dataset.scrollListening === 'true' || this.hovered || this.engagementHovered || this.portraitHovered || editingFocus || this.engagement?.contains(active) || this.input.value.length) return;
     clearTimeout(this.finishTimer);
     this.finishTyping();
     this.dataset.editing = 'false';
@@ -284,7 +296,7 @@ export class InteractiveTypewriter extends BaseElement {
     this.finishTyping();
     this.input.value = '';
     // Keep the blank editor ready; pointer exit releases hover-owned focus and restores the intro.
-    this.hoverFocus = !keyboard && Boolean(this.hovered || this.engagementHovered);
+    this.hoverFocus = !keyboard && Boolean(this.hovered || this.engagementHovered || this.portraitHovered);
     this.dataset.editing = 'true';
     saveDraft(this.storage, '');
     this.dispatchEvent(new CustomEvent('hero-inquiry-reset', {bubbles: true}));
@@ -295,10 +307,18 @@ export class InteractiveTypewriter extends BaseElement {
   returnToIntroduction() {
     delete this.dataset.scrollListening;
     clearTimeout(this.restoreTimer);clearTimeout(this.finishTimer);
-    this.finishTyping();this.composing=false;this.hovered=false;this.engagementHovered=false;this.hoverFocus=false;
+    this.finishTyping();this.composing=false;this.hovered=false;this.engagementHovered=false;this.portraitHovered=false;this.hoverFocus=false;
     if(document.activeElement===this.input)this.input.blur();
     this.input.value='';saveDraft(this.storage,'');
     this.dataset.editing='false';this.dataset.focused='false';this.syncInput();
+  }
+  replayIntroduction() {
+    this.returnToIntroduction();
+    clearTimeout(this.timer);
+    this.typeStarted = false;
+    this.index = 0;
+    this.intro.textContent = '';
+    this.dataset.typing = 'waiting';
   }
   submit() {
     if (this.composing || !hasMessage(this.input.value)) return;

@@ -71,6 +71,44 @@ html[data-hero-transition]::view-transition-new(inquiry-heading) {
   0%, 14% { opacity: 0; filter: blur(4px); translate: 0 var(--hero-morph-offset); }
   100% { opacity: 1; filter: blur(0); translate: 0 0; }
 }
+/* Opening and closing the inquiry: the intro heading and the question no longer share one
+   morphing slot (that made "Hey there…" slide up and stretch into the question). The old screen
+   dissolves in place, then the new one eases in once it has gone, so the two never overlap. */
+html:is([data-hero-transition=enter],[data-hero-transition=leave]) { --hero-morph-duration: 820ms; }
+html:is([data-hero-transition=enter],[data-hero-transition=leave]) .hero-typewriter { view-transition-name: inquiry-intro; }
+/* The portrait belongs to the hero block: it dissolves in place with "Hey there…" instead of
+   gliding to its hidden position, and skips its own opacity fade so it doesn't double up. */
+html:is([data-hero-transition=enter],[data-hero-transition=leave]) .hero-portrait { view-transition-name: none; transition: none; }
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(root),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(inquiry-intro),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(inquiry-heading),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(inquiry-progress),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(inquiry-note),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-old(inquiry-action) {
+  animation: hero-soft-out 340ms cubic-bezier(.45,0,.55,1) both;
+}
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-new(root),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-new(inquiry-progress),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-new(inquiry-note),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-new(inquiry-action) {
+  animation: hero-soft-in 480ms cubic-bezier(.33,0,.2,1) 340ms both;
+}
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-new(inquiry-intro),
+html:is([data-hero-transition=enter],[data-hero-transition=leave])::view-transition-new(inquiry-heading) {
+  animation: hero-soft-rise 480ms cubic-bezier(.33,0,.2,1) 340ms both;
+}
+@keyframes hero-soft-out {
+  from { opacity: 1; filter: blur(0); }
+  to { opacity: 0; filter: blur(3px); }
+}
+@keyframes hero-soft-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes hero-soft-rise {
+  from { opacity: 0; filter: blur(3px); translate: 0 6px; }
+  to { opacity: 1; filter: blur(0); translate: 0 0; }
+}
 /* Shared slots keep the biography and chips from changing the hero height. */
 .hero-page .hero-engagement{display:grid;max-width:881.558px;min-height:75px;margin:43.976px 0 0;align-items:start;--hero-ease:cubic-bezier(.4,0,.2,1)}
 .hero-page .hero-introduction .hero-bio{grid-area:1 / 1;width:100%;margin:0 0 0 4.558px;color:#a2a2a2;opacity:1;filter:blur(0);transform:translateY(0);transition:opacity 640ms var(--hero-ease) 80ms,filter 640ms var(--hero-ease) 80ms,transform 640ms var(--hero-ease) 80ms}

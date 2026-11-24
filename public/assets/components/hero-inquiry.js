@@ -420,7 +420,7 @@ export class HeroInquiry {
     }
     this.messageEditor?.destroy();this.messageEditor=null;
     if(updateHistory&&this.ownsHistory&&history.state?.heroInquiry){history.back();this.ownsHistory=false;}
-    await this.morph(()=>{
+    const restore=()=>{
       document.body.removeAttribute('data-inquiry-ready');
       document.body.removeAttribute('data-inquiry-active');
       this.container.removeAttribute('data-flow');
@@ -429,14 +429,20 @@ export class HeroInquiry {
       for(const [el,state] of this.originalStates){el.hidden=state.hidden;el.inert=state.inert;}
       this.panel.hidden=true;
       this.idle.hidden=false;this.idle.inert=true;
-      if(completed){this.editor.input.value='';this.resetDraft();this.editor.returnToIntroduction();}
-      else{
+      if(completed){
+        this.editor.input.value='';this.resetDraft();
+        // After the logo, the introduction types itself again like a first visit.
+        if(brandEntrance)this.editor.replayIntroduction();else this.editor.returnToIntroduction();
+      }else{
         this.editor.input.value=this.answers.message;
         this.updateSubjectUI();this.editor.finishTyping();
         if(!this.entryTrigger)this.editor.reveal();
       }
       if(window.scrollY)window.scrollTo({top:0,behavior:'instant'});
-    },'leave');
+    };
+    // A finished inquiry returns through the animated logo; it restores the homepage behind it.
+    if(completed&&brandEntrance)await brandEntrance.play({restore});
+    else await this.morph(restore,'leave');
     this.idle.inert=false;this.busy=false;
     if(completed)document.querySelector('.hero-brand')?.focus({preventScroll:true});
     else if(this.entryTrigger)this.entryTrigger.focus({preventScroll:true});

@@ -163,12 +163,12 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 - No physical iPhone keyboard test yet (simulation only).
 - Node is not on the default shell PATH on the owner's Mac; use `~/.nvm/versions/node/v24.13.0/bin`.
 
-- **Published 2026-11-23** (owner approved): the brand-strip experiment is now part of the build (`scripts/work-preview.mjs` + `public/assets/work-preview/`, injected into `/` and `/404.html` by `scripts/build.mjs`). Pushed to GitHub `main` as `7ae6522` (on top of `213de32`), then `7b2595e` on 2026-11-24 (mobile/iPad) and `7f0a3a0` (Preview work pill hidden); Cloudflare redeployed https://mbdesign-website.pages.dev within ~1 min. Draft/noindex unchanged; no domain change. Unconfirmed case-study facts were published as written at the owner's request.
+- **Published 2026-11-23** (owner approved): the brand-strip experiment is now part of the build (`scripts/work-preview.mjs` + `public/assets/work-preview/`, injected into `/` and `/404.html` by `scripts/build.mjs`). Pushed to GitHub `main` as `7ae6522` (on top of `213de32`), then `7b2595e` on 2026-11-24 (mobile/iPad) `7f0a3a0` (Preview work pill hidden) and `183c3f2` (GA removed, shorter placeholder) and the hero motion/hover batch; Cloudflare redeployed https://mbdesign-website.pages.dev within ~1 min. Draft/noindex unchanged; no domain change. Unconfirmed case-study facts were published as written at the owner's request.
 - Sync method used: this local folder is still **not** linked to GitHub (its `.git` has no commits). The push was made from a fresh clone with the local files copied in (excluding `experiments/`, `preview/`, `dist/`, `.local/`, `.dev.vars`, `bookings.sqlite*`, root `preview-*.jpg/gif`, `.DS_Store`; the unused 4 MB `public/assets/about/mihail-boboc.png` was left out). Edit `scripts/work-preview.mjs` / `public/assets/work-preview/` from now on; `experiments/brand-strip-preview/` is the superseded prototype (its server skips injection when the build already includes the preview).
 
 ## 10. Next priorities
 
-1. Make this folder a proper clone of GitHub `main` (now at `7f0a3a0`) so future pushes don't need the copy-into-clone step.
+1. Make this folder a proper clone of GitHub `main` (now at `183c3f2`) so future pushes don't need the copy-into-clone step.
 2. Make the tests pass (mode-aware tests or re-enable pages).
 3. ✅ Work preview shipped to staging. Next: owner review on the live staging URL.
 4. Confirm email, domain and meeting rules. Connect Google + D1 + Turnstile. Run a real acceptance test (`LAUNCH.md` §8).
@@ -188,7 +188,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 | 2026-11-23 | Claude Code | 100% corner smoothing on cards (24px, owner's choice) and the focus frame (60px) via CSS corner-shape. |
 | 2026-11-23 | Claude Code | × and Escape in the focused view return to the home screen (same morph as the blur). |
 | 2026-11-23 | Claude Code | 7code web case study uses the owner's copy; visible placeholder tags removed (values still flagged in data). |
-| 2026-11-24 | Claude Code | Removed Google Analytics and its consent banner; privacy copy and ANALYTICS.md now describe cookieless Cloudflare Web Analytics (to be enabled in the dashboard). Tests 87/91 (same 4 known). Local only. |
+| 2026-11-24 | Claude Code | Removed Google Analytics and its consent banner; privacy copy and ANALYTICS.md now describe cookieless Cloudflare Web Analytics (to be enabled in the dashboard). Tests 87/91 (same 4 known). Pushed in `183c3f2` with the shorter placeholder, live on staging. |
 | 2026-11-24 | Claude Code | "Preview work" pill hidden (keyboard focus only); the brand strip itself opens Work on touch. Pushed in `7f0a3a0`, live on staging. |
 | 2026-11-24 | Claude Code | Published to staging: mobile/iPad drawer + work grid, inquiry placeholder, deselectable suggestions, click-anywhere exit. GitHub main `7b2595e`; live on mbdesign-website.pages.dev (draft/noindex kept). |
 | 2026-11-24 | Claude Code | Phones/iPads: scroll down opens the hero Listening state again; tapping the brand strip opens Work. Desktop unchanged. Pushed in `7b2595e`. |
@@ -218,3 +218,7 @@ Work section intent: **Work in the nav scrolls to `/#work`** on the homepage (si
 | 2026-11-23 | Claude Code | Lendit reading view: smaller centred landscape card, hero image spacing fixed, blur click morphs back to the homepage. |
 | 2026-11-23 | Claude Code | Lendit case study restructured: white, numbered chapters, rail of other works kept, blur exits to home, reel and next link removed. |
 | 2026-11-22 | Claude Code | Local-only Lendit short case study with an animated screen reel inside the focused work card (`experiments/brand-strip-preview/`). Published site untouched. |
+| 2026-11-24 | Claude Code | Hero → inquiry open/close transition: the intro heading ("Hey there…") and the first question no longer share one view-transition slot (it made the text slide up and stretch into the question). Now the old screen dissolves in place (340ms), then the new one eases in (480ms, small 6px rise on the heading) with no overlap. The portrait is part of that hero block: it dissolves in place with the heading instead of gliding up (and down on the way back). Steps inside the flow keep their existing transition. `hero-inquiry.css` only. Tests 87/91 (same 4 known). Pushed 2026-11-24. |
+| 2026-11-24 | Claude Code | "Back to website" after a finished inquiry now replays the animated logo (`brandEntrance.play({restore})` restores the homepage behind it) and the "Hey there…" introduction types itself again (`replayIntroduction()` in hero-typewriter.js). Leaving mid-form still uses the fade. Reduced motion skips the logo. Tests 87/91 (same 4 known). Pushed 2026-11-24. |
+| 2026-11-24 | Claude Code | Hero placeholder now breaks as "What are you / working on?" (`&#10;` in the textarea placeholder in `scripts/build.mjs`; the footer prompt is unchanged). Tests 87/91 (same 4 known). Pushed 2026-11-24. |
+| 2026-11-24 | Claude Code | Hovering the hero portrait (mouse/pen) now switches to listening mode like hovering the heading: placeholder, suggestions, listening portrait; it restores after the same hover-out delay (`portraitHovered` in hero-typewriter.js). Tests 87/91 (same 4 known). Pushed 2026-11-24. |
