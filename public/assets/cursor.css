@@ -1,8 +1,7 @@
 /* OS-positioned cursors: no following overlay, tracking loop, or magnetic coupling. */
 @media(hover:hover) and (pointer:fine){
-  /* The arrow is the standard system one (owner, 2026-11-25); only the text cursor is custom. */
+  /* Standard system arrow and text cursor (owner, 2026-11-25); links and buttons show the hand. */
   body :is(a,button,select,summary,[role=button],input[type=checkbox],input[type=radio]),body :is(a,button,select,summary,[role=button]) *{cursor:pointer}
-  body textarea,body .hero-typewriter textarea,body input:not([type=button]):not([type=submit]):not([type=checkbox]):not([type=radio]):not([type=range]),body [contenteditable=true]{cursor:url('/assets/cursor-text.svg') 16 20,text}
   body button:disabled,body button:disabled *,body .hero-typewriter .hero-send:disabled{cursor:not-allowed}
 }
 @media(forced-colors:active){body,body *{cursor:auto!important}body textarea,body input,body [contenteditable=true]{cursor:text!important}}
