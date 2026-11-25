@@ -42,3 +42,10 @@ if(backToTop){
  window.addEventListener('scroll',updateTop,{passive:true});document.addEventListener('scroll',updateTop,{capture:true,passive:true});window.addEventListener('pageshow',updateTop);
  backToTop.addEventListener('click',()=>{const behavior=matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth';window.scrollTo({top:0,behavior});document.querySelector('#main')?.focus({preventScroll:true});});updateTop();
 }
+
+// The logo goes home like a first visit, with the logo animation (the homepage handles its own logo).
+document.addEventListener('click',event=>{
+  const logo=event.target.closest?.('a.brand,a.hero-brand');
+  if(!logo||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+  try{sessionStorage.removeItem('mihail:brand-entrance:v1');}catch{}
+});

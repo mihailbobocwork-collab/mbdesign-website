@@ -97,3 +97,7 @@
 .contact-meeting-choice legend{padding-inline:0}
 .footer-bottom{flex-wrap:nowrap}.footer-bottom>*{flex-basis:auto}.footer-bottom>*:nth-child(even){text-align:initial}
 .footer-socials{display:flex;align-items:center;gap:12px}.footer-socials a{display:grid;place-items:center;width:44px;height:44px;border-radius:50%}.footer-socials svg{width:21px;height:21px}.footer-socials a:hover{background:#e9eef2}
+
+/* The logo is a thin mark: a wider invisible click area around it makes it easy to hit. */
+.site-header :is(.brand,.hero-brand){position:relative}
+.site-header :is(.brand,.hero-brand)::after{content:"";position:absolute;inset:-14px -16px}

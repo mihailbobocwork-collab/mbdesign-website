@@ -3,7 +3,7 @@ import {track} from '../analytics.js';
 import {saveDraft,hasMessage,readContactEntry} from './hero-typewriter.js';
 import {MessageEditor, messageLimitError} from './message-editor.js';
 import {TransitionMotion} from './transition-motion.js';
-import {brandEntrance} from './brand-loader.js';
+import {brandEntrance,BRAND_SEEN_KEY} from './brand-loader.js';
 import {MeetingCalendar} from './meeting-calendar.js';
 import {BookingAction} from './booking-action.js';
 import {COPY as C,SUBJECTS,ENGAGEMENTS,BUDGET_RANGES,budgetLabel,emailError,topicFromMessage,formatMeeting} from './inquiry-details.js';
@@ -125,7 +125,14 @@ export class HeroInquiry {
     this.back.addEventListener('click',()=>{if(this.busy||this.bookingBusy)return;if(this.step===STEP.complete)this.completeAndReturn();else if(this.step===STEP.answer)this.exit();else this.changeStep(previousInquiryStep(this.step,this.answers.meeting));});
     this.panel.addEventListener('click',event=>{const edit=event.target.closest('[data-edit-step]');if(edit&&!this.busy)this.changeStep(Number(edit.dataset.editStep));if(event.target.closest('[data-download]'))this.download();});
     this.idle.querySelectorAll('button[data-subject]').forEach(button=>button.addEventListener('click',()=>this.chooseSubject(button.dataset.subject)));
-    document.querySelector('.hero-brand')?.addEventListener('click',event=>{if(this.active){event.preventDefault();if(!this.bookingBusy)this.exit();}});
+    // The logo starts the website over like a first visit: the logo animation plays and the
+    // introduction types itself again (an open inquiry closes first; a typed draft is kept).
+    document.querySelector('.hero-brand')?.addEventListener('click',event=>{
+      if(event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
+      if(this.bookingBusy){event.preventDefault();return;}
+      if(this.active){event.preventDefault();this.exit(true,{replay:true});return;}
+      if(brandEntrance&&!this.direct){event.preventDefault();this.replayHome();}
+    });
     document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!event.defaultPrevented&&this.active&&!this.bookingBusy){event.preventDefault();this.exit();}});
     const contactButton=document.querySelector('.nav-contact');
     contactButton?.addEventListener('click',event=>{
@@ -522,12 +529,23 @@ export class HeroInquiry {
   }
 
   resizeField(field){if(field.tagName==='TEXTAREA')this.messageEditor?.update();}
+  async replayHome(){
+    if(this.busy||this.active)return;
+    this.busy=true;
+    try{
+      await brandEntrance.play({restore:()=>{
+        if(location.hash)try{history.replaceState(history.state,'',location.pathname+location.search);}catch{}
+        window.scrollTo({top:0,behavior:'instant'});
+        if(hasMessage(this.editor.input.value))this.editor.finishTyping();else this.editor.replayIntroduction();
+      }});
+    }finally{this.busy=false;}
+  }
   completeAndReturn(){
     if(this.busy)return;
     return this.exit(true,{completed:true});
   }
   focusField(){const target=this.form.querySelector('.hero-flow-question');target?.focus({preventScroll:true});}
-  async exit(updateHistory=true,{completed=false}={}){
+  async exit(updateHistory=true,{completed=false,replay=false}={}){
     if(!this.active||this.bookingBusy)return;
     if(this.swap)await this.swap;
     else if(this.fallbackTransition)await this.fallbackTransition;
@@ -536,6 +554,7 @@ export class HeroInquiry {
     this.capture();this.booking?.destroy();this.booking=null;this.active=false;this.busy=true;
     if(this.direct){
       if(completed)this.resetDraft();
+      if(completed||replay)try{this.storage?.removeItem(BRAND_SEEN_KEY);}catch{}
       window.location.replace('/');
       return;
     }
@@ -557,16 +576,17 @@ export class HeroInquiry {
       }else{
         this.editor.input.value=this.answers.message;
         this.answers.subject='';this.persist();
-        this.updateSubjectUI();this.editor.finishTyping();
-        if(!this.entryTrigger)this.editor.reveal();
+        this.updateSubjectUI();
+        if(replay&&!hasMessage(this.answers.message))this.editor.replayIntroduction();
+        else{this.editor.finishTyping();if(!this.entryTrigger&&!replay)this.editor.reveal();}
       }
       if(window.scrollY)window.scrollTo({top:0,behavior:'instant'});
     };
     // A finished inquiry returns through the animated logo; it restores the homepage behind it.
-    if(completed&&brandEntrance)await brandEntrance.play({restore});
+    if((completed||replay)&&brandEntrance)await brandEntrance.play({restore});
     else await this.morph(restore,'leave');
     this.idle.inert=false;this.busy=false;
-    if(completed)document.querySelector('.hero-brand')?.focus({preventScroll:true});
+    if(completed||replay)document.querySelector('.hero-brand')?.focus({preventScroll:true});
     else if(this.entryTrigger)this.entryTrigger.focus({preventScroll:true});
     else this.editor.input.focus({preventScroll:true});
   }
