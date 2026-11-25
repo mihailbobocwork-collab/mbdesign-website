@@ -83,17 +83,17 @@ landing('The landing shows the work preview and About, and every page reaches th
  for(const file of htmlFiles.filter(f=>!f.includes('/admin/'))){
   const html=await readFile(file,'utf8');
   assert.match(html,/href="\/contact\/"/,file);assert.match(html,/class="floating-top"/,file);
-  assert.ok(!/href="\/(services|about|privacy)\//.test(html),file);
+  assert.ok(!/href="\/(about|privacy)\//.test(html),file);
  }
 });
 
 landing('Hidden pages are not published and their addresses lead home',async()=>{
- for(const route of ['work','work/7code-tech','about','services','privacy'])await assert.rejects(()=>stat(path.join(root,'dist',route,'index.html')),route);
+ for(const route of ['work','work/7code-tech','about','privacy'])await assert.rejects(()=>stat(path.join(root,'dist',route,'index.html')),route);
  const redirects=await readFile(path.join(root,'dist/_redirects'),'utf8');
- for(const route of ['/about','/services/*','/privacy'])assert.match(redirects,new RegExp('^'+route.replace('*','\\*')+' / 302$','m'),route);
+ for(const route of ['/about','/privacy'])assert.match(redirects,new RegExp('^'+route.replace('*','\\*')+' / 302$','m'),route);
  assert.match(redirects,/^\/work \/#work-preview 302$/m);
  // Case-study pages are real pages; a redirect for them would hide them.
- assert.doesNotMatch(redirects,/^\/work\/\*/m);
+ assert.doesNotMatch(redirects,/^\/work\/\*|^\/services/m);
 });
 
 landing('Every shown case study has its own page that search engines can list',async()=>{
@@ -126,4 +126,24 @@ test('Inquiry wording edited in the admin reaches the homepage, the inquiry and 
   assert.equal(details.ENGAGEMENTS.find(e=>e.id==='project').label,'One project');
   assert.equal(details.SUBJECTS.find(s=>s.id==='brand').prompt,'I’d like to discuss a branding & <logos> project.');
  }finally{await rm(temp,{recursive:true,force:true});}
+});
+
+landing('Each service has its own page with its offer, related work, questions and a way to get in touch',async()=>{
+ const sitemap=await readFile(path.join(root,'dist/sitemap.xml'),'utf8');
+ const index=await readFile(path.join(root,'dist/services/index.html'),'utf8');
+ for(const slug of ['product-design','brand-identity','graphic-design']){
+  const service=JSON.parse(await readFile(path.join(root,`content/service-${slug}.json`),'utf8'));
+  const html=await readFile(path.join(root,'dist/services',slug,'index.html'),'utf8');
+  assert.ok(html.includes(`<title>${service.seoTitle.replace(/&/g,'&amp;')}</title>`),slug);
+  assert.ok(html.includes(`<link rel="canonical" href="https://mihaiboboc.com/services/${slug}/">`),slug);
+  assert.match(html,/<h1>[^<]+<\/h1>/,slug);
+  assert.match(html,/"@type":"Service"/,slug);assert.match(html,/"@type":"FAQPage"/,slug);
+  assert.ok(html.includes(`href="/contact/?topic=${encodeURIComponent(service.name)}"`),slug);
+  for(const id of service.related)assert.ok(html.includes(`href="/work/${id}/"`),slug+' → '+id);
+  assert.ok(sitemap.includes(`<loc>https://mihaiboboc.com/services/${slug}/</loc>`),slug);
+  assert.ok(index.includes(`href="/services/${slug}/"`),slug);
+ }
+ // Case-study pages link to every service, so search engines find them from the homepage cards.
+ const lendit=await readFile(path.join(root,'dist/work/lendit/index.html'),'utf8');
+ for(const slug of ['product-design','brand-identity','graphic-design'])assert.ok(lendit.includes(`href="/services/${slug}/"`),slug);
 });

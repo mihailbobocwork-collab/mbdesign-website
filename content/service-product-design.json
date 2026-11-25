@@ -1,0 +1,78 @@
+{
+  "slug": "product-design",
+  "name": "Product Design",
+  "summary": "Research, UX, UI and design systems for SaaS, AI and marketplace products, from first flows to a shipped interface.",
+  "seoTitle": "Product Designer for SaaS & AI Startups · Mihai Boboc",
+  "seoDescription": "Freelance product designer for SaaS, AI and marketplace startups: research, UX, UI, design systems and front-end build, from first flows to a shipped product.",
+  "headline": "Product design for SaaS and AI startups.",
+  "intro": "I help founders and small teams turn a product idea, or a product that works but feels rough, into something people understand and trust. I join as your design partner: close to the founders, working directly with your developers, from the first user flows to the shipped interface.\n\nMost of my recent work is in AI and developer tools, B2B SaaS, marketplaces and research platforms. I also build what I design, so the design system and the front-end can come from the same hands.",
+  "offers": [
+    {
+      "title": "Product discovery & UX",
+      "text": "Research, user flows and wireframes that frame the real problem before anyone polishes pixels."
+    },
+    {
+      "title": "UI for web and mobile",
+      "text": "High-fidelity interfaces for desktop, tablet and mobile, including the empty states, errors and edge cases."
+    },
+    {
+      "title": "Design systems",
+      "text": "Components, variables and light and dark themes your team can ship from. Lendit’s has 100+ components and 500+ variables."
+    },
+    {
+      "title": "AI product UX",
+      "text": "Interfaces where AI suggests and people decide: drafts to approve, themes to edit, modes that keep control clear."
+    },
+    {
+      "title": "Design engineering",
+      "text": "Front-end build, design systems in code and websites with a CMS your team can update on its own."
+    },
+    {
+      "title": "Developer handoff",
+      "text": "Specs, style guides and close collaboration, so what ships matches what was designed."
+    }
+  ],
+  "process": [
+    {
+      "title": "Understand",
+      "text": "A first call, then your goals, your users and the product as it is today. I look for the real problem before proposing anything."
+    },
+    {
+      "title": "Shape",
+      "text": "User stories, flows and low-fidelity wireframes, so we agree on structure early, while changes are cheap."
+    },
+    {
+      "title": "Design",
+      "text": "High-fidelity UI and a design system, reviewed with you and your developers as it grows."
+    },
+    {
+      "title": "Ship",
+      "text": "Handoff or front-end build, support while it goes live, and testing to keep improving it."
+    }
+  ],
+  "related": ["lendit", "angen-ai", "wholesum", "7code-web"],
+  "faq": [
+    {
+      "title": "Do you work with early-stage startups?",
+      "text": "Yes. Most of my recent projects were with founders and small teams of two to four developers, often as the only designer."
+    },
+    {
+      "title": "How long does a project take?",
+      "text": "It depends on the scope. Recent product projects ran from 10 weeks (WholeSum) to 16 weeks (Angen AI), and I’ve worked on Lendit since August 2025."
+    },
+    {
+      "title": "Can you also build the front-end?",
+      "text": "Yes. As a design engineer I can turn the design into a working front-end or website, or work alongside your developers."
+    },
+    {
+      "title": "Where are you based?",
+      "text": "In Moldova, Europe. I work remotely with teams worldwide."
+    },
+    {
+      "title": "How do we start?",
+      "text": "Tell me what you’re working on through the form or book a short call. I’ll reply with questions and a suggested next step."
+    }
+  ],
+  "ctaTitle": "Working on a product?",
+  "ctaText": "Tell me about it and I’ll get back to you with questions and a next step."
+}

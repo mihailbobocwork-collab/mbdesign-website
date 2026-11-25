@@ -29,6 +29,66 @@ export const CONTENT_SECTIONS = [
     ]
   },
   {
+    id: 'service-product', label: 'Product Design', file: 'content/service-product-design.json',
+    lede: 'The Product Design page at /services/product-design/: what Google shows, the introduction, what you offer, how you work and common questions. The related case studies are set in the file.',
+    fields: [
+      {key: 'name', label: 'Name', type: 'short', max: 40, required: true, group: 'Page', hint: 'Used in the menu, the footer and the list of services.'},
+      {key: 'summary', label: 'Summary', type: 'text', rows: 2, max: 160, required: true, hint: 'One sentence on the Services page and under “Other services”.'},
+      {key: 'seoTitle', label: 'Google title', type: 'short', max: 70, required: true, hint: 'Around 60 characters shows in full.'},
+      {key: 'seoDescription', label: 'Google description', type: 'text', rows: 3, max: 170, required: true, hint: 'Around 155 characters shows in full.'},
+      {key: 'headline', label: 'Heading', type: 'text', rows: 2, max: 120, required: true, group: 'Introduction'},
+      {key: 'intro', label: 'Introduction', type: 'text', rows: 7, max: 1500, required: true, hint: 'Leave an empty line between paragraphs.'},
+      {key: 'offers', label: 'What I can help with', type: 'pairs', first: 'title', second: 'text', group: 'What I can help with',
+        firstName: 'Offer', secondName: 'Description', firstMax: 60, secondMax: 220, multiline: true, max: 9, add: 'Add an offer', hint: 'Remove them all to hide this part.'},
+      {key: 'process', label: 'How we’ll work', type: 'pairs', first: 'title', second: 'text', group: 'How we’ll work',
+        firstName: 'Step', secondName: 'Description', firstMax: 40, secondMax: 220, multiline: true, max: 6, add: 'Add a step', hint: 'Numbered in this order. Remove them all to hide this part.'},
+      {key: 'faq', label: 'Questions', type: 'pairs', first: 'title', second: 'text', group: 'Questions',
+        firstName: 'Question', secondName: 'Answer', firstMax: 120, secondMax: 400, multiline: true, max: 10, add: 'Add a question', hint: 'Also shown to Google as frequently asked questions.'},
+      {key: 'ctaTitle', label: 'Title', type: 'short', max: 80, required: true, group: 'Closing invitation'},
+      {key: 'ctaText', label: 'Text', type: 'short', max: 200, required: true}
+    ]
+  },
+  {
+    id: 'service-brand', label: 'Brand Identity', file: 'content/service-brand-identity.json',
+    lede: 'The Brand Identity page at /services/brand-identity/: what Google shows, the introduction, what you offer, how you work and common questions. The related case studies are set in the file.',
+    fields: [
+      {key: 'name', label: 'Name', type: 'short', max: 40, required: true, group: 'Page', hint: 'Used in the menu, the footer and the list of services.'},
+      {key: 'summary', label: 'Summary', type: 'text', rows: 2, max: 160, required: true, hint: 'One sentence on the Services page and under “Other services”.'},
+      {key: 'seoTitle', label: 'Google title', type: 'short', max: 70, required: true, hint: 'Around 60 characters shows in full.'},
+      {key: 'seoDescription', label: 'Google description', type: 'text', rows: 3, max: 170, required: true, hint: 'Around 155 characters shows in full.'},
+      {key: 'headline', label: 'Heading', type: 'text', rows: 2, max: 120, required: true, group: 'Introduction'},
+      {key: 'intro', label: 'Introduction', type: 'text', rows: 7, max: 1500, required: true, hint: 'Leave an empty line between paragraphs.'},
+      {key: 'offers', label: 'What I can help with', type: 'pairs', first: 'title', second: 'text', group: 'What I can help with',
+        firstName: 'Offer', secondName: 'Description', firstMax: 60, secondMax: 220, multiline: true, max: 9, add: 'Add an offer', hint: 'Remove them all to hide this part.'},
+      {key: 'process', label: 'How we’ll work', type: 'pairs', first: 'title', second: 'text', group: 'How we’ll work',
+        firstName: 'Step', secondName: 'Description', firstMax: 40, secondMax: 220, multiline: true, max: 6, add: 'Add a step', hint: 'Numbered in this order. Remove them all to hide this part.'},
+      {key: 'faq', label: 'Questions', type: 'pairs', first: 'title', second: 'text', group: 'Questions',
+        firstName: 'Question', secondName: 'Answer', firstMax: 120, secondMax: 400, multiline: true, max: 10, add: 'Add a question', hint: 'Also shown to Google as frequently asked questions.'},
+      {key: 'ctaTitle', label: 'Title', type: 'short', max: 80, required: true, group: 'Closing invitation'},
+      {key: 'ctaText', label: 'Text', type: 'short', max: 200, required: true}
+    ]
+  },
+  {
+    id: 'service-graphic', label: 'Graphic Design', file: 'content/service-graphic-design.json',
+    lede: 'The Graphic Design page at /services/graphic-design/: what Google shows, the introduction, what you offer, how you work and common questions. The related case studies are set in the file.',
+    fields: [
+      {key: 'name', label: 'Name', type: 'short', max: 40, required: true, group: 'Page', hint: 'Used in the menu, the footer and the list of services.'},
+      {key: 'summary', label: 'Summary', type: 'text', rows: 2, max: 160, required: true, hint: 'One sentence on the Services page and under “Other services”.'},
+      {key: 'seoTitle', label: 'Google title', type: 'short', max: 70, required: true, hint: 'Around 60 characters shows in full.'},
+      {key: 'seoDescription', label: 'Google description', type: 'text', rows: 3, max: 170, required: true, hint: 'Around 155 characters shows in full.'},
+      {key: 'headline', label: 'Heading', type: 'text', rows: 2, max: 120, required: true, group: 'Introduction'},
+      {key: 'intro', label: 'Introduction', type: 'text', rows: 7, max: 1500, required: true, hint: 'Leave an empty line between paragraphs.'},
+      {key: 'offers', label: 'What I can help with', type: 'pairs', first: 'title', second: 'text', group: 'What I can help with',
+        firstName: 'Offer', secondName: 'Description', firstMax: 60, secondMax: 220, multiline: true, max: 9, add: 'Add an offer', hint: 'Remove them all to hide this part.'},
+      {key: 'process', label: 'How we’ll work', type: 'pairs', first: 'title', second: 'text', group: 'How we’ll work',
+        firstName: 'Step', secondName: 'Description', firstMax: 40, secondMax: 220, multiline: true, max: 6, add: 'Add a step', hint: 'Numbered in this order. Remove them all to hide this part.'},
+      {key: 'faq', label: 'Questions', type: 'pairs', first: 'title', second: 'text', group: 'Questions',
+        firstName: 'Question', secondName: 'Answer', firstMax: 120, secondMax: 400, multiline: true, max: 10, add: 'Add a question', hint: 'Also shown to Google as frequently asked questions.'},
+      {key: 'ctaTitle', label: 'Title', type: 'short', max: 80, required: true, group: 'Closing invitation'},
+      {key: 'ctaText', label: 'Text', type: 'short', max: 200, required: true}
+    ]
+  },
+  {
     id: 'about', label: 'About', file: 'content/site.json',
     lede: 'Everything in the About panel: photo, heading, story, the details beside the photo, your principles and the closing invitation.',
     fields: [

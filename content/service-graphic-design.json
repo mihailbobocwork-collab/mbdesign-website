@@ -1,0 +1,70 @@
+{
+  "slug": "graphic-design",
+  "name": "Graphic Design",
+  "summary": "Print, event and campaign design: flyers, leaflets, stands and social graphics that get one message across.",
+  "seoTitle": "Graphic & Print Design for Brands · Mihai Boboc",
+  "seoDescription": "Graphic design for campaigns, print and events: flyers, leaflets, event stands, social media and marketing materials that stay on brand and get one message across.",
+  "headline": "Graphic design that gets one clear message across.",
+  "intro": "My design journey started with graphic design, and I still enjoy it: a flyer, a stand or a social post has a few seconds to land one idea. I design campaign, print and event materials that stay on brand and read at a glance.\n\nI prepare everything for production, from print templates to the final files your printer or your team needs.",
+  "offers": [
+    {
+      "title": "Print materials",
+      "text": "Flyers, leaflets, posters and brochures with one clear job each."
+    },
+    {
+      "title": "Events & large format",
+      "text": "Stands, gazebos, banners and roll-ups that people understand from across the street."
+    },
+    {
+      "title": "Social media graphics",
+      "text": "Campaign posts and reusable templates that keep your feed consistent."
+    },
+    {
+      "title": "Campaign design",
+      "text": "One look across print, social and web, so every piece supports the same message."
+    },
+    {
+      "title": "Print-ready files",
+      "text": "Correct sizes, bleed and colour for your printer, plus editable templates for your team."
+    }
+  ],
+  "process": [
+    {
+      "title": "Brief",
+      "text": "What the piece needs to do, who will see it and where."
+    },
+    {
+      "title": "Concept",
+      "text": "The message and layout, kept short and built around real photos and screens."
+    },
+    {
+      "title": "Design",
+      "text": "The final design on brand, reviewed with you until it’s right."
+    },
+    {
+      "title": "Production",
+      "text": "Print-ready files and templates, and help with the printer if you need it."
+    }
+  ],
+  "related": ["lendit-flyers", "lendit-gazebo", "lendit-branding"],
+  "faq": [
+    {
+      "title": "Can you work with our existing brand guidelines?",
+      "text": "Yes. I design within your brand, or help tighten it if pieces have started to drift."
+    },
+    {
+      "title": "Do you prepare files for the printer?",
+      "text": "Yes. You get print-ready files with the right size, bleed and colour, and editable templates where they help."
+    },
+    {
+      "title": "Can you also design the brand itself?",
+      "text": "Yes. See Brand Identity for logos, colour, typography and guidelines."
+    },
+    {
+      "title": "How do we start?",
+      "text": "Tell me what you need and when. I’ll come back with questions and a suggested next step."
+    }
+  ],
+  "ctaTitle": "Planning a campaign or event?",
+  "ctaText": "Tell me what you need and I’ll get back to you with questions and a next step."
+}

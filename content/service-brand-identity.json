@@ -1,0 +1,74 @@
+{
+  "slug": "brand-identity",
+  "name": "Brand Identity",
+  "summary": "Logo, colour, typography and brand guidelines for startups and tech companies, built to work in the product too.",
+  "seoTitle": "Brand Identity Designer for Startups · Mihai Boboc",
+  "seoDescription": "Brand identity design for startups and tech companies: logo, colour, typography, visual language and brand guidelines that carry across app, web and print.",
+  "headline": "Brand identities that look as considered as the product.",
+  "intro": "A brand should make a product easier to recognise and easier to trust. I design identities for startups and tech companies that need to look as considered as what they build, and that hold together from the app icon to an event stand.\n\nBecause I also design products, the identity is built to work in an interface, not only on a business card: colours with enough contrast, type that reads at small sizes, and a system your team can actually use.",
+  "offers": [
+    {
+      "title": "Logo design",
+      "text": "A distinctive mark and wordmark, with versions for app icons, favicons, dark backgrounds and print."
+    },
+    {
+      "title": "Colour & typography",
+      "text": "A palette and type system chosen for screens first, with the contrast and sizes an interface needs."
+    },
+    {
+      "title": "Visual language",
+      "text": "Icons, imagery, graphic elements and motion that make every touchpoint feel like the same brand."
+    },
+    {
+      "title": "Logo reveal",
+      "text": "A short animated reveal of the logo for the website, videos and social."
+    },
+    {
+      "title": "Brand guidelines",
+      "text": "Clear rules and ready-to-use files, so your team and other designers can apply the brand on their own."
+    },
+    {
+      "title": "Rollout",
+      "text": "Applying the identity to the website, app, social and print, so the launch looks consistent from day one."
+    }
+  ],
+  "process": [
+    {
+      "title": "Discover",
+      "text": "Your business, your audience and the competition, and what the brand needs to say first."
+    },
+    {
+      "title": "Explore",
+      "text": "A few clear directions, shown in real use: on a screen, a card, a sign."
+    },
+    {
+      "title": "Refine",
+      "text": "One direction turned into the logo, colour, type and visual language."
+    },
+    {
+      "title": "Deliver",
+      "text": "Guidelines and every file you need, plus help applying it where it matters most."
+    }
+  ],
+  "related": ["lendit-branding", "7code-branding", "7code-web", "lendit-gazebo"],
+  "faq": [
+    {
+      "title": "What do I get at the end?",
+      "text": "Logo files for screen and print, the colour and type system, the visual elements and brand guidelines that explain how to use them."
+    },
+    {
+      "title": "Can you design the website as well?",
+      "text": "Yes. For 7Code I designed the brand identity and the full website, and built the site with a CMS the team can update."
+    },
+    {
+      "title": "Do you work on rebrands?",
+      "text": "Yes. A rebrand starts from what already works, so recognition isn’t lost on the way."
+    },
+    {
+      "title": "How do we start?",
+      "text": "Tell me about your company and where the brand will be used. I’ll come back with questions and a suggested next step."
+    }
+  ],
+  "ctaTitle": "Need a brand that fits?",
+  "ctaText": "Tell me about your company and I’ll get back to you with questions and a next step."
+}

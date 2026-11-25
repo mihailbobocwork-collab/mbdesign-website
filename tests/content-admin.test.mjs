@@ -13,7 +13,7 @@ const post=(body,origin='http://localhost:4173')=>new Request('http://localhost:
 // The real content files, kept in memory.
 async function memoryStore(){
  const files=new Map();let n=0;
- for(const file of ['content/site.json','content/booking.json','content/case-studies.json','content/inquiry.json','content/featured.json'])files.set(file,{text:await read(file),version:'v0'});
+ for(const file of [...new Set(CONTENT_SECTIONS.map(section=>section.file))])files.set(file,{text:await read(file),version:'v0'});
  const uploads=new Map(),commits=[];
  return {files,uploads,commits,source:'local',
   async read(_env,file){return {...files.get(file)};},
