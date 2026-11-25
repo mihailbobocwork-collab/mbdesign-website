@@ -313,10 +313,19 @@ function leaveReader() {
   readButton.focus({preventScroll:true});
 }
 
-cards.forEach((card, index) => card.addEventListener('click', () => selectProject(index, card)));
+// Cards are real links to each study's own page (/work/<id>/), so search engines and new-tab clicks
+// reach it; a plain click opens the same story here in the focus view instead.
+const plainClick = event => event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+cards.forEach((card, index) => card.addEventListener('click', event => {
+  if (!plainClick(event)) return;
+  event.preventDefault();
+  selectProject(index, card);
+}));
 rail.addEventListener('click', event => {
   const card = event.target.closest('[data-project]');
-  if (card) selectProject(Number(card.dataset.project), card);
+  if (!card || !plainClick(event)) return;
+  event.preventDefault();
+  selectProject(Number(card.dataset.project), card);
 });
 readButton.addEventListener('click', () => {
   const from = frame.getBoundingClientRect();
@@ -503,3 +512,17 @@ strip.addEventListener('click', event => {
   if (!compact.matches || event.target.closest('button, a')) return;
   open({pin:true});
 });
+
+// Arriving from a study page's header (/#work-preview or /#about) opens that view once the page has settled.
+{
+  const target = location.hash;
+  if (target === '#work-preview' || target === '#about') {
+    const show = () => {
+      history.replaceState(history.state, '', location.pathname + location.search);
+      if (target === '#about') openAbout();
+      else open({pin:true});
+    };
+    if (document.documentElement.dataset.brandBoot === 'pending') document.addEventListener('brand-entrance-reveal', show, {once:true});
+    else requestAnimationFrame(show);
+  }
+}

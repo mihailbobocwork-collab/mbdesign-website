@@ -19,6 +19,16 @@ export const CONTENT_SECTIONS = [
     ]
   },
   {
+    id: 'search', label: 'Google & sharing', file: 'content/site.json',
+    lede: 'How the homepage appears in Google results and in link previews. Each case study uses its own name, title and first paragraph.',
+    fields: [
+      {key: 'seoTitle', label: 'Page title', type: 'short', max: 70, required: true,
+        hint: 'The blue headline in Google. Lead with your name and what you do; around 60 characters shows in full.'},
+      {key: 'seoDescription', label: 'Description', type: 'text', rows: 3, max: 170, required: true,
+        hint: 'The grey text under the headline. Say who you help and how; around 155 characters shows in full.'}
+    ]
+  },
+  {
     id: 'about', label: 'About', file: 'content/site.json',
     lede: 'Everything in the About panel: photo, heading, story, the details beside the photo, your principles and the closing invitation.',
     fields: [

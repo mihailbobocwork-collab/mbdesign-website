@@ -1,0 +1,39 @@
+/* A case study on its own page (/work/<id>/): the same story as the homepage focus view,
+   on the landing's background, with a way back and links to the other studies. */
+body.case-page.portfolio-landing main { display: block; flex: 1 0 auto; }
+.case-page-shell { width: min(calc(100% - 2 * var(--landing-header-gutter, 32px)), 1100px); margin: clamp(24px, 4vw, 56px) auto 0; }
+.case-page-shell { text-align: left; }
+.case-page-shell > .case { max-width: none; background: #fff; border-radius: clamp(24px, 3vw, 40px); }
+.case-page-back { margin: 0 0 clamp(14px, 2vw, 22px); font-size: 15px; }
+.case-page-back a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--muted); transition: color 200ms; }
+.case-page-back a:hover { color: var(--ink); }
+.case-head h1 {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 500;
+  font-size: clamp(30px, 3.6vw, 48px);
+  line-height: 1.1;
+  letter-spacing: -.03em;
+  text-wrap: balance;
+}
+.case-head h1:focus { outline: none; }
+
+.case-more { margin-top: clamp(48px, 7vw, 88px); }
+.case-more h2 { margin: 0 0 clamp(14px, 2vw, 20px); color: var(--ink); font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.02em; }
+.case-more ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid #e3e8ec; }
+.case-more li { border-bottom: 1px solid #e3e8ec; }
+.case-more a { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 18px 2px; color: var(--ink); font-size: 18px; }
+.case-more a span + span { color: var(--muted); font-size: 14px; text-align: right; }
+.case-more a:hover span:first-child { text-decoration: underline; text-underline-offset: 4px; text-decoration-color: #b8c1c9; }
+
+.case-page-footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; width: min(calc(100% - 2 * var(--landing-header-gutter, 32px)), 1100px); margin: clamp(48px, 7vw, 88px) auto 0; padding: 24px 0 32px; border-top: 1px solid #e3e8ec; color: var(--muted); font-size: 13px; }
+
+/* Phones and small tablets: the header keeps the logo and Get in touch; Work and About sit under it as the back link. */
+@media (max-width: 820px) {
+  .case-page .landing-actions > .nav-about, .case-page .landing-actions > .footer-socials { display: none; }
+}
+@media (max-width: 600px) {
+  .case-page-shell > .case { border-radius: 24px; }
+  .case-more a { flex-direction: column; gap: 4px; }
+  .case-more a span + span { text-align: left; }
+}

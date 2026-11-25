@@ -127,16 +127,16 @@ export async function defaultThumbs(root) {
   return thumbs;
 }
 
-export async function renderReader(root, study, index, byId) {
+// The story itself, shared by the homepage focus view (an h2 inside the dialog) and the
+// study's own page at /work/<id>/ (the page's h1, so search engines read it as the subject).
+export async function caseArticle(root, study, index, byId, {heading = 'h2', id = `case-title-${index}`} = {}) {
   const facts = study.facts.map(({label, value, placeholder}) =>
     `<div><dt>${escape(label)}</dt><dd${placeholder ? ' data-unconfirmed' : ''}>${escape(value)}</dd></div>`).join('');
   const {lead, rest} = studyImages(study);
-  return `<div class="case-reader" data-study="${index}" hidden>
-  <div class="case-reader-content" tabindex="0" aria-label="${escape(study.name)} case study">
-    <article class="case">
+  return `<article class="case">
       <header class="case-head">
         <div class="work-preview-art case-cover" aria-hidden="true">${await cardArt(root, study, byId)}</div>
-        <h2 id="case-title-${index}" tabindex="-1">${escape(study.title)}</h2>
+        <${heading} id="${id}" tabindex="-1">${escape(study.title)}</${heading}>
         <div class="case-intro">
           <div class="case-body">${study.body.map(p => `<p>${escape(p)}</p>`).join('')}${lead}</div>
           <dl class="case-facts">${facts}</dl>
@@ -150,7 +150,13 @@ export async function renderReader(root, study, index, byId) {
         </div>
         <a class="button contact-gradient case-cta-button" href="/contact/" data-case-contact><span class="contact-fill" aria-hidden="true"><span class="contact-shade"></span></span><span class="button-label">Get in touch</span></a>
       </aside>
-    </article>
+    </article>`;
+}
+
+export async function renderReader(root, study, index, byId) {
+  return `<div class="case-reader" data-study="${index}" hidden>
+  <div class="case-reader-content" tabindex="0" aria-label="${escape(study.name)} case study">
+    ${await caseArticle(root, study, index, byId)}
   </div>
 </div>`;
 }
@@ -201,13 +207,13 @@ export async function workPreview(root, {aboutId = 'about'} = {}) {
   const byId = new Map(covers.map(cover => [cover.id, cover]));
   const art = await Promise.all(studies.map(study => cardArt(root, study, byId)));
   const cards = studies.map((study, index) => `
-    <button class="work-preview-card" type="button" aria-haspopup="dialog"${index >= VISIBLE ? ' data-extra hidden' : ''}>
+    <a class="work-preview-card" href="/work/${escape(study.id)}/" aria-haspopup="dialog"${index >= VISIBLE ? ' data-extra hidden' : ''}>
       <span class="work-preview-art">${art[index]}</span>
       <span class="work-preview-caption">
         <span class="work-preview-label"><strong>${escape(study.name)}</strong><small>${escape(study.category)}</small></span>
         <span class="work-preview-arrow" aria-hidden="true"><img src="/assets/work-preview/maximize-2.svg" alt=""></span>
       </span>
-    </button>`).join('');
+    </a>`).join('');
   const reader = (await Promise.all(studies.map((study, index) => renderReader(root, study, index, byId)))).join('');
   const about = await renderAbout(root, aboutId);
   const more = studies.length > VISIBLE ? '<button class="work-preview-more" type="button" aria-expanded="false" aria-label="Show more work"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 9.5 6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>' : '';

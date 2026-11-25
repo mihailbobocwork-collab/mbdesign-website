@@ -14,7 +14,7 @@ const landing=limited?test:test.skip,full=limited?test.skip:test;
 const htmlFiles=[];async function walk(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const p=path.join(dir,entry.name);if(entry.isDirectory())await walk(p);else if(p.endsWith('.html'))htmlFiles.push(p);}}await walk(path.join(root,'dist'));
 test('Every generated page has a title, language, viewport, and one h1',async()=>{for(const file of htmlFiles){const html=await readFile(file,'utf8');assert.match(html,/<html lang="en">/,file);assert.match(html,/name="viewport"/,file);assert.match(html,/<title>.+<\/title>/,file);assert.equal((html.match(/<h1[ >]/g)||[]).length,1,file);}});
 test('Local links, images, scripts, styles and fragment targets resolve',async()=>{const dist=path.join(root,'dist');for(const file of htmlFiles){const html=await readFile(file,'utf8');const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]);assert.equal(new Set(ids).size,ids.length,'Duplicate IDs in '+file);for(const match of html.matchAll(/(?:src|href)="([^" ]+)"/g)){const href=match[1].replaceAll('&amp;','&');if(/^(https?:|mailto:|data:)/.test(href))continue;const url=new URL(href,'http://site'+path.relative(dist,file).replace(/index.html$/,'').replace(/^/,'/'));let target=url.pathname==='/'?path.join(dist,'index.html'):path.join(dist,url.pathname);const info=await stat(target).catch(()=>null);assert.ok(info,`${file} references missing ${href}`);if(info.isDirectory())target=path.join(target,'index.html');await stat(target);if(url.pathname==='/contact/'&&url.hash.startsWith('#message=')){const message=decodeURIComponent(url.hash.slice(9));assert.ok(message.length>0&&message.length<=3000);continue;}if(url.hash){const body=await readFile(target,'utf8');assert.ok(body.includes(`id="${url.hash.slice(1)}"`),`Missing fragment ${href}`);}}}});
-test('Public pages are open to search on mihaiboboc.com and render supplied logo',async()=>{for(const file of htmlFiles.filter(f=>!f.includes('/admin/'))){const html=await readFile(file,'utf8');assert.doesNotMatch(html,/noindex/,file);assert.match(html,/assets\/logo.svg/);if(file.endsWith('404.html'))continue;assert.match(html,/<link rel="canonical" href="https:\/\/mihaiboboc\.com\//,file);assert.match(html,/<meta property="og:image" content="https:\/\/mihaiboboc\.com\/assets\/share\/og-image\.jpg">/,file);}
+test('Public pages are open to search on mihaiboboc.com and render supplied logo',async()=>{for(const file of htmlFiles.filter(f=>!f.includes('/admin/'))){const html=await readFile(file,'utf8');assert.doesNotMatch(html,/noindex/,file);assert.match(html,/assets\/logo.svg/);if(file.endsWith('404.html'))continue;assert.match(html,/<link rel="canonical" href="https:\/\/mihaiboboc\.com\//,file);const image=html.match(/<meta property="og:image" content="https:\/\/mihaiboboc\.com(\/assets\/[^"]+\.(?:jpe?g|png))">/);assert.ok(image,file);await readFile(path.join(root,'dist',image[1]));}
  const home=await readFile(path.join(root,'dist/index.html'),'utf8');const person=JSON.parse(home.match(/<script type="application\/ld\+json">(.*?)<\/script>/)[1]);assert.equal(person['@type'],'Person');assert.equal(person.url,'https://mihaiboboc.com/');
  assert.equal(await readFile(path.join(root,'dist/robots.txt'),'utf8'),'User-agent: *\nDisallow: /admin/\nSitemap: https://mihaiboboc.com/sitemap.xml\n');
  assert.match(await readFile(path.join(root,'dist/sitemap.xml'),'utf8'),/<loc>https:\/\/mihaiboboc\.com\/<\/loc>/);
@@ -83,14 +83,32 @@ landing('The landing shows the work preview and About, and every page reaches th
  for(const file of htmlFiles.filter(f=>!f.includes('/admin/'))){
   const html=await readFile(file,'utf8');
   assert.match(html,/href="\/contact\/"/,file);assert.match(html,/class="floating-top"/,file);
-  assert.ok(!/href="\/(work|services|about|privacy)\//.test(html),file);
+  assert.ok(!/href="\/(services|about|privacy)\//.test(html),file);
  }
 });
 
 landing('Hidden pages are not published and their addresses lead home',async()=>{
- for(const route of ['work','work/lendit','work/7code-tech','about','services','privacy'])await assert.rejects(()=>stat(path.join(root,'dist',route,'index.html')),route);
+ for(const route of ['work','work/7code-tech','about','services','privacy'])await assert.rejects(()=>stat(path.join(root,'dist',route,'index.html')),route);
  const redirects=await readFile(path.join(root,'dist/_redirects'),'utf8');
- for(const route of ['/work','/work/*','/about','/services/*','/privacy'])assert.match(redirects,new RegExp('^'+route.replace('*','\\*')+' / 302$','m'),route);
+ for(const route of ['/about','/services/*','/privacy'])assert.match(redirects,new RegExp('^'+route.replace('*','\\*')+' / 302$','m'),route);
+ assert.match(redirects,/^\/work \/#work-preview 302$/m);
+ // Case-study pages are real pages; a redirect for them would hide them.
+ assert.doesNotMatch(redirects,/^\/work\/\*/m);
+});
+
+landing('Every shown case study has its own page that search engines can list',async()=>{
+ const {studies}=JSON.parse(await readFile(path.join(root,'content/case-studies.json'),'utf8'));
+ const home=await readFile(path.join(root,'dist/index.html'),'utf8');
+ const sitemap=await readFile(path.join(root,'dist/sitemap.xml'),'utf8');
+ for(const study of studies.filter(s=>!s.hidden)){
+  const html=await readFile(path.join(root,'dist/work',study.id,'index.html'),'utf8');
+  assert.match(html,new RegExp(`<h1 id="case-title" tabindex="-1">${study.title.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}</h1>`),study.id);
+  assert.match(html,new RegExp(`<link rel="canonical" href="https://mihaiboboc\\.com/work/${study.id}/">`),study.id);
+  assert.match(html,/"@type":"CreativeWork"/,study.id);
+  assert.ok(home.includes(`class="work-preview-card" href="/work/${study.id}/"`),study.id);
+  assert.ok(sitemap.includes(`<loc>https://mihaiboboc.com/work/${study.id}/</loc>`),study.id);
+ }
+ for(const study of studies.filter(s=>s.hidden))await assert.rejects(()=>stat(path.join(root,'dist/work',study.id,'index.html')),study.id);
 });
 
 test('Inquiry wording edited in the admin reaches the homepage, the inquiry and the emails',async()=>{
