@@ -1,0 +1,18 @@
+/* Articles (/articles/ and /articles/<slug>/): a readable column on the landing's background. */
+.article { max-width: 760px; }
+.article .service-head h1 { font-size: clamp(34px, 4.4vw, 56px); }
+.article-body { margin-top: clamp(28px, 4vw, 44px); }
+.article-body p, .article-body li { color: #3f4850; font-size: clamp(17px, 1.35vw, 19px); line-height: 1.7; }
+.article-body p { margin: 0 0 1.1em; }
+.article-body h2 { margin: 1.9em 0 .55em; color: var(--ink); font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -.02em; }
+.article-body ul { margin: 0 0 1.1em; padding-left: 1.2em; }
+.article-body li { margin-bottom: .4em; }
+.article-body li::marker { color: var(--muted); }
+
+.article-list { list-style: none; margin: clamp(36px, 5vw, 56px) 0 0; padding: 0; max-width: 860px; border-top: 1px solid #e3e8ec; }
+.article-list li { border-bottom: 1px solid #e3e8ec; }
+.article-list a { display: block; padding: clamp(22px, 3vw, 32px) 2px; color: var(--ink); }
+.article-list time { color: var(--muted); font-size: 14px; }
+.article-list h2 { margin: 8px 0 0; font-weight: 500; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.2; letter-spacing: -.02em; transition: opacity 200ms; }
+.article-list p { margin: 10px 0 0; max-width: 680px; color: #3f4850; font-size: 16px; line-height: 1.6; }
+.article-list a:hover h2 { opacity: .65; }

@@ -219,7 +219,7 @@ body[data-selected-work] .work-preview-cards { opacity: 0; }
 
 /* About in focus view: header link, portrait in place of the card cover, principles before the call to action. */
 .site-header .nav-about { color: var(--ink); font-size: 16px; line-height: 20px; text-decoration: none; white-space: nowrap; transition: opacity .2s ease; }
-.site-header .nav-about:hover { opacity: .65; }
+@media (hover: hover) { .site-header .nav-about:hover { opacity: .65; } }
 .site-header .nav-about:focus-visible { outline: 2px solid var(--ink); outline-offset: 6px; border-radius: 4px; }
 /* About: a large portrait on the left with the details beneath it; the story sits beside it. */
 .about-intro { display: grid; grid-template-columns: minmax(0, 44fr) minmax(0, 52fr); justify-content: space-between; gap: clamp(28px, 5vw, 64px); align-items: start; }

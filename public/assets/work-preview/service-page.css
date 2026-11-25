@@ -36,7 +36,8 @@
 
 .service-list { list-style: none; margin: clamp(40px, 6vw, 72px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
 .service-list a { display: flex; flex-direction: column; height: 100%; padding: clamp(24px, 2.6vw, 34px); background: #fff; border-radius: 28px; color: var(--ink); transition: transform 300ms cubic-bezier(.22, 1, .36, 1), box-shadow 300ms cubic-bezier(.22, 1, .36, 1); }
-.service-list a:is(:hover, :focus-visible) { transform: translateY(-4px); box-shadow: 0 10px 25px rgb(26 30 34 / 11%); }
+.service-list a:focus-visible { transform: translateY(-4px); box-shadow: 0 10px 25px rgb(26 30 34 / 11%); }
+@media (hover: hover) { .service-list a:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgb(26 30 34 / 11%); } }
 .service-list h2 { margin: 0; font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); letter-spacing: -.02em; }
 .service-list p { margin: 12px 0 24px; color: #3f4850; font-size: 16px; line-height: 1.6; }
 .service-list .text-link { margin-top: auto; }

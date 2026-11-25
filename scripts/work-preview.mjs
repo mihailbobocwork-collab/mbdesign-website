@@ -201,7 +201,7 @@ export async function renderAbout(root, id = 'about') {
 
 
 // Markup for the homepage: the work preview overlay, its trigger, the About link and the focus-view dialog.
-export async function workPreview(root, {aboutId = 'about'} = {}) {
+export async function workPreview(root, {aboutId = 'about', links = []} = {}) {
   const studies = await loadStudies(root);
   const {covers} = JSON.parse(await readFile(path.join(root, 'content/home-work.json'), 'utf8'));
   const byId = new Map(covers.map(cover => [cover.id, cover]));
@@ -228,7 +228,8 @@ export async function workPreview(root, {aboutId = 'about'} = {}) {
     </div>
     <div class="mobile-drawer" id="mobile-drawer" hidden>
       <nav class="mobile-drawer-links" aria-label="Menu">
-        <button type="button" data-drawer="work">Work</button>
+        <button type="button" data-drawer="work">Work</button>${links.map(([label, href]) => `
+        <a href="${escape(href)}">${escape(label)}</a>`).join('')}
         <button type="button" data-drawer="about">About</button>
       </nav>
       <div class="mobile-drawer-socials"></div>

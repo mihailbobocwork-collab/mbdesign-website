@@ -58,7 +58,7 @@
   .mobile-drawer[hidden] { display: none; }
   .mobile-drawer[data-open] { opacity: 1; transform: none; }
   .mobile-drawer-links { display: grid; }
-  .mobile-drawer-links button {
+  .mobile-drawer-links :is(button, a) {
     min-height: 48px;
     padding: 14px 0;
     border: 0;
@@ -69,9 +69,10 @@
     font-size: 16px; /* same as Get in touch */
     line-height: 20px;
     text-align: center;
+    text-decoration: none;
     cursor: pointer;
   }
-  .mobile-drawer-links button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
+  .mobile-drawer-links :is(button, a):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 6px; }
   .mobile-drawer-socials { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
   .mobile-drawer-socials a { display: grid; place-items: center; width: 48px; height: 48px; border: 1px solid #d3dbe1; border-radius: 50%; color: var(--ink); }
   .mobile-drawer-socials svg { width: 21px; height: 21px; }

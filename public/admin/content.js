@@ -1,7 +1,7 @@
 // Content tab: edit the homepage copy, About and meeting availability, then publish.
 // Publishing commits the file to GitHub (/api/admin/content); the page then waits for
 // Cloudflare's rebuild by comparing /admin/version.json with the saved commit.
-import {CONTENT_SECTIONS, WEEKDAYS, STUDY_LIMITS, IMAGE_STYLES, checkSection} from '/admin/content-schema.js';
+import {CONTENT_SECTIONS, WEEKDAYS, STUDY_LIMITS, IMAGE_STYLES, ARTICLE_LIMITS, articleSlug, checkSection} from '/admin/content-schema.js';
 
 const api = '/api/admin/content';
 let defaultThumbs = {};
@@ -327,6 +327,78 @@ function studyEditor(study, change, move, removeStudy) {
   return item;
 }
 
+// One article: title, address, Google title and description, date, text, shown or hidden.
+// The address follows the title until the article has been shown once, so links never break.
+function articleEditor(article, change, removeArticle) {
+  const L = ARTICLE_LIMITS;
+  const item = el('li', 'study');
+  const head = el('div', 'study-head');
+  const toggle = el('button', 'study-toggle');
+  toggle.type = 'button';
+  toggle.setAttribute('aria-expanded', 'false');
+  const names = el('span', 'study-names');
+  const name = el('strong', '', article.title || 'Untitled'), when = el('span', '', article.date ? dayLabel(article.date) : '');
+  names.append(name, when);
+  toggle.innerHTML = ICONS.chevron;
+  toggle.prepend(names);
+  const hiddenFlag = el('span', 'study-flag is-hidden', 'Hidden');
+  head.append(toggle, hiddenFlag);
+  const body = el('div', 'study-body');
+  body.hidden = true;
+  const input = (value, max, type = 'text') => { const field = el('input', 'content-input'); Object.assign(field, {type, value: value || '', maxLength: max, autocomplete: 'off'}); field.addEventListener('input', change); return field; };
+  const titleInput = input(article.title, L.title), slugInput = input(article.slug, 70), seoInput = input(article.seoTitle, L.seoTitle), dateInput = input(article.date || today(), 10, 'date');
+  const description = el('textarea', 'content-input');
+  description.rows = 3; description.maxLength = L.description; description.value = article.description || '';
+  description.addEventListener('input', change);
+  const text = el('textarea', 'content-input article-text');
+  text.rows = 18; text.maxLength = L.text; text.value = article.text || '';
+  text.addEventListener('input', change);
+  let slugFollows = Boolean(article.hidden) && (!article.slug || article.slug === articleSlug(article.title));
+  titleInput.addEventListener('input', () => {
+    name.textContent = titleInput.value || 'Untitled';
+    if (slugFollows) slugInput.value = articleSlug(titleInput.value);
+  });
+  slugInput.addEventListener('input', () => { slugFollows = false; });
+  dateInput.addEventListener('input', () => { when.textContent = dateInput.value ? dayLabel(dateInput.value) : ''; });
+  const footer = el('div', 'study-footer');
+  const visible = el('label', 'study-visible');
+  const visibleBox = el('input');
+  visibleBox.type = 'checkbox'; visibleBox.checked = !article.hidden;
+  visible.append(visibleBox, el('span', '', 'Show on the website'));
+  const syncVisible = () => { item.dataset.hidden = String(!visibleBox.checked); hiddenFlag.hidden = visibleBox.checked; };
+  visibleBox.addEventListener('change', () => { syncVisible(); change(); });
+  const removeButton = el('button', 'admin-button quiet study-delete', 'Delete article');
+  removeButton.type = 'button';
+  const confirm = el('div', 'inbox-confirm');
+  confirm.hidden = true;
+  const sure = el('button', 'admin-button danger', 'Delete');
+  const keep = el('button', 'admin-button quiet', 'Keep it');
+  sure.type = keep.type = 'button';
+  confirm.append(el('p', '', 'Delete this article? It disappears when you publish.'), sure, keep);
+  removeButton.addEventListener('click', () => { confirm.hidden = false; removeButton.hidden = true; keep.focus(); });
+  keep.addEventListener('click', () => { confirm.hidden = true; removeButton.hidden = false; removeButton.focus(); });
+  sure.addEventListener('click', () => removeArticle(item));
+  footer.append(visible, removeButton, confirm);
+  syncVisible();
+  const grid = el('div', 'study-grid');
+  grid.append(labelled('Address', slugInput, 'mihaiboboc.com/articles/… — lowercase letters, numbers and dashes.'), labelled('Date', dateInput));
+  body.append(labelled('Title', titleInput, 'The heading of the article.'), grid,
+    labelled('Google title', seoInput, 'Optional. Around 60 characters shows in full; empty uses the title.'),
+    labelled('Description', description, 'Under the title in Google and in the list of articles. Around 155 characters.'),
+    labelled('Text', text, 'Leave an empty line between paragraphs. Start a line with “## ” for a heading and “- ” for a bullet point.'),
+    footer);
+  toggle.addEventListener('click', () => {
+    const open = body.hidden;
+    body.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    item.classList.toggle('is-open', open);
+  });
+  item.append(head, body);
+  item.read = () => ({slug: slugInput.value.trim(), title: titleInput.value, seoTitle: seoInput.value, description: description.value, date: dateInput.value, hidden: !visibleBox.checked, text: text.value});
+  item.open = () => { if (body.hidden) toggle.click(); titleInput.focus(); titleInput.select(); };
+  return item;
+}
+
 // Each control returns {node, get, set} and calls change() when edited.
 const controls = {
   // A short list of two-part items (a label and a value, a title and a text), reorderable.
@@ -518,6 +590,27 @@ const controls = {
     return {node, focus: null,
       get: () => [...list.querySelectorAll('.study')].map(item => item.read()),
       set: value => { list.replaceChildren(...(value || []).map(study => studyEditor(study, change, move, removeStudy))); place(); }};
+  },
+  articles(field, id, change) {
+    const node = el('div', 'studies');
+    const list = el('ol', 'study-list');
+    list.id = id;
+    const removeArticle = item => {
+      const next = item.nextElementSibling || item.previousElementSibling;
+      item.remove(); change();
+      (next?.querySelector('.study-toggle') || add).focus();
+    };
+    const add = el('button', 'admin-button study-add', 'Add an article');
+    add.type = 'button';
+    add.addEventListener('click', () => {
+      const item = articleEditor({slug: 'new-article', title: 'New article', seoTitle: '', description: '', date: today(), hidden: true, text: ''}, change, removeArticle);
+      list.prepend(item); change();
+      item.open();
+    });
+    node.append(add, list, el('p', 'content-hint', 'Articles show newest first. Hidden ones stay here as drafts.'));
+    return {node, focus: null,
+      get: () => [...list.children].map(item => item.read()),
+      set: value => { list.replaceChildren(...[...(value || [])].sort((a, b) => String(b.date).localeCompare(String(a.date))).map(article => articleEditor(article, change, removeArticle))); }};
   },
   image(field, id, change) {
     const node = el('div', 'content-photo');
@@ -749,7 +842,7 @@ function section(config, saved, version) {
     const id = `field-${++uid}`;
     const control = controls[field.type](field, id, () => { if (fields.get(field.key).error.textContent) setErrors({}); change(); });
     const wrap = el('div', `content-field is-${field.type}`);
-    const label = el(field.type === 'weekdays' ? 'p' : 'label', ['studies', 'logos'].includes(field.type) ? 'sr-only' : 'content-label', field.label);
+    const label = el(field.type === 'weekdays' ? 'p' : 'label', ['studies', 'logos', 'articles'].includes(field.type) ? 'sr-only' : 'content-label', field.label);
     if (field.type !== 'weekdays') label.htmlFor = id; else { label.id = id + '-label'; control.node.setAttribute('aria-labelledby', label.id); }
     const error = el('p', 'content-error');
     error.id = id + '-error';

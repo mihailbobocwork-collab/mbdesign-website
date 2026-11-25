@@ -89,6 +89,13 @@ export const CONTENT_SECTIONS = [
     ]
   },
   {
+    id: 'articles', label: 'Articles', file: 'content/articles.json',
+    lede: 'Articles at /articles/. Newest first. New articles start hidden, so you can publish a draft and switch on “Show on the website” when it’s ready.',
+    fields: [
+      {key: 'articles', label: 'Articles', type: 'articles'}
+    ]
+  },
+  {
     id: 'about', label: 'About', file: 'content/site.json',
     lede: 'Everything in the About panel: photo, heading, story, the details beside the photo, your principles and the closing invitation.',
     fields: [
@@ -298,6 +305,17 @@ export function checkSection(section, input) {
         values[field.key] = clean.map(item => item.study);
         break;
       }
+      case 'articles': {
+        const list = Array.isArray(raw) ? raw : [];
+        const clean = list.map(article => checkArticle(article));
+        const problems = clean.map((item, index) => item.error && `${line(list[index]?.title) || 'An article'}: ${item.error}`).filter(Boolean);
+        const slugs = clean.map(item => item.article?.slug);
+        if (list.length > ARTICLE_LIMITS.articles) fail(`Keep it to ${ARTICLE_LIMITS.articles} articles.`);
+        else if (problems.length) fail(problems[0]);
+        else if (new Set(slugs).size !== slugs.length) fail('Two articles have the same address.');
+        values[field.key] = clean.map(item => item.article);
+        break;
+      }
       case 'pairs': {
         const list = Array.isArray(raw) ? raw : [];
         const clean = list.map(item => ({
@@ -375,3 +393,23 @@ function checkStudy(study) {
 }
 
 export const pick = (section, data) => Object.fromEntries(section.fields.map(field => [field.key, data?.[field.key] ?? (['weekdays', 'dates', 'pairs'].includes(field.type) ? [] : '')]));
+
+// Articles: plain text with a tiny format (an empty line between paragraphs, “## ” for a heading,
+// “- ” for a bullet), so nothing but text ever reaches the page.
+export const ARTICLE_LIMITS = {title: 110, seoTitle: 70, description: 170, text: 20000, articles: 60};
+export const articleSlug = text => String(text ?? '').toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 70).replace(/-+$/, '');
+function checkArticle(article) {
+  const L = ARTICLE_LIMITS;
+  if (!article || typeof article !== 'object') return {error: 'it isn’t an article.'};
+  const hidden = Boolean(article.hidden);
+  const title = line(article.title), seoTitle = line(article.seoTitle), description = line(article.description);
+  const slug = String(article.slug ?? '').trim();
+  const date = String(article.date ?? '').trim();
+  const text = String(article.text ?? '').replace(/\r\n?/g, '\n').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  if (!title) return {error: 'it needs a title.'};
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) || slug.length > 70) return {error: 'its address can only use lowercase letters, numbers and dashes.'};
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(Date.parse(date + 'T00:00:00Z'))) return {error: 'it needs a date.'};
+  if (title.length > L.title || seoTitle.length > L.seoTitle || description.length > L.description || text.length > L.text) return {error: 'the title, Google title, description or text is too long.'};
+  if (!hidden && (!description || !text)) return {error: 'it needs a description and text before it can be shown.'};
+  return {article: {slug, title, seoTitle, description, date, hidden, text}};
+}

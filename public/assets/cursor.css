@@ -8,3 +8,23 @@
   body button:disabled,body button:disabled *,body .hero-typewriter .hero-send:disabled{cursor:not-allowed}
 }
 @media(forced-colors:active){body,body *{cursor:auto!important}body textarea,body input,body [contenteditable=true]{cursor:text!important}}
+
+/* Header targets meet each other, so moving along the header keeps the hand instead of flicking
+   hand → arrow → hand across the gaps, and the text links get a 44px tall target. The areas are
+   invisible and also make the links easier to tap. (Get in touch clips its own overflow for the
+   colour fill, so the social icon next to it reaches across that gap.) */
+.site-header .landing-actions > .nav-about,.site-header .landing-actions .footer-socials a{position:relative}
+.site-header .landing-actions > .nav-about::after{content:"";position:absolute;inset:-12px -18px}
+.site-header .landing-actions .footer-socials a::after{content:"";position:absolute;inset:-6px -6px}
+.site-header .landing-actions .footer-socials a:first-child::after{left:-18px}
+.site-header .landing-actions .footer-socials a:last-child::after{right:-42px}
+
+/* Touch: no hover states left behind after a tap, and a quick press response instead. */
+@media(hover:none){
+  .site-header :is(.nav-about,.footer-socials a,.hero-brand,.nav-menu),.work-preview-card,.service-list a,.case-more a,.article-list a,.case-page-back a,.case-page-footer a,.mobile-drawer-links :is(a,button){transition:opacity 220ms ease,transform 220ms ease}
+  .hero-subject-options button{transition:color 250ms,border-color 250ms,background 250ms,transform 220ms ease}
+  .site-header :is(.nav-about,.footer-socials a,.hero-brand,.nav-menu):active,.case-more a:active,.article-list a:active,.case-page-back a:active,.case-page-footer a:active,.mobile-drawer-links :is(a,button):active{opacity:.55;transition-duration:0s}
+  .work-preview-card:active,.service-list a:active,.hero-subject-options button:active{transform:scale(.98);transition-duration:60ms}
+  .button:active{opacity:.85;transition-duration:0s}
+}
+@media(prefers-reduced-motion:reduce){.work-preview-card:active,.service-list a:active,.hero-subject-options button:active{transform:none}}

@@ -147,3 +147,23 @@ landing('Each service has its own page with its offer, related work, questions a
  const lendit=await readFile(path.join(root,'dist/work/lendit/index.html'),'utf8');
  for(const slug of ['product-design','brand-identity','graphic-design'])assert.ok(lendit.includes(`href="/services/${slug}/"`),slug);
 });
+
+test('Article drafts stay off the site; shown articles get a page, the list, the menu and the sitemap',async()=>{
+ const {articles}=JSON.parse(await readFile(path.join(root,'content/articles.json'),'utf8'));
+ for(const article of articles.filter(a=>a.hidden))await assert.rejects(()=>stat(path.join(root,'dist/articles',article.slug,'index.html')),article.slug);
+ const temp=await mkdtemp(path.join(os.tmpdir(),'mb-articles-'));
+ try{
+  for(const item of ['scripts','public','content'])await cp(path.join(root,item),path.join(temp,item),{recursive:true});
+  const shown={slug:'a-test-article',title:'A test <article>',seoTitle:'',description:'What this test checks.',date:'2026-11-20',hidden:false,text:'First paragraph.\n\n## A heading\n\n- One\n- Two <b>'};
+  await writeFile(path.join(temp,'content/articles.json'),JSON.stringify({articles:[...articles,shown]}));
+  const result=spawnSync(process.execPath,['scripts/build.mjs'],{cwd:temp,encoding:'utf8'});assert.equal(result.status,0,result.stderr);
+  const html=await readFile(path.join(temp,'dist/articles/a-test-article/index.html'),'utf8');
+  assert.match(html,/<h1>A test &lt;article&gt;<\/h1>/);
+  assert.match(html,/<div class="article-body"><p>First paragraph\.<\/p><h2>A heading<\/h2><ul><li>One<\/li><li>Two &lt;b&gt;<\/li><\/ul><\/div>/);
+  assert.match(html,/"@type":"Article"/);assert.match(html,/<link rel="canonical" href="https:\/\/mihaiboboc\.com\/articles\/a-test-article\/">/);
+  assert.match(await readFile(path.join(temp,'dist/articles/index.html'),'utf8'),/href="\/articles\/a-test-article\/"/);
+  assert.match(await readFile(path.join(temp,'dist/index.html'),'utf8'),/<div class="landing-actions"><a class="nav-about" href="\/services\/">Services<\/a><a class="nav-about" href="\/articles\/">Articles<\/a>/);
+  assert.match(await readFile(path.join(temp,'dist/sitemap.xml'),'utf8'),/<loc>https:\/\/mihaiboboc\.com\/articles\/a-test-article\/<\/loc>/);
+  for(const article of articles.filter(a=>a.hidden))await assert.rejects(()=>stat(path.join(temp,'dist/articles',article.slug,'index.html')),article.slug);
+ }finally{await rm(temp,{recursive:true,force:true});}
+});
