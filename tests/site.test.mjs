@@ -93,7 +93,7 @@ landing('Hidden pages are not published and their addresses lead home',async()=>
  for(const route of ['/about','/privacy'])assert.match(redirects,new RegExp('^'+route.replace('*','\\*')+' / 302$','m'),route);
  assert.match(redirects,/^\/work \/#work-preview 302$/m);
  // Case-study pages are real pages; a redirect for them would hide them.
- assert.doesNotMatch(redirects,/^\/work\/\*|^\/services/m);
+ assert.doesNotMatch(redirects,/^\/work\/\*/m);
 });
 
 landing('Every shown case study has its own page that search engines can list',async()=>{
@@ -128,24 +128,13 @@ test('Inquiry wording edited in the admin reaches the homepage, the inquiry and 
  }finally{await rm(temp,{recursive:true,force:true});}
 });
 
-landing('Each service has its own page with its offer, related work, questions and a way to get in touch',async()=>{
- const sitemap=await readFile(path.join(root,'dist/sitemap.xml'),'utf8');
- const index=await readFile(path.join(root,'dist/services/index.html'),'utf8');
- for(const slug of ['product-design','brand-identity','graphic-design']){
-  const service=JSON.parse(await readFile(path.join(root,`content/service-${slug}.json`),'utf8'));
-  const html=await readFile(path.join(root,'dist/services',slug,'index.html'),'utf8');
-  assert.ok(html.includes(`<title>${service.seoTitle.replace(/&/g,'&amp;')}</title>`),slug);
-  assert.ok(html.includes(`<link rel="canonical" href="https://mihaiboboc.com/services/${slug}/">`),slug);
-  assert.match(html,/<h1>[^<]+<\/h1>/,slug);
-  assert.match(html,/"@type":"Service"/,slug);assert.match(html,/"@type":"FAQPage"/,slug);
-  assert.ok(html.includes(`href="/contact/?topic=${encodeURIComponent(service.name)}"`),slug);
-  for(const id of service.related)assert.ok(html.includes(`href="/work/${id}/"`),slug+' → '+id);
-  assert.ok(sitemap.includes(`<loc>https://mihaiboboc.com/services/${slug}/</loc>`),slug);
-  assert.ok(index.includes(`href="/services/${slug}/"`),slug);
- }
- // Case-study pages link to every service, so search engines find them from the homepage cards.
- const lendit=await readFile(path.join(root,'dist/work/lendit/index.html'),'utf8');
- for(const slug of ['product-design','brand-identity','graphic-design'])assert.ok(lendit.includes(`href="/services/${slug}/"`),slug);
+test('Service pages stay off the site: no pages, links or sitemap entries, and old addresses go home',async()=>{
+ await assert.rejects(()=>stat(path.join(root,'dist/services/index.html')));
+ for(const slug of ['product-design','brand-identity','graphic-design'])await assert.rejects(()=>stat(path.join(root,'dist/services',slug,'index.html')),slug);
+ assert.doesNotMatch(await readFile(path.join(root,'dist/sitemap.xml'),'utf8'),/\/services\//);
+ for(const page of ['index.html','work/lendit/index.html'])assert.doesNotMatch(await readFile(path.join(root,'dist',page),'utf8'),/href="\/services\//,page);
+ const redirects=await readFile(path.join(root,'dist/_redirects'),'utf8');
+ assert.match(redirects,/^\/services \/ 302$/m);assert.match(redirects,/^\/services\/\* \/ 302$/m);
 });
 
 test('Article drafts stay off the site; shown articles get a page, the list, the menu and the sitemap',async()=>{
@@ -162,7 +151,7 @@ test('Article drafts stay off the site; shown articles get a page, the list, the
   assert.match(html,/<div class="article-body"><p>First paragraph\.<\/p><h2>A heading<\/h2><ul><li>One<\/li><li>Two &lt;b&gt;<\/li><\/ul><\/div>/);
   assert.match(html,/"@type":"Article"/);assert.match(html,/<link rel="canonical" href="https:\/\/mihaiboboc\.com\/articles\/a-test-article\/">/);
   assert.match(await readFile(path.join(temp,'dist/articles/index.html'),'utf8'),/href="\/articles\/a-test-article\/"/);
-  assert.match(await readFile(path.join(temp,'dist/index.html'),'utf8'),/<div class="landing-actions"><a class="nav-about" href="\/services\/">Services<\/a><a class="nav-about" href="\/articles\/">Articles<\/a>/);
+  assert.match(await readFile(path.join(temp,'dist/index.html'),'utf8'),/<div class="landing-actions"><a class="nav-about" href="\/articles\/">Articles<\/a>/);
   assert.match(await readFile(path.join(temp,'dist/sitemap.xml'),'utf8'),/<loc>https:\/\/mihaiboboc\.com\/articles\/a-test-article\/<\/loc>/);
   for(const article of articles.filter(a=>a.hidden))await assert.rejects(()=>stat(path.join(temp,'dist/articles',article.slug,'index.html')),article.slug);
  }finally{await rm(temp,{recursive:true,force:true});}

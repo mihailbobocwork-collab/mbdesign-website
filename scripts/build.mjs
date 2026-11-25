@@ -46,7 +46,9 @@ const footer=(showInvite=true, moveSocials=false)=>`<footer>${showInvite?footerI
 // Articles (/articles/<slug>/), newest first; hidden ones are drafts kept only in the admin.
 const shownArticles=JSON.parse(await readFile(path.join(root,'content/articles.json'),'utf8')).articles.filter(article=>!article.hidden).sort((a,b)=>b.date.localeCompare(a.date));
 for(const article of shownArticles)if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(article.slug))throw Error('Invalid article address');
-const extraNav=[['Services','/services/'],...(shownArticles.length?[['Articles','/articles/']]:[])];
+// Service pages are kept in the admin but off the site until the owner asks to show them.
+const SHOW_SERVICES=false;
+const extraNav=[...(SHOW_SERVICES?[['Services','/services/']]:[]),...(shownArticles.length?[['Articles','/articles/']]:[])];
 const defaultDescription=site.seoDescription||'Independent product designer and design engineer working across digital products, design systems, and web & brand.';
 // opts: fullTitle (the whole <title>), image/imageAlt (share image), type (og:type), landing (the
 // homepage's header and look on a page without the hero, used by the case-study pages), head (extra tags).
@@ -113,10 +115,11 @@ if (limitedPortfolio) {
 
 // Service pages (/services/<slug>/), one content file each, edited in the admin.
 const SERVICE_FILES=['product-design','brand-identity','graphic-design'];
-const servicePages=await Promise.all(SERVICE_FILES.map(async slug=>JSON.parse(await readFile(path.join(root,`content/service-${slug}.json`),'utf8'))));
-for(const service of servicePages)if(!/^[a-z0-9-]+$/.test(service.slug))throw Error('Invalid service slug');
+const serviceContent=await Promise.all(SERVICE_FILES.map(async slug=>JSON.parse(await readFile(path.join(root,`content/service-${slug}.json`),'utf8'))));
+for(const service of serviceContent)if(!/^[a-z0-9-]+$/.test(service.slug))throw Error('Invalid service slug');
+const servicePages=SHOW_SERVICES?serviceContent:[];
 // Footer of the case-study and service pages: the services (internal links help search engines) and socials.
-const pageFooter=`<footer class="case-page-footer"><span>© ${e(site.name)} ${new Date().getFullYear()}</span><nav class="case-page-footer-links" aria-label="Services">${servicePages.map(service=>`<a href="/services/${e(service.slug)}/">${e(service.name)}</a>`).join('')}${shownArticles.length?'<a href="/articles/">Articles</a>':''}</nav>${socialLinks}</footer>`;
+const pageFooter=`<footer class="case-page-footer"><span>© ${e(site.name)} ${new Date().getFullYear()}</span>${servicePages.length||shownArticles.length?`<nav class="case-page-footer-links" aria-label="More">${servicePages.map(service=>`<a href="/services/${e(service.slug)}/">${e(service.name)}</a>`).join('')}${shownArticles.length?'<a href="/articles/">Articles</a>':''}</nav>`:''}${socialLinks}</footer>`;
 // Each case study also has its own page, so search engines can list it and people can share it.
 // The homepage cards link here; a plain click still opens the story in the focus view.
 const caseStudies=await loadStudies(root);
@@ -161,7 +164,7 @@ ${(service.faq||[]).length?`<section class="service-section" aria-labelledby="se
  if((service.faq||[]).length)data.push({'@context':'https://schema.org','@type':'FAQPage',mainEntity:service.faq.map(item=>({'@type':'Question',name:item.title,acceptedAnswer:{'@type':'Answer',text:item.text}}))});
  pages.set(route,layout(service.name,body,route,service.seoDescription,{fullTitle:service.seoTitle,landing:true,head:servicePageHead(data)}));
 }
-pages.set('/services/',layout('Services',`<div class="case-page-shell service-page service-index">
+if(servicePages.length)pages.set('/services/',layout('Services',`<div class="case-page-shell service-page service-index">
 <header class="service-head"><p class="service-eyebrow">Services</p><h1>How I can help.</h1><div class="service-intro"><p>I work with founders and small teams as a design partner: on the product itself, on the brand around it, and on the materials that bring it to people.</p></div></header>
 <ul class="service-list">${servicePages.map(service=>`<li><a href="/services/${e(service.slug)}/"><h2>${e(service.name)}</h2><p>${e(service.summary)}</p><span class="text-link">Explore ${e(service.name)}</span></a></li>`).join('')}</ul>
 </div>${pageFooter}`,'/services/',`Services by ${site.name}: ${servicePages.map(service=>service.name).join(', ')} for startups and tech companies.`,{fullTitle:`Services: ${servicePages.map(service=>service.name).join(', ')} · ${site.name}`,landing:true,head:servicePageHead([])}));
@@ -185,7 +188,7 @@ for(const article of shownArticles){
 <div class="article-body">${articleBody(article.text)}</div>
 </article>
 <aside class="case-cta" aria-labelledby="article-cta-title"><div><h2 id="article-cta-title">Working on something similar?</h2><p>Tell me about it and I’ll get back to you with questions and a next step.</p></div>${button('Get in touch','/contact/','case-cta-button')}</aside>
-<section class="case-more" aria-labelledby="case-more-title"><h2 id="case-more-title">${others.length?'More articles':'Services'}</h2><ul>${others.length?others.map(other=>`<li><a href="/articles/${e(other.slug)}/"><span>${e(other.title)}</span><span>${e(longDate(other.date))}</span></a></li>`).join(''):servicePages.map(service=>`<li><a href="/services/${e(service.slug)}/"><span>${e(service.name)}</span><span>${e(service.summary)}</span></a></li>`).join('')}</ul></section>
+${others.length||servicePages.length?`<section class="case-more" aria-labelledby="case-more-title"><h2 id="case-more-title">${others.length?'More articles':'Services'}</h2><ul>${others.length?others.map(other=>`<li><a href="/articles/${e(other.slug)}/"><span>${e(other.title)}</span><span>${e(longDate(other.date))}</span></a></li>`).join(''):servicePages.map(service=>`<li><a href="/services/${e(service.slug)}/"><span>${e(service.name)}</span><span>${e(service.summary)}</span></a></li>`).join('')}</ul></section>`:''}
 </div>${pageFooter}`;
  pages.set(route,layout(article.title,body,route,article.description,{fullTitle:article.seoTitle||`${article.title} · ${site.name}`,type:'article',landing:true,head:servicePageHead([data])+'<link rel="stylesheet" href="/assets/work-preview/article-page.css">'}));
 }
@@ -196,7 +199,7 @@ if(shownArticles.length)pages.set('/articles/',layout('Articles',`<div class="ca
 
 const dist=path.join(root,'dist');await rm(dist,{recursive:true,force:true});await mkdir(dist,{recursive:true});await cp(path.join(root,'public'),dist,{recursive:true});
 if (limitedPortfolio) {
- const redirects = ['/about', '/about/', '/pricing', '/pricing/', '/playground', '/playground/*', '/privacy', '/privacy/'];
+ const redirects = ['/about', '/about/', ...(SHOW_SERVICES ? [] : ['/services', '/services/*']), '/pricing', '/pricing/', '/playground', '/playground/*', '/privacy', '/privacy/'];
  // /work/<id>/ are real case-study pages; only the bare /work address leads to the homepage's work view.
  await writeFile(path.join(dist, '_redirects'), ['/work /#work-preview 302','/work/ /#work-preview 302',...redirects.map(route => route + ' / 302')].join('\n') + '\n');
 }
