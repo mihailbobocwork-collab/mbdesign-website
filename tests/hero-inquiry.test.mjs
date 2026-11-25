@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {FLOW_KEY, STEP, HeroInquiry, readFlow, answerError, inquiryPayload, previousInquiryStep, messageSubject, subjectHoldsMessage, writeError} from '../public/assets/components/hero-inquiry.js';
+import {FLOW_KEY, STEP, HeroInquiry, readFlow, answerError, inquiryPayload, previousInquiryStep, looksLikeSubject, shortSubject, defaultSubject, writeError} from '../public/assets/components/hero-inquiry.js';
 import {SUBJECTS, ENGAGEMENTS, emailError} from '../public/assets/components/inquiry-details.js';
 
 test('Saved and legacy answers survive reload without requiring name or company', () => {
@@ -65,23 +65,27 @@ test('Collaboration and budget are required and email comes after intent and any
   assert.equal(emailError(' alex+design@example.com '), '');
 });
 
-test('Sending a message asks for the message, with the homepage note as its subject', () => {
-  assert.equal(messageSubject('Redesign of our booking app'), 'Redesign of our booking app');
+test('Sending a message: a subject-like homepage note becomes the subject, a sentence becomes the message', () => {
+  for (const subject of ['Redesign of our booking app','Logo for a coffee shop','Need help with my app','Lendit'])
+    assert.equal(looksLikeSubject(subject), true, subject);
+  for (const sentence of ['I need a new website for my bakery','We are looking for a designer','Hi Mihai','Can you help with our onboarding?',
+    'Redesign of our booking app.','Line one\nLine two','A longer note that keeps going about the product we are building right now','']) 
+    assert.equal(looksLikeSubject(sentence), false, sentence);
   const long = 'We are a small team building a marketplace for renting outdoor gear between neighbours and we need help with the whole product';
-  const subject = messageSubject(long);
-  assert.ok(subject.endsWith('…') && Array.from(subject).length <= 120 && long.startsWith(subject.slice(0, -1)));
-  assert.equal(messageSubject('', 'Lendit case study'), 'Lendit case study');
-  assert.equal(messageSubject('', '', 'brand'), SUBJECTS.find(service => service.id === 'brand').label);
-  assert.equal(messageSubject(''), 'Design inquiry');
-  assert.equal(subjectHoldsMessage('Short note'), true);
-  assert.equal(subjectHoldsMessage('Line one\nLine two'), false);
-  assert.equal(subjectHoldsMessage(long), false);
+  const short = shortSubject(long);
+  assert.ok(short.endsWith('…') && Array.from(short).length <= 120 && long.startsWith(short.slice(0, -1)));
+  assert.equal(defaultSubject({message:'Booking app redesign'}), 'Booking app redesign');
+  assert.equal(defaultSubject({message:'I need a new website.'}, 'Lendit case study'), 'Lendit case study');
+  assert.equal(defaultSubject({message:'I need a new website.',subject:'brand'}), SUBJECTS.find(service => service.id === 'brand').label);
+  assert.equal(defaultSubject({message:'I need a new website.'}), '');
   assert.ok(writeError('  '));
   assert.ok(writeError('x'.repeat(3001)));
   assert.equal(writeError('Hello'), '');
   const answers = {subject:'',engagement:'project',budget:'unsure',meeting:'no',email:'a@example.com',message:'Booking app redesign',title:'',note:' Hi Mihai,\nwe need flows. '};
   assert.deepEqual(inquiryPayload(answers), {name:'',company:'',subject:'',engagement:'project',budget:'unsure',email:'a@example.com',topic:'Booking app redesign',message:'Hi Mihai,\nwe need flows.'});
   assert.equal(inquiryPayload({...answers,title:'Edited subject'}).topic, 'Edited subject');
+  // A sentence on the homepage and no subject: the message's first line is the subject.
+  assert.equal(inquiryPayload({...answers,message:'I need a new website.',note:'I need a new website.\nMore'}).topic, 'I need a new website.');
   // A call request keeps the homepage note as the message.
   assert.equal(inquiryPayload({...answers,meeting:'yes'}).message, 'Booking app redesign');
 });

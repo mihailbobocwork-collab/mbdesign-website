@@ -129,13 +129,8 @@ html[data-hero-swapping] body * { transition: none !important; }
 }
 .hero-flow-continue:disabled{opacity:.45;cursor:default}
 
-/* Writing a message: a subject line and a message box, like a short email. */
-.hero-message-box{max-width:850px;background:#fff;border:1px solid #d3dbe1;border-radius:24px;transition:border-color 300ms,box-shadow 300ms}
-.hero-message-box:focus-within{border-color:#74828e;box-shadow:0 10px 30px rgb(23 28 32 / 6%)}
-.hero-message-subject{display:flex;align-items:baseline;gap:14px;padding:16px 24px 14px;border-bottom:1px solid #e3e8ec;cursor:text}
-.hero-message-label{flex:none;font-size:14px;color:#65727d}
-.hero-message-title{flex:1;min-width:0;margin:0;padding:0;border:0;background:transparent;font:500 18px/1.4 var(--font-sans);letter-spacing:-.01em;color:#171c20;outline:none;text-overflow:ellipsis}
-.hero-message-note{display:block;width:100%;min-height:168px;margin:0;padding:18px 24px 22px;border:0;border-radius:0 0 24px 24px;background:transparent;font:400 18px/1.55 var(--font-sans);letter-spacing:-.005em;color:#171c20;outline:none;resize:none;overflow-y:auto;box-sizing:border-box}
-.hero-message-note::placeholder{color:#84909a;opacity:1}
-.hero-message-box:has(.hero-message-note[aria-invalid=true]){border-color:#a36856}
-@media(max-width:600px){.hero-message-box{border-radius:20px}.hero-message-subject{padding:14px 18px 12px;gap:10px}.hero-message-title,.hero-message-note{font-size:16px}.hero-message-note{min-height:150px;padding:14px 18px 18px;border-radius:0 0 20px 20px}}
+/* Writing a message: a subject line above the message, both in the first question's open style. */
+.hero-flow-answer.hero-flow-subject{font-size:clamp(20px,1.9vw,26px);line-height:1.4;min-height:0;height:auto;padding:6px 0 12px;margin-bottom:18px;white-space:nowrap;text-overflow:ellipsis}
+/* A long message shrinks further than the first answer, then scrolls inside its line. */
+.hero-flow-panel textarea.hero-flow-answer[name=note]{--message-min-size:20px;overflow-y:auto}
+.hero-step-content:has(> textarea[name=note]) .hero-flow-error:empty{min-height:0;margin:0}

@@ -1,7 +1,7 @@
 import {FOOTER_HANDOFF} from './footer-inquiry.js';
 import {track} from '../analytics.js';
 import {saveDraft,hasMessage,readContactEntry} from './hero-typewriter.js';
-import {MessageEditor, messageLimitError, characterCount, MESSAGE_LIMIT} from './message-editor.js';
+import {MessageEditor, messageLimitError} from './message-editor.js';
 import {TransitionMotion} from './transition-motion.js';
 import {brandEntrance} from './brand-loader.js';
 import {MeetingCalendar} from './meeting-calendar.js';
@@ -27,18 +27,30 @@ export function readFlow(storage,key=FLOW_KEY) {
   };
 }
 
-// The homepage note becomes the message subject; a long note is shortened at a word.
-export function messageSubject(message,entryTopic='',subject=''){
-  const first=topicFromMessage(message||'');
-  if(first){
-    if(Array.from(first).length<=SUBJECT_LIMIT)return first;
-    const cut=Array.from(first).slice(0,SUBJECT_LIMIT-1).join('');
-    return cut.replace(/\s+\S*$/,'').replace(/[\s,.;:–—-]+$/,'')+'…';
-  }
-  return entryTopic||SUBJECTS.find(s=>s.id===subject)?.label||'Design inquiry';
+// Whether the homepage note reads like a subject ("Booking app redesign") rather than a sentence
+// ("Hi, we need a new website for our bakery."). A subject is short, one line, without closing
+// punctuation, and doesn't open with a greeting or "I"/"we".
+export function looksLikeSubject(message){
+  const text=(message||'').trim();
+  if(!text||/[\r\n]/.test(text)||Array.from(text).length>60||/[.!?…]$/.test(text))return false;
+  if(text.split(/\s+/).length>8)return false;
+  return !/^(hi|hello|hey|dear|good (morning|afternoon|evening)|i|i'm|i’m|i'd|i’d|i've|i’ve|we|we're|we’re|we'd|we’d|we've|we’ve|can|could|would|do|are|is)\b/i.test(text);
 }
-// Whether the subject holds all of the homepage note (if not, the note starts the message).
-export const subjectHoldsMessage=message=>!hasMessage(message||'')||message.trim()===topicFromMessage(message)&&Array.from(topicFromMessage(message)).length<=SUBJECT_LIMIT;
+
+// A subject for the message: shortened at a word when it is too long.
+export function shortSubject(text){
+  const first=topicFromMessage(text||'');
+  if(Array.from(first).length<=SUBJECT_LIMIT)return first;
+  const cut=Array.from(first).slice(0,SUBJECT_LIMIT-1).join('');
+  return cut.replace(/\s+\S*$/,'').replace(/[\s,.;:–—-]+$/,'')+'…';
+}
+
+// What the subject field starts with: the homepage note when it reads like a subject, otherwise
+// the case study or suggestion the visitor came from (or nothing).
+export function defaultSubject(answers,entryTopic=''){
+  if(looksLikeSubject(answers.message))return topicFromMessage(answers.message);
+  return entryTopic||SUBJECTS.find(s=>s.id===answers.subject)?.label||'';
+}
 
 export function writeError(note){
   return messageLimitError(note)||(note.trim()?'':C.writeError);
@@ -61,7 +73,7 @@ export function inquiryPayload(answers,entryTopic='') {
     name:'',company:'',email:answers.email.trim(),subject:answers.subject,engagement:answers.engagement,
     ...(answers.budget?{budget:answers.budget}:{}),
     // A message has its own subject and text; a call request keeps the homepage note as the message.
-    topic:written?(topicFromMessage(answers.title||'')||messageSubject(answers.message,entryTopic,answers.subject)):entryTopic||service?.label||topicFromMessage(answers.message)||'Design inquiry',
+    topic:written?(shortSubject(answers.title)||defaultSubject(answers,entryTopic)||shortSubject(answers.note)||'Design inquiry'):entryTopic||service?.label||topicFromMessage(answers.message)||'Design inquiry',
     message:written?answers.note.trim():answers.message.trim()||service?.prompt||''
   };
 }
@@ -107,8 +119,6 @@ export class HeroInquiry {
     this.form.addEventListener('input',event=>{const field=event.target.closest('[data-answer]');if(field){this.answers[field.name]=field.value;this.persist();this.clearError(field);this.resizeField(field);}});
     this.form.addEventListener('keydown',event=>{
       if(event.key!=='Enter'||event.shiftKey||event.isComposing||event.keyCode===229||!event.target.matches('[data-answer]'))return;
-      // The message box is for writing: Return starts a new line, ⌘/Ctrl+Return continues.
-      if(event.target.name==='note'&&!event.metaKey&&!event.ctrlKey)return;
       event.preventDefault();
       if(event.target.name==='title')this.form.querySelector('[name=note]')?.focus();else this.next();
     });
@@ -248,7 +258,7 @@ export class HeroInquiry {
     for(const field of fields)this.answers[field.name]=field.name==='title'&&field.value.trim()===this.defaultSubject()?'':field.value;
     this.persist();
   }
-  defaultSubject(){return messageSubject(this.answers.message,this.entryTopic,this.answers.subject);}
+  defaultSubject(){return defaultSubject(this.answers,this.entryTopic);}
   next(){
     if(!this.active||this.busy)return;
     const field=this.form.querySelector('[data-answer]');
@@ -358,43 +368,41 @@ export class HeroInquiry {
     return tag;
   }
 
+  // Same look as the first question: open, underlined fields. The homepage note goes into the
+  // subject when it reads like one, and into the message when it reads like a sentence.
   renderWrite(){
-    // A homepage note too long for a subject starts the message, so nothing typed is lost.
     if(!this.answers.wrote){
       this.answers.wrote=true;
-      if(!this.answers.note&&!subjectHoldsMessage(this.answers.message))this.answers.note=this.answers.message.trim();
+      if(!this.answers.note&&hasMessage(this.answers.message)&&!looksLikeSubject(this.answers.message))this.answers.note=this.answers.message.trim();
       this.persist();
     }
-    this.heading(C.writeQuestion,C.writeHelper);
-    const box=element('div','hero-message-box');
-    const label=element('label','hero-message-subject');
-    const title=element('input','hero-message-title');
+    this.heading(C.writeQuestion);
+    const title=element('input','hero-flow-answer hero-flow-subject');
     title.name='title';title.dataset.answer='';title.maxLength=200;title.autocomplete='off';
+    title.placeholder=C.writeSubjectLabel;title.setAttribute('aria-label',C.writeSubjectLabel);
     title.value=this.answers.title||this.defaultSubject();title.enterKeyHint='next';
-    label.append(element('span','hero-message-label',C.writeSubjectLabel),title);
-    const note=element('textarea','hero-message-note');
-    note.name='note';note.id='hero-flow-answer';note.dataset.answer='';note.rows=5;
-    note.placeholder=C.writePlaceholder;note.value=this.answers.note||'';
+    const note=element('textarea','hero-flow-answer');
+    note.name='note';note.id='hero-flow-answer';note.dataset.answer='';note.rows=1;
+    note.placeholder=C.writePlaceholder;note.value=this.answers.note||'';note.enterKeyHint='next';
     note.setAttribute('aria-label','Your message');
     const counter=element('p','message-count');counter.id='hero-flow-count';counter.hidden=true;
     const status=element('span','sr-only');status.id='hero-flow-limit-status';status.setAttribute('role','status');
-    note.setAttribute('aria-describedby','hero-flow-helper hero-flow-count hero-flow-error hero-flow-limit-status');
-    box.append(label,note);
+    note.setAttribute('aria-describedby','hero-flow-count hero-flow-error hero-flow-limit-status');
     const next=control('Continue','hero-flow-continue','submit');
     const actions=element('div','hero-flow-actions');
-    const mac=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent);
-    actions.append(next,element('span','hero-flow-key-hint',`or press ${mac?'⌘':'Ctrl'} + Enter`));
+    actions.append(next,element('span','hero-flow-key-hint','or press Enter'));
     const error=element('p','hero-flow-error');error.id='hero-flow-error';error.setAttribute('role','alert');
-    this.content.append(box,counter,status,error,actions);
-    const fit=()=>{note.style.height='auto';note.style.height=Math.min(note.scrollHeight+2,Math.round(innerHeight*.45))+'px';};
-    const count=()=>{
-      const n=characterCount(note.value),over=n>MESSAGE_LIMIT;
-      counter.hidden=n<2400;counter.dataset.limit=over?'over':n>=2700?'near':'normal';
-      counter.textContent=`${n.toLocaleString('en-US')} / 3,000${over?` · ${(n-MESSAGE_LIMIT).toLocaleString('en-US')} over`:''}`;
-      next.disabled=over;status.textContent=over?messageLimitError(note.value):'';
+    this.content.append(title,note,counter,status,error,actions);
+    // Keep the whole step on screen: the message may only grow into the space left below it
+    // (its text gets smaller past that, like the first question).
+    const room=()=>{
+      const below=this.panel.getBoundingClientRect().bottom-note.getBoundingClientRect().bottom;
+      const space=(window.visualViewport?.height||innerHeight)-note.getBoundingClientRect().top-below-16;
+      note.style.setProperty('--message-height-cap',Math.max(110,Math.min(260,Math.round(space)))+'px');
     };
-    note.addEventListener('input',()=>{fit();count();});
-    requestAnimationFrame(()=>{fit();count();});
+    room();
+    this.messageEditor=new MessageEditor(note,{counter,status,button:next});
+    requestAnimationFrame(()=>{if(!note.isConnected)return;room();this.messageEditor?.update(true);});
   }
 
   renderEngagement(){
