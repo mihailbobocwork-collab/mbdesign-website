@@ -137,3 +137,11 @@ html[data-hero-swapping] body * { transition: none !important; }
 /* A long message shrinks further than the first answer, then scrolls inside its line. */
 .hero-flow-panel textarea.hero-flow-answer[name=note]{--message-min-size:20px;overflow-y:auto}
 .hero-step-content:has(> textarea[name=note]) .hero-flow-error:empty{min-height:0;margin:0}
+/* Phone suggestions sit in one row that scrolls sideways, edge to edge, so the iOS keyboard never covers one. */
+@media(max-width:600px){
+ .hero-page .hero-engagement{grid-template-columns:minmax(0,1fr)}
+ .hero-page .hero-suggestions{min-width:0}
+ .hero-page .hero-subject-options{flex-wrap:nowrap;gap:10px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scroll-padding-inline:22px;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:0 -22px;padding:2px 22px}
+ .hero-page .hero-subject-options::-webkit-scrollbar{display:none}
+ .hero-page .hero-subject-options button{scroll-snap-align:start;white-space:nowrap}
+}

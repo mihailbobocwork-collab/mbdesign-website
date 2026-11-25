@@ -6,3 +6,9 @@
 /admin/*
   Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
+
+# The staging copies on pages.dev stay out of search results; only mihaiboboc.com is listed.
+https://mbdesign-website.pages.dev/*
+  X-Robots-Tag: noindex
+https://:branch.mbdesign-website.pages.dev/*
+  X-Robots-Tag: noindex

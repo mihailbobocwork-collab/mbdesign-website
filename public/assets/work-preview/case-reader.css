@@ -230,7 +230,9 @@ body[data-selected-work] .work-preview-cards { opacity: 0; }
 .about-main { padding-top: clamp(8px, 1.6vw, 24px); }
 .case-head .about-main h2 { font-size: clamp(28px, 3vw, 40px); }
 .about-main .case-body { margin-top: clamp(18px, 2.2vw, 28px); }
-@media (max-width: 700px) { .about-intro { grid-template-columns: 1fr; } .about-main { padding-top: 0; } }
+@media (max-width: 700px) { .about-intro { grid-template-columns: 1fr; } .about-main { padding-top: 0; }
+  /* Phones: photo, then the greeting and story, then Role, Location and the other details. */
+  .about-side { display: contents; } .case .about-facts { order: 1; margin-top: 0; } }
 .case-principles { margin-top: clamp(56px, 7vw, 88px); padding-top: clamp(32px, 4vw, 48px); border-top: 1px solid #e3e8ec; }
 .case-principles h3 { color: var(--ink); font-weight: 500; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -.02em; }
 .case-principles > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); margin-top: clamp(20px, 2.6vw, 32px); }

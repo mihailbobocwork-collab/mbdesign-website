@@ -4,6 +4,11 @@ import {PortraitMotion} from './portrait-motion.js';
 import {topicFromMessage} from './inquiry-details.js';
 export const DRAFT_KEY = 'mihail:hero-inquiry:v1';
 const SCROLL_LISTEN_IDLE_MS = 2500;
+// A tap that opens Listening on a phone closes it again when nothing is written for this long.
+const TAP_LISTEN_IDLE_MS = 4000;
+// On a phone, Listening moves the portrait into the logo's place in the header.
+const DOCK_QUERY = '(max-width: 600px)';
+const DOCK_MS = 560;
 export const hasMessage = value => value.trim().length > 0;
 export function typingDelay(character, random = Math.random) {
   return 50 + random() * 30 + (/[.!?]/.test(character) ? 260 : /[,;:]/.test(character) ? 140 : 0);
@@ -81,6 +86,18 @@ export class InteractiveTypewriter extends BaseElement {
       if (image.complete) ready();
     }
     if (this.portrait) this.portraitMotion = new PortraitMotion(this.portrait, this.motion);
+    this.brand = this.portrait && this.closest('[data-hero-flow]') ? document.querySelector('.site-header .hero-brand') : null;
+    if (this.brand) {
+      this.portraitHome = {parent: this.portrait.parentNode, next: this.portrait.nextSibling};
+      this.dock = document.createElement('span');
+      this.dock.className = 'hero-portrait-dock';
+      this.dock.setAttribute('aria-hidden', 'true');
+      this.brand.append(this.dock);
+      this.dockQuery = matchMedia(DOCK_QUERY);
+      on(this.dockQuery, 'change', () => this.syncPortraitDock());
+      this.inquiryWatch = new MutationObserver(() => this.syncPortraitDock());
+      this.inquiryWatch.observe(document.body, {attributes: true, attributeFilter: ['data-inquiry-active']});
+    }
     on(this, 'pointerenter', event => {
       if (event.pointerType === 'mouse' || event.pointerType === 'pen') {
         this.hovered = true;
@@ -176,18 +193,34 @@ export class InteractiveTypewriter extends BaseElement {
       clearTimeout(this.restoreTimer);
       this.input.focus({preventScroll: true});
       this.reveal();
+      this.armTapIdle();
     }, {signal:this.events.signal});
     on(document, 'pointerdown', event => {
-      if (!this.touchListening || event.target instanceof Node && (this.contains(event.target) || this.engagement?.contains(event.target) || this.portrait?.contains(event.target))) return;
+      if (!this.touchListening) return;
+      if (event.target instanceof Node && (this.contains(event.target) || this.engagement?.contains(event.target) || this.portrait?.contains(event.target))) {
+        // Choosing or scrolling the suggestions keeps Listening open a little longer.
+        this.insideTapAt = event.timeStamp;
+        this.armTapIdle();
+        return;
+      }
       this.touchListening = false;
+      clearTimeout(this.tapIdleTimer);
       this.scheduleRestore();
     });
+    if (this.suggestions) this.suggestions.addEventListener('scroll', () => { if (this.touchListening) this.armTapIdle(); }, {passive: true, capture: true, signal: this.events.signal});
     on(this.input, 'focus', () => { this.reveal(); this.dataset.focused = 'true'; });
     on(this, 'focusout', () => queueMicrotask(() => {
       this.dataset.focused = String(document.activeElement === this.input);
+      // Closing the phone keyboard without writing ends a tap's Listening, like scrolling back does.
+      if (this.touchListening && document.activeElement !== this.input && !this.input.value.length &&
+          !(performance.now() - (this.insideTapAt ?? -Infinity) < 700)) {
+        this.touchListening = false;
+        clearTimeout(this.tapIdleTimer);
+      }
       this.scheduleRestore();
     }));
     on(this.input, 'input', () => {
+      if (this.touchListening) this.armTapIdle();
       this.syncInput();
       saveDraft(this.storage, this.input.value);
       if (!this.input.value.length && !this.hovered && !this.engagementHovered && !this.portraitHovered) this.scheduleRestore();
@@ -269,6 +302,64 @@ export class InteractiveTypewriter extends BaseElement {
         this.closest('[inert]')) return;
     this.returnToIntroduction();
   }
+  armTapIdle() {
+    clearTimeout(this.tapIdleTimer);
+    this.tapIdleTimer = setTimeout(() => {
+      if (!this.touchListening || this.input.value.length || this.composing || this.dataset.subject ||
+          document.body.dataset.inquiryActive === 'true') return;
+      this.touchListening = false;
+      this.hoverFocus = false;
+      if (document.activeElement === this.input) this.input.blur();
+      this.dataset.focused = 'false';
+      this.restore();
+    }, TAP_LISTEN_IDLE_MS);
+  }
+  syncPortraitDock() {
+    if (!this.dock) return;
+    const want = this.dataset.editing === 'true' && this.dockQuery.matches &&
+      document.body.dataset.inquiryActive !== 'true' && !this.closest('[inert]');
+    if (want === Boolean(this.portraitDocked)) return;
+    this.portraitDocked = want;
+    const portrait = this.portrait;
+    // The portrait stays in the header dock while it flies; a spacer holds, then closes or opens,
+    // its place in the hero, so a recentred hero never shifts the landing point.
+    const spacer = this.portraitSpacer ||= Object.assign(document.createElement('div'), {className: 'hero-portrait-spacer'});
+    const from = portrait.getBoundingClientRect();
+    if (portrait.parentNode !== this.dock) {
+      const style = getComputedStyle(portrait);
+      this.portraitSlot = {width: portrait.offsetWidth, height: portrait.offsetHeight + parseFloat(style.marginTop) + parseFloat(style.marginBottom)};
+      spacer.style.height = this.portraitSlot.height + 'px';
+      portrait.replaceWith(spacer);
+      this.dock.append(portrait);
+    } else if (!spacer.isConnected) {
+      spacer.style.height = '0px';
+      this.portraitHome.parent.insertBefore(spacer, this.portraitHome.next);
+    }
+    const slot = this.portraitSlot || {width: from.width, height: 0};
+    const startHeight = spacer.getBoundingClientRect().height;
+    this.portraitFlight?.cancel();
+    this.spacerFlight?.cancel();
+    this.brand.dataset.portraitDocked = String(want);
+    const dock = this.dock.getBoundingClientRect();
+    spacer.style.height = (want ? 0 : slot.height) + 'px';
+    const target = want ? dock : {left: spacer.getBoundingClientRect().left, top: spacer.getBoundingClientRect().top, width: slot.width};
+    const place = rect => `translate(${rect.left - dock.left}px,${rect.top - dock.top}px) scale(${rect.width / dock.width})`;
+    const land = () => {
+      this.portraitFlight?.cancel();
+      this.spacerFlight?.cancel();
+      this.portraitFlight = this.spacerFlight = null;
+      if (this.portraitDocked) spacer.remove();
+      else spacer.replaceWith(portrait);
+    };
+    if (this.motion.matches || !dock.width) { land(); return; }
+    const timing = {duration: DOCK_MS, easing: 'cubic-bezier(.33,0,.2,1)', fill: 'forwards'};
+    const flight = this.portraitFlight = portrait.animate([
+      {transform: place(from), transformOrigin: '0 0'},
+      {transform: place(target), transformOrigin: '0 0'}
+    ], timing);
+    this.spacerFlight = spacer.animate([{height: startHeight + 'px'}, {height: (want ? 0 : slot.height) + 'px'}], timing);
+    flight.finished.then(() => { if (this.portraitFlight === flight) land(); }, () => {});
+  }
   updateEngagement() {
     if (this.idle) this.idle.dataset.engaged = this.dataset.editing;
     if (this.portrait) {
@@ -277,6 +368,7 @@ export class InteractiveTypewriter extends BaseElement {
       this.portraitMotion?.setIntent(this.dataset.editing === 'true', hasMessage(this.input?.value || ''));
     }
     if (this.suggestions) this.suggestions.inert = this.dataset.editing !== 'true';
+    this.syncPortraitDock();
     this.engagement?.querySelector('.hero-bio')?.setAttribute('aria-hidden', String(this.dataset.editing === 'true'));
   }
   scheduleRestore(event) {
@@ -331,7 +423,7 @@ export class InteractiveTypewriter extends BaseElement {
     this.dataset.focused = 'true';
   }
   returnToIntroduction() {
-    delete this.dataset.scrollListening;this.touchListening=false;
+    delete this.dataset.scrollListening;this.touchListening=false;clearTimeout(this.tapIdleTimer);
     clearTimeout(this.restoreTimer);clearTimeout(this.finishTimer);
     this.finishTyping();this.composing=false;this.hovered=false;this.engagementHovered=false;this.portraitHovered=false;this.hoverFocus=false;
     if(document.activeElement===this.input)this.input.blur();
@@ -357,6 +449,10 @@ export class InteractiveTypewriter extends BaseElement {
     clearTimeout(this.timer);
     clearTimeout(this.finishTimer);
     clearTimeout(this.restoreTimer);
+    clearTimeout(this.tapIdleTimer);
+    this.portraitFlight?.cancel();
+    this.spacerFlight?.cancel();
+    this.inquiryWatch?.disconnect();
     this.events?.abort();
     this.messageEditor?.destroy();
     this.portraitMotion?.destroy();
