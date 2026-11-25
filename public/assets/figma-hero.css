@@ -16,6 +16,8 @@
 .hero-page .hero-reserve,.hero-page .hero-typed,.hero-page .hero-static{white-space:pre-wrap}
 .hero-page .hero-typewriter textarea,.hero-page .hero-input-size{padding-right:44px}
 .hero-page .hero-typewriter textarea::placeholder{color:#a5a9ac}
+/* Room for descenders (the g of “working”) below the last line, without changing the layout. */
+.hero-page .hero-typewriter.is-enhanced textarea{padding-bottom:.24em;margin-bottom:-.24em;height:calc(100% + .24em)}
 .hero-page .hero-placeholder-caret{color:#a5a9ac}
 .hero-page .hero-send{color:#74787b;width:40px;height:40px;bottom:8px}
 .hero-page .hero-send svg{width:25px;height:25px}

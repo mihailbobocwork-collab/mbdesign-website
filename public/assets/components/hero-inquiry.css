@@ -130,7 +130,10 @@ html[data-hero-swapping] body * { transition: none !important; }
 .hero-flow-continue:disabled{opacity:.45;cursor:default}
 
 /* Writing a message: a subject line above the message, both in the first question's open style. */
-.hero-flow-answer.hero-flow-subject{font-size:clamp(20px,1.9vw,26px);line-height:1.4;min-height:0;height:auto;padding:6px 0 12px;margin-bottom:18px;white-space:nowrap;text-overflow:ellipsis}
+.hero-flow-answer.hero-flow-subject{font-size:clamp(20px,1.9vw,26px);line-height:1.4;min-height:0;height:auto;padding:6px 0 12px;margin:0;white-space:nowrap;text-overflow:ellipsis}
+/* No gap between subject and message: the space sits inside the message field, so the pointer
+   stays a text cursor moving from one line to the other instead of flicking to the arrow. */
+.hero-step-content > .hero-flow-subject + textarea.hero-flow-answer{padding-top:27px}
 /* A long message shrinks further than the first answer, then scrolls inside its line. */
 .hero-flow-panel textarea.hero-flow-answer[name=note]{--message-min-size:20px;overflow-y:auto}
 .hero-step-content:has(> textarea[name=note]) .hero-flow-error:empty{min-height:0;margin:0}
