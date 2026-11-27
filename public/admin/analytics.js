@@ -117,8 +117,12 @@ function zeroNote(data) {
   if (data.visits || data.sample) return null;
   const check = data.check || {};
   const text = check.lookup === 'ok'
-    ? `Cloudflare has no visits for ${check.host || 'the website'} in this period yet. Visits are counted from the moment Web Analytics was turned on; ad blockers and some privacy settings also stop a visit being counted.`
-    : 'Cloudflare returned no visits. If Cloudflare’s own Web Analytics screen does show visits, CF_WEB_ANALYTICS_SITE_TAG holds the wrong code: copy the Site tag from Web Analytics → mihaiboboc.com → Manage site.';
+    ? `Connected. Cloudflare has no visits for ${check.host || 'the website'} in this period yet — try Today or 7 days. Ad blockers and some privacy settings also stop a visit being counted.`
+    : check.lookup === 'empty'
+      ? 'Connected, but Cloudflare hasn’t recorded any visits in your account in the last 14 days. Check that Web Analytics is turned on for the website, then open mihaiboboc.com once (without an ad blocker) and come back in a few minutes.'
+      : check.lookup === 'other_sites'
+        ? `Connected, but the visits Cloudflare recorded are for ${check.hosts.join(', ')}, not mihaiboboc.com.`
+        : 'Cloudflare returned no visits. If Cloudflare’s own Web Analytics screen does show visits, CF_WEB_ANALYTICS_SITE_TAG holds the wrong code: copy the Site tag from Web Analytics → mihaiboboc.com → Manage site.';
   return el('p', 'admin-sample stats-zero', text);
 }
 

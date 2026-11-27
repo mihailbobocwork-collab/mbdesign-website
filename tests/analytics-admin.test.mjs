@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createAnalyticsAdmin,summarise,midnight,windowFor,resolveSite} from '../lib/analytics-admin.js';
+import {createAnalyticsAdmin,summarise,midnight,windowFor,resolveSite,discoverSite} from '../lib/analytics-admin.js';
 
 const NOW=Date.parse('2026-11-27T12:00:00Z');
 const env={BOOKING_LOCAL:'true',CF_ANALYTICS_TOKEN:'tok',CF_ACCOUNT_ID:'acc',CF_WEB_ANALYTICS_SITE_TAG:'site'};
@@ -56,7 +56,7 @@ test('Visitors: live, today and yesterday use minutes and hours in Moldova time'
  assert.equal(new Date(midnight(Date.parse('2026-07-01T12:00:00Z'))).toISOString(),'2026-06-30T21:00:00.000Z');
  const live=windowFor('live',NOW);assert.equal(live.bucket,'minute');assert.equal(NOW-live.from,29*60000);
  const calls=[];
- const fetcher=async(url,init)=>{if(url.includes('/rum/'))return Response.json({success:false},{status:403});calls.push(JSON.parse(init.body));return Response.json({data:{viewer:{accounts:[{total:[{count:3,sum:{visits:2}}],series:[{dimensions:{key:'2026-11-27T09:00:00Z'},sum:{visits:2},count:3}]}]}}});};
+ const fetcher=async(url,init)=>{if(url.includes('/rum/'))return Response.json({success:false},{status:403});if(init.body.includes('query Sites'))return Response.json({data:{viewer:{accounts:[{sites:[{count:1,dimensions:{siteTag:'site',requestHost:'mihaiboboc.com'}}]}]}}});calls.push(JSON.parse(init.body));return Response.json({data:{viewer:{accounts:[{total:[{count:3,sum:{visits:2}}],series:[{dimensions:{key:'2026-11-27T09:00:00Z'},sum:{visits:2},count:3}]}]}}});};
  const admin=createAnalyticsAdmin({fetcher,clock:()=>NOW});
  const today=await (await admin(env,get('?range=today'))).json();
  assert.equal(today.bucket,'hour');assert.equal(today.series.length,24);assert.equal(today.series[0].at,'2026-11-26T22:00:00.000Z');
@@ -75,6 +75,12 @@ test('Visitors: the site tag is checked against the account, and a pasted snippe
  assert.equal((await resolveSite({...env,CF_WEB_ANALYTICS_SITE_TAG:'whatever'},fetchList)).matched,'host');
  const denied=await resolveSite(env,async()=>Response.json({success:false},{status:403}));
  assert.deepEqual([denied.siteTag,denied.lookup],['site','denied']);
+ // Without the site list, the tag is found from which site received visits for mihaiboboc.com.
+ const graph=rows=>async url=>url.includes('/rum/')?Response.json({success:false},{status:403}):Response.json({data:{viewer:{accounts:[{sites:rows}]}}});
+ const found=await resolveSite(env,graph([{count:5,dimensions:{siteTag:'other',requestHost:'mbdesign-website.pages.dev'}},{count:9,dimensions:{siteTag:'mine',requestHost:'mihaiboboc.com'}}]));
+ assert.deepEqual([found.siteTag,found.lookup,found.matched],['mine','ok','host']);
+ assert.equal((await discoverSite(env,graph([]),'site')).lookup,'empty');
+ assert.equal((await discoverSite(env,graph([{count:1,dimensions:{siteTag:'x',requestHost:'example.com'}}]),'site')).lookup,'other_sites');
  // The numbers are then asked for under the right tag.
  const sent=[];
  const fetcher=async(url,init)=>{if(url.includes('/rum/'))return Response.json(list);sent.push(JSON.parse(init.body));return Response.json({data:{viewer:{accounts:[{}]}}});};
