@@ -53,10 +53,13 @@
       <h1>Visitors</h1>
       <p class="admin-lede">Who visited the website, from Cloudflare Web Analytics. No cookies, so every visitor is counted.</p>
     </div>
-    <div class="admin-filters" role="tablist" aria-label="Period">
-      <button type="button" role="tab" data-days="7" aria-selected="false">7 days</button>
-      <button type="button" role="tab" data-days="30" aria-selected="true">30 days</button>
-      <button type="button" role="tab" data-days="90" aria-selected="false">90 days</button>
+    <div class="admin-filters stat-periods" role="tablist" aria-label="Period">
+      <button type="button" role="tab" data-range="live" aria-selected="false"><span class="live-dot" aria-hidden="true"></span>Live</button>
+      <button type="button" role="tab" data-range="today" aria-selected="false">Today</button>
+      <button type="button" role="tab" data-range="yesterday" aria-selected="false">Yesterday</button>
+      <button type="button" role="tab" data-range="7" aria-selected="false">7 days</button>
+      <button type="button" role="tab" data-range="30" aria-selected="true">30 days</button>
+      <button type="button" role="tab" data-range="90" aria-selected="false">90 days</button>
     </div>
   </div>
   <p class="admin-sample" data-sample hidden>Sample numbers for reviewing the design. They aren’t your real visitors.</p>

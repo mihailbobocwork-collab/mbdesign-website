@@ -3,9 +3,12 @@
 const sampleQuery = new URLSearchParams(location.search).has('sample');
 const status = document.querySelector('[data-status]');
 const stats = document.querySelector('[data-stats]');
-const tabs = [...document.querySelectorAll('[data-days]')];
+const tabs = [...document.querySelectorAll('[data-range]')];
 const cache = new Map();
-let days = 30;
+// ?range=live|today|yesterday|7|30|90 opens that period directly.
+let range = ['live', 'today', 'yesterday', '7', '30', '90'].find(r => r === new URLSearchParams(location.search).get('range')) || '30';
+let refresh = 0;
+const LIVE_EVERY = 30000;
 
 const el = (tag, className, text) => {
   const node = document.createElement(tag);
@@ -14,8 +17,16 @@ const el = (tag, className, text) => {
   return node;
 };
 const number = value => new Intl.NumberFormat('en-GB').format(value);
-const shortDay = iso => new Intl.DateTimeFormat('en-GB', {day: 'numeric', month: 'short', timeZone: 'UTC'}).format(new Date(iso + 'T00:00:00Z'));
-const longDay = iso => new Intl.DateTimeFormat('en-GB', {weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC'}).format(new Date(iso + 'T00:00:00Z'));
+// Times show in Moldova time (the owner's), days as Cloudflare counts them (UTC dates).
+let zone = 'Europe/Chisinau';
+const format = (iso, options) => new Intl.DateTimeFormat('en-GB', {hourCycle: 'h23', ...options}).format(new Date(iso));
+const axisLabel = (iso, bucket) => bucket === 'day' ? format(iso, {day: 'numeric', month: 'short', timeZone: 'UTC'}) : format(iso, {hour: '2-digit', minute: '2-digit', timeZone: zone});
+const pointLabel = (iso, bucket) => bucket === 'day' ? format(iso, {weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC'})
+  : bucket === 'hour' ? `${format(iso, {hour: '2-digit', minute: '2-digit', timeZone: zone})}–${format(new Date(Date.parse(iso) + 3600000).toISOString(), {hour: '2-digit', minute: '2-digit', timeZone: zone})}`
+  : format(iso, {hour: '2-digit', minute: '2-digit', timeZone: zone});
+const CHART_TITLE = {minute: 'Visitors per minute', hour: 'Visitors per hour', day: 'Visitors per day'};
+const PERIOD = {live: 'Last 30 minutes', today: 'Today so far', yesterday: 'Yesterday', 7: 'Last 7 days', 30: 'Last 30 days', 90: 'Last 90 days'};
+const BUSIEST = {minute: 'Busiest minute', hour: 'Busiest hour', day: 'Busiest day'};
 const PAGE_NAMES = {'/': 'Homepage', '/contact/': 'Contact'};
 const pageName = path => PAGE_NAMES[path] || path;
 const sourceName = host => host === 'Direct' ? 'Direct or bookmark' : host.replace(/^www\./, '');
@@ -30,21 +41,21 @@ function tile(label, value, note) {
 
 // Visits per day. Each bar is a focusable element with its date and numbers, so the
 // chart can be read with a keyboard or screen reader, not only by hovering.
-function chart(series) {
+function chart(series, bucket) {
   const box = el('section', 'stat-card stat-chart');
   const head = el('div', 'stat-card-head');
   const readout = el('p', 'stat-readout');
-  head.append(el('h2', '', 'Visitors per day'), readout);
+  head.append(el('h2', '', CHART_TITLE[bucket]), readout);
   const max = Math.max(1, ...series.map(point => point.visits));
   const bars = el('div', 'chart-bars');
   bars.setAttribute('role', 'list');
   bars.style.setProperty('--count', series.length);
-  const show = point => { readout.textContent = point ? `${longDay(point.date)} · ${number(point.visits)} visitor${point.visits === 1 ? '' : 's'} · ${number(point.views)} page view${point.views === 1 ? '' : 's'}` : `Busiest day: ${number(max)} visitor${max === 1 ? '' : 's'}`; };
+  const show = point => { readout.textContent = point ? `${pointLabel(point.at, bucket)} · ${number(point.visits)} visitor${point.visits === 1 ? '' : 's'} · ${number(point.views)} page view${point.views === 1 ? '' : 's'}` : series.some(p => p.visits) ? `${BUSIEST[bucket]}: ${number(max)} visitor${max === 1 ? '' : 's'}` : 'No visits in this period yet'; };
   for (const point of series) {
     const bar = el('div', 'chart-bar');
     bar.setAttribute('role', 'listitem');
     bar.tabIndex = 0;
-    bar.setAttribute('aria-label', `${longDay(point.date)}: ${point.visits} visitors, ${point.views} page views`);
+    bar.setAttribute('aria-label', `${pointLabel(point.at, bucket)}: ${point.visits} visitors, ${point.views} page views`);
     const fill = el('span');
     fill.style.height = `${Math.max(point.visits ? 3 : 0, point.visits / max * 100)}%`;
     bar.append(fill);
@@ -53,7 +64,8 @@ function chart(series) {
     bars.append(bar);
   }
   const axis = el('div', 'chart-axis');
-  axis.append(el('span', '', shortDay(series[0].date)), el('span', '', shortDay(series.at(-1).date)));
+  const middle = series[Math.floor((series.length - 1) / 2)];
+  axis.append(el('span', '', axisLabel(series[0].at, bucket)), el('span', '', axisLabel(middle.at, bucket)), el('span', '', bucket === 'minute' ? 'Now' : axisLabel(series.at(-1).at, bucket)));
   show(null);
   box.append(head, bars, axis);
   return box;
@@ -95,7 +107,9 @@ function render(data) {
   if (data.signedInAs) document.querySelector('[data-who]').textContent ||= 'Signed in as ' + data.signedInAs;
   const perVisit = data.visits ? (data.views / data.visits).toFixed(1) : '0';
   const totals = el('div', 'stat-tiles');
-  totals.append(tile('Visitors', number(data.visits), `Last ${data.days} days`), tile('Page views', number(data.views)), tile('Pages per visit', perVisit));
+  if (data.timeZone) zone = data.timeZone;
+  const note = data.range === 'live' ? `Last 30 minutes · updated ${format(new Date().toISOString(), {hour: '2-digit', minute: '2-digit', second: '2-digit'})}` : PERIOD[data.range];
+  totals.append(tile(data.range === 'live' ? 'Visitors right now' : 'Visitors', number(data.visits), note), tile('Page views', number(data.views)), tile('Pages per visit', perVisit));
   const grid = el('div', 'stat-grid');
   grid.append(
     pagesRanking(data.pages),
@@ -103,26 +117,35 @@ function render(data) {
     ranking('Countries', data.countries, key => key, 'No visits yet.'),
     ranking('Devices', data.devices, deviceName, 'No visits yet.')
   );
-  stats.replaceChildren(totals, chart(data.series), grid);
+  stats.replaceChildren(totals, chart(data.series, data.bucket), grid);
   status.hidden = true;
   stats.hidden = false;
 }
 
-async function load() {
-  for (const tab of tabs) tab.setAttribute('aria-selected', String(Number(tab.dataset.days) === days));
-  if (cache.has(days)) { render(cache.get(days)); return; }
-  status.className = 'admin-status';
-  status.textContent = 'Loading visitors…';
-  status.hidden = false;
+async function load({quiet = false} = {}) {
+  clearTimeout(refresh);
+  for (const tab of tabs) tab.setAttribute('aria-selected', String(tab.dataset.range === range));
+  const asked = range;
+  // Live refreshes itself every 30 seconds while the tab is open and visible.
+  const again = () => { if (asked === 'live' && range === 'live') refresh = setTimeout(() => { if (!document.hidden) load({quiet: true}); else again(); }, LIVE_EVERY); };
+  const kept = cache.get(range);
+  if (kept && (range !== 'live' || Date.now() - kept.at < LIVE_EVERY)) { render(kept.data); again(); return; }
+  if (!quiet) {
+    status.className = 'admin-status';
+    status.textContent = 'Loading visitors…';
+    status.hidden = false;
+  }
   stats.setAttribute('aria-busy', 'true');
   try {
-    const response = await fetch(`/api/admin/analytics?days=${days}${sampleQuery ? '&sample' : ''}`, {cache: 'no-store'});
+    const response = await fetch(`/api/admin/analytics?range=${asked}${sampleQuery ? '&sample' : ''}`, {cache: 'no-store'});
+    if (asked !== range) return;
     const result = await response.json().catch(() => ({}));
     if (response.status === 401) { stats.hidden = true; status.textContent = 'Your sign-in has expired. Reload the page to sign in again.'; return; }
     if (result.error === 'not_connected') { stats.hidden = true; setup(result.message); return; }
-    if (!response.ok) { stats.hidden = true; status.textContent = result.message || 'The numbers couldn’t be loaded. Please try again.'; return; }
-    cache.set(days, result);
+    if (!response.ok) { if (quiet && !stats.hidden) { again(); return; } stats.hidden = true; status.textContent = result.message || 'The numbers couldn’t be loaded. Please try again.'; return; }
+    cache.set(asked, {at: Date.now(), data: result});
     render(result);
+    again();
   } catch {
     stats.hidden = true;
     status.textContent = 'The numbers couldn’t be loaded. Check your connection and try again.';
@@ -131,5 +154,6 @@ async function load() {
   }
 }
 
-for (const tab of tabs) tab.addEventListener('click', () => { days = Number(tab.dataset.days); load(); });
+for (const tab of tabs) tab.addEventListener('click', () => { range = tab.dataset.range; load(); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden && range === 'live') load({quiet: true}); });
 load();

@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createAnalyticsAdmin,summarise} from '../lib/analytics-admin.js';
+import {createAnalyticsAdmin,summarise,midnight,windowFor} from '../lib/analytics-admin.js';
 
 const NOW=Date.parse('2026-11-27T12:00:00Z');
 const env={BOOKING_LOCAL:'true',CF_ANALYTICS_TOKEN:'tok',CF_ACCOUNT_ID:'acc',CF_WEB_ANALYTICS_SITE_TAG:'site'};
-const get=(query='?days=7')=>new Request('http://localhost:4173/api/admin/analytics'+query);
+const get=(query='?range=7')=>new Request('http://localhost:4173/api/admin/analytics'+query);
 const row=(key,visits,views=visits)=>({dimensions:{key},sum:{visits},count:views});
-const account={total:[{count:40,sum:{visits:25}}],days:[row('2026-11-25',10,16),row('2026-11-27',15,24)],pages:[row('/',20,30)],referrers:[row('',12),row('www.google.com',9)],countries:[row('Moldova',9),row('',1)],devices:[row('desktop',15)]};
+const account={total:[{count:40,sum:{visits:25}}],series:[row('2026-11-25',10,16),row('2026-11-27',15,24)],pages:[row('/',20,30)],referrers:[row('',12),row('www.google.com',9)],countries:[row('Moldova',9),row('',1)],devices:[row('desktop',15)]};
 
 test('Visitors: Cloudflare numbers become totals, a gap-free daily series and ranked lists',async()=>{
  const calls=[];
@@ -15,8 +15,8 @@ test('Visitors: Cloudflare numbers become totals, a gap-free daily series and ra
  const res=await admin(env,get());assert.equal(res.status,200);
  const data=await res.json();
  assert.equal(data.visits,25);assert.equal(data.views,40);
- assert.equal(data.series.length,7);assert.equal(data.series.at(-1).date,'2026-11-27');
- assert.equal(data.series.find(p=>p.date==='2026-11-26').visits,0);
+ assert.equal(data.series.length,7);assert.equal(data.series.at(-1).at,'2026-11-27T00:00:00.000Z');assert.equal(data.bucket,'day');
+ assert.equal(data.series.find(p=>p.at.startsWith('2026-11-26')).visits,0);assert.equal(data.series.find(p=>p.at.startsWith('2026-11-25')).visits,10);
  assert.equal(data.referrers[0].key,'Direct');assert.deepEqual(data.countries.map(c=>c.key),['Moldova']);
  const sent=JSON.parse(calls[0].init.body);
  assert.equal(calls[0].url,'https://api.cloudflare.com/client/v4/graphql');
@@ -41,9 +41,29 @@ test('Visitors: sign-in is required outside the local preview, and samples are l
  const admin=createAnalyticsAdmin({fetcher:async()=>{throw Error('no');},clock:()=>NOW});
  const remote=await admin({CF_ANALYTICS_TOKEN:'t'},new Request('https://mihaiboboc.com/api/admin/analytics'));
  assert.ok([401,503].includes(remote.status));
- const sample=await (await admin({BOOKING_LOCAL:'true'},get('?days=30&sample'))).json();
+ const sample=await (await admin({BOOKING_LOCAL:'true'},get('?range=30&sample'))).json();
  assert.equal(sample.sample,true);assert.equal(sample.series.length,30);assert.ok(sample.visits>0);
  // Unknown periods fall back to 30 days.
- assert.equal(summarise({},{days:30,now:NOW}).series.length,30);
- assert.equal((await (await admin({BOOKING_LOCAL:'true'},get('?days=5&sample'))).json()).days,30);
+ assert.equal(summarise({},{range:'30',now:NOW}).series.length,30);
+ assert.equal((await (await admin({BOOKING_LOCAL:'true'},get('?range=5&sample'))).json()).range,'30');
+});
+
+test('Visitors: live, today and yesterday use minutes and hours in Moldova time',async()=>{
+ // 12:00 UTC on 27 Nov is 14:00 in Chisinau (UTC+2), so today started at 22:00 UTC the day before.
+ assert.equal(new Date(midnight(NOW)).toISOString(),'2026-11-26T22:00:00.000Z');
+ assert.equal(new Date(midnight(NOW,'Europe/Chisinau',1)).toISOString(),'2026-11-25T22:00:00.000Z');
+ // Summer time (UTC+3) is handled too.
+ assert.equal(new Date(midnight(Date.parse('2026-07-01T12:00:00Z'))).toISOString(),'2026-06-30T21:00:00.000Z');
+ const live=windowFor('live',NOW);assert.equal(live.bucket,'minute');assert.equal(NOW-live.from,29*60000);
+ const calls=[];
+ const fetcher=async(url,init)=>{calls.push(JSON.parse(init.body));return Response.json({data:{viewer:{accounts:[{total:[{count:3,sum:{visits:2}}],series:[{dimensions:{key:'2026-11-27T09:00:00Z'},sum:{visits:2},count:3}]}]}}});};
+ const admin=createAnalyticsAdmin({fetcher,clock:()=>NOW});
+ const today=await (await admin(env,get('?range=today'))).json();
+ assert.equal(today.bucket,'hour');assert.equal(today.series.length,24);assert.equal(today.series[0].at,'2026-11-26T22:00:00.000Z');
+ assert.equal(today.series.find(p=>p.at==='2026-11-27T09:00:00.000Z').visits,2);
+ assert.match(calls[0].query,/key: datetimeHour/);assert.equal(calls[0].variables.filter.AND[0].datetime_geq,'2026-11-26T22:00:00.000Z');
+ const yesterday=await (await admin(env,get('?range=yesterday'))).json();
+ assert.equal(yesterday.series.length,24);assert.equal(calls[1].variables.filter.AND[0].datetime_leq,'2026-11-26T21:59:59.999Z');
+ const now=await (await admin(env,get('?range=live'))).json();
+ assert.equal(now.bucket,'minute');assert.equal(now.series.length,30);assert.match(calls[2].query,/key: datetimeMinute/);
 });

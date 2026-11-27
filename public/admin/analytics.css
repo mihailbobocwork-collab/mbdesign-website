@@ -16,7 +16,7 @@
 .chart-bar { height: 100%; display: flex; align-items: flex-end; border-radius: 4px; outline-offset: 1px; cursor: default; }
 .chart-bar span { width: 100%; border-radius: 4px 4px 2px 2px; background: #b9c3cb; transition: background-color 200ms var(--ease); }
 .chart-bar:hover span, .chart-bar:focus-visible span { background: var(--ink); }
-.chart-axis { display: flex; justify-content: space-between; margin-top: 10px; color: var(--muted); font-size: .8125rem; border-top: 1px solid var(--line); padding-top: 8px; }
+.chart-axis { display: flex; justify-content: space-between; gap: 8px; margin-top: 10px; color: var(--muted); font-size: .8125rem; border-top: 1px solid var(--line); padding-top: 8px; }
 
 .stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .stat-list { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 4px; }
@@ -30,6 +30,14 @@
 .stats-setup strong { color: var(--ink); font-weight: 500; }
 .stats-setup span { max-width: 60ch; }
 
+/* Six periods: they scroll sideways on narrow screens instead of wrapping. */
+.stat-periods { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.stat-periods::-webkit-scrollbar { display: none; }
+.stat-periods button { flex: none; white-space: nowrap; display: inline-flex; align-items: center; gap: 7px; }
+.stat-periods span.live-dot { display: inline-block; flex: none; width: 7px; height: 7px; border-radius: 50%; background: #2f7a55; box-shadow: 0 0 0 0 rgb(47 122 85 / 45%); }
+[aria-selected=true] .live-dot, .stat-periods [aria-selected=true] .live-dot { animation: live-pulse 2s var(--ease) infinite; }
+@keyframes live-pulse { 0% { box-shadow: 0 0 0 0 rgb(47 122 85 / 45%); } 70%, 100% { box-shadow: 0 0 0 6px rgb(47 122 85 / 0%); } }
+
 @media (max-width: 760px) {
   .stat-tiles { grid-template-columns: 1fr 1fr; }
   .stat-tiles .stat-tile:first-child { grid-column: 1 / -1; }
@@ -37,4 +45,4 @@
   .stat-tile, .stat-card { padding: 20px; }
   .chart-bars { height: 140px; }
 }
-@media (prefers-reduced-motion: reduce) { .chart-bar span { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .chart-bar span { transition: none; } [aria-selected=true] .live-dot { animation: none; } }
