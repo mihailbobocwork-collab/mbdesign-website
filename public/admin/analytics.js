@@ -93,13 +93,33 @@ function pagesRanking(rows) {
   return ranking('Most viewed pages', rows.map(row => ({...row, visits: row.views})), pageName, 'No page views yet.');
 }
 
-function setup(message) {
+function setup(message, missing = []) {
   status.className = 'admin-status is-empty stats-setup';
   status.replaceChildren(
     el('strong', '', message),
+    ...(missing.length ? [el('span', '', `Missing in Cloudflare (Settings → Variables and Secrets → Production): ${missing.join(', ')}. After adding, retry the latest deployment.`)] : []),
     el('span', '', 'Turn on Web Analytics in Cloudflare (Workers & Pages → mbdesign-website → Metrics), then add CF_ANALYTICS_TOKEN, CF_ACCOUNT_ID and CF_WEB_ANALYTICS_SITE_TAG to the project’s secrets. The steps are in ANALYTICS.md.')
   );
   status.hidden = false;
+}
+
+// A problem from Cloudflare: the plain message, plus Cloudflare's own words for reference.
+function problem(result) {
+  status.className = 'admin-status is-empty stats-setup';
+  const parts = [el('strong', '', result.message || 'The numbers couldn’t be loaded. Please try again.')];
+  if (result.detail) parts.push(el('span', 'stats-detail', `Cloudflare said: ${result.detail}`));
+  status.replaceChildren(...parts);
+  status.hidden = false;
+}
+
+// When everything is zero, say why that may be, so an empty page is never a mystery.
+function zeroNote(data) {
+  if (data.visits || data.sample) return null;
+  const check = data.check || {};
+  const text = check.lookup === 'ok'
+    ? `Cloudflare has no visits for ${check.host || 'the website'} in this period yet. Visits are counted from the moment Web Analytics was turned on; ad blockers and some privacy settings also stop a visit being counted.`
+    : 'Cloudflare returned no visits. If Cloudflare’s own Web Analytics screen does show visits, CF_WEB_ANALYTICS_SITE_TAG holds the wrong code: copy the Site tag from Web Analytics → mihaiboboc.com → Manage site.';
+  return el('p', 'admin-sample stats-zero', text);
 }
 
 function render(data) {
@@ -117,7 +137,7 @@ function render(data) {
     ranking('Countries', data.countries, key => key, 'No visits yet.'),
     ranking('Devices', data.devices, deviceName, 'No visits yet.')
   );
-  stats.replaceChildren(totals, chart(data.series, data.bucket), grid);
+  stats.replaceChildren(...[zeroNote(data), totals, chart(data.series, data.bucket), grid].filter(Boolean));
   status.hidden = true;
   stats.hidden = false;
 }
@@ -141,8 +161,8 @@ async function load({quiet = false} = {}) {
     if (asked !== range) return;
     const result = await response.json().catch(() => ({}));
     if (response.status === 401) { stats.hidden = true; status.textContent = 'Your sign-in has expired. Reload the page to sign in again.'; return; }
-    if (result.error === 'not_connected') { stats.hidden = true; setup(result.message); return; }
-    if (!response.ok) { if (quiet && !stats.hidden) { again(); return; } stats.hidden = true; status.textContent = result.message || 'The numbers couldn’t be loaded. Please try again.'; return; }
+    if (result.error === 'not_connected') { stats.hidden = true; setup(result.message, result.missing); return; }
+    if (!response.ok) { if (quiet && !stats.hidden) { again(); return; } stats.hidden = true; problem(result); return; }
     cache.set(asked, {at: Date.now(), data: result});
     render(result);
     again();

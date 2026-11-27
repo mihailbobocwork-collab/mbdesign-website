@@ -29,6 +29,8 @@
 .stats-setup { display: grid; gap: 8px; justify-items: center; }
 .stats-setup strong { color: var(--ink); font-weight: 500; }
 .stats-setup span { max-width: 60ch; }
+.stats-detail { font-size: .8125rem; overflow-wrap: anywhere; }
+.stats-zero { margin: 0; }
 
 /* Six periods: they scroll sideways on narrow screens instead of wrapping. */
 .stat-periods { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
