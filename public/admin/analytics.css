@@ -1,0 +1,40 @@
+/* Visitors page (/admin/analytics/). Uses the admin tokens from admin.css. */
+.stats { display: grid; gap: 16px; }
+.stat-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.stat-tile, .stat-card { background: var(--surface); border-radius: var(--radius); padding: 24px 26px; }
+@supports (corner-shape: superellipse(2)) { .stat-tile, .stat-card { border-radius: calc(var(--radius) * 2); corner-shape: superellipse(2.1); } }
+.stat-label { margin: 0; color: var(--muted); font-size: .875rem; }
+.stat-value { margin: 6px 0 0; color: var(--ink-strong); font-size: clamp(1.9rem, 3.4vw, 2.5rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat-note { margin: 4px 0 0; color: var(--muted); font-size: .8125rem; }
+
+.stat-card h2 { margin: 0; font-size: 1rem; font-weight: 500; color: var(--ink-strong); letter-spacing: -.01em; }
+.stat-card-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px 16px; flex-wrap: wrap; }
+.stat-readout { margin: 0; color: var(--muted); font-size: .875rem; font-variant-numeric: tabular-nums; }
+
+/* Bars: one per day, the busiest day is full height. */
+.chart-bars { display: grid; grid-template-columns: repeat(var(--count), minmax(0, 1fr)); align-items: end; gap: clamp(1px, .4vw, 5px); height: 180px; margin-top: 22px; }
+.chart-bar { height: 100%; display: flex; align-items: flex-end; border-radius: 4px; outline-offset: 1px; cursor: default; }
+.chart-bar span { width: 100%; border-radius: 4px 4px 2px 2px; background: #b9c3cb; transition: background-color 200ms var(--ease); }
+.chart-bar:hover span, .chart-bar:focus-visible span { background: var(--ink); }
+.chart-axis { display: flex; justify-content: space-between; margin-top: 10px; color: var(--muted); font-size: .8125rem; border-top: 1px solid var(--line); padding-top: 8px; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.stat-list { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 4px; }
+.stat-list li { position: relative; display: flex; justify-content: space-between; gap: 16px; padding: 9px 12px; border-radius: 10px; font-size: .9375rem; isolation: isolate; }
+.stat-list li::before { content: ''; position: absolute; inset: 0 auto 0 0; width: var(--share); border-radius: 10px; background: #eef2f5; z-index: -1; }
+.stat-list-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--ink); }
+.stat-list-value { flex: none; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stat-empty { margin: 14px 0 0; color: var(--muted); }
+
+.stats-setup { display: grid; gap: 8px; justify-items: center; }
+.stats-setup strong { color: var(--ink); font-weight: 500; }
+.stats-setup span { max-width: 60ch; }
+
+@media (max-width: 760px) {
+  .stat-tiles { grid-template-columns: 1fr 1fr; }
+  .stat-tiles .stat-tile:first-child { grid-column: 1 / -1; }
+  .stat-grid { grid-template-columns: 1fr; }
+  .stat-tile, .stat-card { padding: 20px; }
+  .chart-bars { height: 140px; }
+}
+@media (prefers-reduced-motion: reduce) { .chart-bar span { transition: none; } }
