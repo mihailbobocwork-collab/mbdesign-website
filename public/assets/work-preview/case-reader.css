@@ -20,10 +20,13 @@ body[data-selected-work] .work-preview-cards { opacity: 0; }
   background: #fff;
   overflow: clip;
 }
+/* Concentric corners (outer radius = inner radius + gap): the 44px round buttons sit so their
+   circle shares its centre with the frame's corner curve, the same gap to the top/bottom and side. */
+.work-project-frame { --corner-inset: max(10px, calc(var(--frame-radius) - 22px)); }
 .work-project-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: var(--corner-inset);
+  right: var(--corner-inset);
   z-index: 2;
   width: 44px;
   height: 44px;
@@ -36,8 +39,8 @@ body[data-selected-work] .work-preview-cards { opacity: 0; }
 /* Back to top: same size and right edge as ×, in the bottom corner. Appears once you have scrolled the story. */
 .work-project-top {
   position: absolute;
-  right: 16px;
-  bottom: 16px;
+  right: var(--corner-inset);
+  bottom: var(--corner-inset);
   z-index: 2;
   width: 44px;
   height: 44px;
@@ -79,7 +82,8 @@ body[data-selected-work] .work-preview-cards { opacity: 0; }
   margin: clamp(14px, 2.8vh, 32px) auto 0;
 }
 /* Figma 172:3028: artwork and title sit at the bottom of the card with 14px between them; title is Regular 12px. */
-.work-project-rail .work-preview-card { justify-content: flex-end; gap: clamp(8px, 1vw, 14px); padding: clamp(8px, 1.2vw, 14px); border-radius: clamp(14px, 2.2vw, 25px); corner-shape: round; }
+.work-project-rail .work-preview-card { --card-pad: clamp(8px, 1.2vw, 14px); justify-content: flex-end; gap: clamp(8px, 1vw, 14px); padding: var(--card-pad); border-radius: clamp(11.2px, 1.76vw, 20px); corner-shape: round; }
+.work-project-rail .work-preview-photo { border-radius: max(4px, calc(clamp(11.2px, 1.76vw, 20px) - var(--card-pad))); }
 .work-project-rail .work-preview-art { flex: none; aspect-ratio: 107 / 67; height: auto; }
 .work-project-rail .work-preview-caption { min-height: 0; }
 .work-project-rail .work-preview-label strong { font-weight: 400; font-size: clamp(10px, .84vw, 12px); line-height: 1.5; }
@@ -198,8 +202,6 @@ body[data-selected-work] .work-preview-cards { opacity: 0; }
   .work-project-frame { --cover-side: min(calc(100dvh - 170px), calc(100vw - 24px)); }
   .work-project-caption { align-items: center; }
   .work-project-read { font-size: 12px !important; }
-  .work-project-close { top: 10px; right: 10px; }
-  .work-project-top { right: 10px; bottom: 10px; }
   .work-preview-detail[data-mode=reader] { width: calc(100vw - 24px); }
   .case-reader { height: clamp(360px, calc(100dvh - 220px), 720px); }
   .work-project-rail { grid-auto-columns: 96px; justify-content: start; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
@@ -224,8 +226,8 @@ body[data-selected-work] .work-preview-cards { opacity: 0; }
 /* About: a large portrait on the left with the details beneath it; the story sits beside it. */
 .about-intro { display: grid; grid-template-columns: minmax(0, 44fr) minmax(0, 52fr); justify-content: space-between; gap: clamp(28px, 5vw, 64px); align-items: start; }
 .case .about-photo { margin: 0; }
-.about-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: clamp(20px, 2.6vw, 36px); }
-@supports (corner-shape: superellipse(2)) { .about-photo img { border-radius: clamp(40px, 5.2vw, 72px); corner-shape: superellipse(2.1); } }
+.about-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: clamp(16px, 2.08vw, 28.8px); }
+@supports (corner-shape: superellipse(2)) { .about-photo img { border-radius: clamp(32px, 4.16vw, 57.6px); corner-shape: superellipse(2.1); } }
 .case .about-facts { grid-template-columns: 1fr; gap: 18px; margin-top: clamp(24px, 3vw, 36px); }
 .about-main { padding-top: clamp(8px, 1.6vw, 24px); }
 .case-head .about-main h2 { font-size: clamp(28px, 3vw, 40px); }

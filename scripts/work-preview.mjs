@@ -45,16 +45,19 @@ const img = (block, alt, {eager = false, sizes = '(max-width: 700px) 92vw, 1000p
 // Laptop covers are normalised optically: every MacBook screen (the lid, which the eye reads first) gets the
 // same width, is horizontally centred, and every base rests on the same line. Measured from the artwork
 // (fractions of the artwork box): cx = centre of the lid, w = lid width, by = bottom of the base,
-// ratio = artwork height / width.
+// ratio = artwork height / width. The phone on the Lendit cover extends below the laptop base,
+// so its vertical center (cy) is measured from the full device composition.
 const DEVICES = {
-  'lendit-product':   {cx: .4950, w: .8092, by: .827,  ratio: 622 / 912},
+  'lendit-product':   {cx: .4950, cy: .435, w: .8092, by: .827,  ratio: 622 / 912},
   '7code-laptop':     {cx: .4980, w: .8402, by: .9832, ratio: 596 / 976},
   'angen-ai-laptop':  {cx: .4949, w: .8393, by: .9823, ratio: 226 / 392},
   'wholesum-laptop':  {cx: .4949, w: .8393, by: .9823, ratio: 226 / 392}
 };
 const device = key => {
   const d = DEVICES[key];
-  return d ? ` data-device style="--cx:${d.cx};--w:${d.w};--by:${d.by};--ratio:${d.ratio.toFixed(5)}"` : '';
+  if (!d) return '';
+  const center = d.cy === undefined ? '' : `;--cy:${d.cy}`;
+  return ` data-device style="--cx:${d.cx};--w:${d.w};--by:${d.by};--ratio:${d.ratio.toFixed(5)}${center}"`;
 };
 
 // Card artwork: supplied laptop renders, homepage covers, or the project's own first photo.

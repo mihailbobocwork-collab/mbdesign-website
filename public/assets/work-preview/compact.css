@@ -129,6 +129,13 @@
 @media (max-width: 600px) {
   .work-preview-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: none; }
   .work-preview-card { padding: 13px; }
+  /* Match lid widths. The height cap leaves room for the tallest cover, Lendit, including its shadow. */
+  .work-preview-cards .work-preview-art > [data-device] {
+    width: calc(min(68cqw, 115cqh) / var(--w));
+    max-height: none;
+    transform: translate(calc((.5 - var(--cx)) * 100%), calc((.5 - var(--cy, var(--by) / 2)) * 100%));
+  }
+  .work-preview-cards .work-preview-label small { min-height: 2lh; }
   .case-reader { height: calc(100dvh - 24px - 122px); }
   .work-project-rail { grid-auto-columns: 96px; }
 }
